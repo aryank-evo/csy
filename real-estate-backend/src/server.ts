@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import { sequelize } from "./config/database";
 import authRoutes from "./routes/authRoutes";
 import protectedRoutes from "./routes/protectedRoutes"; 
+import adminRoutes from "./routes/adminRoutes";
+import leadRoutes from "./routes/leadRoutes";
 
 dotenv.config();
 
@@ -15,7 +17,8 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api", protectedRoutes);
-
+app.use("/api/admin", adminRoutes);
+app.use("/api/lead", leadRoutes);
 
 sequelize.sync().then(() => {
   console.log("📌 Database connected!");

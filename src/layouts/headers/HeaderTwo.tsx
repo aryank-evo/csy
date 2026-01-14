@@ -7,6 +7,7 @@ import UseSticky from "@/hooks/UseSticky"
 import LoginModal from "@/modals/LoginModal"
 import Offcanvas from "./Menu/Offcanvas"
 import HeaderSearchbar from "./Menu/HeaderSearchbar"
+import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
 
 import logo_1 from "@/assets/images/logo/logo_02.svg";
 import logo_2 from "@/assets/images/logo/logo_04.svg";
@@ -37,9 +38,7 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                                  Login <span className="d-none d-sm-inline-block"> {""} / Sign up</span></Link>
                            </li>
                               <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
-                                 <Link href="dashboard/add-property" className={style_1 ? "btn-ten" : "btn-two rounded-0"} target="_blank">
-                                    <span>Add Listing</span> <i className="fa-thin fa-arrow-up-right"></i>
-                                 </Link>
+                                 <PropertyTypeModalTrigger buttonClass={style_1 ? "btn-ten" : "btn-two rounded-0"} />
                               </li>
                               <li className="d-none d-xl-block">
                                  <button onClick={() => setOffCanvas(true)} style={{ cursor: "pointer" }} className="sidenavbtn rounded-circle tran3s" type="button">

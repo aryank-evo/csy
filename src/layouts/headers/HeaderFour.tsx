@@ -6,6 +6,7 @@ import { useState } from "react"
 import UseSticky from "@/hooks/UseSticky"
 import LoginModal from "@/modals/LoginModal"
 import HeaderSearchbar from "./Menu/HeaderSearchbar"
+import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
 
 import logo_1 from "@/assets/images/logo/logo_06.svg";
 
@@ -29,7 +30,7 @@ const HeaderFour = () => {
                      <div className="right-widget ms-auto me-3 me-lg-0 order-lg-3">
                         <ul className="d-flex align-items-center style-none">
                            <li className="d-none d-md-inline-block me-4">
-                              <Link href="/dashboard/add-property" className="btn-ten rounded-0" target="_blank"><span>Add Listing</span> <i className="bi bi-arrow-up-right"></i></Link>
+                              <PropertyTypeModalTrigger buttonClass="btn-ten rounded-0" />
                            </li>
                            <li>
                               <Link href="#" data-bs-toggle="modal" data-bs-target="#loginModal" className="login-btn-two rounded-circle tran3s d-flex align-items-center justify-content-center"><i className="fa-regular fa-lock"></i></Link>

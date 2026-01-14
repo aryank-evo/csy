@@ -1,7 +1,15 @@
-import { Table, Column, Model, DataType } from "sequelize-typescript";
+import { Table, Column, Model, DataType, BeforeCreate } from "sequelize-typescript";
+import * as bcrypt from 'bcryptjs';
 
-@Table({ tableName: "users" })
+@Table({ tableName: "users", timestamps: true })
 export class User extends Model {
+  @Column({
+    type: DataType.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  })
+  id!: number;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -20,6 +28,13 @@ export class User extends Model {
     allowNull: false,
   })
   password!: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  })
+  isAdmin!: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
@@ -51,4 +66,9 @@ export class User extends Model {
     allowNull: true,
   })
   about?: string;
+
+  @BeforeCreate
+  static async hashPassword(instance: User) {
+    instance.password = await bcrypt.hash(instance.password, 10);
+  }
 }

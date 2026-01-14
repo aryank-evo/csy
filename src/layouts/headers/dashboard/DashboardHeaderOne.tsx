@@ -2,6 +2,7 @@
 import Image from "next/image"
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
+import PropertyTypeModalTrigger from '@/components/common/PropertyTypeModalTrigger';
 
 import dashboardLogo from "@/assets/images/logo/logo_01.svg";
 import dashboardIconActive_1 from "@/assets/images/dashboard/icon/icon_1_active.svg";
@@ -68,7 +69,7 @@ const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
                      <Image src={pathname === '/dashboard/properties-list' ? dashboardIconActive_6 : dashboardIcon_6} alt="" />
                      <span>My Properties</span>
                   </Link></li>
-                  <li className="plr"><Link href="/dashboard/add-property" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/add-property' ? 'active' : ''}`}>
+                  <li className="plr"><Link href="#" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/add-property' ? 'active' : ''}`}>
                      <Image src={pathname === '/dashboard/add-property' ? dashboardIconActive_7 : dashboardIcon_7} alt="" />
                      <span>Add New Property</span>
                   </Link></li>

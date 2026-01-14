@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useState } from "react"
 import UseSticky from "@/hooks/UseSticky"
 import LoginModal from "@/modals/LoginModal"
+import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
 
 import logo_1 from "@/assets/images/logo/logo_01.svg";
 
@@ -31,7 +32,7 @@ const HeaderOne = ({ style }: any) => {
                               <Link href="#" data-bs-toggle="modal" data-bs-target="#loginModal" className="btn-one"><i className="fa-regular fa-lock"></i> <span>Login</span></Link>
                            </li>
                            <li className="d-none d-md-inline-block ms-3">
-                              <Link href="/dashboard/add-property" className="btn-two" target="_blank"><span>Add Listing</span> <i className="fa-thin fa-arrow-up-right"></i></Link>
+                              <PropertyTypeModalTrigger />
                            </li>
                         </ul>
                      </div>

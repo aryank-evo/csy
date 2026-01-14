@@ -1,15 +1,6 @@
-import DashboardAddProperty from "@/components/dashboard/add-property";
-import Wrapper from "@/layouts/Wrapper";
+import { redirect } from 'next/navigation';
 
-export const metadata = {
-   title: "Dashboard Add Property HOZN - Real Estate React Next js",
+// Redirect to dashboard since the modal is now opened from the dashboard directly
+export default function AddPropertyPage() {
+  redirect('/dashboard');
 };
-const index = () => {
-   return (
-      <Wrapper>
-         <DashboardAddProperty />
-      </Wrapper>
-   )
-}
-
-export default index
