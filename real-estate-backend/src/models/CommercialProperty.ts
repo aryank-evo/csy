@@ -1,0 +1,176 @@
+import { DataTypes, Model, Optional } from 'sequelize';
+import { sequelize } from '../config/database';
+
+interface CommercialPropertyAttributes {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  location: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  propertyType: string;
+  propertyStatus: string;
+  bedrooms?: string;
+  bathrooms?: string;
+  area?: string;
+  amenities?: string;
+  approvalStatus: 'pending' | 'approved' | 'rejected';
+  approvedBy?: number;
+  approvedAt?: Date;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  // Commercial-specific fields
+  propertySubType?: string;
+  commercialArea?: string;
+  facing?: string;
+  // Approval workflow fields
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface CommercialPropertyCreationAttributes extends Optional<CommercialPropertyAttributes, 'id'> {}
+
+export class CommercialProperty extends Model<CommercialPropertyAttributes, CommercialPropertyCreationAttributes> implements CommercialPropertyAttributes {
+  public id!: number;
+  public title!: string;
+  public description!: string;
+  public price!: string;
+  public location!: string;
+  public address?: string;
+  public city?: string;
+  public state?: string;
+  public zipCode?: string;
+  public country?: string;
+  public propertyType!: string;
+  public propertyStatus!: string;
+  public bedrooms?: string;
+  public bathrooms?: string;
+  public area?: string;
+  public amenities?: string;
+  public approvalStatus!: 'pending' | 'approved' | 'rejected';
+  public approvedBy?: number;
+  public approvedAt?: Date;
+  public contactName?: string;
+  public contactEmail?: string;
+  public contactPhone?: string;
+  // Commercial-specific fields
+  public propertySubType?: string;
+  public commercialArea?: string;
+  public facing?: string;
+  // Timestamps
+  public declare createdAt: Date;
+  public declare updatedAt: Date;
+}
+
+CommercialProperty.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  location: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  city: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  state: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  zipCode: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  country: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  propertyType: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  propertyStatus: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  bedrooms: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  bathrooms: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  area: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  amenities: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  approvalStatus: {
+    type: DataTypes.STRING,
+    defaultValue: 'pending',
+  },
+  approvedBy: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  approvedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  contactName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  contactEmail: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  contactPhone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  // Commercial-specific fields
+  propertySubType: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  commercialArea: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  facing: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+}, {
+  tableName: 'commercial_properties',
+  sequelize,
+});

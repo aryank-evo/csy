@@ -87,7 +87,6 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
     }
     
     property.approvalStatus = 'approved';
-    property.rejectionReason = undefined;
     
     await property.save();
     
@@ -112,7 +111,6 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
     }
     
     property.approvalStatus = 'rejected';
-    property.rejectionReason = reason || 'Not specified';
     
     await property.save();
     
@@ -173,11 +171,7 @@ export const getAllLeads = async (req: Request, res: Response): Promise<void> =>
       where: whereClause,
       limit: Number(limit),
       offset,
-      order: [['createdAt', 'DESC']],
-      include: [{
-        model: Property,
-        attributes: ['id', 'title']
-      }]
+      order: [['createdAt', 'DESC']]
     });
     
     res.status(200).json({
@@ -195,18 +189,13 @@ export const getAllLeads = async (req: Request, res: Response): Promise<void> =>
 // Export leads to CSV
 export const exportLeads = async (req: Request, res: Response): Promise<void> => {
   try {
-    const leads = await Lead.findAll({
-      include: [{
-        model: Property,
-        attributes: ['id', 'title']
-      }]
-    });
+    const leads = await Lead.findAll({});
     
     // Create CSV content
     let csvContent = 'Name,Email,Phone,User Type,Property Title,Created At\n';
     
     leads.forEach(lead => {
-      csvContent += `"${lead.name}","${lead.email}","${lead.phone}","${lead.userType}","${lead.property?.title || ''}","${lead.createdAt}"\n`;
+      csvContent += `"${lead.name}","${lead.email}","${lead.phone}","${lead.userType}","${lead.propertyId}","${lead.createdAt}"\n`;
     });
     
     const fileName = `leads_export_${new Date().toISOString().slice(0, 10)}.csv`;

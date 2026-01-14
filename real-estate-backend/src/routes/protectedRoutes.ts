@@ -3,7 +3,8 @@ import { User } from "../models/User";
 import { Property } from "../models/Property";
 import { Lead } from "../models/Lead";
 import { authenticateUser, AuthRequest } from "../middleware/authMiddleware"; 
-import { createProperty, getUserProperties } from "../controllers/PropertyController";
+import { getUserProperties } from "../controllers/PropertyController";
+import { Op } from 'sequelize';
 
 const router = Router();
 
@@ -104,8 +105,8 @@ router.get("/properties/:id", authenticateUser, async (req: AuthRequest, res: Re
   }
 });
 
-// Create new property
-router.post("/properties", authenticateUser, createProperty);
+// Create new property route moved to public routes
+// router.post("/properties", authenticateUser, createProperty);
 
 // Get user's properties
 router.get("/my-properties", authenticateUser, getUserProperties);

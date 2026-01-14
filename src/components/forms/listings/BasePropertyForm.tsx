@@ -19,6 +19,9 @@ interface FormData {
   bathrooms: string;
   area: string;
   amenities: string;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
   images: FileList | null;
 }
 
@@ -49,6 +52,9 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
     bathrooms: '',
     area: '',
     amenities: '',
+    contactName: '',
+    contactEmail: '',
+    contactPhone: '',
     images: null,
   });
   
@@ -116,6 +122,11 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
           propertyData.append(key, additionalFields[key].toString());
         }
       });
+      
+      // Contact information
+      propertyData.append('contactName', formData.contactName);
+      propertyData.append('contactEmail', formData.contactEmail);
+      propertyData.append('contactPhone', formData.contactPhone);
       
       // Images
       if (formData.images) {
@@ -338,6 +349,52 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
         </div>
       )}
 
+      {/* Contact Information */}
+      <div className="mb-4">
+        <p className="h5 fw-semibold border-bottom pb-2">Contact Information</p>
+        
+        <div className="row g-3">
+          <div className="col-md-6">
+            <label className="form-label">Your Name *</label>
+            <input
+              type="text"
+              name="contactName"
+              value={formData.contactName}
+              onChange={handleChange}
+              required
+              className="form-control"
+              placeholder="Enter your name"
+            />
+          </div>
+          
+          <div className="col-md-6">
+            <label className="form-label">Email *</label>
+            <input
+              type="email"
+              name="contactEmail"
+              value={formData.contactEmail}
+              onChange={handleChange}
+              required
+              className="form-control"
+              placeholder="Enter your email"
+            />
+          </div>
+          
+          <div className="col-md-6">
+            <label className="form-label">Phone *</label>
+            <input
+              type="tel"
+              name="contactPhone"
+              value={formData.contactPhone}
+              onChange={handleChange}
+              required
+              className="form-control"
+              placeholder="Enter your phone number"
+            />
+          </div>
+        </div>
+      </div>
+      
       {/* Images Upload */}
       <div className="mb-4">
         <p className="h5 fw-semibold border-bottom pb-2">Images</p>

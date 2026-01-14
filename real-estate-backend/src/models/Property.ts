@@ -1,145 +1,159 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
-import { User } from './User';
-import { Lead } from './Lead';
+import { DataTypes, Model, Optional } from 'sequelize';
+import { sequelize } from '../config/database';
 
-@Table({
-  tableName: 'properties',
-  timestamps: true,
-})
-export class Property extends Model<Property> {
-  @Column({
-    type: DataType.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  })
-  id!: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  title!: string;
-
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
-  description!: string;
-
-  @Column({
-    type: DataType.DECIMAL(10, 2),
-    allowNull: false,
-  })
-  price!: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  location!: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
+interface PropertyAttributes {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  location: string;
   address?: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
   city?: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
   state?: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
   zipCode?: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
   country?: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  propertyType?: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  propertyStatus?: string; // buy, rent, lease, pg
-
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  bedrooms?: number;
-
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  bathrooms?: number;
-
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  area?: number; // in sq ft
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  amenities?: string; // JSON string
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  images?: string; // JSON string of image URLs
-
-  @Column({
-    type: DataType.STRING,
-    defaultValue: 'pending',
-    allowNull: false,
-  })
-  approvalStatus!: string;
-
-  @Column({
-    type: DataType.TEXT,
-    allowNull: true,
-  })
-  rejectionReason?: string;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    defaultValue: true,
-    allowNull: false,
-  })
-  isActive!: boolean;
-
-  @ForeignKey(() => User)
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  userId!: number;
-
-  @BelongsTo(() => User)
-  user!: User;
-
-  @HasMany(() => Lead)
-  leads!: Lead[];
+  propertyType: string;
+  propertyStatus: string;
+  bedrooms?: string;
+  bathrooms?: string;
+  area?: string;
+  amenities?: string;
+  approvalStatus: 'pending' | 'approved' | 'rejected';
+  approvedBy?: number;
+  approvedAt?: Date;
+  userId?: number;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
+
+export interface PropertyCreationAttributes extends Optional<PropertyAttributes, 'id'> {}
+
+export class Property extends Model<PropertyAttributes, PropertyCreationAttributes> implements PropertyAttributes {
+  public id!: number;
+  public title!: string;
+  public description!: string;
+  public price!: string;
+  public location!: string;
+  public address?: string;
+  public city?: string;
+  public state?: string;
+  public zipCode?: string;
+  public country?: string;
+  public propertyType!: string;
+  public propertyStatus!: string;
+  public bedrooms?: string;
+  public bathrooms?: string;
+  public area?: string;
+  public amenities?: string;
+  public approvalStatus!: 'pending' | 'approved' | 'rejected';
+  public approvedBy?: number;
+  public approvedAt?: Date;
+  public userId?: number;
+  public contactName?: string;
+  public contactEmail?: string;
+  public contactPhone?: string;
+  public declare createdAt: Date;
+  public declare updatedAt: Date;
+}
+
+Property.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  location: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  city: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  state: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  zipCode: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  country: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  propertyType: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  propertyStatus: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  bedrooms: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  bathrooms: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  area: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  amenities: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  approvalStatus: {
+    type: DataTypes.STRING,
+    defaultValue: 'pending',
+  },
+  approvedBy: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  approvedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  contactName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  contactEmail: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  contactPhone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+}, {
+  tableName: 'properties',
+  sequelize, // passing the `sequelize` instance is required
+});

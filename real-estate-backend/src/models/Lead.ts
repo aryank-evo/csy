@@ -1,6 +1,5 @@
 import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { User } from './User';
-import { Property } from './Property';
 
 @Table({
   tableName: 'leads',
@@ -38,15 +37,11 @@ export class Lead extends Model<Lead> {
   })
   userType!: string;
 
-  @ForeignKey(() => Property)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
   propertyId!: number;
-
-  @BelongsTo(() => Property)
-  property!: Property;
 
   @ForeignKey(() => User)
   @Column({
