@@ -61,7 +61,6 @@ export class SaleProperty extends Model<SalePropertyAttributes, SalePropertyCrea
   // Sale-specific fields
   public possessionStatus?: string;
   public propertyAge?: string;
-  public maintenanceCharge?: string;
   // Timestamps
   public declare createdAt: Date;
   public declare updatedAt: Date;
@@ -163,10 +162,6 @@ SaleProperty.init({
     allowNull: true,
   },
   propertyAge: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  maintenanceCharge: {
     type: DataTypes.STRING,
     allowNull: true,
   },

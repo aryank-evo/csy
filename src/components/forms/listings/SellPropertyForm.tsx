@@ -87,8 +87,8 @@ const SellPropertyForm = () => {
 
   return (
     <BasePropertyForm 
-      propertyType="sell" 
-      propertyStatus="sell"
+      propertyType="sale" 
+      propertyStatus="sale"
       customFields={<CustomFieldsComponent />} />
   );
 };

@@ -88,7 +88,6 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           contactPhone,
           possessionStatus,
           propertyAge,
-          maintenanceCharge,
           approvalStatus: 'pending'
         });
         break;
