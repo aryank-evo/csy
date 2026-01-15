@@ -3,6 +3,8 @@ import { User } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { sequelize } from "../config/database";
+import { QueryTypes } from "sequelize";
 
 dotenv.config();
 
@@ -42,27 +44,46 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 // 📌 2️⃣ Login 
 export const login = async (req: Request, res: Response): Promise<void> => {
     try {
+      console.log("Login attempt:", req.body);
       const { email, password } = req.body;
   
-      // Search new user
-      const user = await User.findOne({ where: { email } });
-      if (!user) {
+      // Search new user using raw SQL
+      const [users]: any = await sequelize.query(
+        'SELECT id, email, password, "isAdmin" FROM users WHERE email = ?',
+        { replacements: [email], type: QueryTypes.SELECT }
+      );
+      
+      console.log("Users found:", users);
+      
+      if (!users) {
+        console.log("User not found for email:", email);
         res.status(401).json({ error: "Invalid credentials" });
         return;
       }
-  
+      
+      const user = users;
+      console.log("Selected user:", user);
+      console.log("User data:", {
+        id: user.id,
+        email: user.email,
+        isAdmin: user.isAdmin
+      });
+
       // Check password
       const isPasswordValid = await bcrypt.compare(password, user.password);
+      console.log("Password valid:", isPasswordValid);
       if (!isPasswordValid) {
         res.status(401).json({ error: "Invalid credentials" });
         return;
       }
   
       // ✅ Create JWT
-      const token = jwt.sign({ id: user.id }, "your_secret_key", { expiresIn: "1h" });
+      const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: "1h" });
+      console.log("JWT token created successfully");
   
       res.json({ message: "Login successful!", token });
     } catch (error) {
+      console.error("Login error:", error);
       res.status(500).json({ error: "Error logging in" });
     }
   };

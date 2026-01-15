@@ -37,6 +37,21 @@ export const getProperties = async () => {
   }
 };
 
+// Get all properties for admin dashboard
+export const getAllProperties = async (token: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/admin/dashboard/properties`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error getting all properties:', error);
+    throw error;
+  }
+};
+
 // Get pending properties for admin
 export const getPendingProperties = async () => {
   try {
@@ -54,10 +69,9 @@ export const getPendingProperties = async () => {
 };
 
 // Approve property
-export const approveProperty = async (id: number) => {
+export const approveProperty = async (id: number, propertyType: string, token: string) => {
   try {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    const response = await axios.put(`${API_BASE_URL}/properties/${id}/approve`, {}, {
+    const response = await axios.patch(`${API_BASE_URL}/admin/dashboard/properties/${id}/approve`, {}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -70,10 +84,9 @@ export const approveProperty = async (id: number) => {
 };
 
 // Reject property
-export const rejectProperty = async (id: number) => {
+export const rejectProperty = async (id: number, propertyType: string, token: string) => {
   try {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    const response = await axios.put(`${API_BASE_URL}/properties/${id}/reject`, {}, {
+    const response = await axios.patch(`${API_BASE_URL}/admin/dashboard/properties/${id}/reject`, {}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

@@ -6,6 +6,7 @@ import { sequelize } from "./config/database";
 import authRoutes from "./routes/authRoutes";
 import protectedRoutes from "./routes/protectedRoutes"; 
 import adminRoutes from "./routes/adminRoutes";
+import adminDashboardRoutes from "./routes/adminDashboardRoutes";
 import leadRoutes from "./routes/leadRoutes";
 import propertyRoutes from "./routes/propertyRoutes";
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/properties", upload.none(), propertyRoutes);
 app.use("/api", protectedRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/lead", leadRoutes);
 
 sequelize.sync().then(() => {
