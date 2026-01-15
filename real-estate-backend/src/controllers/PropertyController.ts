@@ -797,6 +797,156 @@ export const getUserProperties = async (req: Request, res: Response): Promise<vo
   }
 };
 
+export const updateProperty = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const propertyId = parseInt(id);
+    const {
+      title,
+      description,
+      price,
+      location,
+      propertyStatus,
+      contactName,
+      contactEmail,
+      contactPhone
+    } = req.body;
+
+    // Try to find and update property in each table
+    let property = await SaleProperty.findByPk(propertyId);
+    if (property) {
+      await property.update({
+        title,
+        description,
+        price,
+        location,
+        propertyStatus,
+        contactName,
+        contactEmail,
+        contactPhone
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Property updated successfully',
+        data: property
+      });
+      return;
+    }
+
+    property = await RentProperty.findByPk(propertyId);
+    if (property) {
+      await property.update({
+        title,
+        description,
+        price,
+        location,
+        propertyStatus,
+        contactName,
+        contactEmail,
+        contactPhone
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Property updated successfully',
+        data: property
+      });
+      return;
+    }
+
+    property = await LeaseProperty.findByPk(propertyId);
+    if (property) {
+      await property.update({
+        title,
+        description,
+        price,
+        location,
+        propertyStatus,
+        contactName,
+        contactEmail,
+        contactPhone
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Property updated successfully',
+        data: property
+      });
+      return;
+    }
+
+    property = await PgProperty.findByPk(propertyId);
+    if (property) {
+      await property.update({
+        title,
+        description,
+        price,
+        location,
+        propertyStatus,
+        contactName,
+        contactEmail,
+        contactPhone
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Property updated successfully',
+        data: property
+      });
+      return;
+    }
+
+    property = await CommercialProperty.findByPk(propertyId);
+    if (property) {
+      await property.update({
+        title,
+        description,
+        price,
+        location,
+        propertyStatus,
+        contactName,
+        contactEmail,
+        contactPhone
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Property updated successfully',
+        data: property
+      });
+      return;
+    }
+
+    property = await LandProperty.findByPk(propertyId);
+    if (property) {
+      await property.update({
+        title,
+        description,
+        price,
+        location,
+        propertyStatus,
+        contactName,
+        contactEmail,
+        contactPhone
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Property updated successfully',
+        data: property
+      });
+      return;
+    }
+
+    res.status(404).json({
+      success: false,
+      message: 'Property not found'
+    });
+  } catch (error) {
+    console.error('Error updating property:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update property',
+      error: (error as Error).message
+    });
+  }
+};
+
 export const deleteProperty = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

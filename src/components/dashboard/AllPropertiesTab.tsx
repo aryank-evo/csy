@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import Link from "next/link"
+import AdminPropertyEditModal from "./AdminPropertyEditModal"
 
 interface Property {
   id: number
@@ -18,6 +18,8 @@ const AllPropertiesTab = () => {
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState<string>("all")
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     const fetchAllProperties = async () => {
@@ -45,6 +47,22 @@ const AllPropertiesTab = () => {
   const getPropertyTypes = () => {
     const types = [...new Set(properties.map(p => p.propertyType))]
     return types.sort()
+  }
+
+  const handlePropertyClick = (property: Property) => {
+    setSelectedProperty(property)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedProperty(null)
+  }
+
+  const handlePropertyUpdate = (updatedProperty: Property) => {
+    setProperties(prev => 
+      prev.map(p => p.id === updatedProperty.id ? updatedProperty : p)
+    )
   }
 
   if (loading) {
@@ -95,7 +113,13 @@ const AllPropertiesTab = () => {
         <div className="row g-4">
           {filteredProperties.map(property => (
             <div key={`${property.propertyType}-${property.id}`} className="col-lg-4 col-md-6">
-              <div className="border rounded-3 p-3 h-100">
+              <div 
+                className="border rounded-3 p-3 h-100"
+                onClick={() => handlePropertyClick(property)}
+                style={{ cursor: "pointer" }}
+                onMouseEnter={(e) => e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)"}
+                onMouseLeave={(e) => e.currentTarget.style.boxShadow = "none"}
+              >
                 <div className="d-flex justify-content-between align-items-start mb-2">
                   <h6 className="fw-500 mb-0 text-truncate" title={property.title}>
                     {property.title}
@@ -132,17 +156,23 @@ const AllPropertiesTab = () => {
                 </div>
                 
                 <div className="mt-3">
-                  <Link 
-                    href={`/listing_details_01/${property.id}`} 
-                    className="btn btn-sm btn-outline-primary"
-                  >
-                    View Details
-                  </Link>
+                  <button className="btn btn-sm btn-outline-primary w-100">
+                    <i className="bi bi-pencil-square me-1"></i>Edit Property
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
+      )}
+      
+      {selectedProperty && (
+        <AdminPropertyEditModal
+          property={selectedProperty}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onUpdate={handlePropertyUpdate}
+        />
       )}
     </div>
   )

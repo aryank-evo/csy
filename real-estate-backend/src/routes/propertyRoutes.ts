@@ -5,6 +5,7 @@ import {
   getAllPropertiesCombined,
   getAllPendingProperties, 
   getPropertyById, 
+  updateProperty,
   approveProperty, 
   rejectProperty, 
   deleteProperty 
@@ -17,6 +18,7 @@ router.post('/', createProperty); // Create property listing without auth
 router.get('/', getAllProperties); // Get all approved properties
 router.get('/all-combined', getAllPropertiesCombined); // Get ALL properties from ALL tables
 router.get('/:id', getPropertyById); // Get specific approved property
+router.put('/:id', updateProperty); // Update property details
 
 // Admin routes - would require admin authentication in production
 router.get('/pending/all', getAllPendingProperties); // Get all pending properties for admin
