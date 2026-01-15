@@ -159,26 +159,22 @@ const DashboardBody = () => {
                      
                      <div className="property-listings plr">
                         <div className="row">
-                           <div className="col-12">
-                              <div className="alert alert-info">
-                                 <strong>Debug Info:</strong><br/>
-                                 Properties loaded: {properties.length}<br/>
-                                 Loading state: {loading ? "true" : "false"}<br/>
-                                 First property title: {properties[0]?.title || "None"}
-                              </div>
-                           </div>
-                           
-                           {/* Test static property card */}
-                           <div className="col-lg-4 col-md-6 mb-25">
-                              <div className="property-card border rounded-3 p-3">
-                                 <h6 className="fw-500 mb-2">TEST PROPERTY</h6>
-                                 <div className="d-flex justify-content-between text-muted small">
-                                    <span>Status: approved</span>
-                                    <span>Type: sale</span>
+                           {properties.slice(0, 6).map((property: any) => (
+                              <div key={property.id} className="col-lg-4 col-md-6 mb-25">
+                                 <div className="property-card border rounded-3 p-3">
+                                    <h6 className="fw-500 mb-2">{property.title || "Untitled Property"}</h6>
+                                    <div className="d-flex justify-content-between text-muted small">
+                                       <span>Status: {property.approvalStatus || "N/A"}</span>
+                                       <span>Type: {property.propertyType || "N/A"}</span>
+                                    </div>
+                                    {property.price && (
+                                       <div className="mt-2 text-success fw-500">
+                                          ₹{property.price.toLocaleString()}
+                                       </div>
+                                    )}
                                  </div>
-                                 <div className="mt-2 text-success fw-500">₹50,00,000</div>
                               </div>
-                           </div>
+                           ))}
                         </div>
                      </div>
                   </div>
