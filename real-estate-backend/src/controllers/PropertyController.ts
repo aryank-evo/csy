@@ -320,6 +320,66 @@ export const getAllProperties = async (req: Request, res: Response): Promise<voi
   }
 };
 
+export const getAllPropertiesCombined = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Get ALL properties from all property types (both approved and pending)
+    const saleProperties = await SaleProperty.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const rentProperties = await RentProperty.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const leaseProperties = await LeaseProperty.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const pgProperties = await PgProperty.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const commercialProperties = await CommercialProperty.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const landProperties = await LandProperty.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+
+    // Combine all properties
+    const allProperties = [
+      ...saleProperties.map(p => ({ ...p.toJSON(), sourceTable: 'sale_properties' })),
+      ...rentProperties.map(p => ({ ...p.toJSON(), sourceTable: 'rent_properties' })),
+      ...leaseProperties.map(p => ({ ...p.toJSON(), sourceTable: 'lease_properties' })),
+      ...pgProperties.map(p => ({ ...p.toJSON(), sourceTable: 'pg_properties' })),
+      ...commercialProperties.map(p => ({ ...p.toJSON(), sourceTable: 'commercial_properties' })),
+      ...landProperties.map(p => ({ ...p.toJSON(), sourceTable: 'land_properties' }))
+    ];
+
+    // Sort by date descending
+    allProperties.sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      }
+      return 0;
+    });
+
+    res.status(200).json({
+      success: true,
+      count: allProperties.length,
+      data: allProperties
+    });
+  } catch (error) {
+    console.error('Error fetching all properties:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch all properties',
+      error: (error as Error).message
+    });
+  }
+};
+
 export const getAllPendingProperties = async (req: Request, res: Response): Promise<void> => {
   try {
     // Get all pending properties from all property types for admin dashboard

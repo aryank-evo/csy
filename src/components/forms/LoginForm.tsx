@@ -38,8 +38,19 @@ const LoginForm = () => {
 
          if (response.ok) {
             toast.success("Login successfully", { position: "top-center" });
+            
+            // Store token and user data in localStorage
+            localStorage.setItem('token', result.token);
+            localStorage.setItem('userData', JSON.stringify(result.user));
+            
             reset();
-            router.push("/dashboard/dashboard-index"); 
+            
+            // Redirect based on user role
+            if (result.user.isAdmin) {
+               router.push("/admin/dashboard");
+            } else {
+               router.push("/dashboard/dashboard-index");
+            }
          } else {
             toast.error(result.message || "Invalid email or password");
          }

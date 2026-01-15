@@ -1,0 +1,151 @@
+"use client"
+import { useState, useEffect } from "react"
+import Link from "next/link"
+
+interface Property {
+  id: number
+  title: string
+  description: string
+  price: string
+  location: string
+  propertyType: string
+  propertyStatus: string
+  approvalStatus: string
+  createdAt: string
+}
+
+const AllPropertiesTab = () => {
+  const [properties, setProperties] = useState<Property[]>([])
+  const [loading, setLoading] = useState(true)
+  const [activeFilter, setActiveFilter] = useState<string>("all")
+
+  useEffect(() => {
+    const fetchAllProperties = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/properties/all-combined")
+        const data = await response.json()
+        
+        if (data.success) {
+          setProperties(data.data)
+        }
+      } catch (error) {
+        console.error("Error fetching all properties:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAllProperties()
+  }, [])
+
+  const filteredProperties = activeFilter === "all" 
+    ? properties 
+    : properties.filter(prop => prop.propertyType === activeFilter)
+
+  const getPropertyTypes = () => {
+    const types = [...new Set(properties.map(p => p.propertyType))]
+    return types.sort()
+  }
+
+  if (loading) {
+    return (
+      <div className="text-center py-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="bg-white border-20 p-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h5 className="dash-title-two mb-0">All Property Listings</h5>
+        <div className="fs-14 text-muted">
+          Total: {filteredProperties.length} properties
+        </div>
+      </div>
+
+      {/* Filter Tabs */}
+      <div className="d-flex flex-wrap gap-2 mb-4">
+        <button 
+          className={`btn btn-sm ${activeFilter === "all" ? "btn-primary" : "btn-outline-secondary"}`}
+          onClick={() => setActiveFilter("all")}
+        >
+          All ({properties.length})
+        </button>
+        {getPropertyTypes().map(type => (
+          <button
+            key={type}
+            className={`btn btn-sm ${activeFilter === type ? "btn-primary" : "btn-outline-secondary"}`}
+            onClick={() => setActiveFilter(type)}
+          >
+            {type.charAt(0).toUpperCase() + type.slice(1)} (
+            {properties.filter(p => p.propertyType === type).length})
+          </button>
+        ))}
+      </div>
+
+      {/* Properties Grid */}
+      {filteredProperties.length === 0 ? (
+        <div className="text-center py-5">
+          <p className="text-muted">No properties found</p>
+        </div>
+      ) : (
+        <div className="row g-4">
+          {filteredProperties.map(property => (
+            <div key={`${property.propertyType}-${property.id}`} className="col-lg-4 col-md-6">
+              <div className="border rounded-3 p-3 h-100">
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                  <h6 className="fw-500 mb-0 text-truncate" title={property.title}>
+                    {property.title}
+                  </h6>
+                  <span className={`badge ${
+                    property.approvalStatus === "approved" ? "bg-success" : 
+                    property.approvalStatus === "pending" ? "bg-warning" : "bg-danger"
+                  }`}>
+                    {property.approvalStatus}
+                  </span>
+                </div>
+                
+                <div className="small text-muted mb-2">
+                  <i className="bi bi-geo-alt"></i> {property.location}
+                </div>
+                
+                <div className="d-flex justify-content-between small mb-2">
+                  <span className="badge bg-light text-dark">
+                    {property.propertyType}
+                  </span>
+                  <span className="text-muted">
+                    {property.propertyStatus}
+                  </span>
+                </div>
+                
+                {property.price && (
+                  <div className="fw-bold text-success mb-2">
+                    ₹{parseInt(property.price).toLocaleString()}
+                  </div>
+                )}
+                
+                <div className="small text-muted">
+                  Added: {new Date(property.createdAt).toLocaleDateString()}
+                </div>
+                
+                <div className="mt-3">
+                  <Link 
+                    href={`/listing_details_01/${property.id}`} 
+                    className="btn btn-sm btn-outline-primary"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default AllPropertiesTab
