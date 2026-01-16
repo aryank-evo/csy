@@ -6,8 +6,8 @@ import SellPropertyForm from '../forms/listings/SellPropertyForm';
 import RentPropertyForm from '../forms/listings/RentPropertyForm';
 import PgPropertyForm from '../forms/listings/PgPropertyForm';
 import LeasePropertyForm from '../forms/listings/LeasePropertyForm';
-import CommercialPropertyForm from '../forms/listings/CommercialPropertyForm';
-import LandPropertyForm from '../forms/listings/LandPropertyForm';
+// import CommercialPropertyForm from '../forms/listings/CommercialPropertyForm';
+// import LandPropertyForm from '../forms/listings/LandPropertyForm';
 
 interface PropertyTypeModalProps {
     isOpen: boolean;
@@ -22,7 +22,6 @@ const PropertyTypeModal: React.FC<PropertyTypeModalProps> = ({ isOpen, onClose }
         { id: 'rent', label: 'Rent', icon: '🏢' },
         { id: 'lease', label: 'Lease', icon: '🏢' },
         { id: 'pg', label: 'PG (Pay Guest)', icon: '🛏️' },
-        { id: 'commercial', label: 'Commercial', icon: '🏢' },
     ];
 
     const handleTypeSelect = (type: string) => {
@@ -60,10 +59,10 @@ const PropertyTypeModal: React.FC<PropertyTypeModalProps> = ({ isOpen, onClose }
                 return <PgPropertyForm />;
             case 'lease':
                 return <LeasePropertyForm />;
-            case 'commercial':
-                return <CommercialPropertyForm />;
-            case 'land':
-                return <LandPropertyForm />;
+            // case 'commercial':
+            //     return <CommercialPropertyForm />;
+            // case 'land':
+            //     return <LandPropertyForm />;
             default:
                 return null;
         }
