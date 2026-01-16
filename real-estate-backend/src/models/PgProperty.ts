@@ -5,7 +5,7 @@ interface PgPropertyAttributes {
   id: number;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   address?: string;
   city?: string;
@@ -14,9 +14,9 @@ interface PgPropertyAttributes {
   country?: string;
   propertyType: string;
   propertyStatus: string;
-  bedrooms?: string;
-  bathrooms?: string;
-  area?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
   amenities?: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
   approvedBy?: number;
@@ -27,7 +27,7 @@ interface PgPropertyAttributes {
   // PG-specific fields
   foodIncluded?: boolean;
   gender?: string;
-  occupancy?: string;
+  occupancy?: number;
   // Approval workflow fields
   createdAt?: Date;
   updatedAt?: Date;
@@ -39,7 +39,7 @@ export class PgProperty extends Model<PgPropertyAttributes, PgPropertyCreationAt
   public id!: number;
   public title!: string;
   public description!: string;
-  public price!: string;
+  public price!: number;
   public location!: string;
   public address?: string;
   public city?: string;
@@ -48,9 +48,9 @@ export class PgProperty extends Model<PgPropertyAttributes, PgPropertyCreationAt
   public country?: string;
   public propertyType!: string;
   public propertyStatus!: string;
-  public bedrooms?: string;
-  public bathrooms?: string;
-  public area?: string;
+  public bedrooms?: number;
+  public bathrooms?: number;
+  public area?: number;
   public amenities?: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
   public approvedBy?: number;
@@ -61,7 +61,7 @@ export class PgProperty extends Model<PgPropertyAttributes, PgPropertyCreationAt
   // PG-specific fields
   public foodIncluded?: boolean;
   public gender?: string;
-  public occupancy?: string;
+  public occupancy?: number;
   // Timestamps
   public declare createdAt: Date;
   public declare updatedAt: Date;
@@ -82,7 +82,7 @@ PgProperty.init({
     allowNull: false,
   },
   price: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
   location: {
@@ -118,15 +118,15 @@ PgProperty.init({
     allowNull: false,
   },
   bedrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   bathrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   area: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   amenities: {
@@ -134,7 +134,7 @@ PgProperty.init({
     allowNull: true,
   },
   approvalStatus: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
   },
   approvedBy: {
@@ -167,7 +167,7 @@ PgProperty.init({
     allowNull: true,
   },
   occupancy: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
 }, {

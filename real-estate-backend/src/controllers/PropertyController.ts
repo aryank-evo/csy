@@ -323,38 +323,45 @@ export const getAllProperties = async (req: Request, res: Response): Promise<voi
 export const getAllPropertiesCombined = async (req: Request, res: Response): Promise<void> => {
   try {
     // Get ALL properties from all property types (both approved and pending)
+    // Use raw queries to avoid column mismatches between different property types
     const saleProperties = await SaleProperty.findAll({
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
+      raw: true // Use raw to avoid some attribute issues
     });
     
     const rentProperties = await RentProperty.findAll({
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
+      raw: true
     });
     
     const leaseProperties = await LeaseProperty.findAll({
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
+      raw: true
     });
     
     const pgProperties = await PgProperty.findAll({
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
+      raw: true
     });
     
     const commercialProperties = await CommercialProperty.findAll({
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
+      raw: true
     });
     
     const landProperties = await LandProperty.findAll({
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
+      raw: true
     });
 
     // Combine all properties
     const allProperties = [
-      ...saleProperties.map(p => ({ ...p.toJSON(), sourceTable: 'sale_properties' })),
-      ...rentProperties.map(p => ({ ...p.toJSON(), sourceTable: 'rent_properties' })),
-      ...leaseProperties.map(p => ({ ...p.toJSON(), sourceTable: 'lease_properties' })),
-      ...pgProperties.map(p => ({ ...p.toJSON(), sourceTable: 'pg_properties' })),
-      ...commercialProperties.map(p => ({ ...p.toJSON(), sourceTable: 'commercial_properties' })),
-      ...landProperties.map(p => ({ ...p.toJSON(), sourceTable: 'land_properties' }))
+      ...saleProperties.map(p => ({ ...p, sourceTable: 'sale_properties' })),
+      ...rentProperties.map(p => ({ ...p, sourceTable: 'rent_properties' })),
+      ...leaseProperties.map(p => ({ ...p, sourceTable: 'lease_properties' })),
+      ...pgProperties.map(p => ({ ...p, sourceTable: 'pg_properties' })),
+      ...commercialProperties.map(p => ({ ...p, sourceTable: 'commercial_properties' })),
+      ...landProperties.map(p => ({ ...p, sourceTable: 'land_properties' }))
     ];
 
     // Sort by date descending
@@ -574,8 +581,8 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
       );
       tableName = 'sale';
     } else {
-      propertyExists = await RentProperty.findByPk(propertyId);
-      if (propertyExists) {
+      const rentProperty = await RentProperty.findByPk(propertyId);
+      if (rentProperty) {
         [updatedRows] = await RentProperty.update(
           {
             approvalStatus: 'approved',
@@ -587,8 +594,8 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
         );
         tableName = 'rent';
       } else {
-        propertyExists = await LeaseProperty.findByPk(propertyId);
-        if (propertyExists) {
+        const leaseProperty = await LeaseProperty.findByPk(propertyId);
+        if (leaseProperty) {
           [updatedRows] = await LeaseProperty.update(
             {
               approvalStatus: 'approved',
@@ -600,8 +607,8 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
           );
           tableName = 'lease';
         } else {
-          propertyExists = await PgProperty.findByPk(propertyId);
-          if (propertyExists) {
+          const pgProperty = await PgProperty.findByPk(propertyId);
+          if (pgProperty) {
             [updatedRows] = await PgProperty.update(
               {
                 approvalStatus: 'approved',
@@ -613,8 +620,8 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
             );
             tableName = 'pg';
           } else {
-            propertyExists = await CommercialProperty.findByPk(propertyId);
-            if (propertyExists) {
+            const commercialProperty = await CommercialProperty.findByPk(propertyId);
+            if (commercialProperty) {
               [updatedRows] = await CommercialProperty.update(
                 {
                   approvalStatus: 'approved',
@@ -626,8 +633,8 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
               );
               tableName = 'commercial';
             } else {
-              propertyExists = await LandProperty.findByPk(propertyId);
-              if (propertyExists) {
+              const landProperty = await LandProperty.findByPk(propertyId);
+              if (landProperty) {
                 [updatedRows] = await LandProperty.update(
                   {
                     approvalStatus: 'approved',
@@ -689,8 +696,8 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
       );
       tableName = 'sale';
     } else {
-      propertyExists = await RentProperty.findByPk(propertyId);
-      if (propertyExists) {
+      const rentProperty = await RentProperty.findByPk(propertyId);
+      if (rentProperty) {
         [updatedRows] = await RentProperty.update(
           {
             approvalStatus: 'rejected'
@@ -701,8 +708,8 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
         );
         tableName = 'rent';
       } else {
-        propertyExists = await LeaseProperty.findByPk(propertyId);
-        if (propertyExists) {
+        const leaseProperty = await LeaseProperty.findByPk(propertyId);
+        if (leaseProperty) {
           [updatedRows] = await LeaseProperty.update(
             {
               approvalStatus: 'rejected'
@@ -713,8 +720,8 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
           );
           tableName = 'lease';
         } else {
-          propertyExists = await PgProperty.findByPk(propertyId);
-          if (propertyExists) {
+          const pgProperty = await PgProperty.findByPk(propertyId);
+          if (pgProperty) {
             [updatedRows] = await PgProperty.update(
               {
                 approvalStatus: 'rejected'
@@ -725,8 +732,8 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
             );
             tableName = 'pg';
           } else {
-            propertyExists = await CommercialProperty.findByPk(propertyId);
-            if (propertyExists) {
+            const commercialProperty = await CommercialProperty.findByPk(propertyId);
+            if (commercialProperty) {
               [updatedRows] = await CommercialProperty.update(
                 {
                   approvalStatus: 'rejected'
@@ -737,8 +744,8 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
               );
               tableName = 'commercial';
             } else {
-              propertyExists = await LandProperty.findByPk(propertyId);
-              if (propertyExists) {
+              const landProperty = await LandProperty.findByPk(propertyId);
+              if (landProperty) {
                 [updatedRows] = await LandProperty.update(
                   {
                     approvalStatus: 'rejected'
@@ -801,6 +808,7 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
   try {
     const { id } = req.params;
     const propertyId = parseInt(id);
+    const propertyType = req.query.type as string; // Get property type from query param
     const {
       title,
       description,
@@ -812,136 +820,273 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       contactPhone
     } = req.body;
 
-    // Try to find and update property in each table
-    let property = await SaleProperty.findByPk(propertyId);
-    if (property) {
-      await property.update({
-        title,
-        description,
-        price,
-        location,
-        propertyStatus,
-        contactName,
-        contactEmail,
-        contactPhone
-      });
-      res.status(200).json({
-        success: true,
-        message: 'Property updated successfully',
-        data: property
-      });
-      return;
+    // Define common fields that exist in all property types
+    const commonFields = {
+      title,
+      description,
+      price,
+      location,
+      propertyStatus,
+      contactName,
+      contactEmail,
+      contactPhone
+    };
+
+    // If property type is specified, update that specific table
+    if (propertyType) {
+      switch(propertyType.toLowerCase()) {
+        case 'sale':
+          const saleProperty = await SaleProperty.findByPk(propertyId);
+          if (saleProperty) {
+            await saleProperty.update(commonFields);
+            res.status(200).json({
+              success: true,
+              message: 'Sale property updated successfully',
+              data: saleProperty
+            });
+            return;
+          }
+          break;
+        case 'rent':
+          const rentProperty = await RentProperty.findByPk(propertyId);
+          if (rentProperty) {
+            await rentProperty.update(commonFields);
+            res.status(200).json({
+              success: true,
+              message: 'Rent property updated successfully',
+              data: rentProperty
+            });
+            return;
+          }
+          break;
+        case 'lease':
+          const leaseProperty = await LeaseProperty.findByPk(propertyId);
+          if (leaseProperty) {
+            await leaseProperty.update(commonFields);
+            res.status(200).json({
+              success: true,
+              message: 'Lease property updated successfully',
+              data: leaseProperty
+            });
+            return;
+          }
+          break;
+        case 'pg':
+          const pgProperty = await PgProperty.findByPk(propertyId);
+          if (pgProperty) {
+            await pgProperty.update(commonFields);
+            res.status(200).json({
+              success: true,
+              message: 'PG property updated successfully',
+              data: pgProperty
+            });
+            return;
+          }
+          break;
+        case 'commercial':
+          const commercialProperty = await CommercialProperty.findByPk(propertyId);
+          if (commercialProperty) {
+            await commercialProperty.update(commonFields);
+            res.status(200).json({
+              success: true,
+              message: 'Commercial property updated successfully',
+              data: commercialProperty
+            });
+            return;
+          }
+          break;
+        case 'land':
+          const landProperty = await LandProperty.findByPk(propertyId);
+          if (landProperty) {
+            await landProperty.update(commonFields);
+            res.status(200).json({
+              success: true,
+              message: 'Land property updated successfully',
+              data: landProperty
+            });
+            return;
+          }
+          break;
+      }
     }
 
-    property = await RentProperty.findByPk(propertyId);
-    if (property) {
-      await property.update({
-        title,
-        description,
-        price,
-        location,
-        propertyStatus,
-        contactName,
-        contactEmail,
-        contactPhone
-      });
-      res.status(200).json({
-        success: true,
-        message: 'Property updated successfully',
-        data: property
-      });
-      return;
+    // If no property type specified, fall back to searching all tables
+    const tables = [
+      { model: SaleProperty, name: 'sale' },
+      { model: RentProperty, name: 'rent' },
+      { model: LeaseProperty, name: 'lease' },
+      { model: PgProperty, name: 'pg' },
+      { model: CommercialProperty, name: 'commercial' },
+      { model: LandProperty, name: 'land' }
+    ];
+
+    for (const table of tables) {
+      try {
+        // Using type assertion to handle different property types
+        const property: any = await (table.model as any).findByPk(propertyId);
+        if (property) {
+          await property.update(commonFields);
+          res.status(200).json({
+            success: true,
+            message: `${table.name.charAt(0).toUpperCase() + table.name.slice(1)} property updated successfully`,
+            data: property
+          });
+          return;
+        }
+      } catch (err) {
+        // Continue to the next table if there's an error
+        continue;
+      }
     }
 
-    property = await LeaseProperty.findByPk(propertyId);
-    if (property) {
-      await property.update({
-        title,
-        description,
-        price,
-        location,
-        propertyStatus,
-        contactName,
-        contactEmail,
-        contactPhone
-      });
-      res.status(200).json({
-        success: true,
-        message: 'Property updated successfully',
-        data: property
-      });
-      return;
-    }
-
-    property = await PgProperty.findByPk(propertyId);
-    if (property) {
-      await property.update({
-        title,
-        description,
-        price,
-        location,
-        propertyStatus,
-        contactName,
-        contactEmail,
-        contactPhone
-      });
-      res.status(200).json({
-        success: true,
-        message: 'Property updated successfully',
-        data: property
-      });
-      return;
-    }
-
-    property = await CommercialProperty.findByPk(propertyId);
-    if (property) {
-      await property.update({
-        title,
-        description,
-        price,
-        location,
-        propertyStatus,
-        contactName,
-        contactEmail,
-        contactPhone
-      });
-      res.status(200).json({
-        success: true,
-        message: 'Property updated successfully',
-        data: property
-      });
-      return;
-    }
-
-    property = await LandProperty.findByPk(propertyId);
-    if (property) {
-      await property.update({
-        title,
-        description,
-        price,
-        location,
-        propertyStatus,
-        contactName,
-        contactEmail,
-        contactPhone
-      });
-      res.status(200).json({
-        success: true,
-        message: 'Property updated successfully',
-        data: property
-      });
-      return;
-    }
-
+    // If property not found in any table
     res.status(404).json({
       success: false,
-      message: 'Property not found'
+      message: 'Property not found in any table'
     });
   } catch (error) {
     console.error('Error updating property:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to update property',
+      error: (error as Error).message
+    });
+  }
+};
+
+// New function to update approval status for any property type
+export const updateApprovalStatus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const propertyId = parseInt(id);
+    const propertyType = req.query.type as string; // Get property type from query param
+    const { approvalStatus } = req.body;
+
+    if (!approvalStatus || !['pending', 'approved', 'rejected'].includes(approvalStatus)) {
+      res.status(400).json({
+        success: false,
+        message: 'Invalid approval status. Must be pending, approved, or rejected.'
+      });
+      return;
+    }
+
+    // If property type is specified, update that specific table
+    if (propertyType) {
+      switch(propertyType.toLowerCase()) {
+        case 'sale':
+          const saleProperty = await SaleProperty.findByPk(propertyId);
+          if (saleProperty) {
+            await saleProperty.update({ approvalStatus });
+            res.status(200).json({
+              success: true,
+              message: 'Sale property approval status updated successfully',
+              data: { ...saleProperty.toJSON(), approvalStatus }
+            });
+            return;
+          }
+          break;
+        case 'rent':
+          const rentProperty = await RentProperty.findByPk(propertyId);
+          if (rentProperty) {
+            await rentProperty.update({ approvalStatus });
+            res.status(200).json({
+              success: true,
+              message: 'Rent property approval status updated successfully',
+              data: { ...rentProperty.toJSON(), approvalStatus }
+            });
+            return;
+          }
+          break;
+        case 'lease':
+          const leaseProperty = await LeaseProperty.findByPk(propertyId);
+          if (leaseProperty) {
+            await leaseProperty.update({ approvalStatus });
+            res.status(200).json({
+              success: true,
+              message: 'Lease property approval status updated successfully',
+              data: { ...leaseProperty.toJSON(), approvalStatus }
+            });
+            return;
+          }
+          break;
+        case 'pg':
+          const pgProperty = await PgProperty.findByPk(propertyId);
+          if (pgProperty) {
+            await pgProperty.update({ approvalStatus });
+            res.status(200).json({
+              success: true,
+              message: 'PG property approval status updated successfully',
+              data: { ...pgProperty.toJSON(), approvalStatus }
+            });
+            return;
+          }
+          break;
+        case 'commercial':
+          const commercialProperty = await CommercialProperty.findByPk(propertyId);
+          if (commercialProperty) {
+            await commercialProperty.update({ approvalStatus });
+            res.status(200).json({
+              success: true,
+              message: 'Commercial property approval status updated successfully',
+              data: { ...commercialProperty.toJSON(), approvalStatus }
+            });
+            return;
+          }
+          break;
+        case 'land':
+          const landProperty = await LandProperty.findByPk(propertyId);
+          if (landProperty) {
+            await landProperty.update({ approvalStatus });
+            res.status(200).json({
+              success: true,
+              message: 'Land property approval status updated successfully',
+              data: { ...landProperty.toJSON(), approvalStatus }
+            });
+            return;
+          }
+          break;
+      }
+    }
+
+    // If no property type specified, fall back to searching all tables
+    const tables = [
+      { model: SaleProperty, name: 'sale' },
+      { model: RentProperty, name: 'rent' },
+      { model: LeaseProperty, name: 'lease' },
+      { model: PgProperty, name: 'pg' },
+      { model: CommercialProperty, name: 'commercial' },
+      { model: LandProperty, name: 'land' }
+    ];
+
+    for (const table of tables) {
+      try {
+        // Using type assertion to handle different property types
+        const property: any = await (table.model as any).findByPk(propertyId);
+        if (property) {
+          await property.update({ approvalStatus });
+          res.status(200).json({
+            success: true,
+            message: `${table.name.charAt(0).toUpperCase() + table.name.slice(1)} property approval status updated successfully`,
+            data: { ...property.toJSON(), approvalStatus }
+          });
+          return;
+        }
+      } catch (err) {
+        // Continue to the next table if there's an error
+        continue;
+      }
+    }
+
+    // If property not found in any table
+    res.status(404).json({
+      success: false,
+      message: 'Property not found in any table'
+    });
+  } catch (error) {
+    console.error('Error updating property approval status:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update property approval status',
       error: (error as Error).message
     });
   }
@@ -964,36 +1109,36 @@ export const deleteProperty = async (req: Request, res: Response): Promise<void>
       });
       tableName = 'sale';
     } else {
-      propertyExists = await RentProperty.findByPk(propertyId);
-      if (propertyExists) {
+      const rentProperty = await RentProperty.findByPk(propertyId);
+      if (rentProperty) {
         deletedRows = await RentProperty.destroy({
           where: { id: propertyId }
         });
         tableName = 'rent';
       } else {
-        propertyExists = await LeaseProperty.findByPk(propertyId);
-        if (propertyExists) {
+        const leaseProperty = await LeaseProperty.findByPk(propertyId);
+        if (leaseProperty) {
           deletedRows = await LeaseProperty.destroy({
             where: { id: propertyId }
           });
           tableName = 'lease';
         } else {
-          propertyExists = await PgProperty.findByPk(propertyId);
-          if (propertyExists) {
+          const pgProperty = await PgProperty.findByPk(propertyId);
+          if (pgProperty) {
             deletedRows = await PgProperty.destroy({
               where: { id: propertyId }
             });
             tableName = 'pg';
           } else {
-            propertyExists = await CommercialProperty.findByPk(propertyId);
-            if (propertyExists) {
+            const commercialProperty = await CommercialProperty.findByPk(propertyId);
+            if (commercialProperty) {
               deletedRows = await CommercialProperty.destroy({
                 where: { id: propertyId }
               });
               tableName = 'commercial';
             } else {
-              propertyExists = await LandProperty.findByPk(propertyId);
-              if (propertyExists) {
+              const landProperty = await LandProperty.findByPk(propertyId);
+              if (landProperty) {
                 deletedRows = await LandProperty.destroy({
                   where: { id: propertyId }
                 });

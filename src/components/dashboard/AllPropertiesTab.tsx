@@ -24,7 +24,7 @@ const AllPropertiesTab = () => {
   useEffect(() => {
     const fetchAllProperties = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/properties/all-combined")
+        const response = await fetch("http://localhost:8080/api/properties/all-combined")
         const data = await response.json()
         
         if (data.success) {
@@ -61,7 +61,7 @@ const AllPropertiesTab = () => {
 
   const handlePropertyUpdate = (updatedProperty: Property) => {
     setProperties(prev => 
-      prev.map(p => p.id === updatedProperty.id ? updatedProperty : p)
+      prev.map(p => p.id === updatedProperty.id && p.propertyType === updatedProperty.propertyType ? updatedProperty : p)
     )
   }
 

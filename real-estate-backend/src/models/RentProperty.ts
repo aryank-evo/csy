@@ -5,7 +5,7 @@ interface RentPropertyAttributes {
   id: number;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   address?: string;
   city?: string;
@@ -14,9 +14,9 @@ interface RentPropertyAttributes {
   country?: string;
   propertyType: string;
   propertyStatus: string;
-  bedrooms?: string;
-  bathrooms?: string;
-  area?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
   amenities?: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
   approvedBy?: number;
@@ -26,8 +26,8 @@ interface RentPropertyAttributes {
   contactPhone?: string;
   // Rent-specific fields
   availableFrom?: string;
-  securityDeposit?: string;
-  maintenanceCharge?: string;
+  securityDeposit?: number;
+  maintenanceCharge?: number;
   // Approval workflow fields
   createdAt?: Date;
   updatedAt?: Date;
@@ -39,7 +39,7 @@ export class RentProperty extends Model<RentPropertyAttributes, RentPropertyCrea
   public id!: number;
   public title!: string;
   public description!: string;
-  public price!: string;
+  public price!: number;
   public location!: string;
   public address?: string;
   public city?: string;
@@ -48,9 +48,9 @@ export class RentProperty extends Model<RentPropertyAttributes, RentPropertyCrea
   public country?: string;
   public propertyType!: string;
   public propertyStatus!: string;
-  public bedrooms?: string;
-  public bathrooms?: string;
-  public area?: string;
+  public bedrooms?: number;
+  public bathrooms?: number;
+  public area?: number;
   public amenities?: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
   public approvedBy?: number;
@@ -60,8 +60,8 @@ export class RentProperty extends Model<RentPropertyAttributes, RentPropertyCrea
   public contactPhone?: string;
   // Rent-specific fields
   public availableFrom?: string;
-  public securityDeposit?: string;
-  public maintenanceCharge?: string;
+  public securityDeposit?: number;
+  public maintenanceCharge?: number;
   // Timestamps
   public declare createdAt: Date;
   public declare updatedAt: Date;
@@ -82,7 +82,7 @@ RentProperty.init({
     allowNull: false,
   },
   price: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
   location: {
@@ -118,15 +118,15 @@ RentProperty.init({
     allowNull: false,
   },
   bedrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   bathrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   area: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   amenities: {
@@ -134,7 +134,7 @@ RentProperty.init({
     allowNull: true,
   },
   approvalStatus: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
   },
   approvedBy: {
@@ -163,11 +163,11 @@ RentProperty.init({
     allowNull: true,
   },
   securityDeposit: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   maintenanceCharge: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
 }, {

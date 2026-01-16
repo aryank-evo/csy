@@ -6,6 +6,7 @@ import {
   getAllPendingProperties, 
   getPropertyById, 
   updateProperty,
+  updateApprovalStatus,
   approveProperty, 
   rejectProperty, 
   deleteProperty 
@@ -19,6 +20,7 @@ router.get('/', getAllProperties); // Get all approved properties
 router.get('/all-combined', getAllPropertiesCombined); // Get ALL properties from ALL tables
 router.get('/:id', getPropertyById); // Get specific approved property
 router.put('/:id', updateProperty); // Update property details
+router.put('/:id/status', updateApprovalStatus); // Update property approval status
 
 // Admin routes - would require admin authentication in production
 router.get('/pending/all', getAllPendingProperties); // Get all pending properties for admin

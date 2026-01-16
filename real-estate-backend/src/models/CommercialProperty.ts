@@ -5,7 +5,7 @@ interface CommercialPropertyAttributes {
   id: number;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   address?: string;
   city?: string;
@@ -14,9 +14,9 @@ interface CommercialPropertyAttributes {
   country?: string;
   propertyType: string;
   propertyStatus: string;
-  bedrooms?: string;
-  bathrooms?: string;
-  area?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
   amenities?: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
   approvedBy?: number;
@@ -26,7 +26,7 @@ interface CommercialPropertyAttributes {
   contactPhone?: string;
   // Commercial-specific fields
   propertySubType?: string;
-  commercialArea?: string;
+  commercialArea?: number;
   facing?: string;
   // Approval workflow fields
   createdAt?: Date;
@@ -39,7 +39,7 @@ export class CommercialProperty extends Model<CommercialPropertyAttributes, Comm
   public id!: number;
   public title!: string;
   public description!: string;
-  public price!: string;
+  public price!: number;
   public location!: string;
   public address?: string;
   public city?: string;
@@ -48,9 +48,9 @@ export class CommercialProperty extends Model<CommercialPropertyAttributes, Comm
   public country?: string;
   public propertyType!: string;
   public propertyStatus!: string;
-  public bedrooms?: string;
-  public bathrooms?: string;
-  public area?: string;
+  public bedrooms?: number;
+  public bathrooms?: number;
+  public area?: number;
   public amenities?: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
   public approvedBy?: number;
@@ -60,7 +60,7 @@ export class CommercialProperty extends Model<CommercialPropertyAttributes, Comm
   public contactPhone?: string;
   // Commercial-specific fields
   public propertySubType?: string;
-  public commercialArea?: string;
+  public commercialArea?: number;
   public facing?: string;
   // Timestamps
   public declare createdAt: Date;
@@ -82,7 +82,7 @@ CommercialProperty.init({
     allowNull: false,
   },
   price: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
   location: {
@@ -118,15 +118,15 @@ CommercialProperty.init({
     allowNull: false,
   },
   bedrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   bathrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   area: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   amenities: {
@@ -134,7 +134,7 @@ CommercialProperty.init({
     allowNull: true,
   },
   approvalStatus: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
   },
   approvedBy: {
@@ -163,7 +163,7 @@ CommercialProperty.init({
     allowNull: true,
   },
   commercialArea: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   facing: {

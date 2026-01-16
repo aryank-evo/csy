@@ -5,7 +5,7 @@ interface LandPropertyAttributes {
   id: number;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   address?: string;
   city?: string;
@@ -21,7 +21,7 @@ interface LandPropertyAttributes {
   contactEmail?: string;
   contactPhone?: string;
   // Land-specific fields
-  landArea?: string;
+  landArea?: number;
   landType?: string;
   facing?: string;
   utilities?: string;
@@ -36,7 +36,7 @@ export class LandProperty extends Model<LandPropertyAttributes, LandPropertyCrea
   public id!: number;
   public title!: string;
   public description!: string;
-  public price!: string;
+  public price!: number;
   public location!: string;
   public address?: string;
   public city?: string;
@@ -52,7 +52,7 @@ export class LandProperty extends Model<LandPropertyAttributes, LandPropertyCrea
   public contactEmail?: string;
   public contactPhone?: string;
   // Land-specific fields
-  public landArea?: string;
+  public landArea?: number;
   public landType?: string;
   public facing?: string;
   public utilities?: string;
@@ -76,7 +76,7 @@ LandProperty.init({
     allowNull: false,
   },
   price: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
   location: {
@@ -112,7 +112,7 @@ LandProperty.init({
     allowNull: false,
   },
   approvalStatus: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
   },
   approvedBy: {
@@ -137,7 +137,7 @@ LandProperty.init({
   },
   // Land-specific fields
   landArea: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   landType: {

@@ -5,7 +5,7 @@ interface LeasePropertyAttributes {
   id: number;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   address?: string;
   city?: string;
@@ -14,9 +14,9 @@ interface LeasePropertyAttributes {
   country?: string;
   propertyType: string;
   propertyStatus: string;
-  bedrooms?: string;
-  bathrooms?: string;
-  area?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
   amenities?: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
   approvedBy?: number;
@@ -26,7 +26,7 @@ interface LeasePropertyAttributes {
   contactPhone?: string;
   // Lease-specific fields
   leasePeriod?: string;
-  monthlyLeaseAmount?: string;
+  monthlyLeaseAmount?: number;
   leaseTerms?: string;
   // Approval workflow fields
   createdAt?: Date;
@@ -39,7 +39,7 @@ export class LeaseProperty extends Model<LeasePropertyAttributes, LeasePropertyC
   public id!: number;
   public title!: string;
   public description!: string;
-  public price!: string;
+  public price!: number;
   public location!: string;
   public address?: string;
   public city?: string;
@@ -48,9 +48,9 @@ export class LeaseProperty extends Model<LeasePropertyAttributes, LeasePropertyC
   public country?: string;
   public propertyType!: string;
   public propertyStatus!: string;
-  public bedrooms?: string;
-  public bathrooms?: string;
-  public area?: string;
+  public bedrooms?: number;
+  public bathrooms?: number;
+  public area?: number;
   public amenities?: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
   public approvedBy?: number;
@@ -60,7 +60,7 @@ export class LeaseProperty extends Model<LeasePropertyAttributes, LeasePropertyC
   public contactPhone?: string;
   // Lease-specific fields
   public leasePeriod?: string;
-  public monthlyLeaseAmount?: string;
+  public monthlyLeaseAmount?: number;
   public leaseTerms?: string;
   // Timestamps
   public declare createdAt: Date;
@@ -82,7 +82,7 @@ LeaseProperty.init({
     allowNull: false,
   },
   price: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
   location: {
@@ -118,15 +118,15 @@ LeaseProperty.init({
     allowNull: false,
   },
   bedrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   bathrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   area: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   amenities: {
@@ -134,7 +134,7 @@ LeaseProperty.init({
     allowNull: true,
   },
   approvalStatus: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
   },
   approvedBy: {
@@ -163,7 +163,7 @@ LeaseProperty.init({
     allowNull: true,
   },
   monthlyLeaseAmount: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   leaseTerms: {

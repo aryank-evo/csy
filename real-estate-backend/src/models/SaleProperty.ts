@@ -5,7 +5,7 @@ interface SalePropertyAttributes {
   id: number;
   title: string;
   description: string;
-  price: string;
+  price: number;
   location: string;
   address?: string;
   city?: string;
@@ -14,9 +14,9 @@ interface SalePropertyAttributes {
   country?: string;
   propertyType: string;
   propertyStatus: string;
-  bedrooms?: string;
-  bathrooms?: string;
-  area?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
   amenities?: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
   approvedBy?: number;
@@ -26,8 +26,8 @@ interface SalePropertyAttributes {
   contactPhone?: string;
   // Sale-specific fields
   possessionStatus?: string;
-  propertyAge?: string;
-  maintenanceCharge?: string;
+  propertyAge?: number;
+  maintenanceCost?: number;
   // Approval workflow fields
   createdAt?: Date;
   updatedAt?: Date;
@@ -39,7 +39,7 @@ export class SaleProperty extends Model<SalePropertyAttributes, SalePropertyCrea
   public id!: number;
   public title!: string;
   public description!: string;
-  public price!: string;
+  public price!: number;
   public location!: string;
   public address?: string;
   public city?: string;
@@ -48,9 +48,9 @@ export class SaleProperty extends Model<SalePropertyAttributes, SalePropertyCrea
   public country?: string;
   public propertyType!: string;
   public propertyStatus!: string;
-  public bedrooms?: string;
-  public bathrooms?: string;
-  public area?: string;
+  public bedrooms?: number;
+  public bathrooms?: number;
+  public area?: number;
   public amenities?: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
   public approvedBy?: number;
@@ -60,7 +60,8 @@ export class SaleProperty extends Model<SalePropertyAttributes, SalePropertyCrea
   public contactPhone?: string;
   // Sale-specific fields
   public possessionStatus?: string;
-  public propertyAge?: string;
+  public propertyAge?: number;
+  public maintenanceCost?: number;
   // Timestamps
   public declare createdAt: Date;
   public declare updatedAt: Date;
@@ -81,7 +82,7 @@ SaleProperty.init({
     allowNull: false,
   },
   price: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
   location: {
@@ -117,15 +118,15 @@ SaleProperty.init({
     allowNull: false,
   },
   bedrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   bathrooms: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   area: {
-    type: DataTypes.STRING,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
   },
   amenities: {
@@ -133,7 +134,7 @@ SaleProperty.init({
     allowNull: true,
   },
   approvalStatus: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
   },
   approvedBy: {
@@ -162,8 +163,13 @@ SaleProperty.init({
     allowNull: true,
   },
   propertyAge: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true,
+  },
+  maintenanceCost: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: true,
+    field: 'maintenanceCost'
   },
 }, {
   tableName: 'sale_properties',
