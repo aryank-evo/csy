@@ -69,7 +69,7 @@ export class CommercialProperty extends Model<CommercialPropertyAttributes, Comm
 
 CommercialProperty.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },

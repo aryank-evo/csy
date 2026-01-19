@@ -63,7 +63,7 @@ export class LandProperty extends Model<LandPropertyAttributes, LandPropertyCrea
 
 LandProperty.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },

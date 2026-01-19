@@ -69,7 +69,7 @@ export class SaleProperty extends Model<SalePropertyAttributes, SalePropertyCrea
 
 SaleProperty.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
