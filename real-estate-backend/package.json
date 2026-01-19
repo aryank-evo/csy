@@ -6,6 +6,8 @@
     "build": "tsc",
     "dev": "nodemon src/server.ts",
     "start": "node dist/server.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -26,7 +28,8 @@
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.6",
     "sequelize-cli": "^6.6.2",
-    "sequelize-typescript": "^2.1.6"
+    "sequelize-typescript": "^2.1.6",
+    "umzug": "^3.8.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -37,6 +40,7 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^22.13.13",
     "@types/sequelize": "^4.28.20",
+    "@types/umzug": "^2.3.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

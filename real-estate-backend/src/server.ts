@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import multer from "multer";
 import { sequelize } from "./config/database";
+import { Umzug, SequelizeStorage } from "umzug";
 import authRoutes from "./routes/authRoutes";
 import protectedRoutes from "./routes/protectedRoutes"; 
 import adminRoutes from "./routes/adminRoutes";
@@ -29,9 +30,41 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/lead", leadRoutes);
 
-sequelize.sync().then(() => {
-  console.log("📌 Database connected!");
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-}).catch((error) => {
-  console.error("❌ Database connection error:", error);
-});
+// Run pending migrations before starting the server
+const runMigrations = async () => {
+  try {
+    console.log("🔄 Running database migrations...");
+    
+    const migrator = new Umzug({
+      migrations: {
+        glob: ["../migrations/*.js", { cwd: __dirname }],
+      },
+      context: {
+        queryInterface: sequelize.getQueryInterface(),
+        sequelize,
+      },
+      storage: new SequelizeStorage({ sequelize }),
+      logger: console,
+    });
+    
+    const pendingMigrations = await migrator.pending();
+    if (pendingMigrations.length > 0) {
+      console.log(`📦 Found ${pendingMigrations.length} pending migrations, executing...`);
+      await migrator.up();
+      console.log(`✅ Migrations completed successfully!`);
+    } else {
+      console.log(`✅ No pending migrations, proceeding to start server...`);
+    }
+    
+    // Sync models after migrations
+    await sequelize.sync();
+    console.log("📌 Database connected and ready!");
+    
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  } catch (error) {
+    console.error("❌ Migration or startup error:", error);
+    process.exit(1);
+  }
+};
+
+runMigrations();
