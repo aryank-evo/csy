@@ -16,9 +16,14 @@ const ProfileBody = () => {
    const [lastName, setLastName] = useState("");
    const [phoneNumber, setPhoneNumber] = useState("");
    const [about, setAbout] = useState("");
-   const token = localStorage.getItem("token"); 
+   const [token, setToken] = useState<string | null>(null);
 
    useEffect(() => {
+      setToken(localStorage.getItem("token"));
+   }, []);
+
+   useEffect(() => {
+      if (!token) return;
       const fetchUserData = async () => {
          try {
             const res = await fetch("http://localhost:8080/api/profile", {

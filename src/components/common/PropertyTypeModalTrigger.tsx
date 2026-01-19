@@ -3,7 +3,11 @@
 import React, { useState } from 'react';
 import PropertyTypeModal from '../modals/PropertyTypeModal';
 
-const PropertyTypeModalTrigger = () => {
+interface PropertyTypeModalTriggerProps {
+  buttonClass?: string;
+}
+
+const PropertyTypeModalTrigger = ({ buttonClass }: PropertyTypeModalTriggerProps) => {
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
@@ -18,7 +22,7 @@ const PropertyTypeModalTrigger = () => {
     <>
       <button 
         onClick={openModal}
-        className="btn-two"
+        className={buttonClass || "btn-two"}
       >
         <span>Add Listing</span> <i className="fa-thin fa-arrow-up-right"></i>
       </button>

@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+// const { Pool } = require('pg');
 
 async function updateAdminUser() {
   const pool = new Pool({

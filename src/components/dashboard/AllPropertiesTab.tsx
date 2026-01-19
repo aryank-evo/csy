@@ -11,7 +11,7 @@ interface Property {
   propertyType: string
   propertyStatus: string
   approvalStatus: string
-  createdAt: string
+  createdAt?: string
 }
 
 const AllPropertiesTab = () => {
@@ -152,7 +152,7 @@ const AllPropertiesTab = () => {
                 )}
                 
                 <div className="small text-muted">
-                  Added: {new Date(property.createdAt).toLocaleDateString()}
+                  Added: {property.createdAt ? new Date(property.createdAt).toLocaleDateString() : 'N/A'}
                 </div>
                 
                 <div className="mt-3">

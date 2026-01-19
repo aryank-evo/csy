@@ -11,6 +11,7 @@ interface Property {
   propertyType: string
   propertyStatus: string
   approvalStatus: string
+  createdAt?: string
   contactName?: string
   contactEmail?: string
   contactPhone?: string

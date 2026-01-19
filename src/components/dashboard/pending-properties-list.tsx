@@ -21,6 +21,7 @@ const PendingPropertyList: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   useEffect(() => {
     fetchPendingProperties();
@@ -39,9 +40,13 @@ const PendingPropertyList: React.FC = () => {
     }
   };
 
-  const handleApprove = async (id: number) => {
+  const handleApprove = async (id: number, propertyType: string) => {
+    if (!token) {
+      alert('You must be logged in to perform this action');
+      return;
+    }
     try {
-      await approveProperty(id);
+      await approveProperty(id, propertyType, token);
       // Refresh the list after approval
       fetchPendingProperties();
       alert('Property approved successfully!');
@@ -51,9 +56,13 @@ const PendingPropertyList: React.FC = () => {
     }
   };
 
-  const handleReject = async (id: number) => {
+  const handleReject = async (id: number, propertyType: string) => {
+    if (!token) {
+      alert('You must be logged in to perform this action');
+      return;
+    }
     try {
-      await rejectProperty(id);
+      await rejectProperty(id, propertyType, token);
       // Refresh the list after rejection
       fetchPendingProperties();
       alert('Property rejected successfully!');
@@ -127,13 +136,13 @@ const PendingPropertyList: React.FC = () => {
                     <div className="d-flex gap-2">
                       <button 
                         className="btn btn-success btn-sm"
-                        onClick={() => handleApprove(property.id)}
+                        onClick={() => handleApprove(property.id, property.propertyType)}
                       >
                         Approve
                       </button>
                       <button 
                         className="btn btn-danger btn-sm"
-                        onClick={() => handleReject(property.id)}
+                        onClick={() => handleReject(property.id, property.propertyType)}
                       >
                         Reject
                       </button>
