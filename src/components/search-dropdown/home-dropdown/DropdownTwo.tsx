@@ -80,9 +80,9 @@ const DropdownTwo = () => {
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={[
-                                    { value: "1", text: "$10,000 - $200,000" },
-                                    { value: "2", text: "$20,000 - $300,000" },
-                                    { value: "3", text: "$30,000 - $400,000" },
+                                    { value: "1", text: "₹10,000 - ₹200,000" },
+                                    { value: "2", text: "₹20,000 - ₹300,000" },
+                                    { value: "3", text: "₹30,000 - ₹400,000" },
                                  ]}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
@@ -151,9 +151,9 @@ const DropdownTwo = () => {
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={[
-                                    { value: "1", text: "$10,000 - $200,000" },
-                                    { value: "2", text: "$20,000 - $300,000" },
-                                    { value: "3", text: "$30,000 - $400,000" },
+                                    { value: "1", text: "₹10,000 - ₹200,000" },
+                                    { value: "2", text: "₹20,000 - ₹300,000" },
+                                    { value: "3", text: "₹30,000 - ₹400,000" },
                                  ]}
                                  defaultCurrent={0}
                                  onChange={selectHandler}

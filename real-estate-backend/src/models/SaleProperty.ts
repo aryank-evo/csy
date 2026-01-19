@@ -24,6 +24,7 @@ interface SalePropertyAttributes {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  images?: string[];
   // Sale-specific fields
   possessionStatus?: string;
   propertyAge?: number;
@@ -58,6 +59,7 @@ export class SaleProperty extends Model<SalePropertyAttributes, SalePropertyCrea
   public contactName?: string;
   public contactEmail?: string;
   public contactPhone?: string;
+  public images?: string[];
   // Sale-specific fields
   public possessionStatus?: string;
   public propertyAge?: number;
@@ -156,6 +158,11 @@ SaleProperty.init({
   contactPhone: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  images: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: [],
   },
   // Sale-specific fields
   possessionStatus: {

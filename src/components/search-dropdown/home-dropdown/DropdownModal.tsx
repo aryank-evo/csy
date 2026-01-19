@@ -124,7 +124,7 @@ const DropdownModal = () => {
                                              <div className="field d-flex align-items-center">
                                                 <input type="number" className="input-max" defaultValue="35000" />
                                              </div>
-                                             <div className="currency ps-1">USD</div>
+                                             <div className="currency ps-1">₹</div>
                                           </div>
                                           <div className="slider">
                                              <div className="progress"></div>

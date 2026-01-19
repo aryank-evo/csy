@@ -29,7 +29,7 @@ const tab_data: DataType[] = [
       category: "rent",
       img_slider: ["1", "2", "3"],
       total_img: 3,
-      price: (<>$2,210/ <sub>m</sub></>),
+      price: (<>₹2,210/ <sub>m</sub></>),
       address: "6391 Elgin St. Celina"
    },
    {
@@ -38,7 +38,7 @@ const tab_data: DataType[] = [
       category: "sell",
       img_slider: ["1", "2", "3"],
       total_img: 3,
-      price: (<>$2,210/ <sub>m</sub></>),
+      price: (<>₹2,210/ <sub>m</sub></>),
       address: "6391 Elgin St. Celina"
    },
    {
@@ -47,7 +47,7 @@ const tab_data: DataType[] = [
       category: "sell",
       img_slider: ["1", "2", "3"],
       total_img: 3,
-      price: (<>$1,23,710</>),
+      price: (<>₹1,23,710</>),
       address: "6391 Elgin St. Celina"
    },
    {
@@ -56,7 +56,7 @@ const tab_data: DataType[] = [
       category: "rent",
       img_slider: ["1", "2", "3"],
       total_img: 3,
-      price: (<>$78,420</>),
+      price: (<>₹78,420</>),
       address: "6391 Elgin St. Celina"
    },
 ]

@@ -53,6 +53,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
       utilities
     } = req.body;
 
+    // Handle uploaded images from Cloudinary
+    const images = (req.files as any[])?.map((file: any) => file.path) || [];
+
     let newProperty;
 
     // Validate property type
@@ -67,6 +70,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
     // Create property based on property type
     switch(propertyType.toLowerCase()) {
       case 'sale':
+      case 'sell':
         newProperty = await SaleProperty.create({
           title,
           description,
@@ -88,6 +92,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           contactPhone,
           possessionStatus,
           propertyAge,
+          images,
           approvalStatus: 'pending'
         });
         break;
@@ -114,6 +119,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           availableFrom,
           securityDeposit,
           maintenanceCharge,
+          images,
           approvalStatus: 'pending'
         });
         break;
@@ -140,6 +146,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           leasePeriod,
           monthlyLeaseAmount,
           leaseTerms,
+          images,
           approvalStatus: 'pending'
         });
         break;
@@ -167,6 +174,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           foodIncluded,
           gender,
           occupancy,
+          images,
           approvalStatus: 'pending'
         });
         break;
@@ -193,6 +201,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           propertySubType,
           commercialArea,
           facing,
+          images,
           approvalStatus: 'pending'
         });
         break;
@@ -216,6 +225,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           landType,
           facing,
           utilities,
+          images,
           approvalStatus: 'pending'
         });
         break;
@@ -817,11 +827,22 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       propertyStatus,
       contactName,
       contactEmail,
-      contactPhone
+      contactPhone,
+      existingImages // Optional: if frontend wants to keep some old images
     } = req.body;
 
+    // Handle new uploaded images from Cloudinary
+    const newImages = (req.files as any[])?.map((file: any) => file.path) || [];
+    
+    // Combine existing images with new ones
+    let images = newImages;
+    if (existingImages) {
+      const parsedExisting = typeof existingImages === 'string' ? JSON.parse(existingImages) : existingImages;
+      images = [...parsedExisting, ...newImages];
+    }
+
     // Define common fields that exist in all property types
-    const commonFields = {
+    const commonFields: any = {
       title,
       description,
       price,
@@ -831,6 +852,11 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       contactEmail,
       contactPhone
     };
+
+    // Only update images if new ones were uploaded or existing ones were provided
+    if (images.length > 0) {
+      commonFields.images = images;
+    }
 
     // If property type is specified, update that specific table
     if (propertyType) {

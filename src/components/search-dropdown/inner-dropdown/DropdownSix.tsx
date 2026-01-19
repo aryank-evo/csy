@@ -128,7 +128,7 @@ const DropdownSix = ({
                         <div className="field d-flex align-items-center">
                            <input type="number" className="input-max" value={priceValue[1]} onChange={() => handlePriceChange} />
                         </div>
-                        <div className="currency ps-1">USD</div>
+                        <div className="currency ps-1">₹</div>
                      </div>
                   </div>
                   <PriceRange

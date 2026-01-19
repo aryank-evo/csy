@@ -20,6 +20,7 @@ interface LandPropertyAttributes {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  images?: string[];
   // Land-specific fields
   landArea?: number;
   landType?: string;
@@ -51,6 +52,7 @@ export class LandProperty extends Model<LandPropertyAttributes, LandPropertyCrea
   public contactName?: string;
   public contactEmail?: string;
   public contactPhone?: string;
+  public images?: string[];
   // Land-specific fields
   public landArea?: number;
   public landType?: string;
@@ -134,6 +136,11 @@ LandProperty.init({
   contactPhone: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  images: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: [],
   },
   // Land-specific fields
   landArea: {

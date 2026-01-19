@@ -96,6 +96,11 @@ LeaseProperty.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    images: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
     // Lease-specific fields
     leasePeriod: {
         type: sequelize_1.DataTypes.STRING,

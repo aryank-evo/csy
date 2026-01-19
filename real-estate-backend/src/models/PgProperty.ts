@@ -24,6 +24,7 @@ interface PgPropertyAttributes {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  images?: string[];
   // PG-specific fields
   foodIncluded?: boolean;
   gender?: string;
@@ -58,6 +59,7 @@ export class PgProperty extends Model<PgPropertyAttributes, PgPropertyCreationAt
   public contactName?: string;
   public contactEmail?: string;
   public contactPhone?: string;
+  public images?: string[];
   // PG-specific fields
   public foodIncluded?: boolean;
   public gender?: string;
@@ -156,6 +158,11 @@ PgProperty.init({
   contactPhone: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  images: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: [],
   },
   // PG-specific fields
   foodIncluded: {

@@ -25,6 +25,7 @@ interface PropertyAttributes {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  images?: string[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -55,6 +56,7 @@ export class Property extends Model<PropertyAttributes, PropertyCreationAttribut
   public contactName?: string;
   public contactEmail?: string;
   public contactPhone?: string;
+  public images?: string[];
   public declare createdAt: Date;
   public declare updatedAt: Date;
 }
@@ -152,6 +154,11 @@ Property.init({
   contactPhone: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  images: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: [],
   },
 }, {
   tableName: 'properties',

@@ -96,6 +96,11 @@ RentProperty.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    images: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
     // Rent-specific fields
     availableFrom: {
         type: sequelize_1.DataTypes.STRING,

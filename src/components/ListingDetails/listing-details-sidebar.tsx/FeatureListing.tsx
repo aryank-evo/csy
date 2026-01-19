@@ -90,7 +90,7 @@ const FeatureListing = () => {
                         <div className="property-info mt-15">
                            <div className="d-flex justify-content-between align-items-end">
                               <div>
-                                 <strong className="price fw-500 color-dark">${item.price}</strong>
+                                 <strong className="price fw-500 color-dark">₹{item.price}</strong>
                                  <div className="address m0 pt-5">{item.address} </div>
                               </div>
                               <Link href="/listing_details_03" className="btn-four rounded-circle">

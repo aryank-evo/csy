@@ -51,7 +51,7 @@ const Property = () => {
                               </ul>
                               <div className="pl-footer top-border d-flex align-items-center justify-content-between">
                                  <strong className="price fw-500 color-dark">
-                                    ${item.price.toLocaleString(undefined, {
+                                    ₹{item.price.toLocaleString(undefined, {
                                        minimumFractionDigits: item.price_text ? 0 : 2,
                                        maximumFractionDigits: 2
                                     })}{item.price_text &&<>/<sub>m</sub></>}

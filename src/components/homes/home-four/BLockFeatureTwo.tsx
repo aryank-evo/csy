@@ -31,7 +31,7 @@ const BLockFeatureTwo = ({ style }: any) => {
                            </div>
                            <div className="col-xxl-6 col-sm-7">
                               <div className="counter-block-one mt-20">
-                                 <div className="main-count fw-500 color-dark">$<span className="counter"><Count number={1.3} /></span>b+</div>
+                                 <div className="main-count fw-500 color-dark">₹<span className="counter"><Count number={1.3} /></span>b+</div>
                                  <span>Property listing sold last year</span>
                               </div>
                            </div>

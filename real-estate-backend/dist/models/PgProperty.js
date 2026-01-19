@@ -96,6 +96,11 @@ PgProperty.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    images: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
     // PG-specific fields
     foodIncluded: {
         type: sequelize_1.DataTypes.BOOLEAN,

@@ -17,6 +17,7 @@ const PgProperty_1 = require("../models/PgProperty");
 const CommercialProperty_1 = require("../models/CommercialProperty");
 const LandProperty_1 = require("../models/LandProperty");
 const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         // Extract property data from request body
         const { title, description, price, location, address, city, state, zipCode, country, propertyType, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, 
@@ -32,6 +33,8 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
         propertySubType, commercialArea, facing, 
         // Land-specific fields
         landArea, landType, utilities } = req.body;
+        // Handle uploaded images from Cloudinary
+        const images = ((_a = req.files) === null || _a === void 0 ? void 0 : _a.map((file) => file.path)) || [];
         let newProperty;
         // Validate property type
         if (!propertyType) {
@@ -44,6 +47,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
         // Create property based on property type
         switch (propertyType.toLowerCase()) {
             case 'sale':
+            case 'sell':
                 newProperty = yield SaleProperty_1.SaleProperty.create({
                     title,
                     description,
@@ -65,6 +69,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     contactPhone,
                     possessionStatus,
                     propertyAge,
+                    images,
                     approvalStatus: 'pending'
                 });
                 break;
@@ -91,6 +96,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     availableFrom,
                     securityDeposit,
                     maintenanceCharge,
+                    images,
                     approvalStatus: 'pending'
                 });
                 break;
@@ -117,6 +123,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     leasePeriod,
                     monthlyLeaseAmount,
                     leaseTerms,
+                    images,
                     approvalStatus: 'pending'
                 });
                 break;
@@ -144,6 +151,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     foodIncluded,
                     gender,
                     occupancy,
+                    images,
                     approvalStatus: 'pending'
                 });
                 break;
@@ -170,6 +178,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     propertySubType,
                     commercialArea,
                     facing,
+                    images,
                     approvalStatus: 'pending'
                 });
                 break;
@@ -193,6 +202,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     landType,
                     facing,
                     utilities,
+                    images,
                     approvalStatus: 'pending'
                 });
                 break;
@@ -732,11 +742,21 @@ const getUserProperties = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.getUserProperties = getUserProperties;
 const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const { id } = req.params;
         const propertyId = parseInt(id);
         const propertyType = req.query.type; // Get property type from query param
-        const { title, description, price, location, propertyStatus, contactName, contactEmail, contactPhone } = req.body;
+        const { title, description, price, location, propertyStatus, contactName, contactEmail, contactPhone, existingImages // Optional: if frontend wants to keep some old images
+         } = req.body;
+        // Handle new uploaded images from Cloudinary
+        const newImages = ((_a = req.files) === null || _a === void 0 ? void 0 : _a.map((file) => file.path)) || [];
+        // Combine existing images with new ones
+        let images = newImages;
+        if (existingImages) {
+            const parsedExisting = typeof existingImages === 'string' ? JSON.parse(existingImages) : existingImages;
+            images = [...parsedExisting, ...newImages];
+        }
         // Define common fields that exist in all property types
         const commonFields = {
             title,
@@ -748,6 +768,10 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             contactEmail,
             contactPhone
         };
+        // Only update images if new ones were uploaded or existing ones were provided
+        if (images.length > 0) {
+            commonFields.images = images;
+        }
         // If property type is specified, update that specific table
         if (propertyType) {
             switch (propertyType.toLowerCase()) {

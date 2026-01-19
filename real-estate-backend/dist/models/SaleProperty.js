@@ -96,6 +96,11 @@ SaleProperty.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    images: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
     // Sale-specific fields
     possessionStatus: {
         type: sequelize_1.DataTypes.STRING,

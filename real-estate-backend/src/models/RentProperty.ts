@@ -24,6 +24,7 @@ interface RentPropertyAttributes {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  images?: string[];
   // Rent-specific fields
   availableFrom?: string;
   securityDeposit?: number;
@@ -58,6 +59,7 @@ export class RentProperty extends Model<RentPropertyAttributes, RentPropertyCrea
   public contactName?: string;
   public contactEmail?: string;
   public contactPhone?: string;
+  public images?: string[];
   // Rent-specific fields
   public availableFrom?: string;
   public securityDeposit?: number;
@@ -156,6 +158,11 @@ RentProperty.init({
   contactPhone: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  images: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: [],
   },
   // Rent-specific fields
   availableFrom: {

@@ -61,6 +61,7 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
   const [additionalFields, setAdditionalFields] = useState<Record<string, any>>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -84,6 +85,11 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
         ...prev,
         images: e.target.files
       }));
+
+      // Generate previews
+      const files = Array.from(e.target.files);
+      const previews = files.map(file => URL.createObjectURL(file));
+      setImagePreviews(previews);
     }
   };
 
@@ -414,9 +420,27 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
               multiple 
               onChange={handleImageChange}
               className="d-none" 
+              accept="image/*"
             />
           </label>
         </div>
+        
+        {/* Image Previews */}
+        {imagePreviews.length > 0 && (
+          <div className="row g-2 mt-3">
+            {imagePreviews.map((preview, index) => (
+              <div key={index} className="col-auto">
+                <div className="position-relative" style={{ width: '100px', height: '100px' }}>
+                  <img 
+                    src={preview} 
+                    alt={`Preview ${index}`} 
+                    className="img-thumbnail w-100 h-100 object-fit-cover"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="d-flex justify-content-end gap-2">

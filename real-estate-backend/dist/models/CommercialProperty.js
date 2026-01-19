@@ -96,6 +96,11 @@ CommercialProperty.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    images: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
     // Commercial-specific fields
     propertySubType: {
         type: sequelize_1.DataTypes.STRING,

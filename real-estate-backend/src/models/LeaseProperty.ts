@@ -24,6 +24,7 @@ interface LeasePropertyAttributes {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  images?: string[];
   // Lease-specific fields
   leasePeriod?: string;
   monthlyLeaseAmount?: number;
@@ -58,6 +59,7 @@ export class LeaseProperty extends Model<LeasePropertyAttributes, LeasePropertyC
   public contactName?: string;
   public contactEmail?: string;
   public contactPhone?: string;
+  public images?: string[];
   // Lease-specific fields
   public leasePeriod?: string;
   public monthlyLeaseAmount?: number;
@@ -156,6 +158,11 @@ LeaseProperty.init({
   contactPhone: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  images: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: [],
   },
   // Lease-specific fields
   leasePeriod: {

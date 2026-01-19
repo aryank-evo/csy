@@ -4946,7 +4946,7 @@ iframe {
   padding-left: 10px;
 }
 .advance-search-panel .main-bg .price-ranger .price-input.style-two .field:before {
-  content: "$";
+  content: "₹";
   position: absolute;
   left: 0;
   top: 0;

@@ -19,11 +19,11 @@ app.use(cors());
 app.use(express.json());
 
 // Configure multer for file uploads
-const upload = multer();
+// const upload = multer(); // Removed as we use custom upload utility
 
 app.use("/api/auth", authRoutes);
-// Apply multer middleware to property routes to handle multipart/form-data
-app.use("/api/properties", upload.none(), propertyRoutes);
+// Remove upload.none() to allow file uploads in propertyRoutes
+app.use("/api/properties", propertyRoutes);
 app.use("/api", protectedRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);

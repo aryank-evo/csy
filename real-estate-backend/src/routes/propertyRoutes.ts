@@ -1,4 +1,5 @@
 import express from 'express';
+import { upload } from '../utils/cloudinary';
 import { 
   createProperty, 
   getAllProperties, 
@@ -15,11 +16,11 @@ import {
 const router = express.Router();
 
 // Public routes - no authentication required
-router.post('/', createProperty); // Create property listing without auth
+router.post('/', upload.array('images'), createProperty); // Create property listing with image upload
 router.get('/', getAllProperties); // Get all approved properties
 router.get('/all-combined', getAllPropertiesCombined); // Get ALL properties from ALL tables
 router.get('/:id', getPropertyById); // Get specific approved property
-router.put('/:id', updateProperty); // Update property details
+router.put('/:id', upload.array('images'), updateProperty); // Update property details with image upload
 router.put('/:id/status', updateApprovalStatus); // Update property approval status
 
 // Admin routes - would require admin authentication in production

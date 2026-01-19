@@ -30,7 +30,7 @@ const pricing_data: DataType[] = [
          {
             id: 1,
             plan: "Gold Plan",
-            price: "$89",
+            price: "₹89",
             desc: "Great for Startup",
             icon_details: [{ icon: "fa-sharp fa-regular fa-xmark" }, { icon: "fa-sharp fa-regular fa-xmark" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" },],
             btn: "Get Started"
@@ -38,7 +38,7 @@ const pricing_data: DataType[] = [
          {
             id: 1,
             plan: "Business Plan",
-            price: "$147",
+            price: "₹147",
             desc: "Great for Large Business",
             icon_details: [{ icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" },],
             btn: "Get Started"
@@ -60,7 +60,7 @@ const pricing_data: DataType[] = [
          {
             id: 1,
             plan: "Gold Plan",
-            price: "$189",
+            price: "₹189",
             desc: "Great for Startup",
             icon_details: [{ icon: "fa-sharp fa-regular fa-xmark" }, { icon: "fa-sharp fa-regular fa-xmark" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" },],
             btn: "Get Started"
@@ -68,7 +68,7 @@ const pricing_data: DataType[] = [
          {
             id: 1,
             plan: "Business Plan",
-            price: "$347",
+            price: "₹347",
             desc: "Great for Large Business",
             icon_details: [{ icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" }, { icon_class: "available", icon: "fa-sharp fa-regular fa-check" },],
             btn: "Get Started"

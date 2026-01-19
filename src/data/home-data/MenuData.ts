@@ -52,10 +52,10 @@ const menu_data: MenuItem[] = [
         title: "Pages",
         link: "#",
         sub_menus: [
+            { link: "/city-builders", title: "City Builders" },
             { link: "/about_us_02", title: "About us" },
             { link: "/contact", title: "Contact Us" },
             { link: "/faq", title: "FAQ's" },
-            
         ],
     },
 

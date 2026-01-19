@@ -80,6 +80,11 @@ LandProperty.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    images: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
     // Land-specific fields
     landArea: {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),

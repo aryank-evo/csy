@@ -90,7 +90,7 @@ const PropertyTableBody = () => {
                      <div className="ps-lg-4 md-pt-10">
                         <Link href="#" className="property-name tran3s color-dark fw-500 fs-20 stretched-link">{item.title}</Link>
                         <div className="address">{item.address}</div>
-                        <strong className="price color-dark">${item.price}</strong>
+                        <strong className="price color-dark">₹{item.price}</strong>
                      </div>
                   </div>
                </td>

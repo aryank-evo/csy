@@ -100,6 +100,11 @@ Property.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    images: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
 }, {
     tableName: 'properties',
     sequelize: database_1.sequelize, // passing the `sequelize` instance is required

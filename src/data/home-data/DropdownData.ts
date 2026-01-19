@@ -33,7 +33,7 @@ const dropdoun_data: InputField[] = [
       col: "col-xl-3",
       border_lg: "border-lg-0",
       label: "Price Range",
-      options: [{ value: "1", text: "$10,000 - $200,000" }, { value: "2", text: "$200,000 - $300,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹10,000 - ₹200,000" }, { value: "2", text: "₹200,000 - ₹300,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_2_tab_1
@@ -58,7 +58,7 @@ const dropdoun_data: InputField[] = [
       page: "home_2_tab_1",
       col: "col-xl-3",
       label: "Price Range",
-      options: [{ value: "1", text: "$10,000 - $200,000" }, { value: "2", text: "$200,000 - $300,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹10,000 - ₹200,000" }, { value: "2", text: "₹200,000 - ₹300,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_2_tab_2
@@ -83,7 +83,7 @@ const dropdoun_data: InputField[] = [
       page: "home_2_tab_2",
       col: "col-xl-3",
       label: "Price Range",
-      options: [{ value: "1", text: "$200,000 - $300,000" }, { value: "2", text: "$10,000 - $200,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹200,000 - ₹300,000" }, { value: "2", text: "₹10,000 - ₹200,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_3_tab_1
@@ -109,7 +109,7 @@ const dropdoun_data: InputField[] = [
       col: "mb-50 lg-mb-30",
       border_lg: "border-lg-0",
       label: "Price Range",
-      options: [{ value: "1", text: "$10,000 - $200,000" }, { value: "2", text: "$200,000 - $300,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹10,000 - ₹200,000" }, { value: "2", text: "₹200,000 - ₹300,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_3_tab_2
@@ -135,7 +135,7 @@ const dropdoun_data: InputField[] = [
       col: "mb-50 lg-mb-30",
       border_lg: "border-lg-0",
       label: "Price Range",
-      options: [{ value: "1", text: "$200,000 - $300,000" }, { value: "2", text: "$10,000 - $200,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹200,000 - ₹300,000" }, { value: "2", text: "₹10,000 - ₹200,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_3_tab_3
@@ -161,7 +161,7 @@ const dropdoun_data: InputField[] = [
       col: "mb-50 lg-mb-30",
       border_lg: "border-lg-0",
       label: "Price Range",
-      options: [{ value: "1", text: "$300,000 - $400,000" }, { value: "2", text: "$200,000 - $300,000" }, { value: "3", text: "$10,000 - $200,000" },],
+      options: [{ value: "1", text: "₹300,000 - ₹400,000" }, { value: "2", text: "₹200,000 - ₹300,000" }, { value: "3", text: "₹10,000 - ₹200,000" },],
    },
 
    // home_5_tab_1
@@ -188,7 +188,7 @@ const dropdoun_data: InputField[] = [
       page: "home_5_tab_1",
       col: "col-xl-3 col-lg-4",
       label: "Price Range",
-      options: [{ value: "1", text: "$10,000 - $200,000" }, { value: "2", text: "$200,000 - $300,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹10,000 - ₹200,000" }, { value: "2", text: "₹200,000 - ₹300,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_5_tab_2
@@ -215,7 +215,7 @@ const dropdoun_data: InputField[] = [
       page: "home_5_tab_2",
       col: "col-xl-3 col-lg-4",
       label: "Price Range",
-      options: [{ value: "1", text: "$200,000 - $300,000" }, { value: "2", text: "$10,000 - $200,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹200,000 - ₹300,000" }, { value: "2", text: "₹10,000 - ₹200,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_6_tab_1
@@ -239,7 +239,7 @@ const dropdoun_data: InputField[] = [
       page: "home_6_tab_1",
       border_lg: "border-lg-0",
       label: "Price Range",
-      options: [{ value: "1", text: "$10,000 - $200,000" }, { value: "2", text: "$200,000 - $300,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹10,000 - ₹200,000" }, { value: "2", text: "₹200,000 - ₹300,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_6_tab_2
@@ -263,7 +263,7 @@ const dropdoun_data: InputField[] = [
       page: "home_6_tab_2",
       border_lg: "border-lg-0",
       label: "Price Range",
-      options: [{ value: "1", text: "$200,000 - $300,000" }, { value: "2", text: "$10,000 - $200,000" }, { value: "3", text: "$300,000 - $400,000" },],
+      options: [{ value: "1", text: "₹200,000 - ₹300,000" }, { value: "2", text: "₹10,000 - ₹200,000" }, { value: "3", text: "₹300,000 - ₹400,000" },],
    },
 
    // home_6_tab_3
@@ -287,7 +287,7 @@ const dropdoun_data: InputField[] = [
       page: "home_6_tab_3",
       border_lg: "border-lg-0",
       label: "Price Range",
-      options: [{ value: "1", text: "$300,000 - $400,000" }, { value: "2", text: "$200,000 - $300,000" }, { value: "3", text: "$10,000 - $200,000" },],
+      options: [{ value: "1", text: "₹300,000 - ₹400,000" }, { value: "2", text: "₹200,000 - ₹300,000" }, { value: "3", text: "₹10,000 - ₹200,000" },],
    },
 ];
 

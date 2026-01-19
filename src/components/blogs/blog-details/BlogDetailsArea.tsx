@@ -66,7 +66,7 @@ const BlogDetailsArea = () => {
                                  <h4>{desc_3}</h4>
                               </div>
                            </div>
-                           <h6>Ahmad Aljamal. <span>EGP</span></h6>
+                           <h6>Maninder Singh <span>EGP</span></h6>
                         </div>
                         <h5>{title_2}</h5>
                         <p>{desc_4}</p>
