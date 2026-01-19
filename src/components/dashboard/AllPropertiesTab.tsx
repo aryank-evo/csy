@@ -24,7 +24,7 @@ const AllPropertiesTab = () => {
   useEffect(() => {
     const fetchAllProperties = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/properties/all-combined")
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/all-combined`)
         const data = await response.json()
         
         if (data.success) {

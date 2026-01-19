@@ -64,7 +64,7 @@ const DashboardBody = () => {
       const fetchProperties = async () => {
          try {
             console.log("Fetching properties from API...");
-            const response = await fetch("http://localhost:8080/api/properties/all-combined", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/all-combined`, {
                method: "GET",
                headers: {
                   "Content-Type": "application/json",

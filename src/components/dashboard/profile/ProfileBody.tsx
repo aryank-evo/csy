@@ -26,7 +26,7 @@ const ProfileBody = () => {
       if (!token) return;
       const fetchUserData = async () => {
          try {
-            const res = await fetch("http://localhost:8080/api/profile", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/profile`, {
                headers: {
                   Authorization: `Bearer ${token}`,
                },
@@ -53,7 +53,7 @@ const ProfileBody = () => {
 
    const handleSave = async () => {
       try {
-         const res = await fetch("http://localhost:8080/api/profile", {
+         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/profile`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",

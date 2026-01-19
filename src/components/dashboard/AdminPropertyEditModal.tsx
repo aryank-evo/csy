@@ -53,7 +53,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
 
     try {
       // Update property details
-      const response = await fetch(`http://localhost:8080/api/properties/${property.id}?type=${property.propertyType}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/${property.id}?type=${property.propertyType}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
   const handleApproval = async (status: "approved" | "rejected") => {
     setLoading(true)
     try {
-      const response = await fetch(`http://localhost:8080/api/properties/${property.id}/status?type=${property.propertyType}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/${property.id}/status?type=${property.propertyType}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
