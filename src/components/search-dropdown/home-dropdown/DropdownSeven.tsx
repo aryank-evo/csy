@@ -4,7 +4,7 @@ import NiceSelect from "@/ui/NiceSelect";
 import Link from "next/link";
 import DropdownModal from "./DropdownModal";
 
-const tab_title: string[] = ["Buy", "Rent", "SELL"];
+const tab_title: string[] = ["Buy", "Rent", "PG"];
 
 const DropdownSeven = () => {
 
@@ -38,14 +38,14 @@ const DropdownSeven = () => {
                         <div className="row gx-0 align-items-center">
                            <div className="col-xxl-2 col-xl-3 col-lg-4">
                               <div className="input-box-one border-left">
-                                 <div className="label">I’m looking to...</div>
+                                 <div className="label">I&#39;m looking to...</div>
                                  <NiceSelect className="nice-select fw-normal"
                                     options={[
-                                       { value: "apartments", text: "Buy Apartments" },
-                                       { value: "condos", text: "Rent Condos" },
-                                       { value: "houses", text: "Sell Houses" },
-                                       { value: "industrial", text: "Rent Industrial" },
-                                       { value: "villas", text: "Sell Villas" },
+                                       { value: "kothi", text: "Kothi" },
+                                       { value: "flat", text: "Flat" },
+                                       { value: "office", text: "Office" },
+                                       { value: "godown", text: "Godown" },
+                                       { value: "commercial_property", text: "Commercial Property" },
                                     ]}
                                     defaultCurrent={0}
                                     onChange={selectHandler}
@@ -58,13 +58,17 @@ const DropdownSeven = () => {
                                  <div className="label">Location</div>
                                  <NiceSelect className="nice-select location fw-normal"
                                     options={[
-                                       { value: "germany", text: "Berlin, Germany" },
-                                       { value: "dhaka", text: "Dhanmondi, Dhaka" },
-                                       { value: "mexico", text: "Acapulco, Mexico" },
-                                       { value: "france", text: "Cannes, France" },
-                                       { value: "india", text: "Delhi, India" },
-                                       { value: "giza", text: "Giza, Egypt" },
-                                       { value: "cuba", text: "Havana, Cuba" },
+                                       { value: "1", text: "Model Town" },
+                                       { value: "2", text: "Sarabha Nagar" },
+                                       { value: "3", text: "Gurdev Nagar" },
+                                       { value: "4", text: "BRS Nagar" },
+                                       { value: "5", text: "Civil Lines" },
+                                       { value: "6", text: "South City" },
+                                       { value: "7", text: "Pakhowal Road" },
+                                       { value: "8", text: "Ferozepur Road" },
+                                       { value: "9", text: "Dugri / Urban Estate Dugri" },
+                                       { value: "10", text: "Rajguru Nagar" },
+                                       { value: "11", text: "Sector-39 & Sector-39A" },
                                     ]}
                                     defaultCurrent={0}
                                     onChange={selectHandler}
@@ -111,14 +115,14 @@ const DropdownSeven = () => {
                         <div className="row gx-0 align-items-center">
                            <div className="col-xxl-2 col-xl-3 col-lg-4">
                               <div className="input-box-one border-left">
-                                 <div className="label">I’m looking to...</div>
+                                 <div className="label">I&#39;m looking to...</div>
                                  <NiceSelect className="nice-select fw-normal"
                                     options={[
-                                       { value: "industrial", text: "Rent Industrial" },
-                                       { value: "apartments", text: "Buy Apartments" },
-                                       { value: "condos", text: "Rent Condos" },
-                                       { value: "houses", text: "Sell Houses" },
-                                       { value: "villas", text: "Sell Villas" },
+                                       { value: "kothi", text: "Kothi" },
+                                       { value: "flat", text: "Flat" },
+                                       { value: "office", text: "Office" },
+                                       { value: "godown", text: "Godown" },
+                                       { value: "commercial_property", text: "Commercial Property" },
                                     ]}
                                     defaultCurrent={0}
                                     onChange={selectHandler}
@@ -131,13 +135,17 @@ const DropdownSeven = () => {
                                  <div className="label">Location</div>
                                  <NiceSelect className="nice-select location fw-normal"
                                     options={[
-                                       { value: "mexico", text: "Acapulco, Mexico" },
-                                       { value: "dhaka", text: "Dhanmondi, Dhaka" },
-                                       { value: "germany", text: "Berlin, Germany" },
-                                       { value: "france", text: "Cannes, France" },
-                                       { value: "india", text: "Delhi, India" },
-                                       { value: "giza", text: "Giza, Egypt" },
-                                       { value: "cuba", text: "Havana, Cuba" },
+                                       { value: "1", text: "Model Town" },
+                                       { value: "2", text: "Sarabha Nagar" },
+                                       { value: "3", text: "Gurdev Nagar" },
+                                       { value: "4", text: "BRS Nagar" },
+                                       { value: "5", text: "Civil Lines" },
+                                       { value: "6", text: "South City" },
+                                       { value: "7", text: "Pakhowal Road" },
+                                       { value: "8", text: "Ferozepur Road" },
+                                       { value: "9", text: "Dugri / Urban Estate Dugri" },
+                                       { value: "10", text: "Rajguru Nagar" },
+                                       { value: "11", text: "Sector-39 & Sector-39A" },
                                     ]}
                                     defaultCurrent={0}
                                     onChange={selectHandler}
@@ -184,14 +192,12 @@ const DropdownSeven = () => {
                         <div className="row gx-0 align-items-center">
                            <div className="col-xxl-2 col-xl-3 col-lg-4">
                               <div className="input-box-one border-left">
-                                 <div className="label">I’m looking to...</div>
+                                 <div className="label">I&#39;m looking to...</div>
                                  <NiceSelect className="nice-select fw-normal"
                                     options={[
-                                       { value: "houses", text: "Sell Houses" },
-                                       { value: "apartments", text: "Buy Apartments" },
-                                       { value: "condos", text: "Rent Condos" },
-                                       { value: "industrial", text: "Rent Industrial" },
-                                       { value: "villas", text: "Sell Villas" },
+                                       { value: "co_ed_pg", text: "Co-ed PG" },
+                                       { value: "girls_pg", text: "Girls PG" },
+                                       { value: "boys_pg", text: "Boys PG" },
                                     ]}
                                     defaultCurrent={0}
                                     onChange={selectHandler}
@@ -204,13 +210,17 @@ const DropdownSeven = () => {
                                  <div className="label">Location</div>
                                  <NiceSelect className="nice-select location fw-normal"
                                     options={[
-                                       { value: "france", text: "Cannes, France" },
-                                       { value: "germany", text: "Berlin, Germany" },
-                                       { value: "dhaka", text: "Dhanmondi, Dhaka" },
-                                       { value: "mexico", text: "Acapulco, Mexico" },
-                                       { value: "india", text: "Delhi, India" },
-                                       { value: "giza", text: "Giza, Egypt" },
-                                       { value: "cuba", text: "Havana, Cuba" },
+                                       { value: "1", text: "Model Town" },
+                                       { value: "2", text: "Sarabha Nagar" },
+                                       { value: "3", text: "Gurdev Nagar" },
+                                       { value: "4", text: "BRS Nagar" },
+                                       { value: "5", text: "Civil Lines" },
+                                       { value: "6", text: "South City" },
+                                       { value: "7", text: "Pakhowal Road" },
+                                       { value: "8", text: "Ferozepur Road" },
+                                       { value: "9", text: "Dugri / Urban Estate Dugri" },
+                                       { value: "10", text: "Rajguru Nagar" },
+                                       { value: "11", text: "Sector-39 & Sector-39A" },
                                     ]}
                                     defaultCurrent={0}
                                     onChange={selectHandler}

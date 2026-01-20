@@ -509,66 +509,70 @@ export const getAllPendingProperties = async (req: Request, res: Response): Prom
 export const getPropertyById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
+    const { type } = req.query; // Get type from query param
     const propertyId = parseInt(id);
 
     // Search for property in all property tables
     let property = null;
-    let propertyType = null;
+    let foundPropertyType = null;
 
-    // Try to find in each table
-    property = await SaleProperty.findOne({
-      where: {
-        id: propertyId,
-        approvalStatus: 'approved'
+    // If type is provided, prioritize searching that table
+    if (type) {
+      const typeStr = String(type).toLowerCase();
+      if (typeStr === 'sale' || typeStr === 'sell' || typeStr === 'buy') {
+        property = await SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+        if (property) foundPropertyType = 'sale';
+      } else if (typeStr === 'rent') {
+        property = await RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+        if (property) foundPropertyType = 'rent';
+      } else if (typeStr === 'lease') {
+        property = await LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+        if (property) foundPropertyType = 'lease';
+      } else if (typeStr === 'pg') {
+        property = await PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+        if (property) foundPropertyType = 'pg';
+      } else if (typeStr === 'commercial') {
+        property = await CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+        if (property) foundPropertyType = 'commercial';
+      } else if (typeStr === 'land') {
+        property = await LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+        if (property) foundPropertyType = 'land';
       }
-    });
-    if (property) {
-      propertyType = 'sale';
-    } else {
-      property = await RentProperty.findOne({
-        where: {
-          id: propertyId,
-          approvalStatus: 'approved'
-        }
-      });
+
       if (property) {
-        propertyType = 'rent';
-      } else {
-        property = await LeaseProperty.findOne({
-          where: {
-            id: propertyId,
-            approvalStatus: 'approved'
-          }
+        res.status(200).json({
+          success: true,
+          propertyType: foundPropertyType,
+          data: property
         });
+        return;
+      }
+    }
+
+    // Fallback to searching all tables if no type or not found in specified type
+    property = await SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+    if (property) {
+      foundPropertyType = 'sale';
+    } else {
+      property = await RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+      if (property) {
+        foundPropertyType = 'rent';
+      } else {
+        property = await LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
         if (property) {
-          propertyType = 'lease';
+          foundPropertyType = 'lease';
         } else {
-          property = await PgProperty.findOne({
-            where: {
-              id: propertyId,
-              approvalStatus: 'approved'
-            }
-          });
+          property = await PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
           if (property) {
-            propertyType = 'pg';
+            foundPropertyType = 'pg';
           } else {
-            property = await CommercialProperty.findOne({
-              where: {
-                id: propertyId,
-                approvalStatus: 'approved'
-              }
-            });
+            property = await CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
             if (property) {
-              propertyType = 'commercial';
+              foundPropertyType = 'commercial';
             } else {
-              property = await LandProperty.findOne({
-                where: {
-                  id: propertyId,
-                  approvalStatus: 'approved'
-                }
-              });
+              property = await LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
               if (property) {
-                propertyType = 'land';
+                foundPropertyType = 'land';
               }
             }
           }
@@ -586,7 +590,7 @@ export const getPropertyById = async (req: Request, res: Response): Promise<void
 
     res.status(200).json({
       success: true,
-      propertyType,
+      propertyType: foundPropertyType,
       data: property
     });
   } catch (error) {

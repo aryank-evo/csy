@@ -40,10 +40,40 @@ const property_overview_data: DataType[] = [
    },
 ]
 
-const CommonPropertyOverview = () => {
+const CommonPropertyOverview = ({ property }: any) => {
+   const { area, bedrooms, bathrooms, propertyType, landArea, commercialArea } = property || {};
+   
+   const overview_data = [
+      {
+         id: 1,
+         icon: icon_1,
+         title: `Sqft . ${area || landArea || commercialArea || 0}`,
+      },
+      {
+         id: 2,
+         icon: icon_2,
+         title: `Bed . ${bedrooms || 0}`,
+      },
+      {
+         id: 3,
+         icon: icon_3,
+         title: `Bath . ${bathrooms || 0}`,
+      },
+      {
+         id: 4,
+         icon: icon_4,
+         title: `Kitchen . 01`,
+      },
+      {
+         id: 5,
+         icon: icon_5,
+         title: `Type . ${propertyType || 'Apartment'}`,
+      },
+   ];
+
    return (
       <ul className="style-none d-flex flex-wrap align-items-center justify-content-between">
-         {property_overview_data.map((item) => (
+         {overview_data.map((item) => (
             <li key={item.id}>
                <Image src={item.icon} alt="" className="lazy-img icon" />
                <span className="fs-20 color-dark">{item.title}</span>

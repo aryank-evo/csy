@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ammenities_data: string[] = ["A/C & Heating", "Garages", "Garden", "Disabled Access", "Swimming Pool", "Parking", "Wifi", "Pet Friendly", "Ceiling Height", "Fireplace", "Play Ground", "Elevator"]
 
-const DropdownOne = ({
+const DropdownLease = ({
    handleBathroomChange,
    handleBedroomChange,
    handleSearchChange,
@@ -25,11 +25,12 @@ const DropdownOne = ({
                   <div className="label">I&#39;m looking to...</div>
                   <NiceSelect className="nice-select fw-normal"
                      options={[
-                        { value: "kothi", text: "Kothi" },
-                        { value: "flat", text: "Flat" },
-                        { value: "office", text: "Office" },
                         { value: "godown", text: "Godown" },
-                        { value: "commercial_property", text: "Commercial Property" },
+                        { value: "petrol_pump", text: "Petrol Pump" },
+                        { value: "school", text: "School" },
+                        { value: "hotel", text: "Hotel" },
+                        { value: "resort", text: "Resort" },
+                        { value: "land", text: "Land" },
                      ]}
                      defaultCurrent={0}
                      onChange={handleStatusChange}
@@ -41,7 +42,7 @@ const DropdownOne = ({
             <div className="col-12">
                <div className="input-box-one mb-35">
                   <div className="label">Keyword</div>
-                  <input onChange={handleSearchChange} type="text" placeholder="buy, home, loft, apartment"
+                  <input onChange={handleSearchChange} type="text" placeholder="lease, office, warehouse"
                      className="type-input" />
                </div>
             </div>
@@ -179,4 +180,4 @@ const DropdownOne = ({
    )
 }
 
-export default DropdownOne
+export default DropdownLease

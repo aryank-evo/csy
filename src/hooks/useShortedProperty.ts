@@ -1,3 +1,4 @@
+"use client"
 import UseProperty from "@/hooks/UseProperty";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";

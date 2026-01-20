@@ -34,11 +34,10 @@ const BreadcrumbThree = ({ title, link, link_title, sub_title, style }: any) => 
                               <div className="label">Categories</div>
                               <NiceSelect className="nice-select fw-normal"
                                  options={[
-                                    { value: "apartments", text: "Buy Apartments" },
-                                    { value: "industrial", text: "Rent Industrial" },
-                                    { value: "condos", text: "Rent Condos" },
-                                    { value: "houses", text: "Sell Houses" },
-                                    { value: "villas", text: "Sell Villas" },
+                                    { value: "buy", text: "Buy" },
+                                    { value: "rent", text: "Rent" },
+                                    { value: "lease", text: "Lease" },
+                                    { value: "pg", text: "PG" },
                                  ]}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
@@ -51,13 +50,17 @@ const BreadcrumbThree = ({ title, link, link_title, sub_title, style }: any) => 
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
                                  options={[
-                                    { value: "dhaka", text: "Dhanmondi, Dhaka" },
-                                    { value: "germany", text: "Berlin, Germany" },
-                                    { value: "mexico", text: "Acapulco, Mexico" },
-                                    { value: "france", text: "Cannes, France" },
-                                    { value: "india", text: "Delhi, India" },
-                                    { value: "giza", text: "Giza, Egypt" },
-                                    { value: "cuba", text: "Havana, Cuba" },
+                                    { value: "1", text: "Model Town" },
+                                    { value: "2", text: "Sarabha Nagar" },
+                                    { value: "3", text: "Gurdev Nagar" },
+                                    { value: "4", text: "BRS Nagar" },
+                                    { value: "5", text: "Civil Lines" },
+                                    { value: "6", text: "South City" },
+                                    { value: "7", text: "Pakhowal Road" },
+                                    { value: "8", text: "Ferozepur Road" },
+                                    { value: "9", text: "Dugri / Urban Estate Dugri" },
+                                    { value: "10", text: "Rajguru Nagar" },
+                                    { value: "11", text: "Sector-39 & Sector-39A" },
                                  ]}
                                  defaultCurrent={0}
                                  onChange={selectHandler}

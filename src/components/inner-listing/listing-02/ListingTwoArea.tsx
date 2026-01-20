@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate"
 import NiceSelect from "@/ui/NiceSelect"
 import UseShortedProperty from "@/hooks/useShortedProperty"
 import Fancybox from "@/components/common/Fancybox"
-import DropdownOne from "@/components/search-dropdown/inner-dropdown/DropdownOne"
+import DropdownOne from "@/components/search-dropdown/inner-dropdown/DropdownOne";
 
 import icon from "@/assets/images/icon/icon_46.svg"
 
@@ -91,7 +91,7 @@ const ListingTwoArea = ({ style }: any) => {
                                  </div>
                               </div>
                               <div className="property-info">
-                                 <Link href="/listing_details_02" className="title tran3s mb-15">{item.title}</Link>
+                                 <Link href={`/rent/${item.id}`} className="title tran3s mb-15">{item.title}</Link>
                                  <div className="address">{item.address}</div>
                                  <div className="feature mt-30 mb-30 pt-30 pb-5">
                                     <ul className="style-none d-flex flex-wrap align-items-center justify-content-between">
@@ -109,7 +109,7 @@ const ListingTwoArea = ({ style }: any) => {
                                        <li><Link href="#"><i className="fa-light fa-bookmark"></i></Link></li>
                                        <li><Link href="#"><i className="fa-light fa-circle-plus"></i></Link></li>
                                     </ul>
-                                    <Link href="/listing_details_02" className="btn-four rounded-circle">
+                                    <Link href={`/rent/${item.id}`} className="btn-four rounded-circle">
                                        <i className="bi bi-arrow-up-right"></i>
                                     </Link>
                                  </div>

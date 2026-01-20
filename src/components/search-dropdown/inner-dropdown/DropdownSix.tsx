@@ -29,11 +29,10 @@ const DropdownSix = ({
                      <div className="label2">Type</div>
                      <NiceSelect className="nice-select fw-normal box-style"
                         options={[
-                           { value: "apartments", text: "Buy Apartments" },
-                           { value: "condos", text: "Rent Condos" },
-                           { value: "houses", text: "Sell Houses" },
-                           { value: "industrial", text: "Rent Industrial" },
-                           { value: "villas", text: "Sell Villas" },
+                           { value: "buy", text: "Buy" },
+                           { value: "rent", text: "Rent" },
+                           { value: "lease", text: "Lease" },
+                           { value: "pg", text: "PG" },
                         ]}
                         defaultCurrent={0}
                         onChange={handleStatusChange}
@@ -52,13 +51,17 @@ const DropdownSix = ({
                      <div className="label2">Location</div>
                      <NiceSelect className="nice-select location fw-normal box-style"
                         options={[
-                           { value: "washington", text: "Washington DC" },
-                           { value: "mexico", text: "Acapulco, Mexico" },
-                           { value: "germany", text: "Berlin, Germany" },
-                           { value: "france", text: "Cannes, France" },
-                           { value: "india", text: "Delhi, India" },
-                           { value: "giza", text: "Giza, Egypt" },
-                           { value: "cuba", text: "Havana, Cuba" },
+                           { value: "1", text: "Model Town" },
+                           { value: "2", text: "Sarabha Nagar" },
+                           { value: "3", text: "Gurdev Nagar" },
+                           { value: "4", text: "BRS Nagar" },
+                           { value: "5", text: "Civil Lines" },
+                           { value: "6", text: "South City" },
+                           { value: "7", text: "Pakhowal Road" },
+                           { value: "8", text: "Ferozepur Road" },
+                           { value: "9", text: "Dugri / Urban Estate Dugri" },
+                           { value: "10", text: "Rajguru Nagar" },
+                           { value: "11", text: "Sector-39 & Sector-39A" },
                         ]}
                         defaultCurrent={0}
                         onChange={handleLocationChange}

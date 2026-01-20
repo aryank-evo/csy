@@ -4,7 +4,7 @@ import Link from "next/link"
 import ReactPaginate from "react-paginate"
 import NiceSelect from "@/ui/NiceSelect"
 import UseShortedProperty from "@/hooks/useShortedProperty"
-import DropdownOne from "@/components/search-dropdown/inner-dropdown/DropdownOne"
+import DropdownOne from "@/components/search-dropdown/inner-dropdown/DropdownOne";
 
 import icon from "@/assets/images/icon/icon_46.svg"
 import featureIcon_1 from "@/assets/images/icon/icon_04.svg"
@@ -90,7 +90,7 @@ const ListingOneArea = () => {
                                           <div className="carousel-inner">
                                              {item.carousel_thumb.map((thumb: any, i: any) => (
                                                 <div key={i} className={`carousel-item ${thumb.active}`} data-bs-interval="1000000">
-                                                   <Link href="/listing_details_01" className="d-block">
+                                                   <Link href={`/buy/${item.id}`} className="d-block">
                                                       <Image 
                                                          src={thumb.img} 
                                                          className="w-100" 
@@ -108,7 +108,7 @@ const ListingOneArea = () => {
                                  </div>
 
                                  <div className="property-info p-25">
-                                    <Link href="/listing_details_01" className="title tran3s">{item.title}</Link>
+                                    <Link href={`/buy/${item.id}`} className="title tran3s">{item.title}</Link>
                                     <div className="address">{item.address}</div>
                                     <ul className="style-none feature d-flex flex-wrap align-items-center justify-content-between">
                                        <li className="d-flex align-items-center">
@@ -134,7 +134,7 @@ const ListingOneArea = () => {
                                              maximumFractionDigits: 2
                                           })}{item.price_text && <>/<sub>m</sub></>}
                                        </strong>
-                                       <Link href="/listing_details_01" className="btn-four rounded-circle"><i className="bi bi-arrow-up-right"></i></Link>
+                                       <Link href={`/buy/${item.id}`} className="btn-four rounded-circle"><i className="bi bi-arrow-up-right"></i></Link>
                                     </div>
                                  </div>
                               </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ammenities_data: string[] = ["A/C & Heating", "Garages", "Garden", "Disabled Access", "Swimming Pool", "Parking", "Wifi", "Pet Friendly", "Ceiling Height", "Fireplace", "Play Ground", "Elevator"]
 
-const DropdownOne = ({
+const DropdownPg = ({
    handleBathroomChange,
    handleBedroomChange,
    handleSearchChange,
@@ -25,11 +25,9 @@ const DropdownOne = ({
                   <div className="label">I&#39;m looking to...</div>
                   <NiceSelect className="nice-select fw-normal"
                      options={[
-                        { value: "kothi", text: "Kothi" },
-                        { value: "flat", text: "Flat" },
-                        { value: "office", text: "Office" },
-                        { value: "godown", text: "Godown" },
-                        { value: "commercial_property", text: "Commercial Property" },
+                        { value: "co_ed_pg", text: "Co-ed PG" },
+                        { value: "girls_pg", text: "Girls PG" },
+                        { value: "boys_pg", text: "Boys PG" },
                      ]}
                      defaultCurrent={0}
                      onChange={handleStatusChange}
@@ -41,7 +39,7 @@ const DropdownOne = ({
             <div className="col-12">
                <div className="input-box-one mb-35">
                   <div className="label">Keyword</div>
-                  <input onChange={handleSearchChange} type="text" placeholder="buy, home, loft, apartment"
+                  <input onChange={handleSearchChange} type="text" placeholder="pg, hostel, roommate"
                      className="type-input" />
                </div>
             </div>
@@ -179,4 +177,4 @@ const DropdownOne = ({
    )
 }
 
-export default DropdownOne
+export default DropdownPg

@@ -1,3 +1,4 @@
+"use client"
 import FooterFour from "@/layouts/footers/FooterFour"
 import FancyBanner from "@/components/common/FancyBanner"
 import ListingFourArea from "./ListingFourArea"

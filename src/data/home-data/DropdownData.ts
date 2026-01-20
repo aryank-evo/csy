@@ -24,7 +24,7 @@ const dropdoun_data: InputField[] = [
       page: "home_1",
       col: "col-xl-4",
       label: "Location",
-      options: [{ value: "1", text: "Dhanmondi, Dhaka" }, { value: "2", text: "Acapulco, Mexico" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -50,7 +50,7 @@ const dropdoun_data: InputField[] = [
       page: "home_2_tab_1",
       col: "col-xl-3",
       label: "Location",
-      options: [{ value: "1", text: "Dhanmondi, Dhaka" }, { value: "2", text: "Acapulco, Mexico" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -75,7 +75,7 @@ const dropdoun_data: InputField[] = [
       page: "home_2_tab_2",
       col: "col-xl-3",
       label: "Location",
-      options: [{ value: "1", text: "Acapulco, Mexico" }, { value: "2", text: "Dhanmondi, Dhaka" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -100,7 +100,7 @@ const dropdoun_data: InputField[] = [
       page: "home_3_tab_1",
       col: "mb-25",
       label: "Location",
-      options: [{ value: "1", text: "Dhanmondi, Dhaka" }, { value: "2", text: "Acapulco, Mexico" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -126,7 +126,7 @@ const dropdoun_data: InputField[] = [
       page: "home_3_tab_2",
       col: "mb-25",
       label: "Location",
-      options: [{ value: "1", text: "Acapulco, Mexico" }, { value: "2", text: "Dhanmondi, Dhaka" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -152,7 +152,7 @@ const dropdoun_data: InputField[] = [
       page: "home_3_tab_3",
       col: "mb-25",
       label: "Location",
-      options: [{ value: "1", text: "Berlin, Germany" }, { value: "2", text: "Acapulco, Mexico" }, { value: "3", text: "Dhanmondi, Dhaka" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -180,7 +180,7 @@ const dropdoun_data: InputField[] = [
       col: "col-lg-4",
       label: "Location",
       border_lg: "border-left",
-      options: [{ value: "1", text: "Dhanmondi, Dhaka" }, { value: "2", text: "Acapulco, Mexico" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -207,7 +207,7 @@ const dropdoun_data: InputField[] = [
       col: "col-lg-4",
       label: "Location",
       border_lg: "border-left",
-      options: [{ value: "1", text: "Acapulco, Mexico" }, { value: "2", text: "Dhanmondi, Dhaka" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -231,7 +231,7 @@ const dropdoun_data: InputField[] = [
       id: 2,
       page: "home_6_tab_1",
       label: "Location",
-      options: [{ value: "1", text: "Dhanmondi, Dhaka" }, { value: "2", text: "Acapulco, Mexico" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -255,7 +255,7 @@ const dropdoun_data: InputField[] = [
       id: 2,
       page: "home_6_tab_2",
       label: "Location",
-      options: [{ value: "1", text: "Acapulco, Mexico" }, { value: "2", text: "Dhanmondi, Dhaka" }, { value: "3", text: "Berlin, Germany" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {
@@ -279,7 +279,7 @@ const dropdoun_data: InputField[] = [
       id: 2,
       page: "home_6_tab_3",
       label: "Location",
-      options: [{ value: "1", text: "Berlin, Germany" }, { value: "2", text: "Acapulco, Mexico" }, { value: "3", text: "Dhanmondi, Dhaka" }, { value: "4", text: "Cannes, France" }, { value: "5", text: "Delhi, India" }, { value: "6", text: "Giza, Egypt" }, { value: "7", text: "Havana, Cuba" },],
+      options: [{ value: "1", text: "Model Town" }, { value: "2", text: "Sarabha Nagar" }, { value: "3", text: "Gurdev Nagar" }, { value: "4", text: "BRS Nagar" }, { value: "5", text: "Civil Lines" }, { value: "6", text: "South City" }, { value: "7", text: "Pakhowal Road" }, { value: "8", text: "Ferozepur Road" }, { value: "9", text: "Dugri / Urban Estate Dugri" }, { value: "10", text: "Rajguru Nagar" }, { value: "11", text: "Sector-39 & Sector-39A" },],
       className: "location",
    },
    {

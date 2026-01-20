@@ -6,7 +6,8 @@ import Image from "next/image";
 import Wrapper from "@/layouts/Wrapper";
 import DynamicContent from "@/components/common/DynamicContent";
 
-import client_img from "@/assets/images/dashboard/avatar_02.jpg";
+// import client_img from "@/assets/images/dashboard/avatar_02.jpg";
+const client_img = "/user_placeholder.jpg";
 
 export const metadata = {
   title: "City Builders - Construction Experts",
@@ -24,7 +25,7 @@ const CityBuildersPage = () => {
             <div className="row align-items-center">
               <div className="col-lg-6">
                 <div className="img-box position-relative z-1 pe-lg-5 md-mb-50">
-                  <Image src={client_img} alt="City Builders Owner" className="w-100 rounded-4 shadow-lg" />
+                  <Image src={client_img} alt="City Builders Owner" width={600} height={600} className="w-100 rounded-4 shadow-lg" />
                   <div className="experience-box bg-white p-4 rounded-3 shadow position-absolute bottom-0 start-0 m-4">
                     <h2 className="fw-bold mb-0">15+</h2>
                     <p className="mb-0 text-muted">Years of Excellence</p>
