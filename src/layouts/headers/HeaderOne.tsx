@@ -4,7 +4,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import UseSticky from "@/hooks/UseSticky"
-import LoginModal from "@/modals/LoginModal"
 import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
 
 import logo_1 from "@/assets/images/logo/logo_01.svg";
@@ -28,9 +27,7 @@ const HeaderOne = ({ style }: any) => {
                      </div>
                      <div className="right-widget ms-auto ms-lg-0 me-3 me-lg-0 order-lg-3">
                         <ul className="d-flex align-items-center style-none">
-                           <li>
-                              <Link href="#" data-bs-toggle="modal" data-bs-target="#loginModal" className="btn-one"><i className="fa-regular fa-lock"></i> <span>Login</span></Link>
-                           </li>
+                           {/* Removed Login button */}
                            <li className="d-none d-md-inline-block ms-3">
                               <PropertyTypeModalTrigger />
                            </li>
@@ -50,7 +47,6 @@ const HeaderOne = ({ style }: any) => {
                </div>
             </div>
          </header>
-         <LoginModal />
       </>
    )
 }

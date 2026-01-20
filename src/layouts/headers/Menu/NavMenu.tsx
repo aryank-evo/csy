@@ -28,21 +28,17 @@ const NavMenu = () => {
                     </Link>
                 </div>
             </li>
-            <li className="nav-item dashboard-menu">
-                <Link className="nav-link" href="/dashboard/dashboard-index" target="_blank">
-                    Dashboard
-                </Link>
-            </li>
+            {/* Removed Dashboard link */}
             {menu_data.map((menu: any) => (
                 <li
                     key={menu.id}
-                    className={`nav-item dropdown ${menu.class_name} ${menu.title === "Home" ? "no-dropdown" : ""}`}
+                    className={`nav-item ${menu.has_dropdown ? "dropdown" : ""} ${menu.class_name}`}
                 >
                     <Link
                         href={menu.link}
-                        className={`nav-link ${menu.has_dropdown && menu.title !== "Home" ? "dropdown-toggle" : ""} 
+                        className={`nav-link ${menu.has_dropdown ? "dropdown-toggle" : ""} 
                         ${pathname === menu.link ? "active" : ""} ${navTitle === menu.title ? "show" : ""}`}
-                        onClick={() => menu.title !== "Home" && openMobileMenu(menu.title)}
+                        onClick={() => menu.has_dropdown && openMobileMenu(menu.title)}
                     >
                         {menu.title}
                     </Link>

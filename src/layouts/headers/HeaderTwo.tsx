@@ -4,7 +4,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import UseSticky from "@/hooks/UseSticky"
-import LoginModal from "@/modals/LoginModal"
 import Offcanvas from "./Menu/Offcanvas"
 import HeaderSearchbar from "./Menu/HeaderSearchbar"
 import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
@@ -33,9 +32,7 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                      <div className="right-widget ms-auto me-3 me-lg-0 order-lg-3">
                         <ul className="d-flex align-items-center style-none">
                            {!style_2 ? (<><li className="d-flex align-items-center login-btn-one">
-                              <i className="fa-regular fa-lock"></i>
-                              <Link href="#" data-bs-toggle="modal" data-bs-target="#loginModal" className="fw-500 tran3s">
-                                 Login <span className="d-none d-sm-inline-block"> {""} / Sign up</span></Link>
+                              {/* Removed Login button */}
                            </li>
                               <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
                                  <PropertyTypeModalTrigger buttonClass={style_1 ? "btn-ten" : "btn-two rounded-0"} />
@@ -50,7 +47,7 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                                     <Link href="tel:+210-0000-0000" className="tran3s">+210-0000-0000</Link>
                                  </li>
                                  <li>
-                                    <Link href="#" data-bs-toggle="modal" data-bs-target="#loginModal" className="login-btn-two rounded-circle tran3s d-flex align-items-center justify-content-center"><i className="fa-regular fa-lock"></i></Link>
+                                    {/* Removed Login button */}
                                  </li>
                                  <li>
                                     <a onClick={() => setIsSearch(true)} style={{ cursor: "pointer" }} className="search-btn-one rounded-circle tran3s d-flex align-items-center justify-content-center"><i className="bi bi-search"></i></a>
@@ -75,7 +72,6 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
          </div>
 
          <Offcanvas offCanvas={offCanvas} setOffCanvas={setOffCanvas} />
-         <LoginModal />
          <HeaderSearchbar isSearch={isSearch} setIsSearch={setIsSearch} />
       </>
    )

@@ -29,7 +29,7 @@ const HeroBanner = () => {
                      </div>
                   </div>
 
-                  <DropdownTwo />
+                  <DropdownTwo /> 
                </div>
             </div>
          </div>

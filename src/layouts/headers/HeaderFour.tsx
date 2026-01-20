@@ -4,7 +4,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import UseSticky from "@/hooks/UseSticky"
-import LoginModal from "@/modals/LoginModal"
 import HeaderSearchbar from "./Menu/HeaderSearchbar"
 import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
 
@@ -33,7 +32,7 @@ const HeaderFour = () => {
                               <PropertyTypeModalTrigger buttonClass="btn-ten rounded-0" />
                            </li>
                            <li>
-                              <Link href="#" data-bs-toggle="modal" data-bs-target="#loginModal" className="login-btn-two rounded-circle tran3s d-flex align-items-center justify-content-center"><i className="fa-regular fa-lock"></i></Link>
+                              {/* Removed Login button */}
                            </li>
                            <li>
                               <a onClick={() => setIsSearch(true)} style={{ cursor: "pointer" }} className="search-btn-one rounded-circle tran3s d-flex align-items-center justify-content-center"><i className="bi bi-search"></i></a>
@@ -56,7 +55,6 @@ const HeaderFour = () => {
             </div>
          </header>
 
-         <LoginModal />
          <HeaderSearchbar isSearch={isSearch} setIsSearch={setIsSearch} />
       </>
    )

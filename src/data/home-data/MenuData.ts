@@ -19,61 +19,53 @@ interface MenuItem {
 }[];
 
 const menu_data: MenuItem[] = [
-
     {
         id: 1,
-        has_dropdown: true,
+        has_dropdown: false,
         title: "Home",
-        link: "#",
-        sub_menus: [
-            
-        ],
+        link: "/",
     },
-    
     {
         id: 2,
-        has_dropdown: true,
-        title: "Listing",
-        link: "#",
-        sub_menus: [
-            
-            { link: "/listing_07", title: "Grid Top Filter" },
-            { link: "/listing_05", title: "Grid Sidebar" },
-            { link: "/listing_details_06", title: "Listing Details" },
-            { link: "/listing_09", title: "Grid Banner Filter" },
-            
-        ],
+        has_dropdown: false,
+        title: "About",
+        link: "/about_us_02",
     },
-
-
     {
         id: 3,
-        has_dropdown: true,
-        title: "Pages",
-        link: "#",
-        sub_menus: [
-            { link: "/city-builders", title: "City Builders" },
-            { link: "/about_us_02", title: "About us" },
-            { link: "/contact", title: "Contact Us" },
-            { link: "/faq", title: "FAQ's" },
-        ],
+        has_dropdown: false,
+        title: "Contact",
+        link: "/contact",
     },
-
-
-
-
-
     {
         id: 4,
-        has_dropdown: true,
-        title: "Blog",
-        link: "#",
-        sub_menus: [
-            { link: "/blog_01", title: "Blog Grid" },
-            { link: "/blog_02", title: "Blog List" },
-            { link: "/blog_03", title: "Blog 2 column" },
-            { link: "/blog_details", title: "Blog Details" },
-        ],
+        has_dropdown: false,
+        title: "Buy",
+        link: "/listing_01",
+    },
+    {
+        id: 5,
+        has_dropdown: false,
+        title: "Rent",
+        link: "/listing_02",
+    },
+    {
+        id: 6,
+        has_dropdown: false,
+        title: "Lease",
+        link: "/listing_03",
+    },
+    {
+        id: 7,
+        has_dropdown: false,
+        title: "PG",
+        link: "/listing_04",
+    },
+    {
+        id: 8,
+        has_dropdown: false,
+        title: "City Builder",
+        link: "/city-builders",
     },
 ];
 export default menu_data;

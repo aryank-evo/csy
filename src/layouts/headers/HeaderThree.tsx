@@ -4,7 +4,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import UseSticky from "@/hooks/UseSticky"
-import LoginModal from "@/modals/LoginModal"
 import Offcanvas from "./Menu/Offcanvas"
 import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
 
@@ -29,7 +28,7 @@ const HeaderThree = () => {
                      <div className="right-widget ms-auto me-3 me-lg-0 order-lg-4">
                         <ul className="d-flex align-items-center style-none">
                            <li className="d-flex align-items-center login-btn-one">
-                              <i className="fa-regular fa-lock"></i><Link href="#" data-bs-toggle="modal" data-bs-target="#loginModal" className="fw-500 tran3s">Login <span className="d-none d-sm-inline-block">/ Sign up</span></Link>
+                              {/* Removed Login button */}
                            </li>
                            <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
                               <PropertyTypeModalTrigger buttonClass="btn-five md rounded-0" />
@@ -58,7 +57,6 @@ const HeaderThree = () => {
          </header>
 
          <Offcanvas offCanvas={offCanvas} setOffCanvas={setOffCanvas} />
-         <LoginModal />
       </>
    )
 }

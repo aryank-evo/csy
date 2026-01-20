@@ -42,8 +42,8 @@ const FooterOne = ({ style }: any) => {
                            <div key={item.id} className={`footer-nav mt-100 lg-mt-80 ${item.widget_class}`}>
                               <h5 className={`footer-title ${style ? "text-white" : ''}`}>{item.widget_title}</h5>
                               <ul className="footer-nav-link style-none">
-                                 {item.footer_link.map((li, i) => (
-                                    <li key={i}><Link href={li.link}>{li.link_title}</Link></li>
+                                 {item.footer_link.map((li: any, i) => (
+                                    <li key={i}><Link href={li.link} data-bs-toggle={li.data_bs_toggle} data-bs-target={li.data_bs_target}>{li.link_title}</Link></li>
                                  ))}
                               </ul>
                            </div>
