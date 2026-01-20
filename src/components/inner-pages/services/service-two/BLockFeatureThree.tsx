@@ -25,7 +25,7 @@ const BLockFeatureThree = () => {
                               <div className="content text-center">
                                  <div className="btn-line tran3s fw-500 text-uppercase">{item.tag}</div>
                                  <h4 className="mt-15 mb-35">{item.title}</h4>
-                                 <Link href="/listing_02" className="btn-four rounded-circle m-auto"><i
+                                 <Link href="/rent" className="btn-four rounded-circle m-auto"><i
                                     className="bi bi-arrow-up-right"></i></Link>
                               </div>
                            </div>

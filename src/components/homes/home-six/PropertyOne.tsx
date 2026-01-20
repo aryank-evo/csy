@@ -51,7 +51,7 @@ const PropertyOne = () => {
                </div>
 
                <div className="section-btn text-center md-mt-60">
-                  <Link href="/listing_04" className="btn-eight"><span>Explore All</span> <i className="bi bi-arrow-up-right"></i></Link>
+                  <Link href="/pg" className="btn-eight"><span>Explore All</span> <i className="bi bi-arrow-up-right"></i></Link>
                </div>
             </div>
          </div>

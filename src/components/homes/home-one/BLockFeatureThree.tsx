@@ -72,7 +72,7 @@ const BLockFeatureThree = () => {
                   <h5 className="text-white fw-normal">{item.title}</h5>
                   <p className="text-white fw-light">{item.desc}</p>
                 </div>
-                <Link href="/listing_01" className="stretched-link"></Link>
+                <Link href="/buy" className="stretched-link"></Link>
               </div>
             </div>
           ))}

@@ -12,7 +12,7 @@ const Category = () => {
                   <ul className="d-flex flex-wrap justify-content-center justify-content-xxl-between style-none">
                      {category_data.filter((items) => items.page === "home_3").map((item) => (
                         <li key={item.id}>
-                           <Link href="/listing_01" className="d-flex align-items-center fw-500 tran3s">
+                           <Link href="/buy" className="d-flex align-items-center fw-500 tran3s">
                               <Image src={item.icon ? item.icon : ""} alt="" className="lazy-img" />
                               <span>{item.text}</span>
                            </Link>
@@ -21,7 +21,7 @@ const Category = () => {
                   </ul>
                </div>
                <div className="section-btn text-center sm-mt-40">
-                  <Link href="/listing_01" className="btn-eleven white-vr"><span>See all categories</span> <i className="bi bi-chevron-right"></i></Link>
+                  <Link href="/buy" className="btn-eleven white-vr"><span>See all categories</span> <i className="bi bi-chevron-right"></i></Link>
                </div>
             </div>
          </div>

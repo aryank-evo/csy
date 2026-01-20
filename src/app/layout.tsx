@@ -2,6 +2,7 @@
 import "../styles/index.scss";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
+import QueryProvider from "@/components/common/QueryProvider";
 
 export default function RootLayout({
   children,
@@ -38,7 +39,9 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <div className="main-page-wrapper">
           <Provider store={store}>
-            {children}
+            <QueryProvider>
+              {children}
+            </QueryProvider>
           </Provider>
         </div>
       </body>

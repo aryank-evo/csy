@@ -3,6 +3,8 @@ import { User } from '../models/User';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 
+const getSecretKey = () => process.env.JWT_SECRET || 'fallback_secret_key';
+
 export const adminLogin = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
@@ -37,8 +39,8 @@ export const adminLogin = async (req: Request, res: Response): Promise<void> => 
 
     // Generate JWT token
     const token = jwt.sign(
-      { userId: user.id, email: user.email, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET || 'fallback_secret_key',
+      { id: user.id, email: user.email, isAdmin: user.isAdmin },
+      getSecretKey(),
       { expiresIn: '24h' }
     );
 

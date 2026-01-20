@@ -1,6 +1,8 @@
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({ path: path.join(__dirname, "../.env") });
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import multer from "multer";
 import { sequelize } from "./config/database";
 import { Umzug, SequelizeStorage } from "umzug";
@@ -10,8 +12,7 @@ import adminRoutes from "./routes/adminRoutes";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes";
 import leadRoutes from "./routes/leadRoutes";
 import propertyRoutes from "./routes/propertyRoutes";
-
-dotenv.config();
+import cmsRoutes from "./routes/cmsRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -29,6 +30,7 @@ app.use("/api", protectedRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/lead", leadRoutes);
+app.use("/api/cms", cmsRoutes);
 
 // Run pending migrations before starting the server
 const runMigrations = async () => {
@@ -38,6 +40,14 @@ const runMigrations = async () => {
     const migrator = new Umzug({
       migrations: {
         glob: ["../migrations/*.js", { cwd: __dirname }],
+        resolve: ({ name, path, context }) => {
+          const migration = require(path!);
+          return {
+            name,
+            up: async () => migration.up(context.queryInterface, context.sequelize.constructor),
+            down: async () => migration.down(context.queryInterface, context.sequelize.constructor),
+          };
+        },
       },
       context: {
         queryInterface: sequelize.getQueryInterface(),

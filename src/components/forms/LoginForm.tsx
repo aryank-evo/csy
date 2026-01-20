@@ -45,12 +45,8 @@ const LoginForm = () => {
             
             reset();
             
-            // Redirect based on user role
-            if (result.user.isAdmin) {
-               router.push("/admin/dashboard");
-            } else {
-               router.push("/dashboard/dashboard-index");
-            }
+            // Redirect to dashboard
+            router.push("/dashboard");
          } else {
             toast.error(result.message || "Invalid email or password");
          }

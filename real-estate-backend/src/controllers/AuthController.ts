@@ -2,13 +2,10 @@ import { Request, Response } from "express";
 import { User } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import { sequelize } from "../config/database";
 import { QueryTypes } from "sequelize";
 
-dotenv.config();
-
-const SECRET_KEY = process.env.JWT_SECRET || "secret_key";
+const getSecretKey = () => process.env.JWT_SECRET || "fallback_secret_key";
 
 //📌 1️⃣ NEW USER  SIGNUP 
 
@@ -78,10 +75,23 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       }
   
       // ✅ Create JWT
-      const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: "1h" });
+      const token = jwt.sign(
+        { id: user.id, email: user.email, isAdmin: user.isAdmin }, 
+        getSecretKey(), 
+        { expiresIn: "24h" }
+      );
       console.log("JWT token created successfully");
   
-      res.json({ message: "Login successful!", token });
+      res.json({ 
+        message: "Login successful!", 
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          name: user.name || user.email.split('@')[0]
+        }
+      });
     } catch (error) {
       console.error("Login error:", error);
       res.status(500).json({ error: "Error logging in" });

@@ -1,10 +1,11 @@
-import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
 // Import JavaScript models using require
 const UserModel = require('../../models/user');
 const PropertyModel = require('../../models/property');
 const LeadModel = require('../../models/lead');
+const CmsContentModel = require('../../models/cmsContent');
 
 // Import TypeScript models
 import { SaleProperty } from '../models/SaleProperty';
@@ -22,11 +23,15 @@ export const sequelize = new Sequelize(
   dbUrl,
   {
     dialect: 'postgres',
-    logging: false, // Set to console.log to see SQL queries
+    logging: false,
   }
 );
 
 // Initialize JavaScript models
-UserModel(sequelize, require('sequelize').DataTypes);
-PropertyModel(sequelize, require('sequelize').DataTypes);
-LeadModel(sequelize, require('sequelize').DataTypes);
+const User = UserModel(sequelize, require('sequelize').DataTypes);
+const Property = PropertyModel(sequelize, require('sequelize').DataTypes);
+const Lead = LeadModel(sequelize, require('sequelize').DataTypes);
+const CmsContent = CmsContentModel(sequelize, require('sequelize').DataTypes);
+
+// Export models
+export { User, Property, Lead, CmsContent };

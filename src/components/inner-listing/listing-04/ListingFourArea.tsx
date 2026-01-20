@@ -9,7 +9,7 @@ import Fancybox from "@/components/common/Fancybox";
 const ListingFourArea = () => {
 
    const itemsPerPage = 6;
-   const page = "listing_6";
+   const page = "pg";
 
    const {
       itemOffset,
@@ -78,17 +78,17 @@ const ListingFourArea = () => {
                         name=""
                         placeholder="" />
                   </div>
-                  <Link href="/listing_03" className="tran3s layout-change rounded-circle ms-auto ms-sm-3" data-bs-toggle="tooltip" title="Switch To Grid View"><i className="fa-regular fa-grid-2"></i></Link>
+                  <Link href="/lease" className="tran3s layout-change rounded-circle ms-auto ms-sm-3" data-bs-toggle="tooltip" title="Switch To Grid View"><i className="fa-regular fa-grid-2"></i></Link>
                </div>
             </div>
 
             {currentItems.map((item: any) => (
                <div key={item.id} className="listing-card-seven border-20 p-20 mb-50 wow fadeInUp">
                   <div className="d-flex flex-wrap layout-one">
-                     <div className={`img-gallery position-relative z-1 border-20 overflow-hidden ${item.bg_img}`}>
+                     <div className={`img-gallery position-relative z-1 border-20 overflow-hidden`} style={{ backgroundImage: `url(${typeof item.carousel_thumb[0]?.img === 'string' ? item.carousel_thumb[0].img : item.carousel_thumb[0]?.img?.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                         <div className={`tag border-20 ${item.tag_bg}`}>{item.tag}</div>
                         <div className="img-slider-btn">
-                           03 <i className="fa-regular fa-image"></i>
+                           {item.carousel_thumb.length} <i className="fa-regular fa-image"></i>
                            <Fancybox
                               options={{
                                  Carousel: {
@@ -97,7 +97,7 @@ const ListingFourArea = () => {
                               }}
                            >
                               {item.carousel_thumb.map((thumb: any, index: any) => (
-                                 <a key={index} className="d-block" data-fancybox="gallery2" href={`/assets/images/listing/img_large_0${thumb.id}.jpg`}></a>
+                                 <a key={index} className="d-block" data-fancybox="gallery2" href={typeof thumb.img === 'string' ? thumb.img : thumb.img.src}></a>
                               ))}
                            </Fancybox>
                         </div>

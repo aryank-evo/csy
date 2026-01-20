@@ -35,10 +35,10 @@ interface DataType {
    tag_bg?: string;
    carousel_thumb: {
       id?:string;
-      img: StaticImageData;
+      img: StaticImageData | string;
       active?: string;
    }[];
-   thumb?: StaticImageData;
+   thumb?: StaticImageData | string;
    bg_img?: string;
    title: string;
    address?: string;

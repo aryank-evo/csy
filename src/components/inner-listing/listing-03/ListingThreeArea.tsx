@@ -13,7 +13,7 @@ import featureIcon_3 from "@/assets/images/icon/icon_06.svg"
 const ListingThreeArea = ({ style }: any) => {
 
    const itemsPerPage = 9;
-   const page = "listing_4";
+   const page = "lease";
 
    const {
       itemOffset,
@@ -102,9 +102,18 @@ const ListingThreeArea = ({ style }: any) => {
                                     <button type="button" data-bs-target={`#carousel${item.carousel}`} data-bs-slide-to="2" aria-label="Slide 3"></button>
                                  </div>
                                  <div className="carousel-inner">
-                                    {item.carousel_thumb.map((item: any, i: any) => (
-                                       <div key={i} className={`carousel-item ${item.active}`} data-bs-interval="1000000">
-                                          <Link href="/listing_details_01" className="d-block"><Image src={item.img} className="w-100" alt="..." /></Link>
+                                    {item.carousel_thumb.map((thumb: any, i: any) => (
+                                       <div key={i} className={`carousel-item ${thumb.active}`} data-bs-interval="1000000">
+                                          <Link href="/listing_details_01" className="d-block">
+                                             <Image 
+                                                src={thumb.img} 
+                                                className="w-100" 
+                                                alt="..." 
+                                                width={400} 
+                                                height={300} 
+                                                style={{ objectFit: 'cover' }}
+                                             />
+                                          </Link>
                                        </div>
                                     ))}
                                  </div>

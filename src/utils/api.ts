@@ -37,6 +37,18 @@ export const getProperties = async () => {
   }
 };
 
+export const getPropertiesByType = async (type: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/properties`, {
+      params: { type }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error getting properties by type ${type}:`, error);
+    throw error;
+  }
+};
+
 // Get all properties for admin dashboard
 export const getAllProperties = async (token: string) => {
   try {

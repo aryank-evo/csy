@@ -15,7 +15,8 @@ const DropdownFour = () => {
    };
 
    const searchHandler = () => {
-      window.location.href = '/listing_01';
+      const routes = ["/buy", "/rent", "/lease", "/pg"];
+      window.location.href = routes[activeTab] || "/buy";
    };
 
    return (

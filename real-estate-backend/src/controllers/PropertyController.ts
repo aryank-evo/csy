@@ -254,6 +254,37 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
 
 export const getAllProperties = async (req: Request, res: Response): Promise<void> => {
   try {
+    const { type } = req.query;
+
+    // If a specific type is requested, only fetch from that table
+    if (type) {
+      let properties: any[] = [];
+      const whereClause = { approvalStatus: 'approved' };
+      const order: any = [['createdAt', 'DESC']];
+      const typeStr = String(type).toLowerCase();
+
+      if (typeStr === 'sale' || typeStr === 'sell' || typeStr === 'buy') {
+        properties = await SaleProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'rent') {
+        properties = await RentProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'lease') {
+        properties = await LeaseProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'pg') {
+        properties = await PgProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'commercial') {
+        properties = await CommercialProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'land') {
+        properties = await LandProperty.findAll({ where: whereClause, order });
+      }
+
+      res.status(200).json({
+        success: true,
+        count: properties.length,
+        data: properties
+      });
+      return;
+    }
+
     // Get all approved properties from all property types
     const saleProperties = await SaleProperty.findAll({
       where: {

@@ -14,7 +14,7 @@ import featureIcon_3 from "@/assets/images/icon/icon_06.svg"
 const ListingOneArea = () => {
 
    const itemsPerPage = 8;
-   const page = "listing_1";
+   const page = "buy";
 
    const {
       itemOffset,
@@ -66,7 +66,7 @@ const ListingOneArea = () => {
                                  name=""
                                  placeholder="" />
                            </div>
-                           <Link href="/listing_02" className="tran3s layout-change rounded-circle ms-auto ms-sm-3"
+                           <Link href="/rent" className="tran3s layout-change rounded-circle ms-auto ms-sm-3"
                               data-bs-toggle="tooltip" title="Switch To List View">
                               <i className="fa-regular fa-bars"></i>
                            </Link>
@@ -88,9 +88,18 @@ const ListingOneArea = () => {
                                              <button type="button" data-bs-target={`#carousel${item.carousel}`} data-bs-slide-to="2" aria-label="Slide 3"></button>
                                           </div>
                                           <div className="carousel-inner">
-                                             {item.carousel_thumb.map((item: any, i: any) => (
-                                                <div key={i} className={`carousel-item ${item.active}`} data-bs-interval="1000000">
-                                                   <Link href="/listing_details_01" className="d-block"><Image src={item.img} className="w-100" alt="..." /></Link>
+                                             {item.carousel_thumb.map((thumb: any, i: any) => (
+                                                <div key={i} className={`carousel-item ${thumb.active}`} data-bs-interval="1000000">
+                                                   <Link href="/listing_details_01" className="d-block">
+                                                      <Image 
+                                                         src={thumb.img} 
+                                                         className="w-100" 
+                                                         alt="..." 
+                                                         width={400} 
+                                                         height={300} 
+                                                         style={{ objectFit: 'cover' }}
+                                                      />
+                                                   </Link>
                                                 </div>
                                              ))}
                                           </div>

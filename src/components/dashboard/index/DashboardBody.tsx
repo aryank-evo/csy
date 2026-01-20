@@ -5,6 +5,9 @@ import NiceSelect from "@/ui/NiceSelect"
 import RecentMessage from "./RecentMessage"
 import DashboardHeaderTwo from "@/layouts/headers/dashboard/DashboardHeaderTwo"
 import AllPropertiesTab from "../AllPropertiesTab"
+import CmsDashboard from "../cms/CmsDashboard"
+import { useQuery } from "@tanstack/react-query"
+import apiInstance from "@/utils/apiInstance"
 
 import icon_1 from "@/assets/images/dashboard/icon/icon_12.svg"
 import icon_2 from "@/assets/images/dashboard/icon/icon_13.svg"
@@ -49,57 +52,23 @@ const getDashboardCardData = (stats: any): DataType[] => [
 ];
 
 const DashboardBody = () => {
-   console.log("DashboardBody component rendered");
-   const [properties, setProperties] = useState<any[]>([]);
-   const [activeTab, setActiveTab] = useState<"overview" | "all-properties">("overview");
-   const [loading, setLoading] = useState(true);
-   const [stats, setStats] = useState({
-      totalProperties: 0,
-      pending: 0,
-      views: 0,
-      favourites: 0
+   const [activeTab, setActiveTab] = useState<"overview" | "all-properties" | "cms">("overview");
+
+   const { data: propertiesData, isLoading: loading } = useQuery({
+      queryKey: ["properties", "all-combined"],
+      queryFn: async () => {
+         const response = await apiInstance.get("/properties/all-combined");
+         return response.data;
+      }
    });
 
-   useEffect(() => {
-      const fetchProperties = async () => {
-         try {
-            console.log("Fetching properties from API...");
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/all-combined`, {
-               method: "GET",
-               headers: {
-                  "Content-Type": "application/json",
-               },
-            });
-            
-            console.log("Response status:", response.status);
-            
-            if (!response.ok) {
-               throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            console.log("API Response:", data);
-            
-            if (data.success) {
-               setProperties(data.data);
-               setStats({
-                  totalProperties: data.count,
-                  pending: data.data.filter((p: any) => p.approvalStatus === "pending").length,
-                  views: data.count * 50, // Mock view count
-                  favourites: Math.floor(data.count * 0.1) // Mock favourite count
-               });
-               console.log("Properties set:", data.data);
-            }
-         } catch (error) {
-            console.error("Error fetching properties:", error);
-         } finally {
-            setLoading(false);
-         }
-      };
-
-      fetchProperties();
-   }, []);
+   const properties = propertiesData?.data || [];
+   const stats = {
+      totalProperties: propertiesData?.count || 0,
+      pending: properties.filter((p: any) => p.approvalStatus === "pending").length,
+      views: (propertiesData?.count || 0) * 50,
+      favourites: Math.floor((propertiesData?.count || 0) * 0.1)
+   };
 
    const selectHandler = (e: any) => { };
 
@@ -124,6 +93,12 @@ const DashboardBody = () => {
                      onClick={() => setActiveTab("all-properties")}
                   >
                      <i className="bi bi-house-door me-2"></i>All Properties
+                  </button>
+                  <button
+                     className={`flex-fill py-3 px-4 text-center border-0 ${activeTab === "cms" ? "bg-primary text-white" : "bg-light text-dark"}`}
+                     onClick={() => setActiveTab("cms")}
+                  >
+                     <i className="bi bi-pencil-square me-2"></i>CMS Management
                   </button>
                </div>
             </div>
@@ -153,7 +128,7 @@ const DashboardBody = () => {
                      <div className="d-flex align-items-center justify-content-between plr">
                         <h5 className="dash-title-two">Recent Property Listings</h5>
                         <div className="fs-14 text-muted">
-                           Showing {properties.length} properties
+                           {loading ? "Loading properties..." : `Showing ${properties.length} properties`}
                         </div>
                      </div>
                      
@@ -179,8 +154,10 @@ const DashboardBody = () => {
                      </div>
                   </div>
                </>
-            ) : (
+            ) : activeTab === "all-properties" ? (
                <AllPropertiesTab />
+            ) : (
+               <CmsDashboard />
             )}
 
 

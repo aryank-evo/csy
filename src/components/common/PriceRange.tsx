@@ -9,13 +9,16 @@ type IProps = {
    handleChanges: (val: number[]) => void
 }
 const PriceRange = ({ STEP, MIN, MAX, values, handleChanges }: IProps) => {
+   const safeMax = MAX > MIN ? MAX : MIN + 1;
+   const safeValues = values.map(v => Math.min(Math.max(v, MIN), safeMax));
+
    return (
       <>
          <Range
             step={STEP}
             min={MIN}
-            max={MAX}
-            values={values}
+            max={safeMax}
+            values={safeValues}
             onChange={(vals) => handleChanges(vals)}
             renderTrack={({ props, children }) => (
                <div
@@ -27,10 +30,10 @@ const PriceRange = ({ STEP, MIN, MAX, values, handleChanges }: IProps) => {
                      width: '100%',
                      // borderRadius: "10px",
                      background: getTrackBackground({
-                        values: values,
+                        values: safeValues,
                         colors: ["#fff", "#000", "#1B1819"],
                         min: MIN,
-                        max: MAX
+                        max: safeMax
                      }),
                   }}
                >

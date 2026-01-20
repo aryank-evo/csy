@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectProperties } from "@/redux/features/propertySlice";
 import listing_data from "@/data/inner-data/ListingData";
+import { getPropertiesByType } from "@/utils/api";
 
 interface DataType {
    itemsPerPage: number;
@@ -11,9 +12,49 @@ interface DataType {
 
 const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
 
-   let all_property = listing_data;
-
    const { properties, setProperties } = UseProperty();
+   const [all_property, setAllProperty] = useState(listing_data);
+   
+   useEffect(() => {
+      const fetchDynamicProperties = async () => {
+         const dynamicPages = ["buy", "rent", "lease", "pg"];
+         if (dynamicPages.includes(page)) {
+            try {
+               const result = await getPropertiesByType(page);
+               if (result.success && result.data.length > 0) {
+                  // Transform database properties to match DataType
+                  const transformed = result.data.map((item: any) => ({
+                     id: item.id,
+                     page: page,
+                     tag: page === 'buy' ? 'FOR SALE' : `FOR ${page.toUpperCase()}`,
+                     tag_bg: page === 'buy' ? 'sale' : '',
+                     carousel_thumb: item.images && item.images.length > 0 
+                        ? item.images.map((img: string, idx: number) => ({ img, active: idx === 0 ? "active" : "" }))
+                        : [{ img: "/assets/images/listing/img_01.jpg", active: "active" }], // Placeholder
+                     title: item.title,
+                     address: item.address || item.location,
+                     location: item.location,
+                     property_info: { 
+                        sqft: item.area || 0, 
+                        bed: String(item.bedrooms || 0).padStart(2, '0'), 
+                        bath: String(item.bathrooms || 0).padStart(2, '0') 
+                     },
+                     price: Number(item.price),
+                     status: item.propertyStatus || "",
+                     type: "Newest",
+                     amenities: typeof item.amenities === 'string' ? item.amenities.split(',') : (item.amenities || [])
+                  }));
+                  setProperties(transformed);
+                  setAllProperty(transformed);
+               }
+            } catch (error) {
+               console.error("Error fetching properties:", error);
+            }
+         }
+      };
+      fetchDynamicProperties();
+   }, [page]);
+
    const filteredProperties = properties.filter((item) => item.page === page);
 
    const [itemOffset, setItemOffset] = useState(0);
@@ -140,7 +181,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
 
    // All products
    const allProperties = useSelector(selectProperties);
-   const filteredAllProduct = allProperties.filter(item => item.page === "listing_1");
+   const filteredAllProduct = all_property.filter(item => item.page === page);
 
    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       const searchingProducts = filteredAllProduct.filter((p) =>
@@ -150,15 +191,20 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
    };
 
    // handle Price
-   const maxPrice = all_property.filter(item => item.page === page).reduce((max, item) => {
+   const calculatedMax = all_property.filter(item => item.page === page).reduce((max, item) => {
       return item.price > max ? item.price : max;
    }, 0);
+   const maxPrice = calculatedMax > 0 ? calculatedMax : 100000;
    const [priceValue, setPriceValue] = useState([0, maxPrice]);
+
+   useEffect(() => {
+      setPriceValue([0, maxPrice]);
+   }, [maxPrice]);
 
    useEffect(() => {
       let filterPrice = all_property.filter((j) => j.price >= priceValue[0] && j.price <= priceValue[1]);
       setProperties(filterPrice)
-   }, [priceValue]);
+   }, [priceValue, all_property]);
 
    const handlePriceChange = (val: number[]) => {
       setPriceValue(val)

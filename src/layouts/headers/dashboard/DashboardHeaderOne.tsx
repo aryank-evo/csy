@@ -1,8 +1,9 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link";
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import PropertyTypeModalTrigger from '@/components/common/PropertyTypeModalTrigger';
+import { toast } from "react-toastify";
 
 import dashboardLogo from "@/assets/images/logo/logo_01.svg";
 import dashboardIconActive_1 from "@/assets/images/dashboard/icon/icon_1_active.svg";
@@ -29,6 +30,20 @@ import dashboardIcon_11 from "@/assets/images/dashboard/icon/icon_41.svg";
 
 const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
    const pathname = usePathname();
+   const router = useRouter();
+
+   const handleLogout = (e: React.MouseEvent) => {
+      e.preventDefault();
+      try {
+         localStorage.removeItem('token');
+         localStorage.removeItem('userData');
+         toast.success("Logged out successfully");
+         router.push('/');
+      } catch (error) {
+         console.error("Logout error:", error);
+         router.push('/');
+      }
+   };
 
    return (
       <aside className={`dash-aside-navbar ${isActive ? "show" : ""}`}>
@@ -96,10 +111,10 @@ const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
             </div>
 
             <div className="plr">
-               <Link href="#" className="d-flex w-100 align-items-center logout-btn">
+               <button onClick={handleLogout} className="d-flex w-100 align-items-center logout-btn border-0 bg-transparent p-0">
                   <div className="icon tran3s d-flex align-items-center justify-content-center rounded-circle"><Image src={dashboardIcon_11} alt="" /></div>
                   <span>Logout</span>
-               </Link>
+               </button>
             </div>
          </div>
       </aside>

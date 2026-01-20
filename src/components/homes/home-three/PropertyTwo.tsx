@@ -115,7 +115,7 @@ const PropertyTwo = ({ style }: any) => {
                </Slider>
 
                <div className="section-btn text-center">
-                  <Link href="/listing_04" className="btn-eleven fst-italic"><span>See all properties</span></Link>
+                  <Link href="/pg" className="btn-eleven fst-italic"><span>See all properties</span></Link>
                </div>
                <ul className="slider-arrows slick-arrow-two d-flex justify-content-center style-none md-mt-30">
                   <li onClick={handlePrevClick} className="prev_b slick-arrow"><i className="bi bi-arrow-left"></i></li>

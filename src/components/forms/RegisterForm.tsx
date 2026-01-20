@@ -62,7 +62,7 @@ const RegisterForm = () => {
         });
 
         reset();
-        setTimeout(() => router.push("/dashboard/dashboard-index"), 2000); 
+        setTimeout(() => router.push("/dashboard"), 2000); 
       }
     } catch (error: any) {
       toast.error(error.response?.data?.error || "Error during registration", {

@@ -1,13 +1,13 @@
-import ListingFour from "@/components/inner-listing/listing-04";
+import ListingOne from "@/components/inner-listing/listing-01";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-   title: "Listing Four HOZN - Real Estate React Next js",
+   title: "Buy Properties - Real Estate",
 };
 const index = () => {
    return (
       <Wrapper>
-         <ListingFour />
+         <ListingOne />
       </Wrapper>
    )
 }

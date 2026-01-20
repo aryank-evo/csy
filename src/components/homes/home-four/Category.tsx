@@ -12,12 +12,12 @@ const Category = () => {
                <div className="wrapper flex-wrap d-flex justify-content-center justify-content-md-between align-items-center">
                   {category_data.filter((items) => items.page === "home_4").map((item) => (
                      <div key={item.id} className={`card-style-seven position-relative z-1 rounded-circle overflow-hidden d-flex align-items-center justify-content-center wow fadeInUp ${item.item_bg_img}`} data-wow-delay={item.data_delay_time}>
-                        <Link href="/listing_03" className="title stretched-link"><h4 className="text-white tran3s">{item.text}</h4></Link>
+                        <Link href="/lease" className="title stretched-link"><h4 className="text-white tran3s">{item.text}</h4></Link>
                      </div>
                   ))}
                </div>
                <div className="section-btn text-center md-mt-60">
-                  <Link href="/listing_02" className="btn-eleven"><span>See all categories</span> <i className="bi bi-chevron-right"></i></Link>
+                  <Link href="/rent" className="btn-eleven"><span>See all categories</span> <i className="bi bi-chevron-right"></i></Link>
                </div>
             </div>
          </div>

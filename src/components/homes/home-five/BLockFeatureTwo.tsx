@@ -17,15 +17,15 @@ const BLockFeatureTwo = ({ style }: any) => {
                   {feature_data.filter((items) => items.page === "home_5_feature_1").map((item) => (
                      <div key={item.id} className="location-card-three text-center wow fadeInUp" data-wow-delay={item.data_delay_time}>
                         <div className={`image-bg position-relative z-1 rounded-circle overflow-hidden mb-30 ${item.item_bg}`}>
-                           <Link href="/listing_04" className="stretched-link"></Link>
+                           <Link href="/pg" className="stretched-link"></Link>
                         </div>
-                        <Link href="/listing_04" className="title"><h5>{item.title}</h5></Link>
+                        <Link href="/pg" className="title"><h5>{item.title}</h5></Link>
                         <p>{item.desc}</p>
                      </div>
                   ))}
                </div>
                <div className="section-btn text-center md-mt-50">
-                  <Link href="/listing_04" className="btn-eight"><span>Explore All</span> <i className="bi bi-arrow-up-right"></i></Link>
+                  <Link href="/pg" className="btn-eight"><span>Explore All</span> <i className="bi bi-arrow-up-right"></i></Link>
                </div>
             </div>
          </div>

@@ -13,7 +13,7 @@ const FeatureOne = () => {
                   </div>
                   <h5 className="mt-35 mb-20">{item.title}</h5>
                   <p className="mb-40">{item.desc}</p>
-                  <Link href="/listing_03" className="btn-twelve rounded-0 sm mt-auto">{item.btn}</Link>
+                  <Link href="/lease" className="btn-twelve rounded-0 sm mt-auto">{item.btn}</Link>
                </div>
             </div>
          ))}

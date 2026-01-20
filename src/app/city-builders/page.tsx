@@ -4,6 +4,7 @@ import FooterOne from "@/layouts/footers/FooterOne";
 import BreadcrumbOne from "@/components/common/breadcrumb/BreadcrumbOne";
 import Image from "next/image";
 import Wrapper from "@/layouts/Wrapper";
+import DynamicContent from "@/components/common/DynamicContent";
 
 import client_img from "@/assets/images/dashboard/avatar_02.jpg";
 
@@ -34,8 +35,20 @@ const CityBuildersPage = () => {
               <div className="col-lg-6">
                 <div className="ps-lg-4">
                   <div className="title-one mb-40">
-                    <h2 className="font-garamond">Building Dreams with <em>Precision</em></h2>
-                    <p className="fs-20 mt-3">City Builders is a premier construction firm dedicated to transforming architectural visions into structural realities.</p>
+                    <DynamicContent 
+                      componentName="city-builder" 
+                      fieldName="title" 
+                      defaultContent="Building Dreams with Precision" 
+                      as="h2"
+                      className="font-garamond"
+                    />
+                    <DynamicContent 
+                      componentName="city-builder" 
+                      fieldName="description" 
+                      defaultContent="City Builders is a premier construction firm dedicated to transforming architectural visions into structural realities." 
+                      as="div"
+                      className="fs-20 mt-3"
+                    />
                   </div>
                   
                   <div className="content-box">
