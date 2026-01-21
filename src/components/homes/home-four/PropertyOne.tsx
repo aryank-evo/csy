@@ -11,7 +11,7 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
             <div className="position-relative">
                <div className="title-one mb-25 lg-mb-10 wow fadeInUp">
                   {style_2 ? <h3><span>New<Image src={titleShape} alt="" className="lazy-img" /></span> Listings</h3> :
-                     <h3>{style_1 ? "Popular Listings" : "New Listings"}</h3>}
+                     <h3>{style_1 ? "Popular Listings" : "New Listingss"}</h3>}
                   <p className="fs-22">Explore latest and featured properties for sale, rent & mortgage.</p>
                </div>
 

@@ -37,6 +37,17 @@ export const getProperties = async () => {
   }
 };
 
+// Get all properties combined from all property types
+export const getAllPropertiesCombined = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/properties/all-combined`, {});
+    return response.data;
+  } catch (error) {
+    console.error('Error getting all properties combined:', error);
+    throw error;
+  }
+};
+
 export const getPropertiesByType = async (type: string) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/properties`, {

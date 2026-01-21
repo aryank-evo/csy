@@ -37,11 +37,12 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                               <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
                                  <PropertyTypeModalTrigger buttonClass={style_1 ? "btn-ten" : "btn-two rounded-0"} />
                               </li>
-                              <li className="d-none d-xl-block">
+                              {/* <li className="d-none d-xl-block">
                                  <button onClick={() => setOffCanvas(true)} style={{ cursor: "pointer" }} className="sidenavbtn rounded-circle tran3s" type="button">
                                     <i className="fa-sharp fa-light fa-bars-filter"></i>
                                  </button>
-                              </li></>) : (<>
+                              </li> */}
+                              </>) : (<>
                                  <li className="d-none d-md-flex align-items-center login-btn-one me-4 me-xxl-5">
                                     <i className="fa-regular fa-phone-volume"></i>
                                     <Link href="tel:+210-0000-0000" className="tran3s">+210-0000-0000</Link>
