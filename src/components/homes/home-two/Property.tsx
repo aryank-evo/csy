@@ -100,7 +100,7 @@ const Property = () => {
                            <div className="listing-card-one style-two h-100 w-100">
                               <div className="img-gallery">
                                  <div className="position-relative overflow-hidden">
-                                    <div className="tag fw-500">{property.tag || 'FEATURED'}</div>
+                                    <div className="tag fw-500">{property.type?.toUpperCase() || property.sourceTable?.replace('_properties', '').toUpperCase() || 'PROPERTY'}</div>
                                     <div id={`carousel${property.id || index}`} className="carousel slide">
                                        <div className="carousel-inner">
                                           {property.carousel_thumb.map((thumb: any, i: number) => (
