@@ -22,7 +22,7 @@ const HomeTwo = () => {
       <FancyBannerOne />
       <BLockFeatureTwo />
       <FeedbackTwo />
-      <Blog style={false} />
+      {/* <Blog style={false} /> */}
       <FAQ />
       <FancyBannerTwo/>
       <FooterOne style={true} />

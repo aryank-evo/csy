@@ -30,6 +30,7 @@ import feature7Icon_3 from "@/assets/images/icon/icon_42.svg";
 import featureImg_1 from "@/assets/images/media/img_19.jpg";
 import featureImg_2 from "@/assets/images/media/img_20.jpg";
 import featureImg_3 from "@/assets/images/media/img_21.jpg";
+import featureImg_4 from "@/assets/images/media/img_06.jpg";
 
 interface DataType {
    id: number;
@@ -43,6 +44,7 @@ interface DataType {
    data_delay_time?: string;
    btn?: string;
    class_name?:string;
+   link?: string;
 }
 
 const feature_data: DataType[] = [
@@ -183,25 +185,37 @@ const feature_data: DataType[] = [
       id: 1,
       page: "home_two_feature_2",
       img: featureImg_1,
-      title: "Explore & buy Home",
-      tag: "BUY HOME",
+      title: "Explore Properties for Sale",
+      tag: "View all",
       data_delay_time: "0.2s",
+      link: "/buy"
    },
    {
       id: 2,
       page: "home_two_feature_2",
       img: featureImg_2,
-      title: "List & Sell quickly",
-      tag: "Sell Now",
+      title: "Find Rental Properties",
+      tag: "View all",
       data_delay_time: "0.1s",
+      link: "/rent"
    },
    {
       id: 3,
       page: "home_two_feature_2",
       img: featureImg_3,
-      title: "Discover & get Rental",
-      tag: "RENT NOW",
+      title: "Browse Lease Properties",
+      tag: "View all",
       data_delay_time: "0.2s",
+      link: "/lease"
+   },
+{
+      id: 3,
+      page: "home_two_feature_2",
+      img: featureImg_4,
+      title: "Discover Furnished PGs",
+      tag: "View all",
+      data_delay_time: "0.2s",
+      link: "/pg"
    },
 
    // home_two_feature_3

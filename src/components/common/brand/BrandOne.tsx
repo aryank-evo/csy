@@ -45,7 +45,7 @@ const BrandOne = () => {
    return (
       <div className="partner-section-one position-relative z-2">
          <div className="container">
-            <p className="text-white fs-24"><span>Join 27,000+</span> companies who’ve reached </p>
+            <p className="text-white fs-24"><span>Trusted by hundreds</span> to buy, sell, and rent homes, PGs, and commercial properties.</p>
          </div>
          <div className="bg-wrapper">
             <div className="container">

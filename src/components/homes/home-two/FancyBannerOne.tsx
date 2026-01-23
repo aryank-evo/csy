@@ -22,7 +22,7 @@ const FancyBannerOne = () => {
                               <Image src={fancyImg_1} alt="" className="lazy-img ms-auto d-none d-lg-block me-auto mt-20" />
                            </div>
                            <div className="col-lg-8">
-                              <p className="fs-24 color-dark">We’ve more than 745,000 apartments & home for sell, rent & mortgage.</p>
+                              <p className="fs-24 color-dark">We have a huge number of PGs, kothis, houses, plots, commercial properties, and warehouses for sale, rent, and lease.</p>
                               <div className="accordion accordion-style-one mt-60" id="accordionOne">
                                  <FaqOne />
                               </div>

@@ -46,12 +46,13 @@
 .feedback-section-two {
     background: #0D1A1C;
     .bg-wrapper {
-        background: url(../images/shape/shape_13.svg) no-repeat center;
+        // background: url(../images/shape/shape_13.svg) no-repeat center;
         background-size: cover;
-        padding: 50px 50px;
+        padding: 0px 50px;
+        margin-bottom: 50px;
     }
     .main-content {
-        padding: 155px 50px 190px;
+        padding: 15px 50px 15px;
         &:before,&:after {
             content: '';
             position: absolute;

@@ -7901,12 +7901,12 @@ iframe {
   background: #0D1A1C;
 }
 .feedback-section-two .bg-wrapper {
-  background: url(../images/shape/shape_13.svg) no-repeat center;
+  /* background: url(../images/shape/shape_13.svg) no-repeat center; */
   background-size: cover;
   padding: 50px 50px;
 }
 .feedback-section-two .main-content {
-  padding: 155px 50px 190px;
+  padding: 15px 50px 15px;
 }
 .feedback-section-two .main-content:before, .feedback-section-two .main-content:after {
   content: "";
