@@ -13,6 +13,7 @@ import adminDashboardRoutes from "./routes/adminDashboardRoutes";
 import leadRoutes from "./routes/leadRoutes";
 import propertyRoutes from "./routes/propertyRoutes";
 import cmsPageRoutes from "./routes/cmsPageRoutes";
+import advertisementRoutes from "./routes/advertisementRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -31,6 +32,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/lead", leadRoutes);
 app.use("/api/cms", cmsPageRoutes);
+app.use("/api/advertisements", advertisementRoutes);
 
 // Run pending migrations before starting the server
 const runMigrations = async () => {

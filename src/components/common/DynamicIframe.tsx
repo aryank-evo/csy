@@ -1,5 +1,5 @@
 "use client"
-import { fetchCmsContent } from '@/utils/cmsApi';
+import { fetchCmsPage } from '@/utils/cmsApi';
 import { useQuery } from '@tanstack/react-query';
 
 interface DynamicIframeProps {
@@ -20,15 +20,13 @@ const DynamicIframe = ({
   allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 }: DynamicIframeProps) => {
   const { data: cmsData, isLoading: loading } = useQuery({
-    queryKey: ['cms-content', componentName],
-    queryFn: () => fetchCmsContent(componentName),
+    queryKey: ['cms-page', componentName],
+    queryFn: () => fetchCmsPage(componentName),
   });
 
-  const fieldData = cmsData?.success && cmsData?.data 
-    ? cmsData.data.find((item: any) => item.fieldName === fieldName)
-    : null;
-  
-  const src = fieldData && fieldData.contentValue ? fieldData.contentValue : defaultSrc;
+  // For iframe content, we'll use the content field directly
+  // In the future, this could be enhanced to support specific field extraction
+  const src = cmsData?.content ? cmsData.content : defaultSrc;
 
   return (
     <iframe 

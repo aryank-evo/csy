@@ -3,6 +3,7 @@ import "../styles/index.scss";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import QueryProvider from "@/components/common/QueryProvider";
+import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -41,6 +42,7 @@ export default function RootLayout({
           <Provider store={store}>
             <QueryProvider>
               {children}
+              <Toaster position="top-right" richColors />
             </QueryProvider>
           </Provider>
         </div>

@@ -7,6 +7,15 @@ export interface CmsPage {
   content: string;
   primaryImage?: string;
   secondaryImage?: string;
+  directorMsg?: string;
+  directorName?: string;
+  aboutSubtitle?: string;
+  aboutDesc1?: string;
+  aboutTitle1?: string;
+  aboutTitle2?: string;
+  aboutDesc2?: string;
+  aboutDesc3?: string;
+  aboutMission?: string;
   created_at: string;
   updated_at: string;
 }
@@ -21,7 +30,7 @@ export const fetchCmsPage = async (slug: string): Promise<CmsPage> => {
   return response.data.data;
 };
 
-export const updateCmsPage = async (slug: string, data: { title: string, content: string, primaryImage?: string, secondaryImage?: string }) => {
+export const updateCmsPage = async (slug: string, data: { title: string, content: string, primaryImage?: string, secondaryImage?: string, directorMsg?: string, directorName?: string, aboutSubtitle?: string, aboutDesc1?: string, aboutTitle1?: string, aboutTitle2?: string, aboutDesc2?: string, aboutDesc3?: string, aboutMission?: string }) => {
   const token = localStorage.getItem('token');
   
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/cms/${slug}`, {

@@ -37,6 +37,17 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   const [content, setContent] = useState('');
   const [primaryImage, setPrimaryImage] = useState('');
   const [secondaryImage, setSecondaryImage] = useState('');
+  const [directorMsg, setDirectorMsg] = useState('');
+  const [directorName, setDirectorName] = useState('');
+  
+  // State for about-specific fields
+  const [aboutSubtitle, setAboutSubtitle] = useState('');
+  const [aboutDesc1, setAboutDesc1] = useState('');
+  const [aboutTitle1, setAboutTitle1] = useState('');
+  const [aboutTitle2, setAboutTitle2] = useState('');
+  const [aboutDesc2, setAboutDesc2] = useState('');
+  const [aboutDesc3, setAboutDesc3] = useState('');
+  const [aboutMission, setAboutMission] = useState('');
   const [primaryImageFile, setPrimaryImageFile] = useState<File | null>(null);
   const [secondaryImageFile, setSecondaryImageFile] = useState<File | null>(null);
   const [primaryImagePreview, setPrimaryImagePreview] = useState('');
@@ -52,13 +63,46 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
 
   // Use React Query Mutation for saving
   const mutation = useMutation({
-    mutationFn: async (data: { title: string, content: string, primaryImage?: string, secondaryImage?: string }) => {
+    mutationFn: async (data: { title: string, content: string, primaryImage?: string, secondaryImage?: string, directorMsg?: string, directorName?: string, aboutSubtitle?: string, aboutDesc1?: string, aboutTitle1?: string, aboutTitle2?: string, aboutDesc2?: string, aboutDesc3?: string, aboutMission?: string }) => {
       // Create FormData to handle file uploads
       const formData = new FormData();
       
       // Add text fields
       formData.append('title', data.title);
       formData.append('content', data.content);
+      
+      // Add new director fields
+      if (data.directorMsg) {
+        formData.append('directorMsg', data.directorMsg);
+      }
+      if (data.directorName) {
+        formData.append('directorName', data.directorName);
+      }
+      
+      // Add about-specific fields if this is the about-us page
+      if (slug === 'about-us') {
+        if (data.aboutSubtitle) {
+          formData.append('aboutSubtitle', data.aboutSubtitle);
+        }
+        if (data.aboutDesc1) {
+          formData.append('aboutDesc1', data.aboutDesc1);
+        }
+        if (data.aboutTitle1) {
+          formData.append('aboutTitle1', data.aboutTitle1);
+        }
+        if (data.aboutTitle2) {
+          formData.append('aboutTitle2', data.aboutTitle2);
+        }
+        if (data.aboutDesc2) {
+          formData.append('aboutDesc2', data.aboutDesc2);
+        }
+        if (data.aboutDesc3) {
+          formData.append('aboutDesc3', data.aboutDesc3);
+        }
+        if (data.aboutMission) {
+          formData.append('aboutMission', data.aboutMission);
+        }
+      }
       
       // Add image files if they exist
       if (primaryImageFile) {
@@ -101,6 +145,19 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
       setContent(pageData.content || '');
       setPrimaryImage(pageData.primaryImage || '');
       setSecondaryImage(pageData.secondaryImage || '');
+      setDirectorMsg(pageData.directorMsg || '');
+      setDirectorName(pageData.directorName || '');
+      
+      // Set about-specific fields if this is the about-us page
+      if (slug === 'about-us') {
+        setAboutSubtitle(pageData.aboutSubtitle || '');
+        setAboutDesc1(pageData.aboutDesc1 || '');
+        setAboutTitle1(pageData.aboutTitle1 || '');
+        setAboutTitle2(pageData.aboutTitle2 || '');
+        setAboutDesc2(pageData.aboutDesc2 || '');
+        setAboutDesc3(pageData.aboutDesc3 || '');
+        setAboutMission(pageData.aboutMission || '');
+      }
     }
   }, [pageData, defaultTitle]);
 
@@ -148,7 +205,23 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   };
 
   const handleSave = () => {
-    mutation.mutate({ title: pageTitle, content, primaryImage, secondaryImage });
+    const baseData = { title: pageTitle, content, primaryImage, secondaryImage, directorMsg, directorName };
+    
+    // Add about-specific fields if this is the about-us page
+    if (slug === 'about-us') {
+      mutation.mutate({ 
+        ...baseData,
+        aboutSubtitle,
+        aboutDesc1,
+        aboutTitle1,
+        aboutTitle2,
+        aboutDesc2,
+        aboutDesc3,
+        aboutMission
+      });
+    } else {
+      mutation.mutate(baseData);
+    }
   };
 
   if (loading) {
@@ -231,6 +304,123 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
         )}
       </div>
 
+      <div className="mb-4">
+        <label className="form-label fw-bold">Secondary Image</label>
+      </div>
+      
+      <div className="mb-4">
+        <label className="form-label fw-bold">Director Message</label>
+        <textarea 
+          className="form-control"
+          rows={3}
+          value={directorMsg}
+          onChange={(e) => setDirectorMsg(e.target.value)}
+          placeholder="Enter director's message"
+        />
+        <div className="form-text">The message from the director that appears on the city builders page</div>
+      </div>
+      
+      <div className="mb-4">
+        <label className="form-label fw-bold">Director Name</label>
+        <input 
+          type="text" 
+          className="form-control" 
+          value={directorName}
+          onChange={(e) => setDirectorName(e.target.value)}
+          placeholder="Enter director's name"
+        />
+        <div className="form-text">Name and title of the director</div>
+      </div>
+      
+      {/* About-specific fields - only show for about-us page */}
+      {slug === 'about-us' && (
+        <>
+          <div className="mb-4">
+            <label className="form-label fw-bold">About Subtitle</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={aboutSubtitle}
+              onChange={(e) => setAboutSubtitle(e.target.value)}
+              placeholder="Enter about subtitle"
+            />
+            <div className="form-text">Subtitle for the about section</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">About Description 1</label>
+            <textarea 
+              className="form-control"
+              rows={3}
+              value={aboutDesc1}
+              onChange={(e) => setAboutDesc1(e.target.value)}
+              placeholder="Enter first about description"
+            />
+            <div className="form-text">First description text for the about section</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">About Title 1</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={aboutTitle1}
+              onChange={(e) => setAboutTitle1(e.target.value)}
+              placeholder="Enter first about title"
+            />
+            <div className="form-text">First title for the about section</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">About Title 2</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={aboutTitle2}
+              onChange={(e) => setAboutTitle2(e.target.value)}
+              placeholder="Enter second about title"
+            />
+            <div className="form-text">Second title for the about section</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">About Description 2</label>
+            <textarea 
+              className="form-control"
+              rows={3}
+              value={aboutDesc2}
+              onChange={(e) => setAboutDesc2(e.target.value)}
+              placeholder="Enter second about description"
+            />
+            <div className="form-text">Second description text for the about section</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">About Description 3</label>
+            <textarea 
+              className="form-control"
+              rows={3}
+              value={aboutDesc3}
+              onChange={(e) => setAboutDesc3(e.target.value)}
+              placeholder="Enter third about description"
+            />
+            <div className="form-text">Third description text for the about section</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">About Mission</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={aboutMission}
+              onChange={(e) => setAboutMission(e.target.value)}
+              placeholder="Enter about mission"
+            />
+            <div className="form-text">Mission text for the about section</div>
+          </div>
+        </>
+      )}
+      
       <div className="mb-4">
         <label className="form-label fw-bold">Secondary Image</label>
         <div 

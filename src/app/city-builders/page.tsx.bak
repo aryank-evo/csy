@@ -2,8 +2,12 @@ import React from "react";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import FooterOne from "@/layouts/footers/FooterOne";
 import BreadcrumbOne from "@/components/common/breadcrumb/BreadcrumbOne";
+import Image from "next/image";
 import Wrapper from "@/layouts/Wrapper";
 import DynamicContent from "@/components/common/DynamicContent";
+
+// import client_img from "@/assets/images/dashboard/avatar_02.jpg";
+const client_img = "/user_placeholder.jpg";
 
 export const metadata = {
   title: "City Builders - Construction Experts",
@@ -15,6 +19,7 @@ const CityBuildersPage = () => {
       <HeaderOne style={true} />
       <main>
         <BreadcrumbOne title="City Builders" sub_title="Our Construction Partner" style={false} />
+        
         <div className="about-us-section pt-150 lg-pt-100 pb-150 lg-pb-100">
           <div className="container">
             <div className="row align-items-center">
@@ -23,7 +28,7 @@ const CityBuildersPage = () => {
                   <DynamicContent 
                     slug="city-builder" 
                     type="primaryImage"
-                    defaultContent="/user_placeholder.jpg"
+                    defaultContent={client_img}
                     as="img"
                     className="w-100 rounded-4 shadow-lg"
                     width={600} 

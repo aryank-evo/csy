@@ -25,6 +25,17 @@ class CmsPage extends Model {
   public declare updatedAt: Date;
 }
 
+// Define Advertisement model inline
+class Advertisement extends Model {
+  public id!: number;
+  public name!: string;
+  public youtubeUrl!: string;
+  public isActive!: boolean;
+  public position!: string;
+  public declare createdAt: Date;
+  public declare updatedAt: Date;
+}
+
 dotenv.config();
 
 const dbUrl = process.env.DATABASE_URL || `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
@@ -70,6 +81,42 @@ CmsPage.init({
   secondaryImage: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  directorMsg: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  directorName: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  aboutSubtitle: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  aboutDesc1: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  aboutTitle1: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  aboutTitle2: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  aboutDesc2: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  aboutDesc3: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  aboutMission: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: "cms_pages",
@@ -79,6 +126,35 @@ CmsPage.init({
   updatedAt: "updated_at"
 });
 
+// Initialize Advertisement model
+Advertisement.init({
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  youtubeUrl: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
+  position: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+}, {
+  tableName: "advertisements",
+  sequelize,
+  timestamps: true
+});
+
 // Export models
 export { User, Property, Lead, CmsContent };
-export { CmsPage };
+export { CmsPage, Advertisement };

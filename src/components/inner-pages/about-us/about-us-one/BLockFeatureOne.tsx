@@ -3,27 +3,7 @@ import Link from "next/link"
 
 import titleShape from "@/assets/images/shape/title_shape_06.svg";
 import Count from "@/components/common/Count";
-import DynamicContent from "@/components/common/DynamicContent";
-
-interface ContentType {
-   sub_title: string;
-   desc_1: JSX.Element;
-   title_1: string;
-   title_2: string;
-   desc_2: JSX.Element;
-   desc_3: JSX.Element;
-}
-
-const feature_content: ContentType = {
-   sub_title: "About us",
-   desc_1: (<>Our founders Dustin Moskovitz and Justin Rosenstein met while leading Engineering .</>),
-   title_1: "Who we are?",
-   title_2: "Our Mission",
-   desc_2: (<>Our founders Dustin Moskovitz & Justin Rosenstein met  leading Engineering teams at Facebook. As operations scaled, they grew frustrated by how difficult coordinate</>),
-   desc_3: (<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod incididunt ut labore et dolore aliqua.</>),
-}
-
-const { sub_title, desc_1, title_1, title_2, desc_2, desc_3 } = feature_content;
+import DynamicContentServer from "@/components/common/DynamicContentServer";
 
 const BLockFeatureOne = () => {
    return (
@@ -33,16 +13,22 @@ const BLockFeatureOne = () => {
                <div className="col-lg-6 wow fadeInLeft">
                   <div className="me-xxl-4">
                      <div className="title-one mb-60 lg-mb-40">
-                        <div className="upper-title">About us</div>
-                        <DynamicContent 
+                        <DynamicContentServer 
                            slug="about-us" 
-                           type="title" 
+                           type="aboutSubtitle" 
+                           defaultContent="About us" 
+                           as="div"
+                           className="upper-title"
+                        />
+                        <DynamicContentServer 
+                           slug="about-us" 
+                           type="aboutTitle1" 
                            defaultContent="Secure your family's Dream home." 
                            as="h3"
                         />
-                        <DynamicContent 
+                        <DynamicContentServer 
                            slug="about-us" 
-                           type="content" 
+                           type="aboutDesc1" 
                            defaultContent="Our founders Dustin Moskovitz and Justin Rosenstein met while leading Engineering." 
                            as="div"
                            className="fs-22"
@@ -71,34 +57,43 @@ const BLockFeatureOne = () => {
                <div className="col-lg-6 wow fadeInRight">
                   <div className="block-two md-mt-40">
                      <div className="bg-wrapper">
-                        <h5>Who we are?</h5>
-                        <DynamicContent 
+                        <DynamicContentServer 
                            slug="about-us" 
-                           type="content" 
+                           type="aboutTitle1" 
+                           defaultContent="Who we are?" 
+                           as="h5"
+                        />
+                        <DynamicContentServer 
+                           slug="about-us" 
+                           type="aboutDesc2" 
                            defaultContent="Our founders Dustin Moskovitz & Justin Rosenstein met  leading Engineering teams at Facebook. As operations scaled, they grew frustrated by how difficult coordinate" 
                            as="p"
                            className="fs-22 lh-lg mt-20"
                         />
-                        <DynamicContent 
+                        <DynamicContentServer 
                            slug="about-us" 
                            type="primaryImage" 
                            defaultContent="" 
-                           as="img"
                            className="img-fluid mt-3"
                         />
-                        <h5 className="top-line mt-4">Our Mission </h5>
-                        <DynamicContent 
+                        <DynamicContentServer 
                            slug="about-us" 
-                           type="content" 
+                           type="aboutMission" 
+                           defaultContent="Our Mission" 
+                           as="h5"
+                           className="top-line mt-4"
+                        />
+                        <DynamicContentServer 
+                           slug="about-us" 
+                           type="aboutDesc3" 
                            defaultContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod incididunt ut labore et dolore aliqua." 
                            as="p"
                            className="fs-22 lh-lg mt-20"
                         />
-                        <DynamicContent 
+                        <DynamicContentServer 
                            slug="about-us" 
                            type="secondaryImage" 
                            defaultContent="" 
-                           as="img"
                            className="img-fluid mt-3"
                         />
                      </div>

@@ -36,6 +36,19 @@ export const updateCmsPage = async (req: Request, res: Response): Promise<void> 
     let primaryImage = req.body.primaryImage || null;
     let secondaryImage = req.body.secondaryImage || null;
     
+    // Extract new director message fields from the request body
+    let directorMsg = req.body.directorMsg || null;
+    let directorName = req.body.directorName || null;
+    
+    // Extract new about page fields from the request body
+    let aboutSubtitle = req.body.aboutSubtitle || null;
+    let aboutDesc1 = req.body.aboutDesc1 || null;
+    let aboutTitle1 = req.body.aboutTitle1 || null;
+    let aboutTitle2 = req.body.aboutTitle2 || null;
+    let aboutDesc2 = req.body.aboutDesc2 || null;
+    let aboutDesc3 = req.body.aboutDesc3 || null;
+    let aboutMission = req.body.aboutMission || null;
+    
     // If images were uploaded via Cloudinary, use the secure URLs
     if (req.files && typeof req.files === 'object') {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -52,9 +65,9 @@ export const updateCmsPage = async (req: Request, res: Response): Promise<void> 
     let page = await CmsPage.findOne({ where: { slug } });
 
     if (page) {
-      await page.update({ title, content, primaryImage, secondaryImage });
+      await page.update({ title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission });
     } else {
-      page = await CmsPage.create({ slug, title, content, primaryImage, secondaryImage });
+      page = await CmsPage.create({ slug, title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission });
     }
 
     res.json({

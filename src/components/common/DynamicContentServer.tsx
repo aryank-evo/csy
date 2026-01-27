@@ -2,36 +2,39 @@
 import { fetchCmsPage } from '@/utils/cmsApi';
 import { useQuery } from '@tanstack/react-query';
 
-interface DynamicContentProps {
+interface DynamicContentServerProps {
   slug: string;
-  type?: 'title' | 'content' | 'primaryImage' | 'secondaryImage' | 'directorMsg' | 'directorName' | 'aboutSubtitle' | 'aboutDesc1' | 'aboutTitle1' | 'aboutTitle2' | 'aboutDesc2' | 'aboutDesc3' | 'aboutMission';
+  type: string;
   defaultContent?: string;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
-  [key: string]: any; // Allow additional props
+  [key: string]: any;
 }
 
-const DynamicContent = ({ 
+const DynamicContentServer = ({ 
   slug, 
-  type = 'content',
+  type, 
   defaultContent = '', 
   className = '',
   as: Component = 'div',
   ...props
-}: DynamicContentProps) => {
-  const { data: pageData, isLoading: loading } = useQuery({
+}: DynamicContentServerProps) => {
+  const { data: pageData, isLoading, error } = useQuery({
     queryKey: ['cms-page', slug],
-    queryFn: () => fetchCmsPage(slug),
+    queryFn: () => {
+      console.log(`Fetching CMS page for slug: ${slug}`);
+      return fetchCmsPage(slug);
+    },
   });
 
-  if (loading) {
-    // For image types, render img tag even during loading
+  if (error) {
+    console.error(`Error fetching CMS page for slug ${slug}:`, error);
+  }
+
+  if (isLoading) {
+    // Show loading state
     if (type === 'primaryImage' || type === 'secondaryImage') {
       return <img src={defaultContent} alt="" className={className} {...props} />;
-    }
-    // For director message or name types, render as text during loading
-    if (type === 'directorMsg' || type === 'directorName') {
-      return <Component className={className}>{defaultContent}</Component>;
     }
     return <Component className={className}>{defaultContent}</Component>;
   }
@@ -39,13 +42,8 @@ const DynamicContent = ({
   const content = pageData ? pageData[type] : defaultContent;
   
   if (!content) {
-    // For image types, render img tag with default content
     if (type === 'primaryImage' || type === 'secondaryImage') {
       return <img src={defaultContent} alt="" className={className} {...props} />;
-    }
-    // For director message or name types, render as text
-    if (type === 'directorMsg' || type === 'directorName') {
-      return <Component className={className}>{defaultContent}</Component>;
     }
     return <Component className={className}>{defaultContent}</Component>;
   }
@@ -62,15 +60,25 @@ const DynamicContent = ({
 
   // If content is an image URL, render it as an img element
   if (type === 'primaryImage' || type === 'secondaryImage') {
+    if (!content) {
+      // If no image content, render nothing or a placeholder
+      return null;
+    }
     return <img src={content} alt="" className={className} {...props} />;
   }
 
-  // If content is director message or name, render it as text
+  // For director message or name types, render it as text
   if (type === 'directorMsg' || type === 'directorName') {
+    return <Component className={className}>{content}</Component>;
+  }
+
+  // For about-specific types, render as text
+  if (type === 'aboutSubtitle' || type === 'aboutDesc1' || type === 'aboutTitle1' || 
+      type === 'aboutTitle2' || type === 'aboutDesc2' || type === 'aboutDesc3' || type === 'aboutMission') {
     return <Component className={className}>{content}</Component>;
   }
 
   return <Component className={className}>{content}</Component>;
 };
 
-export default DynamicContent;
+export default DynamicContentServer;
