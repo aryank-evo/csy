@@ -15,12 +15,12 @@ const AboutUsOne = () => {
          <HeaderOne style={true} />
          <BreadcrumbOne title="About Agency" sub_title="About us" style={false} />
          <BLockFeatureOne />
-         <VideoBanner />
-         <BLockFeatureFive style={true} />
-         <Feedback style={true} />
-         <AgentArea style={false} />
-         <Brand />
-         <FancyBanner style={false} />
+         {/* <VideoBanner /> */}
+         {/* <BLockFeatureFive style={true} /> */}
+         {/* <Feedback style={true} /> */}
+         {/* <AgentArea style={false} /> */}
+         {/* <Brand /> */}
+         {/* <FancyBanner style={false} /> */}
          <FooterFour />
       </>
    )

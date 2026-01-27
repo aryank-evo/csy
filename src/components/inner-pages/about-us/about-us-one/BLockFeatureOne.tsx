@@ -35,22 +35,7 @@ const BLockFeatureOne = () => {
                         />
                      </div>
                      <Link href="/contact" className="btn-two">Contact Us</Link>
-                     <div className="counter-wrapper border-top pt-40 md-pt-10 mt-65 md-mt-40">
-                        <div className="row">
-                           <div className="col-xxl-6 col-sm-5">
-                              <div className="counter-block-one mt-20">
-                                 <div className="main-count fw-500 color-dark"><span className="counter"><Count number={1.2} /></span>%</div>
-                                 <span>Low interest rate</span>
-                              </div>
-                           </div>
-                           <div className="col-xxl-6 col-sm-7">
-                              <div className="counter-block-one mt-20">
-                                 <div className="main-count fw-500 color-dark">$<span className="counter"><Count number={1.3} /></span>b+</div>
-                                 <span>Cumulative trading volume</span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
+                  
                   </div>
                </div>
 
