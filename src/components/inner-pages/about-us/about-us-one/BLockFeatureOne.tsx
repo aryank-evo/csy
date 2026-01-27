@@ -33,7 +33,7 @@ const BLockFeatureOne = () => {
                <div className="col-lg-6 wow fadeInLeft">
                   <div className="me-xxl-4">
                      <div className="title-one mb-60 lg-mb-40">
-                        <div className="upper-title">{sub_title}</div>
+                        <div className="upper-title">About us</div>
                         <DynamicContent 
                            slug="about-us" 
                            type="title" 
@@ -71,10 +71,36 @@ const BLockFeatureOne = () => {
                <div className="col-lg-6 wow fadeInRight">
                   <div className="block-two md-mt-40">
                      <div className="bg-wrapper">
-                        <h5>{title_1}</h5>
-                        <p className="fs-22 lh-lg mt-20">{desc_2}</p>
-                        <h5 className="top-line">{title_2} </h5>
-                        <p className="fs-22 lh-lg mt-20">{desc_3}</p>
+                        <h5>Who we are?</h5>
+                        <DynamicContent 
+                           slug="about-us" 
+                           type="content" 
+                           defaultContent="Our founders Dustin Moskovitz & Justin Rosenstein met  leading Engineering teams at Facebook. As operations scaled, they grew frustrated by how difficult coordinate" 
+                           as="p"
+                           className="fs-22 lh-lg mt-20"
+                        />
+                        <DynamicContent 
+                           slug="about-us" 
+                           type="primaryImage" 
+                           defaultContent="" 
+                           as="img"
+                           className="img-fluid mt-3"
+                        />
+                        <h5 className="top-line mt-4">Our Mission </h5>
+                        <DynamicContent 
+                           slug="about-us" 
+                           type="content" 
+                           defaultContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod incididunt ut labore et dolore aliqua." 
+                           as="p"
+                           className="fs-22 lh-lg mt-20"
+                        />
+                        <DynamicContent 
+                           slug="about-us" 
+                           type="secondaryImage" 
+                           defaultContent="" 
+                           as="img"
+                           className="img-fluid mt-3"
+                        />
                      </div>
                   </div>
                </div>

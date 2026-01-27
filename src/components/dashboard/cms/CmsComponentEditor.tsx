@@ -1,9 +1,30 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchCmsPage, updateCmsPage } from '@/utils/cmsApi';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import ClassicEditor from './ClassicEditor';
+
+// Function to update CMS page with file uploads
+const updateCmsPageWithFiles = async (slug: string, formData: FormData) => {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/cms/${slug}`, {
+    method: 'POST',
+    headers: {
+      // Don't set Content-Type header when using FormData
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to update CMS page');
+  }
+  
+  return response.json();
+};
 
 interface CmsComponentEditorProps {
   slug: string;
@@ -14,6 +35,14 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   const queryClient = useQueryClient();
   const [pageTitle, setPageTitle] = useState(defaultTitle);
   const [content, setContent] = useState('');
+  const [primaryImage, setPrimaryImage] = useState('');
+  const [secondaryImage, setSecondaryImage] = useState('');
+  const [primaryImageFile, setPrimaryImageFile] = useState<File | null>(null);
+  const [secondaryImageFile, setSecondaryImageFile] = useState<File | null>(null);
+  const [primaryImagePreview, setPrimaryImagePreview] = useState('');
+  const [secondaryImagePreview, setSecondaryImagePreview] = useState('');
+  const primaryImageInputRef = useRef<HTMLInputElement>(null);
+  const secondaryImageInputRef = useRef<HTMLInputElement>(null);
 
   // Use React Query to fetch content
   const { data: pageData, isLoading: loading } = useQuery({
@@ -23,10 +52,40 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
 
   // Use React Query Mutation for saving
   const mutation = useMutation({
-    mutationFn: (data: { title: string, content: string }) => updateCmsPage(slug, data),
+    mutationFn: async (data: { title: string, content: string, primaryImage?: string, secondaryImage?: string }) => {
+      // Create FormData to handle file uploads
+      const formData = new FormData();
+      
+      // Add text fields
+      formData.append('title', data.title);
+      formData.append('content', data.content);
+      
+      // Add image files if they exist
+      if (primaryImageFile) {
+        formData.append('primaryImage', primaryImageFile);
+      }
+      if (secondaryImageFile) {
+        formData.append('secondaryImage', secondaryImageFile);
+      }
+      
+      // Add fallback URLs if no file is selected
+      if (!primaryImageFile && data.primaryImage) {
+        formData.append('primaryImage', data.primaryImage);
+      }
+      if (!secondaryImageFile && data.secondaryImage) {
+        formData.append('secondaryImage', data.secondaryImage);
+      }
+      
+      return updateCmsPageWithFiles(slug, formData);
+    },
     onSuccess: () => {
       toast.success('Page content updated successfully');
       queryClient.invalidateQueries({ queryKey: ['cms-page', slug] });
+      // Clear file states after successful upload
+      setPrimaryImageFile(null);
+      setSecondaryImageFile(null);
+      setPrimaryImagePreview('');
+      setSecondaryImagePreview('');
     },
     onError: (error: any) => {
       console.error('Error saving CMS content:', error);
@@ -40,11 +99,56 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
     if (pageData) {
       setPageTitle(pageData.title || defaultTitle);
       setContent(pageData.content || '');
+      setPrimaryImage(pageData.primaryImage || '');
+      setSecondaryImage(pageData.secondaryImage || '');
     }
   }, [pageData, defaultTitle]);
 
+  // Handle primary image file selection
+  const handlePrimaryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setPrimaryImageFile(file);
+      
+      // Create a preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPrimaryImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle secondary image file selection
+  const handleSecondaryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSecondaryImageFile(file);
+      
+      // Create a preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSecondaryImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Trigger file input clicks
+  const triggerPrimaryImageUpload = () => {
+    if (primaryImageInputRef.current) {
+      primaryImageInputRef.current.click();
+    }
+  };
+
+  const triggerSecondaryImageUpload = () => {
+    if (secondaryImageInputRef.current) {
+      secondaryImageInputRef.current.click();
+    }
+  };
+
   const handleSave = () => {
-    mutation.mutate({ title: pageTitle, content });
+    mutation.mutate({ title: pageTitle, content, primaryImage, secondaryImage });
   };
 
   if (loading) {
@@ -69,7 +173,7 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
           placeholder="Enter page title"
         />
       </div>
-
+      
       <div className="mb-4">
         <label className="form-label fw-bold">Page Content</label>
         <ClassicEditor 
@@ -77,6 +181,102 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
           onChange={setContent}
           placeholder="Start formatting your content here..."
         />
+      </div>
+
+      <div className="mb-4">
+        <label className="form-label fw-bold">Primary Image</label>
+        <div 
+          className="border border-2 border-dashed rounded p-4 text-center cursor-pointer bg-light mt-2"
+          style={{ width: '100%', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={triggerPrimaryImageUpload}
+        >
+          {primaryImagePreview ? (
+            <img 
+              src={primaryImagePreview} 
+              alt="Primary Preview" 
+              className="img-fluid rounded" 
+              style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            <div>
+              <i className="bi bi-cloud-upload fs-1 text-muted"></i>
+              <p className="mb-0 mt-2">Click to upload</p>
+              <small className="text-muted">or drag and drop</small>
+            </div>
+          )}
+        </div>
+        <input
+          type="file"
+          ref={primaryImageInputRef}
+          onChange={handlePrimaryImageChange}
+          className="d-none"
+          accept="image/*"
+        />
+        {primaryImagePreview && (
+          <div className="mt-2">
+            <button 
+              type="button" 
+              className="btn btn-outline-danger btn-sm"
+              onClick={() => {
+                setPrimaryImageFile(null);
+                setPrimaryImagePreview('');
+                if (primaryImageInputRef.current) {
+                  primaryImageInputRef.current.value = '';
+                }
+              }}
+            >
+              Remove
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label className="form-label fw-bold">Secondary Image</label>
+        <div 
+          className="border border-2 border-dashed rounded p-4 text-center cursor-pointer bg-light mt-2"
+          style={{ width: '100%', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={triggerSecondaryImageUpload}
+        >
+          {secondaryImagePreview ? (
+            <img 
+              src={secondaryImagePreview} 
+              alt="Secondary Preview" 
+              className="img-fluid rounded" 
+              style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            <div>
+              <i className="bi bi-cloud-upload fs-1 text-muted"></i>
+              <p className="mb-0 mt-2">Click to upload</p>
+              <small className="text-muted">or drag and drop</small>
+            </div>
+          )}
+        </div>
+        <input
+          type="file"
+          ref={secondaryImageInputRef}
+          onChange={handleSecondaryImageChange}
+          className="d-none"
+          accept="image/*"
+        />
+        {secondaryImagePreview && (
+          <div className="mt-2">
+            <button 
+              type="button" 
+              className="btn btn-outline-danger btn-sm"
+              onClick={() => {
+                setSecondaryImageFile(null);
+                setSecondaryImagePreview('');
+                if (secondaryImageInputRef.current) {
+                  secondaryImageInputRef.current.value = '';
+                }
+              }}
+            >
+              Remove
+            </button>
+          </div>
+        )}
       </div>
       
       <div className="mt-5 border-top pt-3">

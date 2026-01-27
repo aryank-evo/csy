@@ -31,13 +31,30 @@ export const updateCmsPage = async (req: Request, res: Response): Promise<void> 
   try {
     const { slug } = req.params;
     const { title, content } = req.body;
+    
+    // Extract image URLs from the request body or use URLs from uploaded files
+    let primaryImage = req.body.primaryImage || null;
+    let secondaryImage = req.body.secondaryImage || null;
+    
+    // If images were uploaded via Cloudinary, use the secure URLs
+    if (req.files && typeof req.files === 'object') {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      
+      if (files['primaryImage'] && files['primaryImage'][0]) {
+        primaryImage = files['primaryImage'][0].path; // Cloudinary secure_url
+      }
+      
+      if (files['secondaryImage'] && files['secondaryImage'][0]) {
+        secondaryImage = files['secondaryImage'][0].path; // Cloudinary secure_url
+      }
+    }
 
     let page = await CmsPage.findOne({ where: { slug } });
 
     if (page) {
-      await page.update({ title, content });
+      await page.update({ title, content, primaryImage, secondaryImage });
     } else {
-      page = await CmsPage.create({ slug, title, content });
+      page = await CmsPage.create({ slug, title, content, primaryImage, secondaryImage });
     }
 
     res.json({

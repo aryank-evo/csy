@@ -62,6 +62,14 @@ CmsPage.init({
   content: {
     type: DataTypes.TEXT,
     allowNull: true
+  },
+  primaryImage: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  secondaryImage: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: "cms_pages",

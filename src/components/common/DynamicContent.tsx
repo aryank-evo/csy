@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 interface DynamicContentProps {
   slug: string;
-  type?: 'title' | 'content';
+  type?: 'title' | 'content' | 'primaryImage' | 'secondaryImage';
   defaultContent?: string;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
@@ -38,6 +38,14 @@ const DynamicContent = ({
         dangerouslySetInnerHTML={{ __html: content }} 
       />
     );
+  }
+
+  // If content is an image URL, render it as an img element
+  if (type === 'primaryImage' || type === 'secondaryImage') {
+    if (!content) {
+      return <Component className={className}>{defaultContent}</Component>;
+    }
+    return <img src={content} alt="" className={className} />;
   }
 
   return <Component className={className}>{content}</Component>;

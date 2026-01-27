@@ -5,6 +5,8 @@ export interface CmsPage {
   slug: string;
   title: string;
   content: string;
+  primaryImage?: string;
+  secondaryImage?: string;
   created_at: string;
   updated_at: string;
 }
@@ -19,7 +21,22 @@ export const fetchCmsPage = async (slug: string): Promise<CmsPage> => {
   return response.data.data;
 };
 
-export const updateCmsPage = async (slug: string, data: { title: string, content: string }) => {
-  const response = await apiInstance.post(`/cms/${slug}`, data);
-  return response.data;
+export const updateCmsPage = async (slug: string, data: { title: string, content: string, primaryImage?: string, secondaryImage?: string }) => {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/cms/${slug}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to update CMS page');
+  }
+  
+  return response.json();
 };
