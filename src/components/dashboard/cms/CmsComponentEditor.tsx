@@ -1,37 +1,32 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { fetchCmsContent, updateCmsContent } from '@/utils/cmsApi';
+import { fetchCmsPage, updateCmsPage } from '@/utils/cmsApi';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-
-interface FieldConfig {
-  name: string;
-  type: 'text' | 'html' | 'link' | 'image' | 'iframe';
-  label: string;
-}
+import ClassicEditor from './ClassicEditor';
 
 interface CmsComponentEditorProps {
-  componentName: string;
-  fields: FieldConfig[];
+  slug: string;
+  title: string;
 }
 
-const CmsComponentEditor = ({ componentName, fields }: CmsComponentEditorProps) => {
+const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorProps) => {
   const queryClient = useQueryClient();
-  const [localContent, setLocalContent] = useState<Record<string, string>>({});
+  const [pageTitle, setPageTitle] = useState(defaultTitle);
+  const [content, setContent] = useState('');
 
   // Use React Query to fetch content
-  const { data: cmsData, isLoading: loading } = useQuery({
-    queryKey: ['cms-content', componentName],
-    queryFn: () => fetchCmsContent(componentName),
+  const { data: pageData, isLoading: loading } = useQuery({
+    queryKey: ['cms-page', slug],
+    queryFn: () => fetchCmsPage(slug),
   });
 
   // Use React Query Mutation for saving
   const mutation = useMutation({
-    mutationFn: (fieldsToUpdate: any[]) => updateCmsContent(componentName, fieldsToUpdate),
+    mutationFn: (data: { title: string, content: string }) => updateCmsPage(slug, data),
     onSuccess: () => {
-      toast.success('Content updated successfully');
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['cms-content', componentName] });
+      toast.success('Page content updated successfully');
+      queryClient.invalidateQueries({ queryKey: ['cms-page', slug] });
     },
     onError: (error: any) => {
       console.error('Error saving CMS content:', error);
@@ -42,77 +37,14 @@ const CmsComponentEditor = ({ componentName, fields }: CmsComponentEditorProps) 
 
   // Update local state when data is fetched
   useEffect(() => {
-    if (cmsData?.success && cmsData?.data) {
-      const contentMap: Record<string, string> = {};
-      cmsData.data.forEach((item: any) => {
-        contentMap[item.fieldName] = item.contentValue || '';
-      });
-      setLocalContent(contentMap);
+    if (pageData) {
+      setPageTitle(pageData.title || defaultTitle);
+      setContent(pageData.content || '');
     }
-  }, [cmsData]);
-
-  const handleInputChange = (fieldName: string, value: string) => {
-    setLocalContent(prev => ({
-      ...prev,
-      [fieldName]: value
-    }));
-  };
+  }, [pageData, defaultTitle]);
 
   const handleSave = () => {
-    const fieldsToUpdate = fields.map(field => ({
-      fieldName: field.name,
-      contentType: field.type,
-      contentValue: localContent[field.name] || ''
-    }));
-
-    mutation.mutate(fieldsToUpdate);
-  };
-
-  const renderField = (field: FieldConfig) => {
-    const value = localContent[field.name] || '';
-
-    switch (field.type) {
-      case 'html':
-        return (
-          <div className="mb-3">
-            <label className="form-label fw-500">{field.label}</label>
-            <textarea
-              className="form-control"
-              rows={5}
-              value={value}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              placeholder="Enter HTML or text content"
-            />
-          </div>
-        );
-      case 'iframe':
-      case 'link':
-        return (
-          <div className="mb-3">
-            <label className="form-label fw-500">{field.label}</label>
-            <input
-              type="url"
-              className="form-control"
-              value={value}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              placeholder="https://example.com"
-            />
-          </div>
-        );
-      default:
-        return (
-          <div className="mb-3">
-            <label className="form-label fw-500">{field.label}</label>
-            <input
-              type="text"
-              className="form-control"
-              value={value}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              placeholder={`Enter ${field.label.toLowerCase()}`}
-            />
-          </div>
-        );
-    }
+    mutation.mutate({ title: pageTitle, content });
   };
 
   if (loading) {
@@ -127,15 +59,27 @@ const CmsComponentEditor = ({ componentName, fields }: CmsComponentEditorProps) 
 
   return (
     <div className="cms-editor bg-white p-4 rounded-3 shadow-sm mt-3">
-      <div className="row">
-        {fields.map((field, index) => (
-          <div key={index} className="col-12">
-            {renderField(field)}
-          </div>
-        ))}
+      <div className="mb-4">
+        <label className="form-label fw-bold">Page Title</label>
+        <input 
+          type="text" 
+          className="form-control" 
+          value={pageTitle}
+          onChange={(e) => setPageTitle(e.target.value)}
+          placeholder="Enter page title"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="form-label fw-bold">Page Content</label>
+        <ClassicEditor 
+          value={content}
+          onChange={setContent}
+          placeholder="Start formatting your content here..."
+        />
       </div>
       
-      <div className="mt-4 border-top pt-3">
+      <div className="mt-5 border-top pt-3">
         <button 
           className="btn btn-primary px-4 py-2"
           onClick={handleSave}
@@ -146,7 +90,7 @@ const CmsComponentEditor = ({ componentName, fields }: CmsComponentEditorProps) 
               <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Saving...
             </>
-          ) : 'Save Content'}
+          ) : 'Update Page Content'}
         </button>
       </div>
     </div>

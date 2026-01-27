@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Property } from '../models/Property';
 import { Lead } from '../models/Lead';
-import { User } from '../models/User';
+import { User } from '../config/database';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Op } from 'sequelize';

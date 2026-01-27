@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Lead } from '../models/Lead';
 import { Property } from '../models/Property';
-import { User } from '../models/User';
+import { User } from '../config/database';
 import { AuthRequest } from '../middleware/authMiddleware';
 
 // Submit lead before property access

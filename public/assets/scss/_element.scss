@@ -1057,11 +1057,13 @@
     display: block;
     opacity: 1;
 }
-.search-backdrop{
+.search-backdrop,
+.custom-modal-backdrop{
     background: rgba(0, 0, 0, 0.7);
     visibility: hidden;
 }
-.search-backdrop.show{
+.search-backdrop.show,
+.custom-modal-backdrop.show{
     visibility: visible;
 }
 #searchModal {

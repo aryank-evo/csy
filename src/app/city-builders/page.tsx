@@ -37,15 +37,15 @@ const CityBuildersPage = () => {
                 <div className="ps-lg-4">
                   <div className="title-one mb-40">
                     <DynamicContent 
-                      componentName="city-builder" 
-                      fieldName="title" 
+                      slug="city-builder" 
+                      type="title"
                       defaultContent="Building Dreams with Precision" 
                       as="h2"
                       className="font-garamond"
                     />
                     <DynamicContent 
-                      componentName="city-builder" 
-                      fieldName="description" 
+                      slug="city-builder" 
+                      type="content"
                       defaultContent="City Builders is a premier construction firm dedicated to transforming architectural visions into structural realities." 
                       as="div"
                       className="fs-20 mt-3"

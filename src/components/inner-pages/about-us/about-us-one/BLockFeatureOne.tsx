@@ -3,6 +3,7 @@ import Link from "next/link"
 
 import titleShape from "@/assets/images/shape/title_shape_06.svg";
 import Count from "@/components/common/Count";
+import DynamicContent from "@/components/common/DynamicContent";
 
 interface ContentType {
    sub_title: string;
@@ -33,8 +34,19 @@ const BLockFeatureOne = () => {
                   <div className="me-xxl-4">
                      <div className="title-one mb-60 lg-mb-40">
                         <div className="upper-title">{sub_title}</div>
-                        <h3>Secure your <span>family&apos;s<Image src={titleShape} alt="" className="lazy-img" /></span> Dream home.</h3>
-                        <p className="fs-22">{desc_1}</p>
+                        <DynamicContent 
+                           slug="about-us" 
+                           type="title" 
+                           defaultContent="Secure your family's Dream home." 
+                           as="h3"
+                        />
+                        <DynamicContent 
+                           slug="about-us" 
+                           type="content" 
+                           defaultContent="Our founders Dustin Moskovitz and Justin Rosenstein met while leading Engineering." 
+                           as="div"
+                           className="fs-22"
+                        />
                      </div>
                      <Link href="/contact" className="btn-two">Contact Us</Link>
                      <div className="counter-wrapper border-top pt-40 md-pt-10 mt-65 md-mt-40">

@@ -27,7 +27,7 @@ const HeaderSearchbar = ({ isSearch, setIsSearch }: any) => {
                </div>
             </div>
          </div>
-         <div onClick={() => setIsSearch(false)} className={`search-backdrop modal-backdrop fade ${isSearch ? "show" : ""}`}></div>
+         <div onClick={() => setIsSearch(false)} className={`search-backdrop custom-modal-backdrop fade ${isSearch ? "show" : ""}`}></div>
       </>
    )
 }

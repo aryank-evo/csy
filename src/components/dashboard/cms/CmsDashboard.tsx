@@ -2,40 +2,26 @@
 import { useState } from 'react';
 import CmsComponentEditor from './CmsComponentEditor';
 
-const CMS_COMPONENTS = [
+const CMS_PAGES = [
   {
-    name: 'city-builder',
+    slug: 'city-builder',
     displayName: 'City Builder Page',
-    fields: [
-      { name: 'title', type: 'text' as const, label: 'Page Title' },
-      { name: 'description', type: 'html' as const, label: 'Page Description (HTML supported)' },
-    ]
+    defaultTitle: 'City Builder'
   },
   {
-    name: 'advertisement-section',
-    displayName: 'Advertisement Section',
-    fields: [
-      { name: 'iframe1_url', type: 'iframe' as const, label: 'Advertisement 1 URL' },
-      { name: 'iframe2_url', type: 'iframe' as const, label: 'Advertisement 2 URL' },
-      { name: 'iframe3_url', type: 'iframe' as const, label: 'Advertisement 3 URL' },
-    ]
-  },
-  {
-    name: 'about-us',
+    slug: 'about-us',
     displayName: 'About Us Page',
-    fields: [
-      { name: 'title', type: 'text' as const, label: 'Headline' },
-      { name: 'content', type: 'html' as const, label: 'Main Content' },
-    ]
+    defaultTitle: 'About Us'
   },
   {
-    name: 'contact-info',
+    slug: 'contact-info',
     displayName: 'Contact Information',
-    fields: [
-      { name: 'email', type: 'text' as const, label: 'Contact Email' },
-      { name: 'phone', type: 'text' as const, label: 'Contact Phone' },
-      { name: 'address', type: 'text' as const, label: 'Physical Address' },
-    ]
+    defaultTitle: 'Contact Us'
+  },
+  {
+    slug: 'terms-and-conditions',
+    displayName: 'Terms & Conditions',
+    defaultTitle: 'Terms & Conditions'
   }
 ];
 
@@ -47,16 +33,16 @@ const CmsDashboard = () => {
       <div className="row">
         <div className="col-lg-3">
           <div className="bg-white rounded-3 shadow-sm p-3">
-            <h6 className="mb-3 px-2 text-muted text-uppercase small fw-bold">Static Components</h6>
+            <h6 className="mb-3 px-2 text-muted text-uppercase small fw-bold">Manage Pages</h6>
             <div className="nav flex-column nav-pills" role="tablist">
-              {CMS_COMPONENTS.map((component, index) => (
+              {CMS_PAGES.map((page, index) => (
                 <button 
                   key={index}
                   className={`nav-link text-start mb-2 px-3 py-2 border-0 transition-all ${activeTab === index ? 'active bg-primary text-white' : 'bg-light text-dark'}`}
                   onClick={() => setActiveTab(index)}
                   type="button"
                 >
-                  {component.displayName}
+                  {page.displayName}
                 </button>
               ))}
             </div>
@@ -65,13 +51,13 @@ const CmsDashboard = () => {
         
         <div className="col-lg-9">
           <div className="cms-content-header mb-3">
-            <h4 className="fw-500">{CMS_COMPONENTS[activeTab].displayName}</h4>
-            <p className="text-muted small">Edit the content for this component. Changes will reflect on the live site immediately after saving.</p>
+            <h4 className="fw-500">{CMS_PAGES[activeTab].displayName}</h4>
+            <p className="text-muted small">Edit the rich text content for this page. Changes will reflect on the live site immediately after saving.</p>
           </div>
           
           <CmsComponentEditor 
-            componentName={CMS_COMPONENTS[activeTab].name} 
-            fields={CMS_COMPONENTS[activeTab].fields} 
+            slug={CMS_PAGES[activeTab].slug} 
+            title={CMS_PAGES[activeTab].defaultTitle}
           />
         </div>
       </div>

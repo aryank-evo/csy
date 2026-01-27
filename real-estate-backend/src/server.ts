@@ -12,7 +12,7 @@ import adminRoutes from "./routes/adminRoutes";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes";
 import leadRoutes from "./routes/leadRoutes";
 import propertyRoutes from "./routes/propertyRoutes";
-import cmsRoutes from "./routes/cmsRoutes";
+import cmsPageRoutes from "./routes/cmsPageRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -30,7 +30,7 @@ app.use("/api", protectedRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/lead", leadRoutes);
-app.use("/api/cms", cmsRoutes);
+app.use("/api/cms", cmsPageRoutes);
 
 // Run pending migrations before starting the server
 const runMigrations = async () => {

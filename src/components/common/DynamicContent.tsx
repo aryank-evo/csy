@@ -1,42 +1,40 @@
 "use client"
-import { fetchCmsContent } from '@/utils/cmsApi';
+import { fetchCmsPage } from '@/utils/cmsApi';
 import { useQuery } from '@tanstack/react-query';
 
 interface DynamicContentProps {
-  componentName: string;
-  fieldName: string;
+  slug: string;
+  type?: 'title' | 'content';
   defaultContent?: string;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
 }
 
 const DynamicContent = ({ 
-  componentName, 
-  fieldName, 
+  slug, 
+  type = 'content',
   defaultContent = '', 
   className = '',
   as: Component = 'div'
 }: DynamicContentProps) => {
-  const { data: cmsData, isLoading: loading } = useQuery({
-    queryKey: ['cms-content', componentName],
-    queryFn: () => fetchCmsContent(componentName),
+  const { data: pageData, isLoading: loading } = useQuery({
+    queryKey: ['cms-page', slug],
+    queryFn: () => fetchCmsPage(slug),
   });
 
   if (loading) {
     return <Component className={className}>{defaultContent}</Component>;
   }
 
-  const fieldData = cmsData?.success && cmsData?.data 
-    ? cmsData.data.find((item: any) => item.fieldName === fieldName)
-    : null;
+  const content = pageData ? pageData[type] : defaultContent;
   
-  const content = fieldData ? fieldData.contentValue : defaultContent;
+  if (!content) return <Component className={className}>{defaultContent}</Component>;
 
-  // If content looks like HTML, render it as such
-  if (typeof content === 'string' && (content.includes('<') && content.includes('>'))) {
+  // If content is HTML (from Classic Editor), render it safely
+  if (type === 'content') {
     return (
-      <Component 
-        className={className}
+      <div 
+        className={`cms-dynamic-content ${className}`}
         dangerouslySetInnerHTML={{ __html: content }} 
       />
     );

@@ -54,6 +54,32 @@ const getDashboardCardData = (stats: any): DataType[] => [
 const DashboardBody = () => {
    const [activeTab, setActiveTab] = useState<"overview" | "all-properties" | "cms">("overview");
 
+   // Clean up any lingering modal backdrops when component mounts
+   useEffect(() => {
+      const cleanupModals = () => {
+         // Remove any lingering modal backdrops
+         const existingBackdrops = document.querySelectorAll('.modal-backdrop');
+         existingBackdrops.forEach(backdrop => {
+            if (backdrop.parentNode) {
+               backdrop.parentNode.removeChild(backdrop);
+            }
+         });
+         
+         // Remove any body classes that might remain from modals
+         if (document.body.classList.contains('modal-open')) {
+            document.body.classList.remove('modal-open');
+         }
+      };
+      
+      // Run cleanup immediately
+      cleanupModals();
+      
+      // Also run on component unmount
+      return () => {
+         cleanupModals();
+      };
+   }, []);
+
    const { data: propertiesData, isLoading: loading } = useQuery({
       queryKey: ["properties", "all-combined"],
       queryFn: async () => {
