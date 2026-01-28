@@ -48,6 +48,8 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   const [aboutDesc2, setAboutDesc2] = useState('');
   const [aboutDesc3, setAboutDesc3] = useState('');
   const [aboutMission, setAboutMission] = useState('');
+  
+
   const [primaryImageFile, setPrimaryImageFile] = useState<File | null>(null);
   const [secondaryImageFile, setSecondaryImageFile] = useState<File | null>(null);
   const [primaryImagePreview, setPrimaryImagePreview] = useState('');
@@ -331,95 +333,6 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
         />
         <div className="form-text">Name and title of the director</div>
       </div>
-      
-      {/* About-specific fields - only show for about-us page */}
-      {slug === 'about-us' && (
-        <>
-          <div className="mb-4">
-            <label className="form-label fw-bold">About Subtitle</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              value={aboutSubtitle}
-              onChange={(e) => setAboutSubtitle(e.target.value)}
-              placeholder="Enter about subtitle"
-            />
-            <div className="form-text">Subtitle for the about section</div>
-          </div>
-          
-          <div className="mb-4">
-            <label className="form-label fw-bold">About Description 1</label>
-            <textarea 
-              className="form-control"
-              rows={3}
-              value={aboutDesc1}
-              onChange={(e) => setAboutDesc1(e.target.value)}
-              placeholder="Enter first about description"
-            />
-            <div className="form-text">First description text for the about section</div>
-          </div>
-          
-          <div className="mb-4">
-            <label className="form-label fw-bold">About Title 1</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              value={aboutTitle1}
-              onChange={(e) => setAboutTitle1(e.target.value)}
-              placeholder="Enter first about title"
-            />
-            <div className="form-text">First title for the about section</div>
-          </div>
-          
-          <div className="mb-4">
-            <label className="form-label fw-bold">About Title 2</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              value={aboutTitle2}
-              onChange={(e) => setAboutTitle2(e.target.value)}
-              placeholder="Enter second about title"
-            />
-            <div className="form-text">Second title for the about section</div>
-          </div>
-          
-          <div className="mb-4">
-            <label className="form-label fw-bold">About Description 2</label>
-            <textarea 
-              className="form-control"
-              rows={3}
-              value={aboutDesc2}
-              onChange={(e) => setAboutDesc2(e.target.value)}
-              placeholder="Enter second about description"
-            />
-            <div className="form-text">Second description text for the about section</div>
-          </div>
-          
-          <div className="mb-4">
-            <label className="form-label fw-bold">About Description 3</label>
-            <textarea 
-              className="form-control"
-              rows={3}
-              value={aboutDesc3}
-              onChange={(e) => setAboutDesc3(e.target.value)}
-              placeholder="Enter third about description"
-            />
-            <div className="form-text">Third description text for the about section</div>
-          </div>
-          
-          <div className="mb-4">
-            <label className="form-label fw-bold">About Mission</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              value={aboutMission}
-              onChange={(e) => setAboutMission(e.target.value)}
-              placeholder="Enter about mission"
-            />
-            <div className="form-text">Mission text for the about section</div>
-          </div>
-        </>
-      )}
       
       <div className="mb-4">
         <label className="form-label fw-bold">Secondary Image</label>
