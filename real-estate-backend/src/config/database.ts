@@ -168,6 +168,10 @@ GallerySection.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
   youtube_links: {
     type: DataTypes.JSON,
     allowNull: true,

@@ -25,7 +25,7 @@ export const getAllGallerySections = async (req: Request, res: Response): Promis
 
 export const createGallerySection = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { heading, youtube_links = [] } = req.body;
+    const { heading, description, youtube_links = [] } = req.body;
 
     if (!heading) {
       res.status(400).json({
@@ -43,6 +43,7 @@ export const createGallerySection = async (req: Request, res: Response): Promise
 
     const section = await GallerySection.create({
       heading,
+      description: description || null,
       youtube_links: Array.isArray(youtube_links) ? youtube_links.filter(link => link.trim()) : [],
       order
     });
@@ -65,7 +66,7 @@ export const createGallerySection = async (req: Request, res: Response): Promise
 export const updateGallerySection = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { heading, youtube_links = [] } = req.body;
+    const { heading, description, youtube_links = [] } = req.body;
 
     if (!heading) {
       res.status(400).json({
@@ -86,6 +87,7 @@ export const updateGallerySection = async (req: Request, res: Response): Promise
 
     await section.update({
       heading,
+      description: description || null,
       youtube_links: Array.isArray(youtube_links) ? youtube_links.filter(link => link.trim()) : []
     });
 

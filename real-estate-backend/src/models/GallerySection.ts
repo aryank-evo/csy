@@ -3,6 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize';
 interface GallerySectionAttributes {
   id: number;
   heading: string;
+  description?: string;
   youtube_links?: string[];
   order: number;
   createdAt?: Date;
@@ -14,6 +15,7 @@ export interface GallerySectionCreationAttributes extends Optional<GallerySectio
 export class GallerySection extends Model<GallerySectionAttributes, GallerySectionCreationAttributes> implements GallerySectionAttributes {
   public id!: number;
   public heading!: string;
+  public description?: string;
   public youtube_links?: string[];
   public order!: number;
   public declare createdAt: Date;

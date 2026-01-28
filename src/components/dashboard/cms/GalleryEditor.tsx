@@ -8,6 +8,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 interface GallerySection {
   id: number;
   heading: string;
+  description?: string;
   youtube_links: string[];
   order: number;
 }
@@ -32,7 +33,7 @@ const GalleryEditor = () => {
   }, [gallerySections]);
 
   const createMutation = useMutation({
-    mutationFn: async (data: { heading: string; youtube_links: string[] }) => {
+    mutationFn: async (data: { heading: string; description?: string; youtube_links: string[] }) => {
       const response = await apiInstance.post('/gallery', data);
       return response.data;
     },
@@ -48,7 +49,7 @@ const GalleryEditor = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: number; data: { heading: string; youtube_links: string[] } }) => {
+    mutationFn: async ({ id, data }: { id: number; data: { heading: string; description?: string; youtube_links: string[] } }) => {
       const response = await apiInstance.put(`/gallery/${id}`, data);
       return response.data;
     },
@@ -80,6 +81,7 @@ const GalleryEditor = () => {
     const newSection: GallerySection = {
       id: Date.now(),
       heading: '',
+      description: '',
       youtube_links: [''],
       order: sections.length
     };
@@ -99,6 +101,7 @@ const GalleryEditor = () => {
       // New section
       createMutation.mutate({
         heading: section.heading,
+        description: section.description,
         youtube_links: links
       });
     } else {
@@ -107,6 +110,7 @@ const GalleryEditor = () => {
         id: section.id,
         data: {
           heading: section.heading,
+          description: section.description,
           youtube_links: links
         }
       });
@@ -121,6 +125,10 @@ const GalleryEditor = () => {
 
   const handleHeadingChange = (id: number, value: string) => {
     setSections(sections.map(s => s.id === id ? { ...s, heading: value } : s));
+  };
+
+  const handleDescriptionChange = (id: number, value: string) => {
+    setSections(sections.map(s => s.id === id ? { ...s, description: value } : s));
   };
 
   const handleLinkChange = (sectionId: number, linkIndex: number, value: string) => {
@@ -255,6 +263,17 @@ const GalleryEditor = () => {
                     </div>
 
                     <div className="mb-3">
+                      <label className="form-label">Section Description</label>
+                      <textarea
+                        className="form-control"
+                        rows={3}
+                        value={section.description || ''}
+                        onChange={(e) => handleDescriptionChange(section.id, e.target.value)}
+                        placeholder="Add a description for this gallery section..."
+                      />
+                    </div>
+
+                    <div className="mb-3">
                       <label className="form-label">YouTube Links</label>
                       <div className="mb-2">
                         <small className="text-muted d-block mb-2">
@@ -293,6 +312,9 @@ const GalleryEditor = () => {
                 ) : (
                   <>
                     <h5 className="card-title mb-3">{section.heading}</h5>
+                    {section.description && (
+                      <p className="card-text mb-3 text-muted">{section.description}</p>
+                    )}
                     <div>
                       <small className="text-muted">
                         <strong>YouTube Links:</strong> {section.youtube_links.filter(l => l.trim()).length} video(s)
