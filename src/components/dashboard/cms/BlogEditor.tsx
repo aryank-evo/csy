@@ -144,7 +144,7 @@ const BlogEditor = () => {
   return (
     <div className="blog-editor">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="mb-0">{isEditing ? (currentBlog?.id ? 'Edit Blog' : 'Add New Blog') : 'Manage Blogs'}</h4>
+        <h4 className="mb-0 fw-normal">{isEditing ? (currentBlog?.id ? 'Edit Blog' : 'Add New Blog') : 'Manage Blogs'}</h4>
         {!isEditing && (
           <button className="btn btn-primary" onClick={() => setIsEditing(true)}>
             <i className="bi bi-plus-circle me-2"></i>Add New Blog
@@ -158,7 +158,7 @@ const BlogEditor = () => {
             <div className="row">
               <div className="col-md-8">
                 <div className="mb-3">
-                  <label className="form-label fw-bold">Blog Title</label>
+                  <label className="form-label fw-medium text-muted small">Blog Title</label>
                   <input
                     type="text"
                     className="form-control"
@@ -170,7 +170,7 @@ const BlogEditor = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label fw-bold">Main Content</label>
+                  <label className="form-label fw-medium text-muted small">Main Content</label>
                   <ClassicEditor
                     value={currentBlog?.content || ''}
                     onChange={(content) => setCurrentBlog({ ...currentBlog, content })}
@@ -180,7 +180,7 @@ const BlogEditor = () => {
 
               <div className="col-md-4">
                 <div className="mb-3">
-                  <label className="form-label fw-bold">Author Name</label>
+                  <label className="form-label fw-medium text-muted small">Author Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -191,7 +191,7 @@ const BlogEditor = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label fw-bold">Category</label>
+                  <label className="form-label fw-medium text-muted small">Category</label>
                   <input
                     type="text"
                     className="form-control"
@@ -202,7 +202,7 @@ const BlogEditor = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label fw-bold">Keywords</label>
+                  <label className="form-label fw-medium text-muted small">Keywords</label>
                   <input
                     type="text"
                     className="form-control"
@@ -213,7 +213,7 @@ const BlogEditor = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="form-label fw-bold d-block">Primary Image (Thumbnail)</label>
+                  <label className="form-label fw-medium text-muted small d-block">Primary Image (Thumbnail)</label>
                   <div 
                     className="image-upload-box border border-2 border-dashed rounded p-2 text-center bg-light cursor-pointer"
                     style={{ height: '150px', position: 'relative' }}
@@ -232,7 +232,7 @@ const BlogEditor = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="form-label fw-bold d-block">Secondary Image</label>
+                  <label className="form-label fw-medium text-muted small d-block">Secondary Image</label>
                   <div 
                     className="image-upload-box border border-2 border-dashed rounded p-2 text-center bg-light cursor-pointer"
                     style={{ height: '150px', position: 'relative' }}
@@ -266,13 +266,13 @@ const BlogEditor = () => {
         <div className="blog-list">
           <div className="table-responsive bg-white rounded shadow-sm border">
             <table className="table table-hover mb-0 align-middle">
-              <thead className="bg-light">
+              <thead className="bg-light border-bottom">
                 <tr>
-                  <th className="ps-4">Blog Title</th>
-                  <th>Category</th>
-                  <th>Author</th>
-                  <th>Date</th>
-                  <th className="text-end pe-4">Actions</th>
+                  <th className="ps-4 py-3 fw-normal text-muted small text-uppercase">Blog Title</th>
+                  <th className="py-3 fw-normal text-muted small text-uppercase">Category</th>
+                  <th className="py-3 fw-normal text-muted small text-uppercase">Author</th>
+                  <th className="py-3 fw-normal text-muted small text-uppercase">Date</th>
+                  <th className="text-end pe-4 py-3 fw-normal text-muted small text-uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -282,23 +282,23 @@ const BlogEditor = () => {
                   </tr>
                 ) : (
                   blogs.map((blog: Blog) => (
-                    <tr key={blog.id}>
-                      <td className="ps-4">
+                    <tr key={blog.id} className="border-bottom">
+                      <td className="ps-4 py-3">
                         <div className="d-flex align-items-center">
                           {blog.primary_image && (
-                            <img src={blog.primary_image} alt="" className="rounded me-3" style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
+                            <img src={blog.primary_image} alt="" className="rounded me-3" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
                           )}
-                          <span className="fw-medium">{blog.title}</span>
+                          <span className="fw-normal">{blog.title}</span>
                         </div>
                       </td>
-                      <td><span className="badge bg-light text-dark border">{blog.category || 'N/A'}</span></td>
-                      <td>{blog.author_name || 'Admin'}</td>
-                      <td>{new Date(blog.createdAt).toLocaleDateString()}</td>
-                      <td className="text-end pe-4">
-                        <button className="btn btn-sm btn-outline-primary me-2" onClick={() => handleEdit(blog)}>
+                      <td className="py-3"><span className="badge bg-light text-dark border px-3 py-2 fw-normal">{blog.category || 'N/A'}</span></td>
+                      <td className="py-3 text-muted">{blog.author_name || 'Admin'}</td>
+                      <td className="py-3 text-muted small">{new Date(blog.createdAt).toLocaleDateString()}</td>
+                      <td className="text-end pe-4 py-3">
+                        <button className="btn btn-sm btn-light border me-2" onClick={() => handleEdit(blog)} title="Edit">
                           <i className="bi bi-pencil"></i>
                         </button>
-                        <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(blog.id)}>
+                        <button className="btn btn-sm btn-light border text-danger" onClick={() => handleDelete(blog.id)} title="Delete">
                           <i className="bi bi-trash"></i>
                         </button>
                       </td>

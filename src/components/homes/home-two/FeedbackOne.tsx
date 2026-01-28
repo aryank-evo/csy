@@ -12,7 +12,7 @@ const Feedback = () => {
          <div className="container">
             <div className="row justify-content-center align-items-center">
 
-               <div className="col-lg-8">
+               <div className="col-lg-8 py-5">
                   {/* <div className="row"> */}
                      {/* <div className="col-lg-12 order-lg-last"> */}
                          <div className="bg-wrapper w-100 d-flex flex-column justify-content-center">
