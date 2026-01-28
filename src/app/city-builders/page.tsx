@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import FooterOne from "@/layouts/footers/FooterOne";
@@ -5,25 +6,25 @@ import BreadcrumbOne from "@/components/common/breadcrumb/BreadcrumbOne";
 import Wrapper from "@/layouts/Wrapper";
 import DynamicContent from "@/components/common/DynamicContent";
 
-export const metadata = {
-  title: "City Builders - Construction Experts",
-};
+// export const metadata = {
+//   title: "City Builders - Construction Experts",
+// };
 
 const CityBuildersPage = () => {
   return (
     <Wrapper>
       <HeaderOne style={true} />
-      <main>
+     <main>
         <BreadcrumbOne title="City Builders" sub_title="Our Construction Partner" style={false} />
         <div className="about-us-section pt-150 lg-pt-100 pb-150 lg-pb-100">
           <div className="container">
             <div className="row align-items-center">
-              <div className="col-lg-6">
+               <div className="col-lg-6">
                 <div className="img-box position-relative z-1 pe-lg-5 md-mb-50">
                   <DynamicContent 
                     slug="city-builder" 
                     type="primaryImage"
-                    defaultContent="/user_placeholder.jpg"
+                    defaultContent="/user_placeholder.jpg"     
                     as="img"
                     className="w-100 rounded-4 shadow-lg"
                     width={600} 
@@ -59,7 +60,7 @@ const CityBuildersPage = () => {
                     <DynamicContent 
                       slug="city-builder" 
                       type="directorMsg" 
-                      defaultContent='"Our mission is to build spaces that inspire. We don\'t just construct buildings; we create environments where families grow and businesses thrive."'
+                      defaultContent='"Our mission is to build spaces that inspire. We do not just construct buildings; we create environments where families grow and businesses thrive."'
                       as="p"
                       className="fst-italic mb-0"
                     />
@@ -73,6 +74,7 @@ const CityBuildersPage = () => {
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>
