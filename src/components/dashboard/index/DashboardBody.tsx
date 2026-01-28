@@ -5,7 +5,6 @@ import NiceSelect from "@/ui/NiceSelect"
 import RecentMessage from "./RecentMessage"
 import DashboardHeaderTwo from "@/layouts/headers/dashboard/DashboardHeaderTwo"
 import AllPropertiesTab from "../AllPropertiesTab"
-import CmsDashboard from "../cms/CmsDashboard"
 import { useQuery } from "@tanstack/react-query"
 import apiInstance from "@/utils/apiInstance"
 
@@ -52,7 +51,7 @@ const getDashboardCardData = (stats: any): DataType[] => [
 ];
 
 const DashboardBody = () => {
-   const [activeTab, setActiveTab] = useState<"overview" | "all-properties" | "cms">("overview");
+   const [activeTab, setActiveTab] = useState<"overview" | "all-properties">("overview");
 
    // Clean up any lingering modal backdrops when component mounts
    useEffect(() => {
@@ -120,12 +119,6 @@ const DashboardBody = () => {
                   >
                      <i className="bi bi-house-door me-2"></i>All Properties
                   </button>
-                  <button
-                     className={`flex-fill py-3 px-4 text-center border-0 ${activeTab === "cms" ? "bg-primary text-white" : "bg-light text-dark"}`}
-                     onClick={() => setActiveTab("cms")}
-                  >
-                     <i className="bi bi-pencil-square me-2"></i>CMS Management
-                  </button>
                </div>
             </div>
 
@@ -180,10 +173,8 @@ const DashboardBody = () => {
                      </div>
                   </div>
                </>
-            ) : activeTab === "all-properties" ? (
-               <AllPropertiesTab />
             ) : (
-               <CmsDashboard />
+               <AllPropertiesTab />
             )}
 
 
