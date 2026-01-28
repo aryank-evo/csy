@@ -1,44 +1,62 @@
 import property_feature_list from "@/data/inner-data/PropertyFeatureListData"
 
 const CommonPropertyFeatureList = ({ property }: any) => {
-   const { bedrooms, bathrooms, area, propertyType, propertyStatus, possessionStatus, propertyAge, landArea, commercialArea, landType, leasePeriod, monthlyLeaseAmount, foodIncluded, gender, occupancy } = property || {};
+   const { bedrooms, bathrooms, area, propertyType, propertyStatus, possessionStatus, propertyAge, landArea, commercialArea, landType, leasePeriod, monthlyLeaseAmount, foodIncluded, gender, occupancy, fieldVisibility } = property || {};
 
-   const dynamic_feature_list = [
-      {
-         id: 1,
-         title: "Property Details",
-         feature_list: [
-            { title: "Bedrooms:", count: String(bedrooms || 0) },
-            { title: "Bathrooms:", count: String(bathrooms || 0) },
-            { title: "Sqft:", count: String(area || landArea || commercialArea || 0) },
-            { title: "Property Type:", count: propertyType || "N/A" },
-            { title: "Status:", count: propertyStatus || "N/A" },
-            { title: "Possession:", count: possessionStatus || "N/A" },
-            { title: "Property Age:", count: propertyAge || "N/A" },
-         ],
-      },
-   ];
+   // Helper function to check if a field should be visible
+   const isFieldVisible = (fieldKey: string) => {
+      if (!fieldVisibility) return true; // Show all if no visibility settings
+      return fieldVisibility[fieldKey] !== false; // Show if not explicitly hidden
+   };
 
+   const feature_list: { title: string; count: string; fieldKey?: string }[] = [];
+
+   // Add fields based on visibility settings
+   if (isFieldVisible('bedrooms') && bedrooms) {
+      feature_list.push({ title: "Bedrooms:", count: String(bedrooms || 0), fieldKey: 'bedrooms' });
+   }
+   if (isFieldVisible('bathrooms') && bathrooms) {
+      feature_list.push({ title: "Bathrooms:", count: String(bathrooms || 0), fieldKey: 'bathrooms' });
+   }
+   if (isFieldVisible('area') && (area || landArea || commercialArea)) {
+      feature_list.push({ title: "Sqft:", count: String(area || landArea || commercialArea || 0), fieldKey: 'area' });
+   }
+   if (isFieldVisible('propertyType') && propertyType) {
+      feature_list.push({ title: "Property Type:", count: propertyType || "N/A", fieldKey: 'propertyType' });
+   }
+   if (isFieldVisible('propertyStatus') && propertyStatus) {
+      feature_list.push({ title: "Status:", count: propertyStatus || "N/A", fieldKey: 'propertyStatus' });
+   }
+   if (isFieldVisible('amenities') && possessionStatus) {
+      feature_list.push({ title: "Possession:", count: possessionStatus || "N/A", fieldKey: 'amenities' });
+   }
+   if (isFieldVisible('description') && propertyAge) {
+      feature_list.push({ title: "Property Age:", count: propertyAge || "N/A", fieldKey: 'description' });
+   }
+
+   // Add type-specific fields
    if (propertyType?.toLowerCase() === 'lease') {
-      dynamic_feature_list[0].feature_list.push(
-         { title: "Lease Period:", count: leasePeriod || "N/A" },
-         { title: "Monthly Lease:", count: String(monthlyLeaseAmount || 0) }
-      );
+      feature_list.push({ title: "Lease Period:", count: leasePeriod || "N/A" });
+      feature_list.push({ title: "Monthly Lease:", count: String(monthlyLeaseAmount || 0) });
    }
 
    if (propertyType?.toLowerCase() === 'pg') {
-      dynamic_feature_list[0].feature_list.push(
-         { title: "Food Included:", count: foodIncluded ? "Yes" : "No" },
-         { title: "Gender Allowed:", count: gender || "Any" },
-         { title: "Occupancy:", count: occupancy || "N/A" }
-      );
+      feature_list.push({ title: "Food Included:", count: foodIncluded ? "Yes" : "No" });
+      feature_list.push({ title: "Gender Allowed:", count: gender || "Any" });
+      feature_list.push({ title: "Occupancy:", count: occupancy || "N/A" });
    }
 
-   if (propertyType?.toLowerCase() === 'land') {
-      dynamic_feature_list[0].feature_list.push(
-         { title: "Land Type:", count: landType || "N/A" }
-      );
+   if (propertyType?.toLowerCase() === 'land' && isFieldVisible('title')) {
+      feature_list.push({ title: "Land Type:", count: landType || "N/A" });
    }
+
+   const dynamic_feature_list = feature_list.length > 0 ? [
+      {
+         id: 1,
+         title: "Property Details",
+         feature_list: feature_list,
+      },
+   ] : [];
 
    return (
       <div className="accordion" id="accordionTwo">

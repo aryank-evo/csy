@@ -6,7 +6,13 @@ import Image from "next/image"
 import infoAvatar from "@/assets/images/agent/img_06.jpg"
 
 const DynamicSidebar = ({ property }: any) => {
-   const { contactName, contactEmail, contactPhone, location } = property || {};
+   const { contactName, contactEmail, contactPhone, location, fieldVisibility } = property || {};
+
+   // Helper function to check if a field should be visible
+   const isFieldVisible = (fieldKey: string) => {
+      if (!fieldVisibility) return true; // Show all if no visibility settings
+      return fieldVisibility[fieldKey] !== false; // Show if not explicitly hidden
+   };
 
    return (
       <div className="col-xl-4 col-lg-8 me-auto ms-auto">
@@ -26,10 +32,10 @@ const DynamicSidebar = ({ property }: any) => {
                </div>
                <div className="divider-line mt-40 mb-45 pt-20">
                   <ul className="style-none">
-                     <li>Location: <span>{location || "India"}</span></li>
-                     <li>Email: <span><Link href={`mailto:${contactEmail || 'contact@csy.com'}`}>{contactEmail || 'contact@csy.com'}</Link></span>
-                     </li>
-                     <li>Phone: <span><Link href={`tel:${contactPhone || '+910000000000'}`}>{contactPhone || '+91 000 000 0000'}</Link></span></li>
+                     {isFieldVisible('location') && <li>Location: <span>{location || "India"}</span></li>}
+                     {isFieldVisible('contactEmail') && <li>Email: <span><Link href={`mailto:${contactEmail || 'contact@csy.com'}`}>{contactEmail || 'contact@csy.com'}</Link></span>
+                     </li>}
+                     {isFieldVisible('contactPhone') && <li>Phone: <span><Link href={`tel:${contactPhone || '+910000000000'}`}>{contactPhone || '+91 000 000 0000'}</Link></span></li>}
                   </ul>
                </div>
                <Link href="/contact" className="btn-nine text-uppercase rounded-3 w-100 mb-10">CONTACT AGENT</Link>

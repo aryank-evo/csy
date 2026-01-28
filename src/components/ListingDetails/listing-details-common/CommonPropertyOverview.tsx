@@ -41,35 +41,51 @@ const property_overview_data: DataType[] = [
 ]
 
 const CommonPropertyOverview = ({ property }: any) => {
-   const { area, bedrooms, bathrooms, propertyType, landArea, commercialArea } = property || {};
+   const { area, bedrooms, bathrooms, propertyType, landArea, commercialArea, fieldVisibility } = property || {};
    
+   // Helper function to check if a field should be visible
+   const isFieldVisible = (fieldKey: string) => {
+      if (!fieldVisibility) return true; // Show all if no visibility settings
+      return fieldVisibility[fieldKey] !== false; // Show if not explicitly hidden
+   };
+
    const overview_data = [
       {
          id: 1,
          icon: icon_1,
          title: `Sqft . ${area || landArea || commercialArea || 0}`,
+         fieldKey: 'area',
+         condition: isFieldVisible('area') && (area || landArea || commercialArea)
       },
       {
          id: 2,
          icon: icon_2,
          title: `Bed . ${bedrooms || 0}`,
+         fieldKey: 'bedrooms',
+         condition: isFieldVisible('bedrooms') && bedrooms
       },
       {
          id: 3,
          icon: icon_3,
          title: `Bath . ${bathrooms || 0}`,
+         fieldKey: 'bathrooms',
+         condition: isFieldVisible('bathrooms') && bathrooms
       },
       {
          id: 4,
          icon: icon_4,
          title: `Kitchen . 01`,
+         fieldKey: 'amenities',
+         condition: isFieldVisible('amenities')
       },
       {
          id: 5,
          icon: icon_5,
          title: `Type . ${propertyType || 'Apartment'}`,
+         fieldKey: 'propertyType',
+         condition: isFieldVisible('propertyType') && propertyType
       },
-   ];
+   ].filter(item => item.condition !== false);
 
    return (
       <ul className="style-none d-flex flex-wrap align-items-center justify-content-between">

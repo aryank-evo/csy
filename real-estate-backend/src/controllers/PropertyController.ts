@@ -859,10 +859,21 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       description,
       price,
       location,
+      address,
+      city,
+      state,
+      zipCode,
+      country,
       propertyStatus,
+      bedrooms,
+      bathrooms,
+      area,
+      amenities,
       contactName,
       contactEmail,
       contactPhone,
+      fieldVisibility,
+      imageVisibility,
       existingImages // Optional: if frontend wants to keep some old images
     } = req.body;
 
@@ -882,10 +893,21 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       description,
       price,
       location,
+      address,
+      city,
+      state,
+      zipCode,
+      country,
       propertyStatus,
+      bedrooms,
+      bathrooms,
+      area,
+      amenities,
       contactName,
       contactEmail,
-      contactPhone
+      contactPhone,
+      fieldVisibility,
+      imageVisibility
     };
 
     // Only update images if new ones were uploaded or existing ones were provided

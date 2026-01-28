@@ -1,20 +1,32 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 
 interface Property {
   id: number
-  title: string
-  description: string
-  price: string
-  location: string
+  title?: string
+  description?: string
+  price?: string
+  location?: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  country?: string
   propertyType: string
-  propertyStatus: string
+  propertyStatus?: string
   approvalStatus: string
   createdAt?: string
   contactName?: string
   contactEmail?: string
   contactPhone?: string
+  bedrooms?: string
+  bathrooms?: string
+  area?: string
+  amenities?: string
+  images?: string[]
+  fieldVisibility?: Record<string, boolean>
+  imageVisibility?: Record<number, boolean>
   [key: string]: any
 }
 
@@ -25,19 +37,152 @@ interface AdminPropertyEditModalProps {
   onUpdate: (updatedProperty: Property) => void
 }
 
+// Fields to exclude from the dynamic form (non-editable or system fields)
+const EXCLUDED_FIELDS = [
+  'id',
+  'propertyType',
+  'approvalStatus',
+  'createdAt',
+  'updatedAt',
+  'images',
+  'fieldVisibility',
+  'imageVisibility',
+  'userId',
+  'approvedBy',
+  'approvedAt',
+  '__rawAttributes',
+  'dataValues',
+  '_previousDataValues',
+  'unique',
+  'hasPrimaryKeys',
+  'hasPrimaryKeys',
+  '_changed',
+  '_options'
+]
+
+// Fields that should use a select dropdown
+const SELECT_FIELDS = {
+  propertyStatus: [
+    { value: '', label: 'Select Status' },
+    { value: 'available', label: 'Available' },
+    { value: 'sold', label: 'Sold' },
+    { value: 'rented', label: 'Rented' },
+    { value: 'under_construction', label: 'Under Construction' },
+    { value: 'ready', label: 'Ready' }
+  ]
+}
+
+// Generate label from camelCase or snake_case key
+const generateLabel = (key: string): string => {
+  // Handle snake_case
+  if (key.includes('_')) {
+    return key
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ')
+  }
+  // Handle camelCase - insert space before uppercase letters and capitalize each word
+  return key
+    .replace(/([A-Z])/g, ' $1')
+    .trim()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
+// Determine input type based on field name and value
+const getFieldConfig = (key: string, value: any): { type: string; label: string; options?: { value: string; label: string }[] } => {
+  const label = generateLabel(key)
+  
+  // Check if it's a select field
+  if (SELECT_FIELDS[key as keyof typeof SELECT_FIELDS]) {
+    return {
+      type: 'select',
+      label,
+      options: SELECT_FIELDS[key as keyof typeof SELECT_FIELDS]
+    }
+  }
+  
+  // Determine type based on field name patterns
+  const lowerKey = key.toLowerCase()
+  
+  if (lowerKey.includes('email')) {
+    return { type: 'email', label }
+  }
+  if (lowerKey.includes('phone') || lowerKey.includes('mobile')) {
+    return { type: 'tel', label }
+  }
+  if (lowerKey.includes('price') || lowerKey.includes('amount') || lowerKey.includes('deposit') || lowerKey.includes('rent')) {
+    return { type: 'number', label }
+  }
+  if (lowerKey.includes('description') || lowerKey.includes('terms') || lowerKey.includes('content')) {
+    return { type: 'textarea', label }
+  }
+  if (lowerKey.includes('area') || lowerKey.includes('sqft') || lowerKey.includes('size')) {
+    return { type: 'number', label }
+  }
+  
+  // Check if value looks like it should be a number
+  if (typeof value === 'number' || (typeof value === 'string' && !isNaN(parseFloat(value)) && /^-?\d*\.?\d+$/.test(value))) {
+    return { type: 'number', label }
+  }
+  
+  return { type: 'text', label }
+}
+
 const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPropertyEditModalProps) => {
-  const [formData, setFormData] = useState({
-    title: property.title || "",
-    description: property.description || "",
-    price: property.price || "",
-    location: property.location || "",
-    propertyStatus: property.propertyStatus || "",
-    approvalStatus: property.approvalStatus || "pending",
-    contactName: property.contactName || "",
-    contactEmail: property.contactEmail || "",
-    contactPhone: property.contactPhone || ""
-  })
+  const [formData, setFormData] = useState<Record<string, any>>({})
+  const [fieldVisibility, setFieldVisibility] = useState<Record<string, boolean>>({})
+  const [imageVisibility, setImageVisibility] = useState<Record<number, boolean>>({})
   const [loading, setLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<'fields' | 'images'>('fields')
+  const [dynamicFields, setDynamicFields] = useState<Array<{ key: string; type: string; label: string; options?: { value: string; label: string }[] }>>([])
+
+  useEffect(() => {
+    if (property) {
+      // Dynamically generate field configurations from property data
+      const fields: Array<{ key: string; type: string; label: string; options?: { value: string; label: string }[] }> = []
+      
+      Object.keys(property).forEach(key => {
+        // Skip excluded fields
+        if (EXCLUDED_FIELDS.includes(key)) return
+        
+        // Skip if value is null/undefined or if it's an array/object (except images handled separately)
+        const value = property[key]
+        if (value === null || value === undefined) return
+        if (Array.isArray(value)) return
+        if (typeof value === 'object') return
+        
+        const config = getFieldConfig(key, value)
+        fields.push({ key, ...config })
+      })
+      
+      setDynamicFields(fields)
+
+      // Initialize form data with all property fields
+      const data: Record<string, any> = {}
+      fields.forEach(field => {
+        data[field.key] = property[field.key] ?? ''
+      })
+      data.approvalStatus = property.approvalStatus || 'pending'
+      setFormData(data)
+
+      // Initialize field visibility (default all to true if not set)
+      const visibility: Record<string, boolean> = {}
+      fields.forEach(field => {
+        visibility[field.key] = property.fieldVisibility?.[field.key] !== false
+      })
+      setFieldVisibility(visibility)
+
+      // Initialize image visibility
+      const imgVisibility: Record<number, boolean> = {}
+      const images = property.images || []
+      images.forEach((_, index) => {
+        imgVisibility[index] = property.imageVisibility?.[index] !== false
+      })
+      setImageVisibility(imgVisibility)
+    }
+  }, [property])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -47,24 +192,43 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
     }))
   }
 
+  const toggleFieldVisibility = (fieldKey: string) => {
+    setFieldVisibility(prev => ({
+      ...prev,
+      [fieldKey]: !prev[fieldKey]
+    }))
+  }
+
+  const toggleImageVisibility = (index: number) => {
+    setImageVisibility(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
     try {
-      // Update property details
+      const updateData = {
+        ...formData,
+        fieldVisibility,
+        imageVisibility
+      }
+      
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/${property.id}?type=${property.propertyType}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(updateData)
       })
 
       if (response.ok) {
         const result = await response.json()
         toast.success("Property updated successfully!")
-        onUpdate({ ...property, ...formData })
+        onUpdate({ ...property, ...formData, fieldVisibility, imageVisibility })
         onClose()
       } else {
         toast.error("Failed to update property")
@@ -85,13 +249,13 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ approvalStatus: status })
+        body: JSON.stringify({ approvalStatus: status, fieldVisibility, imageVisibility })
       })
 
       if (response.ok) {
         const result = await response.json()
         toast.success(`Property ${status} successfully!`)
-        onUpdate({ ...property, approvalStatus: status })
+        onUpdate({ ...property, approvalStatus: status, fieldVisibility, imageVisibility })
         onClose()
       } else {
         toast.error(`Failed to ${status} property`)
@@ -108,18 +272,22 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
 
   return (
     <div className="modal fade show d-block" tabIndex={-1} style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-      <div className="modal-dialog modal-lg">
+      <div className="modal-dialog modal-xl">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Edit Property Details</h5>
+            <h5 className="modal-title">Property Approval & Edit</h5>
             <button type="button" className="btn-close" onClick={onClose}></button>
           </div>
           
-          <div className="modal-body">
+          <div className="modal-body px-4">
+            {/* Header Info */}
             <div className="row mb-3">
               <div className="col-12">
                 <div className="d-flex justify-content-between align-items-center">
-                  <h6 className="mb-0">Property ID: {property.id}</h6>
+                  <div>
+                    <h6 className="mb-0">Property ID: {property.id}</h6>
+                    <small className="text-muted">Type: {property.propertyType}</small>
+                  </div>
                   <span className={`badge ${
                     property.approvalStatus === "approved" ? "bg-success" : 
                     property.approvalStatus === "pending" ? "bg-warning" : "bg-danger"
@@ -130,109 +298,119 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
               </div>
             </div>
 
+            {/* Tabs */}
+            <ul className="nav nav-tabs mb-3">
+              <li className="nav-item">
+                <button 
+                  className={`nav-link ${activeTab === 'fields' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('fields')}
+                >
+                  All Fields
+                </button>
+              </li>
+              <li className="nav-item">
+                <button 
+                  className={`nav-link ${activeTab === 'images' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('images')}
+                >
+                  Images ({property.images?.length || 0})
+                </button>
+              </li>
+            </ul>
+
             <form onSubmit={handleSubmit}>
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Title</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    required
-                  />
+              {activeTab === 'fields' && (
+                <div className="row g-4">
+                  {dynamicFields.map((field) => (
+                    <div className="col-md-6" key={field.key}>
+                      <div className="d-flex align-items-center gap-2">
+                        <div className="flex-grow-1">
+                          <label className="form-label mb-1">{field.label}</label>
+                          {field.type === 'textarea' ? (
+                            <textarea
+                              className="form-control"
+                              name={field.key}
+                              value={formData[field.key] ?? ''}
+                              onChange={handleChange}
+                              rows={3}
+                            ></textarea>
+                          ) : field.type === 'select' ? (
+                            <select
+                              className="form-select"
+                              name={field.key}
+                              value={formData[field.key] ?? ''}
+                              onChange={handleChange}
+                            >
+                              {field.options?.map(opt => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                              ))}
+                            </select>
+                          ) : (
+                            <input
+                              type={field.type}
+                              className="form-control"
+                              name={field.key}
+                              value={formData[field.key] ?? ''}
+                              onChange={handleChange}
+                            />
+                          )}
+                        </div>
+                        <div className="form-check form-switch mt-4">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={fieldVisibility[field.key] ?? true}
+                            onChange={() => toggleFieldVisibility(field.key)}
+                            title="Toggle visibility on detail page"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Price (₹)</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    required
-                  />
+              )}
+
+              {activeTab === 'images' && (
+                <div className="row g-4">
+                  <div className="col-12">
+                    <p className="text-muted mb-0">Toggle visibility for each image on the detail page</p>
+                  </div>
+                  {property.images && property.images.length > 0 ? (
+                    property.images.map((image: string, index: number) => (
+                      <div className="col-md-3" key={index}>
+                        <div className="card h-100">
+                          <img 
+                            src={image} 
+                            alt={`Property image ${index + 1}`}
+                            className="card-img-top"
+                            style={{ height: '150px', objectFit: 'cover' }}
+                          />
+                          <div className="card-body p-2">
+                            <div className="d-flex align-items-center justify-content-between">
+                              <span className="small">Image {index + 1}</span>
+                              <div className="form-check form-switch m-0">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  checked={imageVisibility[index] ?? true}
+                                  onChange={() => toggleImageVisibility(index)}
+                                  title="Toggle visibility on detail page"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="col-12">
+                      <p className="text-muted text-center mb-0">No images uploaded for this property</p>
+                    </div>
+                  )}
                 </div>
-                
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Location</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Property Status</label>
-                  <select
-                    className="form-select"
-                    name="propertyStatus"
-                    value={formData.propertyStatus}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Status</option>
-                    <option value="available">Available</option>
-                    <option value="sold">Sold</option>
-                    <option value="rented">Rented</option>
-                    <option value="under_construction">Under Construction</option>
-                    <option value="ready">Ready</option>
-                  </select>
-                </div>
-                
-                <div className="col-12 mb-3">
-                  <label className="form-label">Description</label>
-                  <textarea
-                    className="form-control"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    rows={3}
-                    required
-                  ></textarea>
-                </div>
-                
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">Contact Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="contactName"
-                    value={formData.contactName}
-                    onChange={handleChange}
-                  />
-                </div>
-                
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">Contact Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    name="contactEmail"
-                    value={formData.contactEmail}
-                    onChange={handleChange}
-                  />
-                </div>
-                
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">Contact Phone</label>
-                  <input
-                    type="tel"
-                    className="form-control"
-                    name="contactPhone"
-                    value={formData.contactPhone}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              
-              <div className="d-flex justify-content-between mt-4">
+              )}
+
+              <div className="d-flex justify-content-between mt-4 pt-3 border-top">
                 <div>
                   <button
                     type="button"

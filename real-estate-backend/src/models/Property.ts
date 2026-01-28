@@ -28,6 +28,8 @@ interface PropertyAttributes {
   images?: string[];
   createdAt?: Date;
   updatedAt?: Date;
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
 }
 
 export interface PropertyCreationAttributes extends Optional<PropertyAttributes, 'id'> {}
@@ -57,6 +59,8 @@ export class Property extends Model<PropertyAttributes, PropertyCreationAttribut
   public contactEmail?: string;
   public contactPhone?: string;
   public images?: string[];
+  public declare fieldVisibility: Record<string, boolean>;
+  public declare imageVisibility: Record<number, boolean>;
   public declare createdAt: Date;
   public declare updatedAt: Date;
 }
@@ -159,6 +163,16 @@ Property.init({
     type: DataTypes.JSON,
     allowNull: true,
     defaultValue: [],
+  },
+  fieldVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
+  },
+  imageVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
   },
 }, {
   tableName: 'properties',

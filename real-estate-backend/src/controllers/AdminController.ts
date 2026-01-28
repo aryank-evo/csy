@@ -78,6 +78,7 @@ export const getPropertyById = async (req: Request, res: Response): Promise<void
 export const approveProperty = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
+    const { fieldVisibility, imageVisibility } = req.body;
     
     const property = await Property.findByPk(id);
     
@@ -87,6 +88,14 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
     }
     
     property.approvalStatus = 'approved';
+    
+    // Update visibility settings if provided
+    if (fieldVisibility) {
+      property.fieldVisibility = fieldVisibility;
+    }
+    if (imageVisibility) {
+      property.imageVisibility = imageVisibility;
+    }
     
     await property.save();
     
@@ -101,7 +110,7 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
 export const rejectProperty = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { reason } = req.body;
+    const { reason, fieldVisibility, imageVisibility } = req.body;
     
     const property = await Property.findByPk(id);
     
@@ -111,6 +120,14 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
     }
     
     property.approvalStatus = 'rejected';
+    
+    // Update visibility settings if provided
+    if (fieldVisibility) {
+      property.fieldVisibility = fieldVisibility;
+    }
+    if (imageVisibility) {
+      property.imageVisibility = imageVisibility;
+    }
     
     await property.save();
     

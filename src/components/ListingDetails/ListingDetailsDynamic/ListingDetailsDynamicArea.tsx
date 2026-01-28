@@ -58,21 +58,29 @@ const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) 
       );
    }
 
+   // Helper function to check if a field should be visible
+   const isFieldVisible = (fieldKey: string) => {
+      if (!property.fieldVisibility) return true; // Show all if no visibility settings
+      return property.fieldVisibility[fieldKey] !== false; // Show if not explicitly hidden
+   };
+
    return (
       <div className="listing-details-one theme-details-one bg-pink pt-180 lg-pt-150 pb-150 xl-pb-120">
          <div className="container">
             <CommonBanner property={property} />
-            <DynamicMediaGallery images={property.images} />
+            <DynamicMediaGallery images={property.images} imageVisibility={property.imageVisibility} />
             <div className="property-feature-list bg-white shadow4 border-20 p-40 mt-50 mb-60">
                <h4 className="sub-title-one mb-40 lg-mb-20">Property Overview</h4>
                <CommonPropertyOverview property={property} />
             </div>
             <div className="row">
                <div className="col-xl-8">
+                  {isFieldVisible('description') && (
                   <div className="property-overview mb-50 bg-white shadow4 border-20 p-40">
                      <h4 className="mb-20">Overview</h4>
                      <p className="fs-20 lh-lg">{property.description || "No description available for this property."}</p>
                   </div>
+                  )}
                   <div className="property-feature-accordion bg-white shadow4 border-20 p-40 mb-50">
                      <h4 className="mb-20">Property Features</h4>
                      <p className="fs-20 lh-lg">Key features and details about this property listing.</p>

@@ -1,9 +1,20 @@
 import Image from "next/image";
 import Fancybox from "@/components/common/Fancybox";
 
-const DynamicMediaGallery = ({ images }: { images: string[] }) => {
+interface DynamicMediaGalleryProps {
+  images: string[];
+  imageVisibility?: Record<number, boolean>;
+}
+
+const DynamicMediaGallery = ({ images, imageVisibility }: DynamicMediaGalleryProps) => {
+  // Filter images based on visibility settings
   const displayImages = images && images.length > 0 
-    ? images 
+    ? images.filter((_, index) => {
+        // If no visibility settings, show all images
+        if (!imageVisibility) return true;
+        // Show image if visibility is not explicitly set to false
+        return imageVisibility[index] !== false;
+      })
     : ["/assets/images/listing/img_01.jpg"]; // Placeholder
 
   return (
