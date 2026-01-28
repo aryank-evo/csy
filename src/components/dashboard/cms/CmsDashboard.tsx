@@ -3,6 +3,7 @@ import { useState } from 'react';
 import CmsComponentEditor from './CmsComponentEditor';
 import AdvertisementEditor from './AdvertisementEditor';
 import GalleryEditor from './GalleryEditor';
+import BlogEditor from './BlogEditor';
 
 const CMS_PAGES = [
   {
@@ -40,6 +41,12 @@ const TABS = [
     displayName: 'Gallery',
     defaultTitle: 'Gallery',
     isGallery: true
+  },
+  {
+    slug: 'blogs',
+    displayName: 'Blogs',
+    defaultTitle: 'Blogs',
+    isBlog: true
   }
 ];
 
@@ -48,6 +55,7 @@ const CmsDashboard = () => {
 
   const isAdvertisementTab = TABS[activeTab]?.isAdvertisement;
   const isGalleryTab = TABS[activeTab]?.isGallery;
+  const isBlogTab = TABS[activeTab]?.isBlog;
 
   return (
     <div className="cms-dashboard-container">
@@ -71,6 +79,11 @@ const CmsDashboard = () => {
                   ) : tab.isGallery ? (
                     <>
                       <i className="bi bi-images me-2"></i>
+                      {tab.displayName}
+                    </>
+                  ) : tab.isBlog ? (
+                    <>
+                      <i className="bi bi-journal-text me-2"></i>
                       {tab.displayName}
                     </>
                   ) : (
@@ -98,6 +111,14 @@ const CmsDashboard = () => {
                 <p className="text-muted small">Manage gallery sections with YouTube video links. Create sections with headings and add multiple video links per section.</p>
               </div>
               <GalleryEditor />
+            </>
+          ) : isBlogTab ? (
+            <>
+              <div className="cms-content-header mb-3">
+                <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
+                <p className="text-muted small">Manage your blog posts. Create, edit, and delete blogs with titles, content, images, categories, and keywords.</p>
+              </div>
+              <BlogEditor />
             </>
           ) : (
             <>

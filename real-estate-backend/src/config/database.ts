@@ -15,6 +15,7 @@ import { PgProperty } from '../models/PgProperty';
 import { CommercialProperty } from '../models/CommercialProperty';
 import { LandProperty } from '../models/LandProperty';
 import { GallerySection } from '../models/GallerySection';
+import { Blog } from '../models/Blog';
 
 // Define CmsPage model inline
 class CmsPage extends Model {
@@ -190,6 +191,48 @@ GallerySection.init({
   updatedAt: "updated_at"
 });
 
+// Initialize Blog model
+Blog.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  primary_image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  secondary_image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  author_name: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  category: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  keywords: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+}, {
+  tableName: 'blogs',
+  sequelize,
+  timestamps: true,
+  underscored: true
+});
+
 // Export models
 export { User, Property, Lead, CmsContent };
-export { CmsPage, Advertisement, GallerySection };
+export { CmsPage, Advertisement, GallerySection, Blog };

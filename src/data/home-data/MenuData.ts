@@ -73,5 +73,11 @@ const menu_data: MenuItem[] = [
         title: "City Builder",
         link: "/city-builders",
     },
+    {
+        id: 10,
+        has_dropdown: false,
+        title: "Blog",
+        link: "/blog_03",
+    },
 ];
 export default menu_data;

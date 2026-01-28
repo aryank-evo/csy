@@ -8,7 +8,7 @@ const BlogThree = () => {
    return (
       <>
          <HeaderOne style={true} />
-         <BreadcrumbOne title="Blog Full Width" link="#" link_title="Pages" sub_title="Blog" style={true} />
+         <BreadcrumbOne title="Our Blog" link="/" link_title="Home" sub_title="Blog" style={true} />
          <BlogThreeArea />
          <FancyBanner />
          <FooterFour />
