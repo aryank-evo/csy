@@ -231,6 +231,38 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.createProperty = createProperty;
 const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { type } = req.query;
+        // If a specific type is requested, only fetch from that table
+        if (type) {
+            let properties = [];
+            const whereClause = { approvalStatus: 'approved' };
+            const order = [['createdAt', 'DESC']];
+            const typeStr = String(type).toLowerCase();
+            if (typeStr === 'sale' || typeStr === 'sell' || typeStr === 'buy') {
+                properties = yield SaleProperty_1.SaleProperty.findAll({ where: whereClause, order });
+            }
+            else if (typeStr === 'rent') {
+                properties = yield RentProperty_1.RentProperty.findAll({ where: whereClause, order });
+            }
+            else if (typeStr === 'lease') {
+                properties = yield LeaseProperty_1.LeaseProperty.findAll({ where: whereClause, order });
+            }
+            else if (typeStr === 'pg') {
+                properties = yield PgProperty_1.PgProperty.findAll({ where: whereClause, order });
+            }
+            else if (typeStr === 'commercial') {
+                properties = yield CommercialProperty_1.CommercialProperty.findAll({ where: whereClause, order });
+            }
+            else if (typeStr === 'land') {
+                properties = yield LandProperty_1.LandProperty.findAll({ where: whereClause, order });
+            }
+            res.status(200).json({
+                success: true,
+                count: properties.length,
+                data: properties
+            });
+            return;
+        }
         // Get all approved properties from all property types
         const saleProperties = yield SaleProperty_1.SaleProperty.findAll({
             where: {
@@ -434,69 +466,82 @@ exports.getAllPendingProperties = getAllPendingProperties;
 const getPropertyById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
+        const { type } = req.query; // Get type from query param
         const propertyId = parseInt(id);
         // Search for property in all property tables
         let property = null;
-        let propertyType = null;
-        // Try to find in each table
-        property = yield SaleProperty_1.SaleProperty.findOne({
-            where: {
-                id: propertyId,
-                approvalStatus: 'approved'
+        let foundPropertyType = null;
+        // If type is provided, prioritize searching that table
+        if (type) {
+            const typeStr = String(type).toLowerCase();
+            if (typeStr === 'sale' || typeStr === 'sell' || typeStr === 'buy') {
+                property = yield SaleProperty_1.SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                if (property)
+                    foundPropertyType = 'sale';
             }
-        });
+            else if (typeStr === 'rent') {
+                property = yield RentProperty_1.RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                if (property)
+                    foundPropertyType = 'rent';
+            }
+            else if (typeStr === 'lease') {
+                property = yield LeaseProperty_1.LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                if (property)
+                    foundPropertyType = 'lease';
+            }
+            else if (typeStr === 'pg') {
+                property = yield PgProperty_1.PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                if (property)
+                    foundPropertyType = 'pg';
+            }
+            else if (typeStr === 'commercial') {
+                property = yield CommercialProperty_1.CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                if (property)
+                    foundPropertyType = 'commercial';
+            }
+            else if (typeStr === 'land') {
+                property = yield LandProperty_1.LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                if (property)
+                    foundPropertyType = 'land';
+            }
+            if (property) {
+                res.status(200).json({
+                    success: true,
+                    propertyType: foundPropertyType,
+                    data: property
+                });
+                return;
+            }
+        }
+        // Fallback to searching all tables if no type or not found in specified type
+        property = yield SaleProperty_1.SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
         if (property) {
-            propertyType = 'sale';
+            foundPropertyType = 'sale';
         }
         else {
-            property = yield RentProperty_1.RentProperty.findOne({
-                where: {
-                    id: propertyId,
-                    approvalStatus: 'approved'
-                }
-            });
+            property = yield RentProperty_1.RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
             if (property) {
-                propertyType = 'rent';
+                foundPropertyType = 'rent';
             }
             else {
-                property = yield LeaseProperty_1.LeaseProperty.findOne({
-                    where: {
-                        id: propertyId,
-                        approvalStatus: 'approved'
-                    }
-                });
+                property = yield LeaseProperty_1.LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property) {
-                    propertyType = 'lease';
+                    foundPropertyType = 'lease';
                 }
                 else {
-                    property = yield PgProperty_1.PgProperty.findOne({
-                        where: {
-                            id: propertyId,
-                            approvalStatus: 'approved'
-                        }
-                    });
+                    property = yield PgProperty_1.PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                     if (property) {
-                        propertyType = 'pg';
+                        foundPropertyType = 'pg';
                     }
                     else {
-                        property = yield CommercialProperty_1.CommercialProperty.findOne({
-                            where: {
-                                id: propertyId,
-                                approvalStatus: 'approved'
-                            }
-                        });
+                        property = yield CommercialProperty_1.CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                         if (property) {
-                            propertyType = 'commercial';
+                            foundPropertyType = 'commercial';
                         }
                         else {
-                            property = yield LandProperty_1.LandProperty.findOne({
-                                where: {
-                                    id: propertyId,
-                                    approvalStatus: 'approved'
-                                }
-                            });
+                            property = yield LandProperty_1.LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                             if (property) {
-                                propertyType = 'land';
+                                foundPropertyType = 'land';
                             }
                         }
                     }
@@ -512,7 +557,7 @@ const getPropertyById = (req, res) => __awaiter(void 0, void 0, void 0, function
         }
         res.status(200).json({
             success: true,
-            propertyType,
+            propertyType: foundPropertyType,
             data: property
         });
     }
@@ -747,7 +792,7 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const { id } = req.params;
         const propertyId = parseInt(id);
         const propertyType = req.query.type; // Get property type from query param
-        const { title, description, price, location, propertyStatus, contactName, contactEmail, contactPhone, existingImages // Optional: if frontend wants to keep some old images
+        const { title, description, price, location, address, city, state, zipCode, country, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, fieldVisibility, imageVisibility, existingImages // Optional: if frontend wants to keep some old images
          } = req.body;
         // Handle new uploaded images from Cloudinary
         const newImages = ((_a = req.files) === null || _a === void 0 ? void 0 : _a.map((file) => file.path)) || [];
@@ -763,10 +808,21 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             description,
             price,
             location,
+            address,
+            city,
+            state,
+            zipCode,
+            country,
             propertyStatus,
+            bedrooms,
+            bathrooms,
+            area,
+            amenities,
             contactName,
             contactEmail,
-            contactPhone
+            contactPhone,
+            fieldVisibility,
+            imageVisibility
         };
         // Only update images if new ones were uploaded or existing ones were provided
         if (images.length > 0) {

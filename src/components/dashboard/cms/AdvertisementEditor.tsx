@@ -1,30 +1,32 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { advertisementApi } from '@/utils/advertisementApi';
 import { toast } from 'sonner';
 
-interface Advertisement {
-  id: number;
-  name: string;
-  youtubeUrl: string;
-  isActive: boolean;
-  position: string;
-  createdAt: string;
-  updatedAt: string;
+interface AdvertisementSettings {
+  id?: number;
+  iframe1_url: string;
+  iframe2_url: string;
+  iframe3_url: string;
 }
 
 const AdvertisementEditor = () => {
-  const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    youtubeUrl: '',
-    isActive: true,
-    position: ''
+  const [advertisements, setAdvertisements] = useState<AdvertisementSettings>({
+    iframe1_url: '',
+    iframe2_url: '',
+    iframe3_url: ''
   });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  // Load advertisements on component mount
+  // Get auth token
+  const getToken = () => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+    return null;
+  };
+
+  // Load advertisement settings on component mount
   useEffect(() => {
     loadAdvertisements();
   }, []);
@@ -32,8 +34,24 @@ const AdvertisementEditor = () => {
   const loadAdvertisements = async () => {
     try {
       setLoading(true);
-      const response = await advertisementApi.getAll();
-      setAdvertisements(response.data || []);
+      const token = getToken();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/advertisements`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      
+      if (data.success && data.data && data.data.length > 0) {
+        // Use the first advertisement record
+        const ad = data.data[0];
+        setAdvertisements({
+          id: ad.id,
+          iframe1_url: ad.iframe1_url || '',
+          iframe2_url: ad.iframe2_url || '',
+          iframe3_url: ad.iframe3_url || ''
+        });
+      }
     } catch (error) {
       console.error('Failed to load advertisements:', error);
       toast.error('Failed to load advertisements');
@@ -44,64 +62,39 @@ const AdvertisementEditor = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setSaving(true);
+
     try {
-      if (editingId) {
-        // Update existing advertisement
-        await advertisementApi.update(editingId, formData);
-        toast.success('Advertisement updated successfully');
-      } else {
-        // Create new advertisement
-        await advertisementApi.create(formData);
-        toast.success('Advertisement created successfully');
-      }
-      
-      // Reset form and reload data
-      setFormData({
-        name: '',
-        youtubeUrl: '',
-        isActive: true,
-        position: ''
+      const token = getToken();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/advertisements`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(advertisements)
       });
-      setEditingId(null);
-      loadAdvertisements();
+
+      if (response.ok) {
+        toast.success('Advertisement links saved successfully');
+        loadAdvertisements();
+      } else {
+        toast.error('Failed to save advertisement links');
+      }
     } catch (error) {
       console.error('Failed to save advertisement:', error);
-      toast.error('Failed to save advertisement');
+      toast.error('Failed to save advertisement links');
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleEdit = (ad: Advertisement) => {
-    setEditingId(ad.id);
-    setFormData({
-      name: ad.name,
-      youtubeUrl: ad.youtubeUrl || '',
-      isActive: ad.isActive,
-      position: ad.position || ''
-    });
-  };
-
-  const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this advertisement?')) {
-      try {
-        await advertisementApi.delete(id);
-        toast.success('Advertisement deleted successfully');
-        loadAdvertisements();
-      } catch (error) {
-        console.error('Failed to delete advertisement:', error);
-        toast.error('Failed to delete advertisement');
-      }
-    }
-  };
-
-  const handleCancel = () => {
-    setEditingId(null);
-    setFormData({
-      name: '',
-      youtubeUrl: '',
-      isActive: true,
-      position: ''
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setAdvertisements(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const getYoutubeEmbedUrl = (youtubeUrl: string) => {
@@ -127,183 +120,103 @@ const AdvertisementEditor = () => {
 
   return (
     <div className="advertisement-editor">
-      <div className="row">
-        {/* Form Section */}
-        <div className="col-lg-6">
-          <div className="bg-white rounded-3 shadow-sm p-4 mb-4">
-            <h5 className="mb-4">{editingId ? 'Edit Advertisement' : 'Add New Advertisement'}</h5>
-            
-            <form onSubmit={handleSubmit}>
+      <div className="bg-white rounded-3 shadow-sm p-4 mb-4">
+        <h5 className="mb-4">Advertisement YouTube Links</h5>
+        <p className="text-muted small mb-4">Enter the YouTube video links that will appear in the homepage advertisement section.</p>
+        
+        <form onSubmit={handleSubmit}>
+          <div className="row g-4">
+            {/* YouTube Link 1 */}
+            <div className="col-md-6">
               <div className="mb-3">
-                <label className="form-label fw-bold">Advertisement Name *</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  placeholder="Enter advertisement name"
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label fw-bold">YouTube URL</label>
+                <label className="form-label fw-bold">YouTube Link 1</label>
                 <input
                   type="url"
                   className="form-control"
-                  value={formData.youtubeUrl}
-                  onChange={(e) => setFormData({...formData, youtubeUrl: e.target.value})}
+                  name="iframe1_url"
+                  value={advertisements.iframe1_url}
+                  onChange={handleChange}
                   placeholder="https://www.youtube.com/watch?v=..."
                 />
                 <div className="form-text">Paste the full YouTube video URL</div>
               </div>
-
-              <div className="mb-3">
-                <label className="form-label fw-bold">Position/Location</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={formData.position}
-                  onChange={(e) => setFormData({...formData, position: e.target.value})}
-                  placeholder="e.g., homepage-header, sidebar, footer"
-                />
-                <div className="form-text">Specify where this ad should appear</div>
-              </div>
-
-              <div className="mb-4">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={formData.isActive}
-                    onChange={(e) => setFormData({...formData, isActive: e.target.checked})}
-                    id="isActive"
-                  />
-                  <label className="form-check-label" htmlFor="isActive">
-                    Active
-                  </label>
+              
+              {/* Preview */}
+              {advertisements.iframe1_url && (
+                <div className="ratio ratio-16x9 rounded overflow-hidden mb-3">
+                  <iframe
+                    src={getYoutubeEmbedUrl(advertisements.iframe1_url)}
+                    title="YouTube video preview 1"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
                 </div>
-                <div className="form-text">Inactive ads won't be displayed on the website</div>
-              </div>
+              )}
+            </div>
 
-              <div className="d-flex gap-2">
-                <button type="submit" className="btn btn-primary">
-                  {editingId ? 'Update Advertisement' : 'Add Advertisement'}
-                </button>
-                {editingId && (
-                  <button type="button" className="btn btn-secondary" onClick={handleCancel}>
-                    Cancel
-                  </button>
-                )}
+            {/* YouTube Link 2 */}
+            <div className="col-md-6">
+              <div className="mb-3">
+                <label className="form-label fw-bold">YouTube Link 2</label>
+                <input
+                  type="url"
+                  className="form-control"
+                  name="iframe2_url"
+                  value={advertisements.iframe2_url}
+                  onChange={handleChange}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
+                <div className="form-text">Paste the full YouTube video URL</div>
               </div>
-            </form>
-          </div>
-        </div>
+              
+              {/* Preview */}
+              {advertisements.iframe2_url && (
+                <div className="ratio ratio-16x9 rounded overflow-hidden mb-3">
+                  <iframe
+                    src={getYoutubeEmbedUrl(advertisements.iframe2_url)}
+                    title="YouTube video preview 2"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              )}
+            </div>
 
-        {/* Preview Section */}
-        <div className="col-lg-6">
-          <div className="bg-white rounded-3 shadow-sm p-4 mb-4">
-            <h5 className="mb-4">Preview</h5>
-            
-            {formData.youtubeUrl ? (
-              <div className="ratio ratio-16x9">
-                <iframe
-                  src={getYoutubeEmbedUrl(formData.youtubeUrl)}
-                  title="YouTube video preview"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+            {/* YouTube Link 3 */}
+            <div className="col-md-6">
+              <div className="mb-3">
+                <label className="form-label fw-bold">YouTube Link 3</label>
+                <input
+                  type="url"
+                  className="form-control"
+                  name="iframe3_url"
+                  value={advertisements.iframe3_url}
+                  onChange={handleChange}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
+                <div className="form-text">Paste the full YouTube video URL</div>
               </div>
-            ) : (
-              <div className="bg-light border rounded p-4 text-center">
-                <i className="bi bi-youtube fs-1 text-muted mb-2"></i>
-                <p className="text-muted mb-0">Enter a YouTube URL to see preview</p>
-              </div>
-            )}
-            
-            <div className="mt-3">
-              <h6 className="fw-bold">{formData.name || 'Advertisement Name'}</h6>
-              <p className="text-muted small mb-0">
-                {formData.position ? `Position: ${formData.position}` : 'No position specified'}
-              </p>
-              <span className={`badge ${formData.isActive ? 'bg-success' : 'bg-secondary'} mt-1`}>
-                {formData.isActive ? 'Active' : 'Inactive'}
-              </span>
+              
+              {/* Preview */}
+              {advertisements.iframe3_url && (
+                <div className="ratio ratio-16x9 rounded overflow-hidden mb-3">
+                  <iframe
+                    src={getYoutubeEmbedUrl(advertisements.iframe3_url)}
+                    title="YouTube video preview 3"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Advertisements List */}
-      <div className="bg-white rounded-3 shadow-sm p-4">
-        <h5 className="mb-4">Existing Advertisements</h5>
-        
-        {advertisements.length === 0 ? (
-          <div className="text-center py-5">
-            <i className="bi bi-megaphone fs-1 text-muted mb-3"></i>
-            <p className="text-muted">No advertisements found. Add your first advertisement above.</p>
+          <div className="mt-4">
+            <button type="submit" className="btn btn-primary" disabled={saving}>
+              {saving ? 'Saving...' : 'Save Advertisement Links'}
+            </button>
           </div>
-        ) : (
-          <div className="table-responsive">
-            <table className="table table-hover">
-              <thead className="table-light">
-                <tr>
-                  <th>Name</th>
-                  <th>YouTube URL</th>
-                  <th>Position</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {advertisements.map((ad) => (
-                  <tr key={ad.id}>
-                    <td>
-                      <div className="fw-medium">{ad.name}</div>
-                      <div className="small text-muted">
-                        Created: {new Date(ad.createdAt).toLocaleDateString()}
-                      </div>
-                    </td>
-                    <td>
-                      {ad.youtubeUrl ? (
-                        <a href={ad.youtubeUrl} target="_blank" rel="noopener noreferrer" className="text-decoration-none">
-                          <i className="bi bi-youtube text-danger me-1"></i>
-                          View on YouTube
-                        </a>
-                      ) : (
-                        <span className="text-muted">No URL</span>
-                      )}
-                    </td>
-                    <td>{ad.position || '-'}</td>
-                    <td>
-                      <span className={`badge ${ad.isActive ? 'bg-success' : 'bg-secondary'}`}>
-                        {ad.isActive ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="btn-group" role="group">
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-primary"
-                          onClick={() => handleEdit(ad)}
-                        >
-                          <i className="bi bi-pencil"></i> Edit
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-danger"
-                          onClick={() => handleDelete(ad.id)}
-                        >
-                          <i className="bi bi-trash"></i> Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        </form>
       </div>
     </div>
   );

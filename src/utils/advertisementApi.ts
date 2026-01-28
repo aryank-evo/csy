@@ -2,24 +2,13 @@ import apiInstance from './apiInstance';
 
 // Advertisement API functions
 export const advertisementApi = {
-  // Get all advertisements (admin only)
+  // Get all advertisements (public)
   getAll: async () => {
     try {
       const response = await apiInstance.get('/advertisements');
       return response.data;
     } catch (error) {
       console.error('Error fetching advertisements:', error);
-      throw error;
-    }
-  },
-
-  // Get active advertisements (public)
-  getActive: async () => {
-    try {
-      const response = await apiInstance.get('/advertisements/active');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching active advertisements:', error);
       throw error;
     }
   },
@@ -35,34 +24,18 @@ export const advertisementApi = {
     }
   },
 
-  // Create new advertisement (admin only)
-  create: async (data: {
-    name: string;
-    youtubeUrl?: string;
-    isActive?: boolean;
-    position?: string;
+  // Create or update advertisement (admin only)
+  save: async (data: {
+    id?: number;
+    iframe1_url?: string;
+    iframe2_url?: string;
+    iframe3_url?: string;
   }) => {
     try {
       const response = await apiInstance.post('/advertisements', data);
       return response.data;
     } catch (error) {
-      console.error('Error creating advertisement:', error);
-      throw error;
-    }
-  },
-
-  // Update advertisement (admin only)
-  update: async (id: number, data: {
-    name?: string;
-    youtubeUrl?: string;
-    isActive?: boolean;
-    position?: string;
-  }) => {
-    try {
-      const response = await apiInstance.put(`/advertisements/${id}`, data);
-      return response.data;
-    } catch (error) {
-      console.error('Error updating advertisement:', error);
+      console.error('Error saving advertisement:', error);
       throw error;
     }
   },

@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authenticateAdmin = exports.authenticateUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const User_1 = require("../models/User");
-const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
+const database_1 = require("../config/database");
+const getSecretKey = () => process.env.JWT_SECRET || "fallback_secret_key";
 const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
@@ -24,9 +24,9 @@ const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         return;
     }
     try {
-        const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);
+        const decoded = jsonwebtoken_1.default.verify(token, getSecretKey());
         // Fetch user from database to attach full user info
-        const user = yield User_1.User.findByPk(decoded.id);
+        const user = yield database_1.User.findByPk(decoded.id);
         if (!user) {
             res.status(401).json({ error: "User not found" });
             return;
@@ -35,6 +35,7 @@ const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         next();
     }
     catch (error) {
+        console.error("Auth error:", error);
         res.status(400).json({ error: "Invalid token" });
     }
 });
@@ -48,9 +49,9 @@ const authenticateAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         return;
     }
     try {
-        const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);
+        const decoded = jsonwebtoken_1.default.verify(token, getSecretKey());
         // Fetch user from database to verify admin status
-        const user = yield User_1.User.findByPk(decoded.id);
+        const user = yield database_1.User.findByPk(decoded.id);
         if (!user) {
             res.status(401).json({ error: "User not found" });
             return;
@@ -63,6 +64,7 @@ const authenticateAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         next();
     }
     catch (error) {
+        console.error("Admin auth error:", error);
         res.status(400).json({ error: "Invalid token" });
     }
 });

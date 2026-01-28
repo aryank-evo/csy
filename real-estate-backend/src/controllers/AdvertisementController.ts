@@ -46,66 +46,76 @@ export const getAdvertisementById = async (req: Request, res: Response): Promise
   }
 };
 
-export const createAdvertisement = async (req: Request, res: Response): Promise<void> => {
+export const createOrUpdateAdvertisement = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, youtubeUrl, isActive, position } = req.body;
-    
-    const advertisement = await Advertisement.create({
-      name,
-      youtubeUrl,
-      isActive: isActive !== undefined ? isActive : true,
-      position,
-    });
-    
-    res.status(201).json({
-      success: true,
-      message: 'Advertisement created successfully',
-      data: advertisement,
-    });
+    const { id, iframe1_url, iframe2_url, iframe3_url } = req.body;
+
+    if (id) {
+      // Update existing advertisement
+      const advertisement = await Advertisement.findByPk(id);
+      
+      if (!advertisement) {
+        res.status(404).json({
+          success: false,
+          message: 'Advertisement not found',
+        });
+        return;
+      }
+      
+      await advertisement.update({
+        iframe1_url,
+        iframe2_url,
+        iframe3_url,
+      });
+      
+      res.json({
+        success: true,
+        message: 'Advertisement updated successfully',
+        data: advertisement,
+      });
+    } else {
+      // Create new advertisement (or update if one exists)
+      const existingAds = await Advertisement.findAll();
+      
+      if (existingAds.length > 0) {
+        // Update the first advertisement record
+        const advertisement = existingAds[0];
+        await advertisement.update({
+          iframe1_url,
+          iframe2_url,
+          iframe3_url,
+        });
+        
+        res.json({
+          success: true,
+          message: 'Advertisement updated successfully',
+          data: advertisement,
+        });
+      } else {
+        const advertisement = await Advertisement.create({
+          name: 'Advertisement Section',
+          iframe1_url,
+          iframe2_url,
+          iframe3_url,
+        });
+        
+        res.status(201).json({
+          success: true,
+          message: 'Advertisement created successfully',
+          data: advertisement,
+        });
+      }
+    }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error creating advertisement',
+      message: 'Error saving advertisement',
       error: (error as Error).message,
     });
   }
 };
 
-export const updateAdvertisement = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params;
-    const { name, youtubeUrl, isActive, position } = req.body;
-    
-    const advertisement = await Advertisement.findByPk(id);
-    
-    if (!advertisement) {
-      res.status(404).json({
-        success: false,
-        message: 'Advertisement not found',
-      });
-      return;
-    }
-    
-    await advertisement.update({
-      name,
-      youtubeUrl,
-      isActive,
-      position,
-    });
-    
-    res.json({
-      success: true,
-      message: 'Advertisement updated successfully',
-      data: advertisement,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error updating advertisement',
-      error: (error as Error).message,
-    });
-  }
-};
+
 
 export const deleteAdvertisement = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -131,26 +141,6 @@ export const deleteAdvertisement = async (req: Request, res: Response): Promise<
     res.status(500).json({
       success: false,
       message: 'Error deleting advertisement',
-      error: (error as Error).message,
-    });
-  }
-};
-
-export const getActiveAdvertisements = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const advertisements = await Advertisement.findAll({
-      where: { isActive: true },
-      order: [['createdAt', 'DESC']]
-    });
-    
-    res.json({
-      success: true,
-      data: advertisements,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error fetching active advertisements',
       error: (error as Error).message,
     });
   }

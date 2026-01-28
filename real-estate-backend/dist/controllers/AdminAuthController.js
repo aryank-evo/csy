@@ -43,9 +43,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminLogin = void 0;
-const User_1 = require("../models/User");
+const database_1 = require("../config/database");
 const jwt = __importStar(require("jsonwebtoken"));
 const bcrypt = __importStar(require("bcryptjs"));
+const getSecretKey = () => process.env.JWT_SECRET || 'fallback_secret_key';
 const adminLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
@@ -55,7 +56,7 @@ const adminLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return;
         }
         // Find user by email
-        const user = yield User_1.User.findOne({ where: { email } });
+        const user = yield database_1.User.findOne({ where: { email } });
         if (!user) {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
@@ -72,7 +73,7 @@ const adminLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return;
         }
         // Generate JWT token
-        const token = jwt.sign({ userId: user.id, email: user.email, isAdmin: user.isAdmin }, process.env.JWT_SECRET || 'fallback_secret_key', { expiresIn: '24h' });
+        const token = jwt.sign({ id: user.id, email: user.email, isAdmin: user.isAdmin }, getSecretKey(), { expiresIn: '24h' });
         res.status(200).json({
             message: 'Admin login successful',
             token,

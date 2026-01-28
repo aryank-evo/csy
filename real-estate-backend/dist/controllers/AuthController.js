@@ -16,11 +16,9 @@ exports.login = exports.signup = void 0;
 const User_1 = require("../models/User");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const database_1 = require("../config/database");
 const sequelize_1 = require("sequelize");
-dotenv_1.default.config();
-const SECRET_KEY = process.env.JWT_SECRET || "secret_key";
+const getSecretKey = () => process.env.JWT_SECRET || "fallback_secret_key";
 //📌 1️⃣ NEW USER  SIGNUP 
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -73,9 +71,18 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         // ✅ Create JWT
-        const token = jsonwebtoken_1.default.sign({ id: user.id }, SECRET_KEY, { expiresIn: "1h" });
+        const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email, isAdmin: user.isAdmin }, getSecretKey(), { expiresIn: "24h" });
         console.log("JWT token created successfully");
-        res.json({ message: "Login successful!", token });
+        res.json({
+            message: "Login successful!",
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                name: user.name || user.email.split('@')[0]
+            }
+        });
     }
     catch (error) {
         console.error("Login error:", error);

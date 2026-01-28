@@ -3,22 +3,18 @@ import { authenticateAdmin } from '../middleware/authMiddleware';
 import {
   getAllAdvertisements,
   getAdvertisementById,
-  createAdvertisement,
-  updateAdvertisement,
-  deleteAdvertisement,
-  getActiveAdvertisements
+  createOrUpdateAdvertisement,
+  deleteAdvertisement
 } from '../controllers/AdvertisementController';
 
 const router = express.Router();
 
-// Public routes
-router.get('/active', getActiveAdvertisements);
+// Public routes - anyone can view advertisements
+router.get('/', getAllAdvertisements);
 
 // Protected admin routes
-router.get('/', authenticateAdmin, getAllAdvertisements);
 router.get('/:id', authenticateAdmin, getAdvertisementById);
-router.post('/', authenticateAdmin, createAdvertisement);
-router.put('/:id', authenticateAdmin, updateAdvertisement);
+router.post('/', authenticateAdmin, createOrUpdateAdvertisement);
 router.delete('/:id', authenticateAdmin, deleteAdvertisement);
 
 export default router;

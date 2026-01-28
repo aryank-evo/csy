@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+const path_1 = __importDefault(require("path"));
+dotenv_1.default.config({ path: path_1.default.join(__dirname, "../.env") });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const database_1 = require("./config/database");
 const umzug_1 = require("umzug");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
@@ -23,7 +25,8 @@ const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 const adminDashboardRoutes_1 = __importDefault(require("./routes/adminDashboardRoutes"));
 const leadRoutes_1 = __importDefault(require("./routes/leadRoutes"));
 const propertyRoutes_1 = __importDefault(require("./routes/propertyRoutes"));
-dotenv_1.default.config();
+const cmsPageRoutes_1 = __importDefault(require("./routes/cmsPageRoutes"));
+const advertisementRoutes_1 = __importDefault(require("./routes/advertisementRoutes"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 8080;
 app.use((0, cors_1.default)());
@@ -37,6 +40,8 @@ app.use("/api", protectedRoutes_1.default);
 app.use("/api/admin", adminRoutes_1.default);
 app.use("/api/admin/dashboard", adminDashboardRoutes_1.default);
 app.use("/api/lead", leadRoutes_1.default);
+app.use("/api/cms", cmsPageRoutes_1.default);
+app.use("/api/advertisements", advertisementRoutes_1.default);
 // Run pending migrations before starting the server
 const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -44,6 +49,14 @@ const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {
         const migrator = new umzug_1.Umzug({
             migrations: {
                 glob: ["../migrations/*.js", { cwd: __dirname }],
+                resolve: ({ name, path, context }) => {
+                    const migration = require(path);
+                    return {
+                        name,
+                        up: () => __awaiter(void 0, void 0, void 0, function* () { return migration.up(context.queryInterface, context.sequelize.constructor); }),
+                        down: () => __awaiter(void 0, void 0, void 0, function* () { return migration.down(context.queryInterface, context.sequelize.constructor); }),
+                    };
+                },
             },
             context: {
                 queryInterface: database_1.sequelize.getQueryInterface(),

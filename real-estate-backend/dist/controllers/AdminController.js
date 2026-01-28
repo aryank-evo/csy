@@ -45,7 +45,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLeadStats = exports.exportLeads = exports.getAllLeads = exports.getPropertyStats = exports.rejectProperty = exports.approveProperty = exports.getPropertyById = exports.getAllProperties = void 0;
 const Property_1 = require("../models/Property");
 const Lead_1 = require("../models/Lead");
-const User_1 = require("../models/User");
+const database_1 = require("../config/database");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const sequelize_1 = require("sequelize");
@@ -68,7 +68,7 @@ const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, functio
             offset,
             order: [['createdAt', 'DESC']],
             include: [{
-                    model: User_1.User,
+                    model: database_1.User,
                     attributes: ['id', 'name', 'email']
                 }]
         });
@@ -91,7 +91,7 @@ const getPropertyById = (req, res) => __awaiter(void 0, void 0, void 0, function
         const { id } = req.params;
         const property = yield Property_1.Property.findByPk(id, {
             include: [{
-                    model: User_1.User,
+                    model: database_1.User,
                     attributes: ['id', 'name', 'email']
                 }, {
                     model: Lead_1.Lead,
@@ -114,12 +114,20 @@ exports.getPropertyById = getPropertyById;
 const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
+        const { fieldVisibility, imageVisibility } = req.body;
         const property = yield Property_1.Property.findByPk(id);
         if (!property) {
             res.status(404).json({ message: 'Property not found' });
             return;
         }
         property.approvalStatus = 'approved';
+        // Update visibility settings if provided
+        if (fieldVisibility) {
+            property.fieldVisibility = fieldVisibility;
+        }
+        if (imageVisibility) {
+            property.imageVisibility = imageVisibility;
+        }
         yield property.save();
         res.status(200).json({ message: 'Property approved successfully', property });
     }
@@ -133,13 +141,20 @@ exports.approveProperty = approveProperty;
 const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { reason } = req.body;
+        const { reason, fieldVisibility, imageVisibility } = req.body;
         const property = yield Property_1.Property.findByPk(id);
         if (!property) {
             res.status(404).json({ message: 'Property not found' });
             return;
         }
         property.approvalStatus = 'rejected';
+        // Update visibility settings if provided
+        if (fieldVisibility) {
+            property.fieldVisibility = fieldVisibility;
+        }
+        if (imageVisibility) {
+            property.imageVisibility = imageVisibility;
+        }
         yield property.save();
         res.status(200).json({ message: 'Property rejected successfully', property });
     }

@@ -29,9 +29,9 @@ class CmsPage extends Model {
 class Advertisement extends Model {
   public id!: number;
   public name!: string;
-  public youtubeUrl!: string;
-  public isActive!: boolean;
-  public position!: string;
+  public iframe1_url?: string;
+  public iframe2_url?: string;
+  public iframe3_url?: string;
   public declare createdAt: Date;
   public declare updatedAt: Date;
 }
@@ -136,16 +136,17 @@ Advertisement.init({
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'Advertisement Section',
   },
-  youtubeUrl: {
+  iframe1_url: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  isActive: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true,
+  iframe2_url: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
-  position: {
+  iframe3_url: {
     type: DataTypes.STRING,
     allowNull: true,
   },

@@ -105,6 +105,16 @@ Property.init({
         allowNull: true,
         defaultValue: [],
     },
+    fieldVisibility: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {},
+    },
+    imageVisibility: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {},
+    },
 }, {
     tableName: 'properties',
     sequelize: database_1.sequelize, // passing the `sequelize` instance is required
