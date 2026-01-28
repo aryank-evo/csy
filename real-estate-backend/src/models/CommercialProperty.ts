@@ -25,6 +25,9 @@ interface CommercialPropertyAttributes {
   contactEmail?: string;
   contactPhone?: string;
   images?: string[];
+  latitude?: number;
+  longitude?: number;
+  userType?: string;
   // Commercial-specific fields
   propertySubType?: string;
   commercialArea?: number;
@@ -60,6 +63,9 @@ export class CommercialProperty extends Model<CommercialPropertyAttributes, Comm
   public contactEmail?: string;
   public contactPhone?: string;
   public images?: string[];
+  public latitude?: number;
+  public longitude?: number;
+  public userType?: string;
   // Commercial-specific fields
   public propertySubType?: string;
   public commercialArea?: number;
@@ -163,6 +169,18 @@ CommercialProperty.init({
     type: DataTypes.JSON,
     allowNull: true,
     defaultValue: [],
+  },
+  latitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  longitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  userType: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   // Commercial-specific fields
   propertySubType: {

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import CmsComponentEditor from './CmsComponentEditor';
 import AdvertisementEditor from './AdvertisementEditor';
+import GalleryEditor from './GalleryEditor';
 
 const CMS_PAGES = [
   {
@@ -33,6 +34,12 @@ const TABS = [
     displayName: 'Advertisement Section',
     defaultTitle: 'Advertisements',
     isAdvertisement: true
+  },
+  {
+    slug: 'gallery',
+    displayName: 'Gallery',
+    defaultTitle: 'Gallery',
+    isGallery: true
   }
 ];
 
@@ -40,6 +47,7 @@ const CmsDashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const isAdvertisementTab = TABS[activeTab]?.isAdvertisement;
+  const isGalleryTab = TABS[activeTab]?.isGallery;
 
   return (
     <div className="cms-dashboard-container">
@@ -60,6 +68,11 @@ const CmsDashboard = () => {
                       <i className="bi bi-megaphone me-2"></i>
                       {tab.displayName}
                     </>
+                  ) : tab.isGallery ? (
+                    <>
+                      <i className="bi bi-images me-2"></i>
+                      {tab.displayName}
+                    </>
                   ) : (
                     tab.displayName
                   )}
@@ -77,6 +90,14 @@ const CmsDashboard = () => {
                 <p className="text-muted small">Manage YouTube advertisements. Add, edit, or remove video advertisements that will appear on your website.</p>
               </div>
               <AdvertisementEditor />
+            </>
+          ) : isGalleryTab ? (
+            <>
+              <div className="cms-content-header mb-3">
+                <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
+                <p className="text-muted small">Manage gallery sections with YouTube video links. Create sections with headings and add multiple video links per section.</p>
+              </div>
+              <GalleryEditor />
             </>
           ) : (
             <>

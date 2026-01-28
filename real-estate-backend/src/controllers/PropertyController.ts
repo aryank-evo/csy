@@ -28,6 +28,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
       contactName,
       contactEmail,
       contactPhone,
+      latitude,
+      longitude,
+      userType,
       // Sale-specific fields
       possessionStatus,
       propertyAge,
@@ -92,6 +95,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           contactPhone,
           possessionStatus,
           propertyAge,
+          latitude,
+          longitude,
+          userType,
           images,
           approvalStatus: 'pending'
         });
@@ -119,6 +125,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           availableFrom,
           securityDeposit,
           maintenanceCharge,
+          latitude,
+          longitude,
+          userType,
           images,
           approvalStatus: 'pending'
         });
@@ -146,6 +155,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           leasePeriod,
           monthlyLeaseAmount,
           leaseTerms,
+          latitude,
+          longitude,
+          userType,
           images,
           approvalStatus: 'pending'
         });
@@ -174,6 +186,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           foodIncluded,
           gender,
           occupancy,
+          latitude,
+          longitude,
+          userType,
           images,
           approvalStatus: 'pending'
         });
@@ -201,6 +216,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           propertySubType,
           commercialArea,
           facing,
+          latitude,
+          longitude,
+          userType,
           images,
           approvalStatus: 'pending'
         });
@@ -225,6 +243,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           landType,
           facing,
           utilities,
+          latitude,
+          longitude,
+          userType,
           images,
           approvalStatus: 'pending'
         });

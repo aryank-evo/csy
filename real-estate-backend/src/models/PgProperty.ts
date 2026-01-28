@@ -25,6 +25,9 @@ interface PgPropertyAttributes {
   contactEmail?: string;
   contactPhone?: string;
   images?: string[];
+  latitude?: number;
+  longitude?: number;
+  userType?: string;
   // PG-specific fields
   foodIncluded?: boolean;
   gender?: string;
@@ -60,6 +63,9 @@ export class PgProperty extends Model<PgPropertyAttributes, PgPropertyCreationAt
   public contactEmail?: string;
   public contactPhone?: string;
   public images?: string[];
+  public latitude?: number;
+  public longitude?: number;
+  public userType?: string;
   // PG-specific fields
   public foodIncluded?: boolean;
   public gender?: string;
@@ -163,6 +169,18 @@ PgProperty.init({
     type: DataTypes.JSON,
     allowNull: true,
     defaultValue: [],
+  },
+  latitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  longitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  userType: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   // PG-specific fields
   foodIncluded: {

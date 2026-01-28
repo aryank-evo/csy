@@ -25,6 +25,9 @@ interface LeasePropertyAttributes {
   contactEmail?: string;
   contactPhone?: string;
   images?: string[];
+  latitude?: number;
+  longitude?: number;
+  userType?: string;
   // Lease-specific fields
   leasePeriod?: string;
   monthlyLeaseAmount?: number;
@@ -60,6 +63,9 @@ export class LeaseProperty extends Model<LeasePropertyAttributes, LeasePropertyC
   public contactEmail?: string;
   public contactPhone?: string;
   public images?: string[];
+  public latitude?: number;
+  public longitude?: number;
+  public userType?: string;
   // Lease-specific fields
   public leasePeriod?: string;
   public monthlyLeaseAmount?: number;
@@ -163,6 +169,18 @@ LeaseProperty.init({
     type: DataTypes.JSON,
     allowNull: true,
     defaultValue: [],
+  },
+  latitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  longitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  userType: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   // Lease-specific fields
   leasePeriod: {

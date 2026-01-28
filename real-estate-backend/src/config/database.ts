@@ -14,6 +14,7 @@ import { LeaseProperty } from '../models/LeaseProperty';
 import { PgProperty } from '../models/PgProperty';
 import { CommercialProperty } from '../models/CommercialProperty';
 import { LandProperty } from '../models/LandProperty';
+import { GallerySection } from '../models/GallerySection';
 
 // Define CmsPage model inline
 class CmsPage extends Model {
@@ -156,6 +157,35 @@ Advertisement.init({
   timestamps: true
 });
 
+// Initialize GallerySection model
+GallerySection.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  heading: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  youtube_links: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: [],
+  },
+  order: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
+}, {
+  tableName: 'gallery_sections',
+  sequelize,
+  timestamps: true,
+  createdAt: "created_at",
+  updatedAt: "updated_at"
+});
+
 // Export models
 export { User, Property, Lead, CmsContent };
-export { CmsPage, Advertisement };
+export { CmsPage, Advertisement, GallerySection };

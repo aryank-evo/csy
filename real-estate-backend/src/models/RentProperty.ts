@@ -25,6 +25,9 @@ interface RentPropertyAttributes {
   contactEmail?: string;
   contactPhone?: string;
   images?: string[];
+  latitude?: number;
+  longitude?: number;
+  userType?: string;
   // Rent-specific fields
   availableFrom?: string;
   securityDeposit?: number;
@@ -60,6 +63,9 @@ export class RentProperty extends Model<RentPropertyAttributes, RentPropertyCrea
   public contactEmail?: string;
   public contactPhone?: string;
   public images?: string[];
+  public latitude?: number;
+  public longitude?: number;
+  public userType?: string;
   // Rent-specific fields
   public availableFrom?: string;
   public securityDeposit?: number;
@@ -163,6 +169,18 @@ RentProperty.init({
     type: DataTypes.JSON,
     allowNull: true,
     defaultValue: [],
+  },
+  latitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  longitude: {
+    type: DataTypes.DECIMAL(10, 8),
+    allowNull: true,
+  },
+  userType: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   // Rent-specific fields
   availableFrom: {

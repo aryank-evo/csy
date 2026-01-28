@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createProperty } from '@/utils/api';
+import LocationMapInput from '../LocationMapInput';
 
 interface FormData {
   title: string;
@@ -23,6 +24,9 @@ interface FormData {
   contactEmail: string;
   contactPhone: string;
   images: FileList | null;
+  latitude?: number;
+  longitude?: number;
+  userType: string;
 }
 
 interface BasePropertyFormProps {
@@ -56,6 +60,9 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
     contactEmail: '',
     contactPhone: '',
     images: null,
+    latitude: undefined,
+    longitude: undefined,
+    userType: '',
   });
   
   const [additionalFields, setAdditionalFields] = useState<Record<string, any>>({});
@@ -93,6 +100,15 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
     }
   };
 
+  const handleLocationChange = (latitude: number, longitude: number, address?: string) => {
+    setFormData(prev => ({
+      ...prev,
+      latitude,
+      longitude,
+      ...(address && !prev.location && { location: address })
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
@@ -121,6 +137,9 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
       if (formData.bathrooms) propertyData.append('bathrooms', formData.bathrooms);
       if (formData.area) propertyData.append('area', formData.area);
       if (formData.amenities) propertyData.append('amenities', formData.amenities);
+      if (formData.latitude) propertyData.append('latitude', formData.latitude.toString());
+      if (formData.longitude) propertyData.append('longitude', formData.longitude.toString());
+      if (formData.userType) propertyData.append('userType', formData.userType);
       
       // Additional fields specific to property type
       Object.keys(additionalFields).forEach(key => {
@@ -225,6 +244,16 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
             placeholder="Property location"
           />
         </div>
+      </div>
+
+      {/* Location on Map */}
+      <div className="mb-4">
+        <p className="h5 fw-semibold border-bottom pb-2">Mark Location on Map</p>
+        <LocationMapInput 
+          onLocationChange={handleLocationChange}
+          initialLat={formData.latitude}
+          initialLng={formData.longitude}
+        />
       </div>
 
       {/* Location Details */}
@@ -354,6 +383,33 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
           </div>
         </div>
       )}
+
+      {/* User Type Selection */}
+      <div className="mb-4">
+        <p className="h5 fw-semibold border-bottom pb-2">User Type</p>
+        
+        <div className="row g-3">
+          <div className="col-md-6">
+            <label className="form-label">Who is listing this property? *</label>
+            <select
+              name="userType"
+              value={formData.userType}
+              onChange={handleChange}
+              required
+              className="form-control"
+            >
+              <option value="">Select User Type</option>
+              <option value="individual">Individual</option>
+              <option value="work_from_home">Work from Home (Part Time)</option>
+              <option value="dealer">Dealer</option>
+              <option value="agent">Agent</option>
+              <option value="builder">Builder</option>
+              <option value="organization">Organization</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
       {/* Contact Information */}
       <div className="mb-4">
