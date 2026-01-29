@@ -125,7 +125,9 @@ const DealersPage = () => {
       {selectedDealer && (
         <div 
           className="modal fade show d-block" 
-          tabIndex={-1} 
+          tabIndex={-1}
+          role="dialog"
+          aria-modal="true"
           onClick={() => setSelectedDealer(null)}
           style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}
         >
@@ -133,12 +135,16 @@ const DealersPage = () => {
             className="modal-dialog modal-dialog-centered modal-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="modal-content border-0 rounded-4 shadow-lg">
-              <div className="modal-header border-0 pb-0">
+            <div className="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+              <div className="modal-header border-0 pb-0 position-relative z-2 p-0 ">
                 <button 
                   type="button" 
-                  className="btn-close position-absolute end-0 top-0 m-3" 
-                  onClick={() => setSelectedDealer(null)}
+                  className="btn-close position-absolute end-0 top-0 m-3 z-3" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    setSelectedDealer(null);
+                  }}
                   aria-label="Close"
                 ></button>
               </div>
@@ -165,7 +171,7 @@ const DealersPage = () => {
                   </div>
                   <div className="col-lg-7">
                     <div className="p-4 p-lg-5">
-                      <h2 className="font-garamond mb-2">{selectedDealer.name}</h2>
+                      <h4 className="font-garamond mb-2">{selectedDealer.name}</h4>
                       <p className="text-primary fw-medium mb-4">{selectedDealer.title}</p>
                       
                       {selectedDealer.full_description && (
