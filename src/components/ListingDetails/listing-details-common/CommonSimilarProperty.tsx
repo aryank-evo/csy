@@ -52,6 +52,11 @@ const CommonSimilarProperty = () => {
                      <div className="img-gallery p-15">
                         <div className="position-relative border-20 overflow-hidden">
                            <div className="tag bg-white text-dark fw-500 border-20">{item.tag}</div>
+                           {item.isVerified && (
+                              <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
+                                 <BlueTickVerifiedIcon size={24} />
+                              </div>
+                           )}
                            <Image src={item.thumb ? item.thumb : ""} className="w-100 border-20" alt="..." />
                            <Link href="/listing_details_06"
                               className="btn-four inverse rounded-circle position-absolute"><i
@@ -73,12 +78,7 @@ const CommonSimilarProperty = () => {
                         </div>
                      </div>
                      <div className="property-info pe-4 ps-4">
-                        <div className="d-flex align-items-center gap-2 mb-2">
-                           <Link href="/listing_details_06" className="title tran3s">{item.title}</Link>
-                           {item.isVerified && (
-                              <BlueTickVerifiedIcon size={18} />
-                           )}
-                        </div>
+                        <Link href="/listing_details_06" className="title tran3s">{item.title}</Link>
                         <div className="address m0 pb-5">{item.address}</div>
                         <div className="pl-footer m0 d-flex align-items-center justify-content-between">
                            <strong className="price fw-500 color-dark">₹{item.price}</strong>

@@ -17,15 +17,15 @@ const PropertyTwo = () => {
                      <div key={item.id} className="col-lg-4 col-md-6 mt-40 wow fadeInUp" data-wow-delay={item.data_delay_time}>
                         <div className={`listing-card-four overflow-hidden d-flex align-items-end position-relative z-1 ${item.item_bg_img}`}>
                            <div className="tag fw-500">{item.tag}</div>
+                           {item.isVerified && (
+                              <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
+                                 <BlueTickVerifiedIcon size={24} />
+                              </div>
+                           )}
                            <div className="property-info tran3s w-100">
                               <div className="d-flex align-items-center justify-content-between">
                                  <div className="pe-3">
-                                    <div className="d-flex align-items-center gap-2">
-                                       <Link href="/listing_details_04" className="title fw-500 tran4s">{item.title}</Link>
-                                       {item.isVerified && (
-                                          <BlueTickVerifiedIcon size={18} />
-                                       )}
-                                    </div>
+                                    <Link href="/listing_details_04" className="title fw-500 tran4s">{item.title}</Link>
                                     <div className="address tran4s">{item.address}</div>
                                  </div>
                                  <Link href="/listing_details_04" className="btn-four inverse"><i className="bi bi-arrow-up-right"></i></Link>

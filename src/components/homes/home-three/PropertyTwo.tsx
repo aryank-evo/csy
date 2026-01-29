@@ -73,6 +73,11 @@ const PropertyTwo = ({ style }: any) => {
                            <div className="img-gallery p-15">
                               <div className="position-relative border-20 overflow-hidden">
                                  <div className="tag bg-white text-dark fw-500 border-20">{item.tag}</div>
+                                 {item.isVerified && (
+                                    <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
+                                       <BlueTickVerifiedIcon size={24} />
+                                    </div>
+                                 )}
                                  <Image src={item.thumb ? item.thumb : ""} className="w-100 border-20" alt="..." />
                                  <Link href="/listing_details_04" className="btn-four inverse rounded-circle position-absolute"><i className="bi bi-arrow-up-right"></i></Link>
                                  <div className="img-slider-btn">
@@ -92,12 +97,7 @@ const PropertyTwo = ({ style }: any) => {
                               </div>
                            </div>
                            <div className="property-info pe-4 ps-4">
-                              <div className="d-flex align-items-center gap-2 mb-2">
-                                 <Link href="/listing_details_04" className="title tran3s">{item.title}</Link>
-                                 {item.isVerified && (
-                                    <BlueTickVerifiedIcon size={18} />
-                                 )}
-                              </div>
+                              <Link href="/listing_details_04" className="title tran3s">{item.title}</Link>
                               <div className="address">{item.address}</div>
                               <ul className="style-none feature d-flex flex-wrap align-items-center justify-content-between">
                                  {item.property_info.map((info, i) => (

@@ -35,6 +35,11 @@ const SimilarProperty = () => {
                      <div className="img-gallery">
                         <div className="position-relative overflow-hidden">
                            <div className="tag bg-white text-dark fw-500">FOR RENT</div>
+                           {item.isVerified && (
+                              <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
+                                 <BlueTickVerifiedIcon size={24} />
+                              </div>
+                           )}
                            <Image src={item.thumb ? item.thumb : ""} className="w-100" alt="..." />
 
                            <div className="img-slider-btn">
@@ -56,12 +61,7 @@ const SimilarProperty = () => {
                      <div className="property-info d-flex justify-content-between align-items-end pt-30">
                         <div>
                            <strong className="price fw-500 color-dark">₹{item.price}</strong>
-                           <div className="d-flex align-items-center gap-2">
-                              <div className="address m0">{item.address}</div>
-                              {item.isVerified && (
-                                 <BlueTickVerifiedIcon size={16} />
-                              )}
-                           </div>
+                           <div className="address m0">{item.address}</div>
                         </div>
                         <Link href="/listing_details_01" className="btn-four mb-5"><i className="bi bi-arrow-up-right"></i></Link>
                      </div>

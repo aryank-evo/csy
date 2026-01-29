@@ -32,7 +32,7 @@ interface FormData {
 interface BasePropertyFormProps {
   propertyType: string;
   propertyStatus: string;
-  customFields?: JSX.Element;
+  customFields?: React.ReactElement;
 }
 
 const BasePropertyForm: React.FC<BasePropertyFormProps> = ({ 
@@ -377,9 +377,11 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
             {propertyType.toUpperCase()} Specific Details
           </p>
           <div>
-            {React.cloneElement(customFields, { 
-              onChange: handleAdditionalFieldChange 
-            })}
+            {React.isValidElement(customFields) 
+              ? React.cloneElement(customFields as React.ReactElement<any>, { 
+                  onChange: handleAdditionalFieldChange 
+                })
+              : customFields}
           </div>
         </div>
       )}
