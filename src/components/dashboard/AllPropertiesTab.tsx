@@ -4,12 +4,12 @@ import AdminPropertyEditModal from "./AdminPropertyEditModal"
 
 interface Property {
   id: number
-  title: string
-  description: string
-  price: string
-  location: string
+  title?: string
+  description?: string
+  price?: string
+  location?: string
   propertyType: string
-  propertyStatus: string
+  propertyStatus?: string
   approvalStatus: string
   createdAt?: string
 }

@@ -34,7 +34,7 @@ const CityBuildersPage = () => {
                   </div>
                   
                   <div className="quote-box bg-light p-4 rounded-3 border-start border-4 border-primary">
-                    <p className="fst-italic mb-0">"Our mission is to build spaces that inspire. We don't just construct buildings; we create environments where families grow and businesses thrive."</p>
+                    <p className="fst-italic mb-0">&ldquo;Our mission is to build spaces that inspire. We don&#39;t just construct buildings; we create environments where families grow and businesses thrive.&rdquo;</p>
                     <h6 className="mt-3 mb-0">— Managing Director, City Builders</h6>
                   </div>
                 </div>

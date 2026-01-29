@@ -182,7 +182,7 @@ const GalleryEditor = () => {
       {sections.length === 0 ? (
         <div className="alert alert-info">
           <i className="bi bi-info-circle me-2"></i>
-          No gallery sections yet. Click "Add New Section" to create one.
+          No gallery sections yet. Click &ldquo;Add New Section&rdquo; to create one.
         </div>
       ) : (
         <div className="space-y-4">

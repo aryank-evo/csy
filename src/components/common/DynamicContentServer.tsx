@@ -39,7 +39,7 @@ const DynamicContentServer = ({
     return <Component className={className}>{defaultContent}</Component>;
   }
 
-  const content = pageData ? pageData[type] : defaultContent;
+  const content = pageData ? (pageData as Record<string, any>)[type] : defaultContent;
   
   if (!content) {
     if (type === 'primaryImage' || type === 'secondaryImage') {

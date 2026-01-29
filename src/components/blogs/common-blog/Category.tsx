@@ -29,7 +29,7 @@ const Category = () => {
          <h5 className="mb-20">Category</h5>
          <ul className="style-none">
             {Object.entries(categoriesWithCounts).map(([category, count], i) => (
-               <li key={i}><Link href={`/blog_03`}>{category} ({count})</Link></li>
+               <li key={i}><Link href={`/blog_03`}>{category} ({count as number})</Link></li>
             ))}
          </ul>
       </div>

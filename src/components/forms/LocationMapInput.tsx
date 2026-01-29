@@ -32,11 +32,6 @@ const Popup = dynamic(
   { ssr: false }
 );
 
-const useMapEvents = dynamic(
-  () => import('react-leaflet').then((mod) => mod.useMapEvents),
-  { ssr: false }
-);
-
 // Component to handle map clicks
 const MapClickHandler: React.FC<{ onMapClick: (lat: number, lng: number) => void }> = ({ onMapClick }) => {
   const [Component, setComponent] = useState<any>(null);

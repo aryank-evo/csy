@@ -6,10 +6,6 @@ import BreadcrumbOne from "@/components/common/breadcrumb/BreadcrumbOne";
 import Wrapper from "@/layouts/Wrapper";
 import DynamicContent from "@/components/common/DynamicContent";
 
-export const metadata = {
-  title: "City Builders - Construction Experts",
-};
-
 const CityBuildersPage = () => {
   return (
     <Wrapper>
@@ -60,7 +56,7 @@ const CityBuildersPage = () => {
                     <DynamicContent 
                       slug="city-builder" 
                       type="directorMsg" 
-                      defaultContent='"Our mission is to build spaces that inspire. We don\'t just construct buildings; we create environments where families grow and businesses thrive."'
+                      defaultContent='"Our mission is to build spaces that inspire. We don&#39;t just construct buildings; we create environments where families grow and businesses thrive."'
                       as="p"
                       className="fst-italic mb-0"
                     />

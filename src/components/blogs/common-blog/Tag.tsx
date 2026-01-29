@@ -26,13 +26,13 @@ const Tag = () => {
       return acc;
    }, []);
 
-   const uniqueKeywords = Array.from(new Set(allKeywords));
+   const uniqueKeywords: string[] = Array.from(new Set(allKeywords));
 
    return (
       <div className="keyword bg-white bg-wrapper">
          <h5 className="mb-20">Keywords</h5>
          <ul className="style-none d-flex flex-wrap">
-            {uniqueKeywords.map((tag, i) => <li key={i}><Link href="/blog_03">{tag}</Link></li>)}
+            {uniqueKeywords.map((tag, i) => <li key={i}><Link href={`/blog_03/${tag}`}>{tag}</Link></li>)}
             {uniqueKeywords.length === 0 && <li className="text-muted small">No keywords found</li>}
          </ul>
       </div>

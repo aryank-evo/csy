@@ -5,7 +5,16 @@ import AdvertisementEditor from './AdvertisementEditor';
 import GalleryEditor from './GalleryEditor';
 import BlogEditor from './BlogEditor';
 
-const CMS_PAGES = [
+interface TabItem {
+  slug: string;
+  displayName: string;
+  defaultTitle: string;
+  isAdvertisement?: boolean;
+  isGallery?: boolean;
+  isBlog?: boolean;
+}
+
+const CMS_PAGES: TabItem[] = [
   {
     slug: 'city-builder',
     displayName: 'City Builder Page',
@@ -28,7 +37,7 @@ const CMS_PAGES = [
   }
 ];
 
-const TABS = [
+const TABS: TabItem[] = [
   ...CMS_PAGES,
   {
     slug: 'advertisements',

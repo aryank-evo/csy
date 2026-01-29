@@ -62,7 +62,7 @@ const TestDynamicContent = () => {
       
       <p className="mt-4 text-muted">
         Open your browser console to see API call logs.
-        Click "Test Direct API Call" to verify connectivity.
+        Click &ldquo;Test Direct API Call&rdquo; to verify connectivity.
       </p>
     </div>
   );
