@@ -101,6 +101,18 @@ SaleProperty.init({
         allowNull: true,
         defaultValue: [],
     },
+    latitude: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 8),
+        allowNull: true,
+    },
+    longitude: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 8),
+        allowNull: true,
+    },
+    userType: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
     // Sale-specific fields
     possessionStatus: {
         type: sequelize_1.DataTypes.STRING,

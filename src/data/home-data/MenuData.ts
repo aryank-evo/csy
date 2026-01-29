@@ -79,5 +79,11 @@ const menu_data: MenuItem[] = [
         title: "Blog",
         link: "/blog_03",
     },
+    {
+        id: 11,
+        has_dropdown: false,
+        title: "Dealers",
+        link: "/dealers",
+    },
 ];
 export default menu_data;

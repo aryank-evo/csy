@@ -235,4 +235,60 @@ Blog.init({
 
 // Export models
 export { User, Property, Lead, CmsContent };
-export { CmsPage, Advertisement, GallerySection, Blog };
+export { CmsPage, Advertisement, GallerySection, Blog, Dealer };
+
+// Initialize Dealer model
+import { Dealer } from '../models/Dealer';
+Dealer.init({
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  short_description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  full_description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  primary_image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  address: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  is_active: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
+  display_order: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+}, {
+  tableName: 'dealers',
+  sequelize,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+});

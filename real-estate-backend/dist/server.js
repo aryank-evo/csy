@@ -27,6 +27,9 @@ const leadRoutes_1 = __importDefault(require("./routes/leadRoutes"));
 const propertyRoutes_1 = __importDefault(require("./routes/propertyRoutes"));
 const cmsPageRoutes_1 = __importDefault(require("./routes/cmsPageRoutes"));
 const advertisementRoutes_1 = __importDefault(require("./routes/advertisementRoutes"));
+const galleryRoutes_1 = __importDefault(require("./routes/galleryRoutes"));
+const blogRoutes_1 = __importDefault(require("./routes/blogRoutes"));
+const dealerRoutes_1 = __importDefault(require("./routes/dealerRoutes"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 8080;
 app.use((0, cors_1.default)());
@@ -42,6 +45,9 @@ app.use("/api/admin/dashboard", adminDashboardRoutes_1.default);
 app.use("/api/lead", leadRoutes_1.default);
 app.use("/api/cms", cmsPageRoutes_1.default);
 app.use("/api/advertisements", advertisementRoutes_1.default);
+app.use("/api/gallery", galleryRoutes_1.default);
+app.use("/api/blogs", blogRoutes_1.default);
+app.use("/api/dealers", dealerRoutes_1.default);
 // Run pending migrations before starting the server
 const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

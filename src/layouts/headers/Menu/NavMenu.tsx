@@ -32,7 +32,7 @@ const NavMenu = () => {
             {menu_data.map((menu: any) => (
                 <li
                     key={menu.id}
-                    className={`nav-item ${menu.has_dropdown ? "dropdown" : ""} ${menu.class_name}`}
+                    className={`nav-item text-nowrap ${menu.has_dropdown ? "dropdown" : ""}`}
                 >
                     <Link
                         href={menu.link}

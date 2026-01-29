@@ -20,7 +20,7 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
     var _a;
     try {
         // Extract property data from request body
-        const { title, description, price, location, address, city, state, zipCode, country, propertyType, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, 
+        const { title, description, price, location, address, city, state, zipCode, country, propertyType, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, latitude, longitude, userType, 
         // Sale-specific fields
         possessionStatus, propertyAge, maintenanceCharge, 
         // Rent-specific fields
@@ -69,6 +69,9 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     contactPhone,
                     possessionStatus,
                     propertyAge,
+                    latitude,
+                    longitude,
+                    userType,
                     images,
                     approvalStatus: 'pending'
                 });
@@ -96,6 +99,9 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     availableFrom,
                     securityDeposit,
                     maintenanceCharge,
+                    latitude,
+                    longitude,
+                    userType,
                     images,
                     approvalStatus: 'pending'
                 });
@@ -123,6 +129,9 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     leasePeriod,
                     monthlyLeaseAmount,
                     leaseTerms,
+                    latitude,
+                    longitude,
+                    userType,
                     images,
                     approvalStatus: 'pending'
                 });
@@ -151,6 +160,9 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     foodIncluded,
                     gender,
                     occupancy,
+                    latitude,
+                    longitude,
+                    userType,
                     images,
                     approvalStatus: 'pending'
                 });
@@ -178,6 +190,9 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     propertySubType,
                     commercialArea,
                     facing,
+                    latitude,
+                    longitude,
+                    userType,
                     images,
                     approvalStatus: 'pending'
                 });
@@ -202,6 +217,9 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     landType,
                     facing,
                     utilities,
+                    latitude,
+                    longitude,
+                    userType,
                     images,
                     approvalStatus: 'pending'
                 });

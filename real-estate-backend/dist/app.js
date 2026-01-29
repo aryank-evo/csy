@@ -10,12 +10,14 @@ const database_1 = require("./config/database");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const protectedRoutes_1 = __importDefault(require("./routes/protectedRoutes"));
 const propertyRoutes_1 = __importDefault(require("./routes/propertyRoutes"));
+const dealerRoutes_1 = __importDefault(require("./routes/dealerRoutes"));
 require("./custom");
 exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 exports.app.use('/auth', authRoutes_1.default);
 exports.app.use('/api/properties', propertyRoutes_1.default);
+exports.app.use('/api/dealers', dealerRoutes_1.default);
 exports.app.use('/api', protectedRoutes_1.default);
 // تأكد من الاتصال بقاعدة البيانات عند تشغيل السيرفر
 database_1.sequelize.sync().then(() => {

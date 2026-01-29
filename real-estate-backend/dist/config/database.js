@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Advertisement = exports.CmsPage = exports.CmsContent = exports.Lead = exports.Property = exports.User = exports.sequelize = void 0;
+exports.Dealer = exports.Blog = exports.GallerySection = exports.Advertisement = exports.CmsPage = exports.CmsContent = exports.Lead = exports.Property = exports.User = exports.sequelize = void 0;
 const sequelize_1 = require("sequelize");
 const dotenv_1 = __importDefault(require("dotenv"));
 // Import JavaScript models using require
@@ -11,6 +11,10 @@ const UserModel = require('../../models/user');
 const PropertyModel = require('../../models/property');
 const LeadModel = require('../../models/lead');
 const CmsContentModel = require('../../models/cmsContent');
+const GallerySection_1 = require("../models/GallerySection");
+Object.defineProperty(exports, "GallerySection", { enumerable: true, get: function () { return GallerySection_1.GallerySection; } });
+const Blog_1 = require("../models/Blog");
+Object.defineProperty(exports, "Blog", { enumerable: true, get: function () { return Blog_1.Blog; } });
 // Define CmsPage model inline
 class CmsPage extends sequelize_1.Model {
 }
@@ -133,4 +137,133 @@ Advertisement.init({
     tableName: "advertisements",
     sequelize: exports.sequelize,
     timestamps: true
+});
+// Initialize GallerySection model
+GallerySection_1.GallerySection.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    heading: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    description: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: true,
+    },
+    youtube_links: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+    },
+    order: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    },
+}, {
+    tableName: 'gallery_sections',
+    sequelize: exports.sequelize,
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at"
+});
+// Initialize Blog model
+Blog_1.Blog.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    title: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    content: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: false,
+    },
+    primary_image: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+    secondary_image: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+    author_name: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+    category: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+    keywords: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+}, {
+    tableName: 'blogs',
+    sequelize: exports.sequelize,
+    timestamps: true,
+    underscored: true
+});
+// Initialize Dealer model
+const Dealer_1 = require("../models/Dealer");
+Object.defineProperty(exports, "Dealer", { enumerable: true, get: function () { return Dealer_1.Dealer; } });
+Dealer_1.Dealer.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    name: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    title: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    short_description: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: true,
+    },
+    full_description: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: true,
+    },
+    primary_image: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+    phone: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+    email: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
+    address: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: true,
+    },
+    is_active: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: true,
+    },
+    display_order: {
+        type: sequelize_1.DataTypes.INTEGER,
+        defaultValue: 0,
+    },
+}, {
+    tableName: 'dealers',
+    sequelize: exports.sequelize,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
 });

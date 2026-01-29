@@ -4,7 +4,9 @@ import { sequelize } from './config/database';
 import authRoutes from './routes/authRoutes';
 import protectedRoutes from './routes/protectedRoutes';
 import propertyRoutes from './routes/propertyRoutes';
+import dealerRoutes from './routes/dealerRoutes';
 import './custom';
+
 
 
 export const app = express();
@@ -13,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
+app.use('/api/dealers', dealerRoutes);
 app.use('/api', protectedRoutes);
 
 // تأكد من الاتصال بقاعدة البيانات عند تشغيل السيرفر

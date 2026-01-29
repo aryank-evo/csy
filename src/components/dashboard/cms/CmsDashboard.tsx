@@ -4,6 +4,7 @@ import CmsComponentEditor from './CmsComponentEditor';
 import AdvertisementEditor from './AdvertisementEditor';
 import GalleryEditor from './GalleryEditor';
 import BlogEditor from './BlogEditor';
+import DealerEditor from './DealerEditor';
 
 interface TabItem {
   slug: string;
@@ -12,6 +13,7 @@ interface TabItem {
   isAdvertisement?: boolean;
   isGallery?: boolean;
   isBlog?: boolean;
+  isDealer?: boolean;
 }
 
 const CMS_PAGES: TabItem[] = [
@@ -56,6 +58,12 @@ const TABS: TabItem[] = [
     displayName: 'Blogs',
     defaultTitle: 'Blogs',
     isBlog: true
+  },
+  {
+    slug: 'dealers',
+    displayName: 'Dealers',
+    defaultTitle: 'Dealers',
+    isDealer: true
   }
 ];
 
@@ -95,6 +103,11 @@ const CmsDashboard = () => {
                       <i className="bi bi-journal-text me-2"></i>
                       {tab.displayName}
                     </>
+                  ) : tab.isDealer ? (
+                    <>
+                      <i className="bi bi-people me-2"></i>
+                      {tab.displayName}
+                    </>
                   ) : (
                     tab.displayName
                   )}
@@ -128,6 +141,14 @@ const CmsDashboard = () => {
                 <p className="text-muted small">Manage your blog posts. Create, edit, and delete blogs with titles, content, images, categories, and keywords.</p>
               </div>
               <BlogEditor />
+            </>
+          ) : TABS[activeTab]?.isDealer ? (
+            <>
+              <div className="cms-content-header mb-3">
+                <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
+                <p className="text-muted small">Manage your dealers. Add, edit, or remove dealers with their contact information and status.</p>
+              </div>
+              <DealerEditor />
             </>
           ) : (
             <>
