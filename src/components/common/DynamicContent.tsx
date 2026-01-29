@@ -36,16 +36,12 @@ const DynamicContent = ({
     return <Component className={className}>{defaultContent}</Component>;
   }
 
-  const content = pageData ? pageData[type] : defaultContent;
+  const content = pageData ? (pageData as Record<string, any>)[type as string] : defaultContent;
   
   if (!content) {
     // For image types, render img tag with default content
     if (type === 'primaryImage' || type === 'secondaryImage') {
       return <img src={defaultContent} alt="" className={className} {...props} />;
-    }
-    // For director message or name types, render as text
-    if (type === 'directorMsg' || type === 'directorName') {
-      return <Component className={className}>{defaultContent}</Component>;
     }
     return <Component className={className}>{defaultContent}</Component>;
   }
@@ -65,11 +61,7 @@ const DynamicContent = ({
     return <img src={content} alt="" className={className} {...props} />;
   }
 
-  // If content is director message or name, render it as text
-  if (type === 'directorMsg' || type === 'directorName') {
-    return <Component className={className}>{content}</Component>;
-  }
-
+  // For all text-based fields, render as text
   return <Component className={className}>{content}</Component>;
 };
 

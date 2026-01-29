@@ -71,15 +71,7 @@ const AboutUsPage = () => {
                       className="fs-20 mt-3"
                     />
                   </div>
-                  {/* <DynamicContent 
-                    slug="about-us" 
-                    type="primaryImage"
-                    defaultContent=""
-                    as="img"
-                    className="w-100 rounded-4 shadow-lg"
-                    width={600} 
-                    height={600}
-                  /> */}
+                  
                   <div className="title-one mb-40">
                     <DynamicContent 
                       slug="about-us" 
@@ -96,15 +88,6 @@ const AboutUsPage = () => {
                       className="fs-20 mt-3"
                     />
                   </div>
-                  {/* <DynamicContent 
-                    slug="about-us" 
-                    type="secondaryImage"
-                    defaultContent=""
-                    as="img"
-                    className="w-100 rounded-4 shadow-lg"
-                    width={600} 
-                    height={600}
-                  /> */}
                 </div>
               </div>
             </div>

@@ -238,25 +238,29 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
 
   return (
     <div className="cms-editor bg-white p-4 rounded-3 shadow-sm mt-3">
-      <div className="mb-4">
-        <label className="form-label fw-bold">Page Title</label>
-        <input 
-          type="text" 
-          className="form-control" 
-          value={pageTitle}
-          onChange={(e) => setPageTitle(e.target.value)}
-          placeholder="Enter page title"
-        />
-      </div>
+      {slug !== 'about-us' && (
+        <div className="mb-4">
+          <label className="form-label fw-bold">Page Title</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            value={pageTitle}
+            onChange={(e) => setPageTitle(e.target.value)}
+            placeholder="Enter page title"
+          />
+        </div>
+      )}
       
-      <div className="mb-4">
-        <label className="form-label fw-bold">Page Content</label>
-        <ClassicEditor 
-          value={content}
-          onChange={setContent}
-          placeholder="Start formatting your content here..."
-        />
-      </div>
+      {slug !== 'about-us' && (
+        <div className="mb-4">
+          <label className="form-label fw-bold">Page Content</label>
+          <ClassicEditor 
+            value={content}
+            onChange={setContent}
+            placeholder="Start formatting your content here..."
+          />
+        </div>
+      )}
 
       <div className="mb-4">
         <label className="form-label fw-bold">Primary Image</label>
@@ -306,81 +310,98 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
         )}
       </div>
 
-      <div className="mb-4">
-        <label className="form-label fw-bold">Secondary Image</label>
-      </div>
-      
-      <div className="mb-4">
-        <label className="form-label fw-bold">Director Message</label>
-        <textarea 
-          className="form-control"
-          rows={3}
-          value={directorMsg}
-          onChange={(e) => setDirectorMsg(e.target.value)}
-          placeholder="Enter director's message"
-        />
-        <div className="form-text">The message from the director that appears on the city builders page</div>
-      </div>
-      
-      <div className="mb-4">
-        <label className="form-label fw-bold">Director Name</label>
-        <input 
-          type="text" 
-          className="form-control" 
-          value={directorName}
-          onChange={(e) => setDirectorName(e.target.value)}
-          placeholder="Enter director's name"
-        />
-        <div className="form-text">Name and title of the director</div>
-      </div>
-      
-      <div className="mb-4">
-        <label className="form-label fw-bold">Secondary Image</label>
-        <div 
-          className="border border-2 border-dashed rounded p-4 text-center cursor-pointer bg-light mt-2"
-          style={{ width: '100%', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          onClick={triggerSecondaryImageUpload}
-        >
-          {secondaryImagePreview ? (
-            <img 
-              src={secondaryImagePreview} 
-              alt="Secondary Preview" 
-              className="img-fluid rounded" 
-              style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'cover' }}
+      {slug === 'about-us' && (
+        <div className="about-us-fields">
+          <div className="mb-4">
+            <label className="form-label fw-bold">Main Title</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={aboutTitle1}
+              onChange={(e) => setAboutTitle1(e.target.value)}
+              placeholder="Enter first title (e.g. Secure your family's Dream home.)"
             />
-          ) : (
-            <div>
-              <i className="bi bi-cloud-upload fs-1 text-muted"></i>
-              <p className="mb-0 mt-2">Click to upload</p>
-              <small className="text-muted">or drag and drop</small>
-            </div>
-          )}
-        </div>
-        <input
-          type="file"
-          ref={secondaryImageInputRef}
-          onChange={handleSecondaryImageChange}
-          className="d-none"
-          accept="image/*"
-        />
-        {secondaryImagePreview && (
-          <div className="mt-2">
-            <button 
-              type="button" 
-              className="btn btn-outline-danger btn-sm"
-              onClick={() => {
-                setSecondaryImageFile(null);
-                setSecondaryImagePreview('');
-                if (secondaryImageInputRef.current) {
-                  secondaryImageInputRef.current.value = '';
-                }
-              }}
-            >
-              Remove
-            </button>
           </div>
-        )}
-      </div>
+          <div className="mb-4">
+            <label className="form-label fw-bold">Main Description</label>
+            <textarea 
+              className="form-control" 
+              rows={3}
+              value={aboutDesc1}
+              onChange={(e) => setAboutDesc1(e.target.value)}
+              placeholder="Enter first description"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="form-label fw-bold">Sub Title</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={aboutTitle2}
+              onChange={(e) => setAboutTitle2(e.target.value)}
+              placeholder="Enter second title (e.g. Who we are?)"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="form-label fw-bold">Sub Description</label>
+            <textarea 
+              className="form-control" 
+              rows={3}
+              value={aboutDesc2}
+              onChange={(e) => setAboutDesc2(e.target.value)}
+              placeholder="Enter second description"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="form-label fw-bold">Mission Title</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={aboutMission}
+              onChange={(e) => setAboutMission(e.target.value)}
+              placeholder="Enter mission title (e.g. Our Mission)"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="form-label fw-bold">Mission Description</label>
+            <textarea 
+              className="form-control" 
+              rows={3}
+              value={aboutDesc3}
+              onChange={(e) => setAboutDesc3(e.target.value)}
+              placeholder="Enter mission description"
+            />
+          </div>
+        </div>
+      )}
+
+      {slug === 'city-builder' && (
+        <>
+          <div className="mb-4">
+            <label className="form-label fw-bold">Director Message</label>
+            <textarea 
+              className="form-control"
+              rows={3}
+              value={directorMsg}
+              onChange={(e) => setDirectorMsg(e.target.value)}
+              placeholder="Enter director's message"
+            />
+            <div className="form-text">The message from the director that appears on the city builders page</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">Director Name</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={directorName}
+              onChange={(e) => setDirectorName(e.target.value)}
+              placeholder="Enter director's name"
+            />
+            <div className="form-text">Name and title of the director</div>
+          </div>
+        </>
+      )}
       
       <div className="mt-5 border-top pt-3">
         <button 

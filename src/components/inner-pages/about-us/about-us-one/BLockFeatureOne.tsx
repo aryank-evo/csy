@@ -44,7 +44,7 @@ const BLockFeatureOne = () => {
                      <div className="bg-wrapper">
                         <DynamicContentServer 
                            slug="about-us" 
-                           type="aboutTitle1" 
+                           type="aboutTitle2" 
                            defaultContent="Who we are?" 
                            as="h5"
                         />
