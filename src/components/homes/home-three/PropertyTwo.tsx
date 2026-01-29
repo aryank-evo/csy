@@ -9,6 +9,7 @@ import Fancybox from "@/components/common/Fancybox"
 import propertyShape_1 from "@/assets/images/shape/shape_37.svg"
 import propertyShape_2 from "@/assets/images/shape/shape_38.svg"
 import propertyShape_3 from "@/assets/images/shape/shape_39.svg"
+import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
 
 const setting = {
    dots: false,
@@ -91,7 +92,12 @@ const PropertyTwo = ({ style }: any) => {
                               </div>
                            </div>
                            <div className="property-info pe-4 ps-4">
-                              <Link href="/listing_details_04" className="title tran3s">{item.title}</Link>
+                              <div className="d-flex align-items-center gap-2 mb-2">
+                                 <Link href="/listing_details_04" className="title tran3s">{item.title}</Link>
+                                 {item.isVerified && (
+                                    <BlueTickVerifiedIcon size={18} />
+                                 )}
+                              </div>
                               <div className="address">{item.address}</div>
                               <ul className="style-none feature d-flex flex-wrap align-items-center justify-content-between">
                                  {item.property_info.map((info, i) => (

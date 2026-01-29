@@ -1,13 +1,14 @@
 "use client"
 import { fetchCmsPage } from '@/utils/cmsApi';
 import { useQuery } from '@tanstack/react-query';
+import { ElementType } from 'react';
 
 interface DynamicContentProps {
   slug: string;
   type?: 'title' | 'content' | 'primaryImage' | 'secondaryImage' | 'directorMsg' | 'directorName' | 'aboutSubtitle' | 'aboutDesc1' | 'aboutTitle1' | 'aboutTitle2' | 'aboutDesc2' | 'aboutDesc3' | 'aboutMission';
   defaultContent?: string;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   [key: string]: any; // Allow additional props
 }
 

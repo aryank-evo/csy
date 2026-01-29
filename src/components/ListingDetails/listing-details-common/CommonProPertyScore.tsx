@@ -1,4 +1,5 @@
 import Image, { StaticImageData } from "next/image";
+import { ReactElement } from "react";
 
 import icon_1 from "@/assets/images/icon/icon_52.svg"
 import icon_2 from "@/assets/images/icon/icon_53.svg"
@@ -9,7 +10,7 @@ interface DataType {
    id: number;
    icon: StaticImageData;
    title: string;
-   desc: JSX.Element;
+   desc: React.ReactElement;
 }[];
 
 const score_data: DataType[] = [

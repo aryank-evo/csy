@@ -78,7 +78,7 @@ export const getPropertyById = async (req: Request, res: Response): Promise<void
 export const approveProperty = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { fieldVisibility, imageVisibility } = req.body;
+    const { fieldVisibility, imageVisibility, isVerified } = req.body;
     
     const property = await Property.findByPk(id);
     
@@ -95,6 +95,16 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
     }
     if (imageVisibility) {
       property.imageVisibility = imageVisibility;
+    }
+    
+    // Update verified status if provided
+    if (typeof isVerified === 'boolean') {
+      property.isVerified = isVerified;
+      if (isVerified) {
+        property.verifiedAt = new Date();
+        // When a property is verified, it should also be marked as featured
+        // You can implement this based on your business logic
+      }
     }
     
     await property.save();

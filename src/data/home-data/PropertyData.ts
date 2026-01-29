@@ -32,6 +32,7 @@ interface DataType {
    page: string;
    tag: string;
    tag_bg?: string;
+   isVerified?: boolean;
    thumb?:StaticImageData
    carousel_thumb: {
       id?:string;
@@ -56,6 +57,7 @@ const property_data: DataType[] = [
       id: 1,
       page: "home_1",
       tag: "FOR RENT",
+      isVerified: true,
       carousel_thumb: [{ img: propertyThumb_1, active: "active" }, { img: propertyThumb_2 }, { img: propertyThumb_3 }],
       title: "Blueberry villa",
       address: "Mirpur 10, Stadium dhaka 1208",
@@ -135,6 +137,7 @@ const property_data: DataType[] = [
       id: 1,
       page: "home_2",
       tag: "FOR RENT",
+      isVerified: true,
       carousel_thumb: [{ img: property2Thumb_1, active: "active" }, { img: property2Thumb_2 }, { img: property2Thumb_3 }],
       title: "Blueberry villa.",
       address: "Mirpur 10, Stadium dhaka 1208",

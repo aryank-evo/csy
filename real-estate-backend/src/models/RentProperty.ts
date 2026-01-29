@@ -19,6 +19,9 @@ interface RentPropertyAttributes {
   area?: number;
   amenities?: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
+  isVerified: boolean;
+  verifiedBy?: number;
+  verifiedAt?: Date;
   approvedBy?: number;
   approvedAt?: Date;
   contactName?: string;
@@ -57,6 +60,9 @@ export class RentProperty extends Model<RentPropertyAttributes, RentPropertyCrea
   public area?: number;
   public amenities?: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
+  public isVerified!: boolean;
+  public verifiedBy?: number;
+  public verifiedAt?: Date;
   public approvedBy?: number;
   public approvedAt?: Date;
   public contactName?: string;
@@ -144,6 +150,18 @@ RentProperty.init({
   approvalStatus: {
     type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
+  },
+  isVerified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  verifiedBy: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  verifiedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
   approvedBy: {
     type: DataTypes.INTEGER,

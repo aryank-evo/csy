@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import titleShape from "@/assets/images/shape/title_shape_03.svg"
+import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
 
 const PropertyOne = ({ style_1, style_2 }: any) => {
    return (
@@ -39,7 +40,12 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                               </div>
                            </div>
                            <div className="property-info pt-20">
-                              <Link href="/listing_details_03" className="title tran3s">{item.title}</Link>
+                              <div className="d-flex align-items-center gap-2 mb-2">
+                                 <Link href="/listing_details_03" className="title tran3s">{item.title}</Link>
+                                 {item.isVerified && (
+                                    <BlueTickVerifiedIcon size={18} />
+                                 )}
+                              </div>
                               <div className="address">{item.address}</div>
                               <ul className="style-none feature d-flex flex-wrap align-items-center justify-content-between pb-15 pt-5">
                                  {item.property_info.map((info, index) => (

@@ -15,6 +15,9 @@ interface LandPropertyAttributes {
   propertyType: string;
   propertyStatus: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
+  isVerified: boolean;
+  verifiedBy?: number;
+  verifiedAt?: Date;
   approvedBy?: number;
   approvedAt?: Date;
   contactName?: string;
@@ -50,6 +53,9 @@ export class LandProperty extends Model<LandPropertyAttributes, LandPropertyCrea
   public propertyType!: string;
   public propertyStatus!: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
+  public isVerified!: boolean;
+  public verifiedBy?: number;
+  public verifiedAt?: Date;
   public approvedBy?: number;
   public approvedAt?: Date;
   public contactName?: string;
@@ -122,6 +128,18 @@ LandProperty.init({
   approvalStatus: {
     type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
+  },
+  isVerified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  verifiedBy: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  verifiedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
   approvedBy: {
     type: DataTypes.INTEGER,

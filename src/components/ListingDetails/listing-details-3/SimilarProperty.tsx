@@ -4,6 +4,7 @@ import property_data from "@/data/home-data/PropertyData"
 import Image from "next/image"
 import Link from "next/link"
 import Slider from "react-slick";
+import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
 
 const setting = {
    dots: true,
@@ -55,7 +56,12 @@ const SimilarProperty = () => {
                         </div>
                      </div>
                      <div className="property-info pe-4 ps-4">
-                        <Link href="/listing_details_06" className="title tran3s">{item.title}</Link>
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                           <Link href="/listing_details_06" className="title tran3s">{item.title}</Link>
+                           {item.isVerified && (
+                              <BlueTickVerifiedIcon size={18} />
+                           )}
+                        </div>
                         <div className="address m0 pb-5">{item.address}</div>
                         <div className="pl-footer m0 d-flex align-items-center justify-content-between">
                            <strong className="price fw-500 color-dark">₹{item.price}</strong>

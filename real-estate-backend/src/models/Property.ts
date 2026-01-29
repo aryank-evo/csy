@@ -19,6 +19,9 @@ interface PropertyAttributes {
   area?: string;
   amenities?: string;
   approvalStatus: 'pending' | 'approved' | 'rejected';
+  isVerified: boolean;
+  verifiedBy?: number;
+  verifiedAt?: Date;
   approvedBy?: number;
   approvedAt?: Date;
   userId?: number;
@@ -52,6 +55,9 @@ export class Property extends Model<PropertyAttributes, PropertyCreationAttribut
   public area?: string;
   public amenities?: string;
   public approvalStatus!: 'pending' | 'approved' | 'rejected';
+  public isVerified!: boolean;
+  public verifiedBy?: number;
+  public verifiedAt?: Date;
   public approvedBy?: number;
   public approvedAt?: Date;
   public userId?: number;
@@ -134,6 +140,18 @@ Property.init({
   approvalStatus: {
     type: DataTypes.STRING,
     defaultValue: 'pending',
+  },
+  isVerified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  verifiedBy: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  verifiedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
   approvedBy: {
     type: DataTypes.INTEGER,

@@ -16,6 +16,7 @@ interface Property {
   propertyType: string
   propertyStatus?: string
   approvalStatus: string
+  isVerified?: boolean
   createdAt?: string
   contactName?: string
   contactEmail?: string
@@ -137,6 +138,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
   const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState<'fields' | 'images'>('fields')
   const [dynamicFields, setDynamicFields] = useState<Array<{ key: string; type: string; label: string; options?: { value: string; label: string }[] }>>([])
+  const [isVerified, setIsVerified] = useState(false)
 
   useEffect(() => {
     if (property) {
@@ -181,6 +183,9 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
         imgVisibility[index] = property.imageVisibility?.[index] !== false
       })
       setImageVisibility(imgVisibility)
+
+      // Initialize isVerified state
+      setIsVerified(property.isVerified || false)
     }
   }, [property])
 
@@ -214,7 +219,8 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
       const updateData = {
         ...formData,
         fieldVisibility,
-        imageVisibility
+        imageVisibility,
+        isVerified
       }
       
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/${property.id}?type=${property.propertyType}`, {
@@ -228,7 +234,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
       if (response.ok) {
         const result = await response.json()
         toast.success("Property updated successfully!")
-        onUpdate({ ...property, ...formData, fieldVisibility, imageVisibility })
+        onUpdate({ ...property, ...formData, fieldVisibility, imageVisibility, isVerified })
         onClose()
       } else {
         toast.error("Failed to update property")
@@ -249,13 +255,18 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ approvalStatus: status, fieldVisibility, imageVisibility })
+        body: JSON.stringify({ 
+          approvalStatus: status, 
+          fieldVisibility, 
+          imageVisibility,
+          isVerified 
+        })
       })
 
       if (response.ok) {
         const result = await response.json()
         toast.success(`Property ${status} successfully!`)
-        onUpdate({ ...property, approvalStatus: status, fieldVisibility, imageVisibility })
+        onUpdate({ ...property, approvalStatus: status, fieldVisibility, imageVisibility, isVerified })
         onClose()
       } else {
         toast.error(`Failed to ${status} property`)
@@ -288,12 +299,42 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
                     <h6 className="mb-0">Property ID: {property.id}</h6>
                     <small className="text-muted">Type: {property.propertyType}</small>
                   </div>
-                  <span className={`badge ${
-                    property.approvalStatus === "approved" ? "bg-success" : 
-                    property.approvalStatus === "pending" ? "bg-warning" : "bg-danger"
-                  }`}>
-                    {property.approvalStatus.toUpperCase()}
-                  </span>
+                  <div className="d-flex align-items-center gap-2">
+                    {/* Verified Toggle */}
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="verifiedToggle"
+                        checked={isVerified}
+                        onChange={(e) => setIsVerified(e.target.checked)}
+                        style={{ cursor: 'pointer', width: '45px', height: '24px' }}
+                      />
+                      <label 
+                        className="form-check-label" 
+                        htmlFor="verifiedToggle"
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <span className="d-flex align-items-center gap-1">
+                          {isVerified && (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#3B82F6">
+                              <circle cx="12" cy="12" r="11" fill="#3B82F6"/>
+                              <path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="white" strokeWidth="2" fill="none"/>
+                            </svg>
+                          )}
+                          <span className={isVerified ? "text-primary fw-medium" : "text-muted"}>
+                            {isVerified ? "Verified" : "Not Verified"}
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+                    <span className={`badge ${
+                      property.approvalStatus === "approved" ? "bg-success" : 
+                      property.approvalStatus === "pending" ? "bg-warning" : "bg-danger"
+                    }`}>
+                      {property.approvalStatus.toUpperCase()}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

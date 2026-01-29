@@ -1,5 +1,6 @@
 import feature_listing_data from '@/data/home-data/FeaturedListingData'
 import Link from 'next/link'
+import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
 
 const PropertyTwo = () => {
    return (
@@ -19,7 +20,12 @@ const PropertyTwo = () => {
                            <div className="property-info tran3s w-100">
                               <div className="d-flex align-items-center justify-content-between">
                                  <div className="pe-3">
-                                    <Link href="/listing_details_04" className="title fw-500 tran4s">{item.title}</Link>
+                                    <div className="d-flex align-items-center gap-2">
+                                       <Link href="/listing_details_04" className="title fw-500 tran4s">{item.title}</Link>
+                                       {item.isVerified && (
+                                          <BlueTickVerifiedIcon size={18} />
+                                       )}
+                                    </div>
                                     <div className="address tran4s">{item.address}</div>
                                  </div>
                                  <Link href="/listing_details_04" className="btn-four inverse"><i className="bi bi-arrow-up-right"></i></Link>

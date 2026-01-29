@@ -1,13 +1,14 @@
 "use client"
 import { fetchCmsPage } from '@/utils/cmsApi';
 import { useQuery } from '@tanstack/react-query';
+import { ElementType } from 'react';
 
 interface DynamicContentServerProps {
   slug: string;
   type: string;
   defaultContent?: string;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   [key: string]: any;
 }
 

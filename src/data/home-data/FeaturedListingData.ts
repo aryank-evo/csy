@@ -2,6 +2,7 @@ interface DataType {
    id: number;
    page: string;
    tag: string;
+   isVerified?: boolean;
    title: string;
    address: string;
    data_delay_time?: string;
@@ -17,6 +18,7 @@ const feature_listing_data:DataType[]=[
       id: 1,
       page: "home_5",
       tag: "Rent",
+      isVerified: true,
       item_bg_img:"item-bg-1",
       title: "Blueberry villa.",
       address: "Mirpur 10, Stadium dhaka 1208",

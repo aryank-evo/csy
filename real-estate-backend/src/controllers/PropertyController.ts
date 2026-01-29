@@ -99,7 +99,8 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           longitude,
           userType,
           images,
-          approvalStatus: 'pending'
+          approvalStatus: 'pending',
+          isVerified: false
         });
         break;
       case 'rent':
@@ -129,7 +130,8 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           longitude,
           userType,
           images,
-          approvalStatus: 'pending'
+          approvalStatus: 'pending',
+          isVerified: false
         });
         break;
       case 'lease':
@@ -159,7 +161,8 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           longitude,
           userType,
           images,
-          approvalStatus: 'pending'
+          approvalStatus: 'pending',
+          isVerified: false
         });
         break;
       case 'pg':
@@ -190,7 +193,8 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           longitude,
           userType,
           images,
-          approvalStatus: 'pending'
+          approvalStatus: 'pending',
+          isVerified: false
         });
         break;
       case 'commercial':
@@ -220,7 +224,8 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           longitude,
           userType,
           images,
-          approvalStatus: 'pending'
+          approvalStatus: 'pending',
+          isVerified: false
         });
         break;
       case 'land':
@@ -247,7 +252,8 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           longitude,
           userType,
           images,
-          approvalStatus: 'pending'
+          approvalStatus: 'pending',
+          isVerified: false
         });
         break;
       default:
@@ -895,6 +901,7 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       contactPhone,
       fieldVisibility,
       imageVisibility,
+      isVerified,
       existingImages // Optional: if frontend wants to keep some old images
     } = req.body;
 
@@ -928,12 +935,18 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       contactEmail,
       contactPhone,
       fieldVisibility,
-      imageVisibility
+      imageVisibility,
+      isVerified
     };
 
     // Only update images if new ones were uploaded or existing ones were provided
     if (images.length > 0) {
       commonFields.images = images;
+    }
+
+    // Update verifiedAt timestamp when isVerified changes to true
+    if (typeof isVerified === 'boolean' && isVerified) {
+      commonFields.verifiedAt = new Date();
     }
 
     // If property type is specified, update that specific table
