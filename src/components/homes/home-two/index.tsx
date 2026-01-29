@@ -9,12 +9,12 @@ import FeedbackTwo from "./FeedbackTwo"
 import Blog from "./Blog"
 import FAQ from "./FAQ"
 import FancyBannerTwo from "./FancyBannerTwo"
-import HeaderTwo from "@/layouts/headers/HeaderTwo"
+import HeaderOne from "@/layouts/headers/HeaderOne"
 
 const HomeTwo = () => {
   return (
     <>
-      <HeaderTwo style_1={false} style_2={false} />
+      <HeaderOne style={true} />
       <HeroBanner />
       <FeedbackOne />
       <Property />
