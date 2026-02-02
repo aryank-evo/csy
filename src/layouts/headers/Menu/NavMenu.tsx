@@ -21,13 +21,6 @@ const NavMenu = () => {
 
     return (
         <ul className="navbar-nav align-items-lg-center">
-            <li className="d-block d-lg-none">
-                <div className="logo">
-                    <Link href="/" className="d-block">
-                        <Image src={logo} alt="" />
-                    </Link>
-                </div>
-            </li>
             {/* Removed Dashboard link */}
             {menu_data.map((menu: any) => (
                 <li

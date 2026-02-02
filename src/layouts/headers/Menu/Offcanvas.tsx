@@ -4,7 +4,7 @@ import Fancybox from "@/components/common/Fancybox"
 import Link from "next/link"
 import NavMenu from "./NavMenu"
 
-import offcanvasLogo from "@/assets/images/logo/logo_02.svg"
+import offcanvasLogo from "../../../../public/logo.png"
 
 import offcanvasThumb_1 from "@/assets/images/listing/img_69.jpg"
 import offcanvasThumb_2 from "@/assets/images/listing/img_70.jpg"
@@ -21,51 +21,14 @@ interface DataType {
    address: string;
 }[];
 
-const offcanvas_data: DataType[] = [
-   {
-      id: 1,
-      tag: "FOR RENT",
-      thumb: offcanvasThumb_1,
-      carousel_thumb: ["1", "2", "3"],
-      price: 2210,
-      sub: (<>/ <sub>m</sub></>),
-      address: "6391 Elgin St. Celina",
-   },
-   {
-      id: 2,
-      tag: "FOR RENT",
-      thumb: offcanvasThumb_2,
-      carousel_thumb: ["1", "2", "3"],
-      price: 2210,
-      sub: (<>/ <sub>m</sub></>),
-      address: "6391 Elgin St. Celina",
-   },
-   {
-      id: 3,
-      tag: "FOR SELL",
-      thumb: offcanvasThumb_3,
-      carousel_thumb: ["1", "2", "3"],
-      price: 123710,
-      address: "6391 Elgin St. Celina",
-   },
-   {
-      id: 4,
-      tag: "FOR SELL",
-      thumb: offcanvasThumb_4,
-      carousel_thumb: ["1", "2", "3"],
-      price: 78420,
-      sub: (<>/ <sub>m</sub></>),
-      address: "6391 Elgin St. Celina",
-   },
-]
 
 const Offcanvas = ({ offCanvas, setOffCanvas }: any) => {
-   return (
+   return ( 
       <>
          <div className={`offcanvas offcanvas-end sidebar-nav ${offCanvas ? "show" : ""}`} id="sideNav">
             <div className="offcanvas-header">
                <div className="logo order-lg-0">
-                  <Link href="/" className="d-flex align-items-center">
+                  <Link href="/" className="d-flex align-items-center"> 
                      <Image src={offcanvasLogo} alt="" />
                   </Link>
                </div>
@@ -76,7 +39,7 @@ const Offcanvas = ({ offCanvas, setOffCanvas }: any) => {
                <NavMenu />
             </div>
 
-            <div className="wrapper mt-4">
+            {/* <div className="wrapper mt-4">
                <div className="d-flex flex-column h-100">
                   <div className="property-block">
                      <h4 className="title pb-25">Featured Listing </h4>
@@ -131,7 +94,7 @@ const Offcanvas = ({ offCanvas, setOffCanvas }: any) => {
                      <li><Link href="#"><i className="fa-brands fa-viber"></i></Link></li>
                   </ul>
                </div>
-            </div>
+            </div> */}
          </div>
          <div onClick={() => setOffCanvas(false)} className={`offcanvas-backdrop fade ${offCanvas ? "show" : ""}`}></div>
       </>
