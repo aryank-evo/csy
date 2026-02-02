@@ -24,7 +24,7 @@ const PropertyTypeModalTrigger = ({ buttonClass }: PropertyTypeModalTriggerProps
         onClick={openModal}
         className={buttonClass || "btn-two"}
       >
-        <span>Add Listing</span> <i className="fa-thin fa-arrow-up-right"></i>
+        <span>Add Listing</span>
       </button>
       
       <PropertyTypeModal 

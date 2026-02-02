@@ -23,7 +23,7 @@ const DropdownSix = () => {
 
    return (
       <>
-         <div className="search-wrapper-one layout-one mt-250 xl-mt-150 lg-mt-100 position-relative">
+         <div className="search-wrapper-one layout-one mt-250 xl-mt-150 lg-mt-100 position-relative" >
             <nav className="search-filter-nav-one d-flex">
                <div className="nav nav-tabs border-0" role="tablist">
                   {tab_title.map((tab, index) => (
@@ -31,10 +31,10 @@ const DropdownSix = () => {
                   ))}
                </div>
             </nav>
-            <div className="bg-wrapper border-0 rounded-0">
+            <div className="bg-wrapper border-0 rounded-0 ">
                <div className="tab-content">
                   <div className={`tab-pane show ${activeTab === 0 ? "active" : ""}`} id="buy">
-                     <form onSubmit={(e) => { e.preventDefault(); searchHandler(); }}>
+                     <form onSubmit={(e) => { e.preventDefault(); searchHandler(); }} >
                         <div className="row gx-0 align-items-center">
                            <div className="col-xxl-2 col-xl-3 col-lg-4">
                               <div className="input-box-one border-left">
@@ -267,7 +267,7 @@ const DropdownSix = () => {
                </div>
             </div>
          </div>
-         <DropdownModal/>
+         <DropdownModal />
       </>
    )
 }

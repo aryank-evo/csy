@@ -5,6 +5,7 @@ import AdvertisementEditor from './AdvertisementEditor';
 import GalleryEditor from './GalleryEditor';
 import BlogEditor from './BlogEditor';
 import DealerEditor from './DealerEditor';
+import AbroadEditor from './AbroadEditor';
 
 interface TabItem {
   slug: string;
@@ -14,6 +15,7 @@ interface TabItem {
   isGallery?: boolean;
   isBlog?: boolean;
   isDealer?: boolean;
+  isAbroad?: boolean;
 }
 
 const CMS_PAGES: TabItem[] = [
@@ -64,6 +66,12 @@ const TABS: TabItem[] = [
     displayName: 'Dealers',
     defaultTitle: 'Dealers',
     isDealer: true
+  },
+  {
+    slug: 'abroad',
+    displayName: 'Abroad Properties',
+    defaultTitle: 'Abroad Properties',
+    isAbroad: true
   }
 ];
 
@@ -73,6 +81,8 @@ const CmsDashboard = () => {
   const isAdvertisementTab = TABS[activeTab]?.isAdvertisement;
   const isGalleryTab = TABS[activeTab]?.isGallery;
   const isBlogTab = TABS[activeTab]?.isBlog;
+  const isDealerTab = TABS[activeTab]?.isDealer;
+  const isAbroadTab = TABS[activeTab]?.isAbroad;
 
   return (
     <div className="cms-dashboard-container">
@@ -106,6 +116,11 @@ const CmsDashboard = () => {
                   ) : tab.isDealer ? (
                     <>
                       <i className="bi bi-people me-2"></i>
+                      {tab.displayName}
+                    </>
+                  ) : tab.isAbroad ? (
+                    <>
+                      <i className="bi bi-globe me-2"></i>
                       {tab.displayName}
                     </>
                   ) : (
@@ -142,13 +157,21 @@ const CmsDashboard = () => {
               </div>
               <BlogEditor />
             </>
-          ) : TABS[activeTab]?.isDealer ? (
+          ) : isDealerTab ? (
             <>
               <div className="cms-content-header mb-3">
                 <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
                 <p className="text-muted small">Manage your dealers. Add, edit, or remove dealers with their contact information and status.</p>
               </div>
               <DealerEditor />
+            </>
+          ) : isAbroadTab ? (
+            <>
+              <div className="cms-content-header mb-3">
+                <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
+                <p className="text-muted small">Manage countries and external property listings for abroad properties. Add countries with thumbnails and link to external property listings.</p>
+              </div>
+              <AbroadEditor />
             </>
           ) : (
             <>

@@ -6,18 +6,19 @@ import { useState } from "react"
 import UseSticky from "@/hooks/UseSticky"
 import PropertyTypeModalTrigger from "@/components/common/PropertyTypeModalTrigger";
 
-import logo_1 from "@/assets/images/logo/logo_01.svg";
+// import logo_1 from "@/assets/images/logo/logo_01.svg";
+import logo_1 from "../../../public/logo.png";
 
 const HeaderOne = ({ style }: any) => {
    const { sticky } = UseSticky();
 
    return (
       <>
-         <header className={`theme-main-menu menu-overlay menu-style-one sticky-menu ${sticky ? "fixed" : ""}`}>
+         <header className={`theme-main-menu menu-overlay menu-style-one sticky-menu  ${sticky ? "fixed" : ""}`} >
             {!style && <div className="alert-wrapper text-center">
                <p className="fs-16 m0 text-white">The <Link href="/buy" className="fw-500">flash sale</Link> go on. The offer will end in — <span>This Sunday</span></p>
             </div>}
-            <div className="inner-content gap-one">
+            <div className="inner-content gap-one p-3" style={{ backgroundColor: "#ffffffa3" }}>
                <div className="top-header position-relative">
                   <div className="d-flex align-items-center justify-content-between">
                      <div className="logo order-lg-0">

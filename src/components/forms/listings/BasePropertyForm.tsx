@@ -59,7 +59,7 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
     contactName: '',
     contactEmail: '',
     contactPhone: '',
-    images: null,
+    images: null, 
     latitude: undefined,
     longitude: undefined,
     userType: '',
