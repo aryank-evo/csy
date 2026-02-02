@@ -1,5 +1,5 @@
 import BreadcrumbOne from "@/components/common/breadcrumb/BreadcrumbOne"
-import FooterFour from "@/layouts/footers/FooterFour"
+import FooterOne from "@/layouts/footers/FooterOne"
 import HeaderOne from "@/layouts/headers/HeaderOne"
 import BlogThreeArea from "./BlogThreeArea"
 import FancyBanner from "@/components/common/FancyBanner"
@@ -11,7 +11,7 @@ const BlogThree = () => {
          <BreadcrumbOne title="Our Blog" link="/" link_title="Home" sub_title="Blog" style={true} />
          <BlogThreeArea />
          <FancyBanner />
-         <FooterFour />
+           <FooterOne style={true} />
       </>
    )
 }

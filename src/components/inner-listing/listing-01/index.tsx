@@ -1,5 +1,5 @@
 "use client"
-import FooterFour from "@/layouts/footers/FooterFour"
+import FooterOne from "@/layouts/footers/FooterOne"
 import ListingOneArea from "./ListingOneArea"
 import FancyBanner from "@/components/common/FancyBanner"
 import HeaderOne from "@/layouts/headers/HeaderOne"
@@ -10,7 +10,7 @@ const ListingOne = () => {
          <HeaderOne style={true} />
          <ListingOneArea />
          <FancyBanner />
-         <FooterFour />
+           <FooterOne style={true} />
       </>
    )
 }
