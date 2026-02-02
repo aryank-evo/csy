@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import NiceSelect from "@/ui/NiceSelect";
+import { buyPropertyTypes, rentPropertyTypes, leasePropertyTypes, pgTypes, locationAreas, priceRangesBuy, priceRangesRent, priceRangesLease, priceRangesPG } from "@/constants/propertyTypes";
 
 const tab_title: string[] = ["Buy", "Rent", "Lease", "PG"];
 
@@ -46,13 +47,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">I&#39;m looking to...</div>
                               <NiceSelect className="nice-select fw-normal"
-                                 options={[
-                                    { value: "kothi", text: "Kothi" },
-                                    { value: "flat", text: "Flat" },
-                                    { value: "office", text: "Office" },
-                                    { value: "godown", text: "Godown" },
-                                    { value: "commercial_property", text: "Commercial Property" },
-                                 ]}
+                                 options={buyPropertyTypes}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -121,13 +116,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">I&#39;m looking to...</div>
                               <NiceSelect className="nice-select fw-normal"
-                                 options={[
-                                    { value: "kothi", text: "Kothi" },
-                                    { value: "flat", text: "Flat" },
-                                    { value: "office", text: "Office" },
-                                    { value: "godown", text: "Godown" },
-                                    { value: "commercial_property", text: "Commercial Property" },
-                                 ]}
+                                 options={rentPropertyTypes}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -138,19 +127,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
-                                 options={[
-                                    { value: "1", text: "Model Town" },
-                                    { value: "2", text: "Sarabha Nagar" },
-                                    { value: "3", text: "Gurdev Nagar" },
-                                    { value: "4", text: "BRS Nagar" },
-                                    { value: "5", text: "Civil Lines" },
-                                    { value: "6", text: "South City" },
-                                    { value: "7", text: "Pakhowal Road" },
-                                    { value: "8", text: "Ferozepur Road" },
-                                    { value: "9", text: "Dugri / Urban Estate Dugri" },
-                                    { value: "10", text: "Rajguru Nagar" },
-                                    { value: "11", text: "Sector-39 & Sector-39A" },
-                                 ]}
+                                 options={locationAreas}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -160,7 +137,7 @@ const DropdownTwo = () => {
                         <div className="col-xl-3 col-md-6">
                            <div className="input-box-one border-left">
                               <div className="label">Keyword</div>
-                              <input type="text" placeholder="buy, home, loft, apartment" className="type-input" />
+                              <input type="text" placeholder="rent, flat, apartment, pg" className="type-input" />
                            </div>
                         </div>
                         <div className="col-xl-3 col-md-6">
@@ -168,11 +145,7 @@ const DropdownTwo = () => {
                               <div className="label">Price Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
-                                 options={[
-                                    { value: "1", text: "₹10,000 - ₹200,000" },
-                                    { value: "2", text: "₹20,000 - ₹300,000" },
-                                    { value: "3", text: "₹30,000 - ₹400,000" },
-                                 ]}
+                                 options={priceRangesRent}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -196,14 +169,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">I&#39;m looking to...</div>
                               <NiceSelect className="nice-select fw-normal"
-                                 options={[
-                                    { value: "godown", text: "Godown" },
-                                    { value: "petrol_pump", text: "Petrol Pump" },
-                                    { value: "school", text: "School" },
-                                    { value: "hotel", text: "Hotel" },
-                                    { value: "resort", text: "Resort" },
-                                    { value: "land", text: "Land" },
-                                 ]}
+                                 options={leasePropertyTypes}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -214,19 +180,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
-                                 options={[
-                                    { value: "1", text: "Model Town" },
-                                    { value: "2", text: "Sarabha Nagar" },
-                                    { value: "3", text: "Gurdev Nagar" },
-                                    { value: "4", text: "BRS Nagar" },
-                                    { value: "5", text: "Civil Lines" },
-                                    { value: "6", text: "South City" },
-                                    { value: "7", text: "Pakhowal Road" },
-                                    { value: "8", text: "Ferozepur Road" },
-                                    { value: "9", text: "Dugri / Urban Estate Dugri" },
-                                    { value: "10", text: "Rajguru Nagar" },
-                                    { value: "11", text: "Sector-39 & Sector-39A" },
-                                 ]}
+                                 options={locationAreas}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -244,11 +198,7 @@ const DropdownTwo = () => {
                               <div className="label">Price Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
-                                 options={[
-                                    { value: "1", text: "₹50,000 - ₹500,000" },
-                                    { value: "2", text: "₹500,000 - ₹1,000,000" },
-                                    { value: "3", text: "₹1,000,000 - ₹2,000,000" },
-                                 ]}
+                                 options={priceRangesLease}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -272,11 +222,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">I&#39;m looking to...</div>
                               <NiceSelect className="nice-select fw-normal"
-                                 options={[
-                                    { value: "co_ed_pg", text: "Co-ed PG" },
-                                    { value: "girls_pg", text: "Girls PG" },
-                                    { value: "boys_pg", text: "Boys PG" },
-                                 ]}
+                                 options={pgTypes}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -287,19 +233,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
-                                 options={[
-                                    { value: "1", text: "Model Town" },
-                                    { value: "2", text: "Sarabha Nagar" },
-                                    { value: "3", text: "Gurdev Nagar" },
-                                    { value: "4", text: "BRS Nagar" },
-                                    { value: "5", text: "Civil Lines" },
-                                    { value: "6", text: "South City" },
-                                    { value: "7", text: "Pakhowal Road" },
-                                    { value: "8", text: "Ferozepur Road" },
-                                    { value: "9", text: "Dugri / Urban Estate Dugri" },
-                                    { value: "10", text: "Rajguru Nagar" },
-                                    { value: "11", text: "Sector-39 & Sector-39A" },
-                                 ]}
+                                 options={locationAreas}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -317,11 +251,7 @@ const DropdownTwo = () => {
                               <div className="label">Price Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
-                                 options={[
-                                    { value: "1", text: "₹5,000 - ₹10,000" },
-                                    { value: "2", text: "₹10,000 - ₹15,000" },
-                                    { value: "3", text: "₹15,000 - ₹25,000" },
-                                 ]}
+                                 options={priceRangesPG}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
