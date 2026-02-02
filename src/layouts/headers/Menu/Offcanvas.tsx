@@ -1,6 +1,8 @@
+"use client"
 import Image, { StaticImageData } from "next/image"
 import Fancybox from "@/components/common/Fancybox"
 import Link from "next/link"
+import NavMenu from "./NavMenu"
 
 import offcanvasLogo from "@/assets/images/logo/logo_02.svg"
 
@@ -70,7 +72,11 @@ const Offcanvas = ({ offCanvas, setOffCanvas }: any) => {
                <button onClick={() => setOffCanvas(false)} type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
 
-            <div className="wrapper mt-60">
+            <div className="wrapper mt-4">
+               <NavMenu />
+            </div>
+
+            <div className="wrapper mt-4">
                <div className="d-flex flex-column h-100">
                   <div className="property-block">
                      <h4 className="title pb-25">Featured Listing </h4>

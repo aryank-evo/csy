@@ -1,6 +1,6 @@
 "use client"
 import NavMenu from "./Menu/NavMenu"
-import NavOffcanvas from "./Menu/NavOffcanvas"
+import Offcanvas from "./Menu/Offcanvas"
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
@@ -34,7 +34,7 @@ const HeaderOne = ({ style }: any) => {
                            <li className="d-none d-md-inline-block ms-3">
                               <PropertyTypeModalTrigger />
                            </li>
-                           <li className="ms-3">
+                           <li className="ms-3 d-lg-none">
                               <button 
                                  className="navbar-toggler d-block" 
                                  type="button"
@@ -46,11 +46,16 @@ const HeaderOne = ({ style }: any) => {
                            </li>
                         </ul>
                      </div>
+                     <nav className="navbar navbar-expand-lg p0 order-lg-2 d-none d-lg-block">
+                        <div className="navbar-collapse">
+                           <NavMenu />
+                        </div>
+                     </nav>
                   </div>
                </div>
             </div>
          </header>
-         <NavOffcanvas offCanvas={offCanvas} setOffCanvas={setOffCanvas} />
+         <Offcanvas offCanvas={offCanvas} setOffCanvas={setOffCanvas} />
       </>
    )
 }
