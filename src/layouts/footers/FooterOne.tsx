@@ -1,16 +1,35 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 import footer_data from "@/data/home-data/FooterData"
+import { useQuery } from "@tanstack/react-query"
+import { fetchCmsPage } from "@/utils/cmsApi"
 
 import footerLogo_1 from "@/assets/images/logo/logo_01.svg"
 import footerLogo_2 from "@/assets/images/logo/logo_03.svg"
 import footerShape_1 from "@/assets/images/shape/shape_32.svg"
 import footerShape_2 from "@/assets/images/shape/shape_33.svg"
 
-const icon_1: string[] = ["facebook", "twitter", "instagram"]
-
 const FooterOne = ({ style }: any) => {
-   return (
+  // Fetch CMS data from contact page for footer address and email
+  const { data: contactData } = useQuery({
+    queryKey: ['cms-page', 'contact'],
+    queryFn: () => fetchCmsPage('contact'),
+  })
+
+  // Fetch CMS data from about-us page for social links
+  const { data: aboutData } = useQuery({
+    queryKey: ['cms-page', 'about-us'],
+    queryFn: () => fetchCmsPage('about-us'),
+  })
+
+  const footerAddress = contactData?.contactAddress || "11910 Cairo Suite 210, Kafralshakh , Cairo, Egypt"
+  const footerEmail = contactData?.contactEmail || "eeeAljamal1stt@gmail.com"
+  const facebookLink = aboutData?.facebookLink || "#"
+  const instagramLink = aboutData?.instagramLink || "#"
+  const youtubeLink = aboutData?.youtubeLink || "#"
+
+  return (
       <div className={`footer-one ${style ? "dark-bg" : ""}`}>
          <div className="position-relative z-1">
             <div className="container">
@@ -23,13 +42,13 @@ const FooterOne = ({ style }: any) => {
                                  <Image src={style ? footerLogo_2 : footerLogo_1} alt="" />
                               </Link>
                            </div>
-                           <p className="mb-60 lg-mb-40 md-mb-20">11910 Cairo Suite 210, Kafralshakh , Cairo, Egypt</p>
+                           <p className="mb-60 lg-mb-40 md-mb-20">{footerAddress}</p>
                            <h6>CONTACT</h6>
-                           <Link href="#" className={`email tran3s mb-70 lg-mb-50 ${style ? "font-garamond" : "fs-24 text-decoration-underline"}`}>eeeAljamal1stt@gmail.com</Link>
+                           <Link href={`mailto:${footerEmail}`} className={`email tran3s mb-70 lg-mb-50 ${style ? "font-garamond" : "fs-24 text-decoration-underline"}`}>{footerEmail}</Link>
                            <ul className="style-none d-flex align-items-center social-icon">
-                              {icon_1.map((icon, i) => (
-                                 <li key={i}><Link href="#"><i className={`fa-brands fa${style ? "" : "-square"}-${icon}`}></i></Link></li>
-                              ))}
+                              <li><Link href={facebookLink} target="_blank" rel="noopener noreferrer"><i className={`fa-brands fa${style ? "" : "-square"}-facebook`}></i></Link></li>
+                              <li><Link href={youtubeLink} target="_blank" rel="noopener noreferrer"><i className={`fa-brands fa${style ? "" : "-square"}-youtube`}></i></Link></li>
+                              <li><Link href={instagramLink} target="_blank" rel="noopener noreferrer"><i className={`fa-brands fa${style ? "" : "-square"}-instagram`}></i></Link></li>
                            </ul>
                         </div>
                         {style && <Image src={footerShape_1} alt="" className="lazy-img shapes shape_01" />}

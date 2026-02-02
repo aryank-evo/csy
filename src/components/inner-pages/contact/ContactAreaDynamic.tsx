@@ -112,7 +112,7 @@ const ContactAreaDynamic = () => {
           {/* Contact Form - Right Side */}
           <div className="col-xl-7 col-lg-6 order-lg-last">
             <div className="form-style-one wow fadeInUp p-4 p-lg-5">
-              <h4 className="mb-4">Send us a Message</h4>
+              {/* <h4 className="mb-4">Send us a Message</h4> */}
               <ContactForm />
             </div>
           </div>

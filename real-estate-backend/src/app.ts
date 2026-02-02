@@ -6,6 +6,7 @@ import protectedRoutes from './routes/protectedRoutes';
 import propertyRoutes from './routes/propertyRoutes';
 import dealerRoutes from './routes/dealerRoutes';
 import abroadRoutes from './routes/abroadRoutes';
+import contactRoutes from './routes/contactRoutes';
 import './custom';
 
 
@@ -19,6 +20,7 @@ app.use('/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/dealers', dealerRoutes);
 app.use('/api/abroad', abroadRoutes);
+app.use('/api/contact', contactRoutes);
 app.use('/api', protectedRoutes);
 
 // Ensure database connection on server startup
