@@ -18,6 +18,7 @@ import galleryRoutes from "./routes/galleryRoutes";
 import blogRoutes from "./routes/blogRoutes";
 import dealerRoutes from "./routes/dealerRoutes";
 import abroadRoutes from "./routes/abroadRoutes";
+import contactRoutes from "./routes/contactRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -41,6 +42,7 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/abroad", abroadRoutes);
 app.use("/api/dealers", dealerRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Run pending migrations before starting the server
 const runMigrations = async () => {
