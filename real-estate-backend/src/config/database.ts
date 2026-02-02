@@ -119,6 +119,18 @@ CmsPage.init({
   aboutMission: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  facebookLink: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  instagramLink: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  youtubeLink: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: "cms_pages",

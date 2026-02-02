@@ -49,6 +49,11 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   const [aboutDesc3, setAboutDesc3] = useState('');
   const [aboutMission, setAboutMission] = useState('');
   
+  // State for social media links
+  const [facebookLink, setFacebookLink] = useState('');
+  const [instagramLink, setInstagramLink] = useState('');
+  const [youtubeLink, setYoutubeLink] = useState('');
+  
 
   const [primaryImageFile, setPrimaryImageFile] = useState<File | null>(null);
   const [secondaryImageFile, setSecondaryImageFile] = useState<File | null>(null);
@@ -65,7 +70,7 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
 
   // Use React Query Mutation for saving
   const mutation = useMutation({
-    mutationFn: async (data: { title: string, content: string, primaryImage?: string, secondaryImage?: string, directorMsg?: string, directorName?: string, aboutSubtitle?: string, aboutDesc1?: string, aboutTitle1?: string, aboutTitle2?: string, aboutDesc2?: string, aboutDesc3?: string, aboutMission?: string }) => {
+    mutationFn: async (data: { title: string, content: string, primaryImage?: string, secondaryImage?: string, directorMsg?: string, directorName?: string, aboutSubtitle?: string, aboutDesc1?: string, aboutTitle1?: string, aboutTitle2?: string, aboutDesc2?: string, aboutDesc3?: string, aboutMission?: string, facebookLink?: string, instagramLink?: string, youtubeLink?: string }) => {
       // Create FormData to handle file uploads
       const formData = new FormData();
       
@@ -104,6 +109,17 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
         if (data.aboutMission) {
           formData.append('aboutMission', data.aboutMission);
         }
+      }
+      
+      // Add social media link fields
+      if (data.facebookLink) {
+        formData.append('facebookLink', data.facebookLink);
+      }
+      if (data.instagramLink) {
+        formData.append('instagramLink', data.instagramLink);
+      }
+      if (data.youtubeLink) {
+        formData.append('youtubeLink', data.youtubeLink);
       }
       
       // Add image files if they exist
@@ -160,6 +176,11 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
         setAboutDesc3(pageData.aboutDesc3 || '');
         setAboutMission(pageData.aboutMission || '');
       }
+      
+      // Set social media links
+      setFacebookLink(pageData.facebookLink || '');
+      setInstagramLink(pageData.instagramLink || '');
+      setYoutubeLink(pageData.youtubeLink || '');
     }
   }, [pageData, defaultTitle]);
 
@@ -207,7 +228,7 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   };
 
   const handleSave = () => {
-    const baseData = { title: pageTitle, content, primaryImage, secondaryImage, directorMsg, directorName };
+    const baseData = { title: pageTitle, content, primaryImage, secondaryImage, directorMsg, directorName, facebookLink, instagramLink, youtubeLink };
     
     // Add about-specific fields if this is the about-us page
     if (slug === 'about-us') {
@@ -402,6 +423,53 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
           </div>
         </>
       )}
+      
+      {/* Social Media Links Section - for all pages */}
+      <div className="mt-4 p-4 bg-light rounded-3 border">
+        <h5 className="mb-3">Social Media Links</h5>
+        <p className="text-muted small mb-4">Add your social media profile links. Leave empty to hide the icon.</p>
+        
+        <div className="row">
+          <div className="col-md-4 mb-3">
+            <label className="form-label fw-bold">
+              <i className="bi bi-facebook text-primary me-2"></i>Facebook
+            </label>
+            <input 
+              type="url" 
+              className="form-control" 
+              value={facebookLink}
+              onChange={(e) => setFacebookLink(e.target.value)}
+              placeholder="https://facebook.com/yourpage"
+            />
+          </div>
+          
+          <div className="col-md-4 mb-3">
+            <label className="form-label fw-bold">
+              <i className="bi bi-instagram text-danger me-2"></i>Instagram
+            </label>
+            <input 
+              type="url" 
+              className="form-control" 
+              value={instagramLink}
+              onChange={(e) => setInstagramLink(e.target.value)}
+              placeholder="https://instagram.com/yourpage"
+            />
+          </div>
+          
+          <div className="col-md-4 mb-3">
+            <label className="form-label fw-bold">
+              <i className="bi bi-youtube text-danger me-2"></i>YouTube
+            </label>
+            <input 
+              type="url" 
+              className="form-control" 
+              value={youtubeLink}
+              onChange={(e) => setYoutubeLink(e.target.value)}
+              placeholder="https://youtube.com/yourchannel"
+            />
+          </div>
+        </div>
+      </div>
       
       <div className="mt-5 border-top pt-3">
         <button 

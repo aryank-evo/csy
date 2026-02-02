@@ -49,6 +49,11 @@ export const updateCmsPage = async (req: Request, res: Response): Promise<void> 
     let aboutDesc3 = req.body.aboutDesc3 || null;
     let aboutMission = req.body.aboutMission || null;
     
+    // Extract social media links from the request body
+    let facebookLink = req.body.facebookLink || null;
+    let instagramLink = req.body.instagramLink || null;
+    let youtubeLink = req.body.youtubeLink || null;
+    
     // If images were uploaded via Cloudinary, use the secure URLs
     if (req.files && typeof req.files === 'object') {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -65,9 +70,9 @@ export const updateCmsPage = async (req: Request, res: Response): Promise<void> 
     let page = await CmsPage.findOne({ where: { slug } });
 
     if (page) {
-      await page.update({ title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission });
+      await page.update({ title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission, facebookLink, instagramLink, youtubeLink });
     } else {
-      page = await CmsPage.create({ slug, title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission });
+      page = await CmsPage.create({ slug, title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission, facebookLink, instagramLink, youtubeLink });
     }
 
     res.json({

@@ -5,12 +5,25 @@ import FooterOne from "@/layouts/footers/FooterOne";
 import BreadcrumbOne from "@/components/common/breadcrumb/BreadcrumbOne";
 import Wrapper from "@/layouts/Wrapper";
 import DynamicContent from "@/components/common/DynamicContent";
+import SocialMediaIcons from "@/components/common/SocialMediaIcons";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCmsPage } from "@/utils/cmsApi";
 
 // export const metadata = {
 //   title: "City Builders - Construction Experts",
 // };
 
 const CityBuildersPage = () => {
+  // Fetch CMS page data to get social media links
+  const { data: cmsData } = useQuery({
+    queryKey: ['cms-page', 'city-builder'],
+    queryFn: () => fetchCmsPage('city-builder'),
+  });
+
+  const facebookLink = cmsData?.facebookLink || null;
+  const instagramLink = cmsData?.instagramLink || null;
+  const youtubeLink = cmsData?.youtubeLink || null;
+
   return (
     <Wrapper>
       <HeaderOne style={true} />
@@ -56,7 +69,7 @@ const CityBuildersPage = () => {
                     />
                   </div>
                   
-                  <div className="quote-box bg-light p-4 rounded-3 border-start border-4 border-primary">
+                  <div className="quote-box bg-light p-4 rounded-3 border-start border-4 border-primary mb-40">
                     <DynamicContent 
                       slug="city-builder" 
                       type="directorMsg" 
@@ -72,6 +85,17 @@ const CityBuildersPage = () => {
                       className="mt-3 mb-0"
                     />
                   </div>
+                  
+                  {/* Social Media Icons */}
+                  {(facebookLink || instagramLink || youtubeLink) && (
+                    <div className="mt-4">
+                      <SocialMediaIcons 
+                        facebookLink={facebookLink}
+                        instagramLink={instagramLink}
+                        youtubeLink={youtubeLink}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
               
