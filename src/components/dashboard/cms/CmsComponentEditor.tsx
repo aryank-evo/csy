@@ -54,6 +54,13 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   const [instagramLink, setInstagramLink] = useState('');
   const [youtubeLink, setYoutubeLink] = useState('');
   
+  // State for contact page fields
+  const [contactTitle, setContactTitle] = useState('');
+  const [contactAddress, setContactAddress] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [googleMapEmbedUrl, setGoogleMapEmbedUrl] = useState('');
+  
 
   const [primaryImageFile, setPrimaryImageFile] = useState<File | null>(null);
   const [secondaryImageFile, setSecondaryImageFile] = useState<File | null>(null);
@@ -70,7 +77,7 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
 
   // Use React Query Mutation for saving
   const mutation = useMutation({
-    mutationFn: async (data: { title: string, content: string, primaryImage?: string, secondaryImage?: string, directorMsg?: string, directorName?: string, aboutSubtitle?: string, aboutDesc1?: string, aboutTitle1?: string, aboutTitle2?: string, aboutDesc2?: string, aboutDesc3?: string, aboutMission?: string, facebookLink?: string, instagramLink?: string, youtubeLink?: string }) => {
+    mutationFn: async (data: { title: string, content: string, primaryImage?: string, secondaryImage?: string, directorMsg?: string, directorName?: string, aboutSubtitle?: string, aboutDesc1?: string, aboutTitle1?: string, aboutTitle2?: string, aboutDesc2?: string, aboutDesc3?: string, aboutMission?: string, facebookLink?: string, instagramLink?: string, youtubeLink?: string, contactTitle?: string, contactAddress?: string, contactPhone?: string, contactEmail?: string, googleMapEmbedUrl?: string }) => {
       // Create FormData to handle file uploads
       const formData = new FormData();
       
@@ -120,6 +127,23 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
       }
       if (data.youtubeLink) {
         formData.append('youtubeLink', data.youtubeLink);
+      }
+      
+      // Add contact page fields
+      if (data.contactTitle) {
+        formData.append('contactTitle', data.contactTitle);
+      }
+      if (data.contactAddress) {
+        formData.append('contactAddress', data.contactAddress);
+      }
+      if (data.contactPhone) {
+        formData.append('contactPhone', data.contactPhone);
+      }
+      if (data.contactEmail) {
+        formData.append('contactEmail', data.contactEmail);
+      }
+      if (data.googleMapEmbedUrl) {
+        formData.append('googleMapEmbedUrl', data.googleMapEmbedUrl);
       }
       
       // Add image files if they exist
@@ -181,6 +205,13 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
       setFacebookLink(pageData.facebookLink || '');
       setInstagramLink(pageData.instagramLink || '');
       setYoutubeLink(pageData.youtubeLink || '');
+      
+      // Set contact page fields
+      setContactTitle(pageData.contactTitle || '');
+      setContactAddress(pageData.contactAddress || '');
+      setContactPhone(pageData.contactPhone || '');
+      setContactEmail(pageData.contactEmail || '');
+      setGoogleMapEmbedUrl(pageData.googleMapEmbedUrl || '');
     }
   }, [pageData, defaultTitle]);
 
@@ -228,7 +259,7 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
   };
 
   const handleSave = () => {
-    const baseData = { title: pageTitle, content, primaryImage, secondaryImage, directorMsg, directorName, facebookLink, instagramLink, youtubeLink };
+    const baseData = { title: pageTitle, content, primaryImage, secondaryImage, directorMsg, directorName, facebookLink, instagramLink, youtubeLink, contactTitle, contactAddress, contactPhone, contactEmail, googleMapEmbedUrl };
     
     // Add about-specific fields if this is the about-us page
     if (slug === 'about-us') {
@@ -470,6 +501,73 @@ const CmsComponentEditor = ({ slug, title: defaultTitle }: CmsComponentEditorPro
           </div>
         </div>
       </div>
+      
+      {/* Contact Page Section */}
+      {slug === 'contact' && (
+        <div className="contact-page-fields mt-4 p-4 bg-light rounded-3 border">
+          <h5 className="mb-3">Contact Page Settings</h5>
+          <p className="text-muted small mb-4">Configure the contact page content below.</p>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">Contact Title / Message</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={contactTitle}
+              onChange={(e) => setContactTitle(e.target.value)}
+              placeholder="e.g., Questions? Feel Free to Reach Out Via Message."
+            />
+            <div className="form-text">The main heading/message for the contact page</div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">Address</label>
+            <textarea 
+              className="form-control" 
+              rows={2}
+              value={contactAddress}
+              onChange={(e) => setContactAddress(e.target.value)}
+              placeholder="Enter your business address"
+            />
+          </div>
+          
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="form-label fw-bold">Phone Number</label>
+              <input 
+                type="text" 
+                className="form-control" 
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
+                placeholder="+1 234 567 8900"
+              />
+            </div>
+            
+            <div className="col-md-6 mb-3">
+              <label className="form-label fw-bold">Email Address</label>
+              <input 
+                type="email" 
+                className="form-control" 
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                placeholder="contact@example.com"
+              />
+            </div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="form-label fw-bold">Google Maps Embed URL</label>
+            <textarea 
+              className="form-control" 
+              rows={3}
+              value={googleMapEmbedUrl}
+              onChange={(e) => setGoogleMapEmbedUrl(e.target.value)}
+              placeholder='<iframe src="https://www.google.com/maps/embed?..."></iframe>'
+            />
+            <div className="form-text">Paste the embed URL or iframe code from Google Maps</div>
+          </div>
+        </div>
+      )}
       
       <div className="mt-5 border-top pt-3">
         <button 

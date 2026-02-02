@@ -131,6 +131,26 @@ CmsPage.init({
   youtubeLink: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  contactTitle: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  contactAddress: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  contactPhone: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  contactEmail: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  googleMapEmbedUrl: {
+    type: DataTypes.TEXT,
+    allowNull: true
   }
 }, {
   tableName: "cms_pages",

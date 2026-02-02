@@ -1,12 +1,12 @@
 import FooterFour from '@/layouts/footers/FooterFour'
 import HeaderOne from '@/layouts/headers/HeaderOne'
-import ContactArea from './ContactArea'
+import ContactAreaDynamic from './ContactAreaDynamic'
 
 const Contact = () => {
    return (
       <>
          <HeaderOne style={true} />
-         <ContactArea />
+         <ContactAreaDynamic />
          <FooterFour />
       </>
    )

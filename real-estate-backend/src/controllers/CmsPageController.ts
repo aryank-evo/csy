@@ -54,6 +54,13 @@ export const updateCmsPage = async (req: Request, res: Response): Promise<void> 
     let instagramLink = req.body.instagramLink || null;
     let youtubeLink = req.body.youtubeLink || null;
     
+    // Extract contact page fields from the request body
+    let contactTitle = req.body.contactTitle || null;
+    let contactAddress = req.body.contactAddress || null;
+    let contactPhone = req.body.contactPhone || null;
+    let contactEmail = req.body.contactEmail || null;
+    let googleMapEmbedUrl = req.body.googleMapEmbedUrl || null;
+    
     // If images were uploaded via Cloudinary, use the secure URLs
     if (req.files && typeof req.files === 'object') {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -70,9 +77,9 @@ export const updateCmsPage = async (req: Request, res: Response): Promise<void> 
     let page = await CmsPage.findOne({ where: { slug } });
 
     if (page) {
-      await page.update({ title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission, facebookLink, instagramLink, youtubeLink });
+      await page.update({ title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission, facebookLink, instagramLink, youtubeLink, contactTitle, contactAddress, contactPhone, contactEmail, googleMapEmbedUrl });
     } else {
-      page = await CmsPage.create({ slug, title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission, facebookLink, instagramLink, youtubeLink });
+      page = await CmsPage.create({ slug, title, content, primaryImage, secondaryImage, directorMsg, directorName, aboutSubtitle, aboutDesc1, aboutTitle1, aboutTitle2, aboutDesc2, aboutDesc3, aboutMission, facebookLink, instagramLink, youtubeLink, contactTitle, contactAddress, contactPhone, contactEmail, googleMapEmbedUrl });
     }
 
     res.json({

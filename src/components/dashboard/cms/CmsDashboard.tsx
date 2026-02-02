@@ -30,8 +30,8 @@ const CMS_PAGES: TabItem[] = [
     defaultTitle: 'About Us'
   },
   {
-    slug: 'contact-info',
-    displayName: 'Contact Information',
+    slug: 'contact',
+    displayName: 'Contact Page',
     defaultTitle: 'Contact Us'
   },
   {
