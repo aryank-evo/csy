@@ -1,5 +1,6 @@
 "use client"
 import NavMenu from "./Menu/NavMenu"
+import NavOffcanvas from "./Menu/NavOffcanvas"
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
@@ -11,6 +12,7 @@ import logo_1 from "../../../public/logo.png";
 
 const HeaderOne = ({ style }: any) => {
    const { sticky } = UseSticky();
+   const [offCanvas, setOffCanvas] = useState(false);
 
    return (
       <>
@@ -32,22 +34,23 @@ const HeaderOne = ({ style }: any) => {
                            <li className="d-none d-md-inline-block ms-3">
                               <PropertyTypeModalTrigger />
                            </li>
+                           <li className="ms-3">
+                              <button 
+                                 className="navbar-toggler d-block" 
+                                 type="button"
+                                 onClick={() => setOffCanvas(true)}
+                                 aria-label="Toggle navigation"
+                              >
+                                 <span></span>
+                              </button>
+                           </li>
                         </ul>
                      </div>
-                     <nav className="navbar navbar-expand-lg p0 order-lg-2">
-                        <button className="navbar-toggler d-block d-lg-none" type="button" data-bs-toggle="collapse"
-                           data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                           aria-label="Toggle navigation">
-                           <span></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarNav">
-                           <NavMenu />
-                        </div>
-                     </nav>
                   </div>
                </div>
             </div>
          </header>
+         <NavOffcanvas offCanvas={offCanvas} setOffCanvas={setOffCanvas} />
       </>
    )
 }
