@@ -1,5 +1,12 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthRequest } from '../middleware/authMiddleware';
 import { Property } from '../models/Property';
+import { SaleProperty } from '../models/SaleProperty';
+import { RentProperty } from '../models/RentProperty';
+import { LeaseProperty } from '../models/LeaseProperty';
+import { PgProperty } from '../models/PgProperty';
+import { CommercialProperty } from '../models/CommercialProperty';
+import { LandProperty } from '../models/LandProperty';
 import { Lead } from '../models/Lead';
 import { User } from '../config/database';
 import * as fs from 'fs';
@@ -8,38 +15,83 @@ import { Op } from 'sequelize';
 const Sequelize = require('sequelize');
 
 // Get all properties with pagination and filtering
-export const getAllProperties = async (req: Request, res: Response): Promise<void> => {
+export const getAllProperties = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { page = 1, limit = 10, status, search } = req.query;
     
-    const offset = (Number(page) - 1) * Number(limit);
-    
+    // Get properties from all property types (both approved and pending)
+    // Use raw queries to avoid column mismatches between different property types
     const whereClause: any = {};
-    
     if (status) {
       whereClause.approvalStatus = status;
     }
-    
     if (search) {
       whereClause.title = { [Op.iLike]: `%${search}%` };
     }
     
-    const properties = await Property.findAndCountAll({
+    const saleProperties = await SaleProperty.findAll({
       where: whereClause,
-      limit: Number(limit),
-      offset,
       order: [['createdAt', 'DESC']],
-      include: [{
-        model: User,
-        attributes: ['id', 'name', 'email']
-      }]
+      raw: true
     });
     
+    const rentProperties = await RentProperty.findAll({
+      where: whereClause,
+      order: [['createdAt', 'DESC']],
+      raw: true
+    });
+    
+    const leaseProperties = await LeaseProperty.findAll({
+      where: whereClause,
+      order: [['createdAt', 'DESC']],
+      raw: true
+    });
+    
+    const pgProperties = await PgProperty.findAll({
+      where: whereClause,
+      order: [['createdAt', 'DESC']],
+      raw: true
+    });
+    
+    const commercialProperties = await CommercialProperty.findAll({
+      where: whereClause,
+      order: [['createdAt', 'DESC']],
+      raw: true
+    });
+    
+    const landProperties = await LandProperty.findAll({
+      where: whereClause,
+      order: [['createdAt', 'DESC']],
+      raw: true
+    });
+
+    // Combine all properties
+    const allProperties = [
+      ...saleProperties.map(p => ({ ...p, sourceTable: 'sale_properties' })),
+      ...rentProperties.map(p => ({ ...p, sourceTable: 'rent_properties' })),
+      ...leaseProperties.map(p => ({ ...p, sourceTable: 'lease_properties' })),
+      ...pgProperties.map(p => ({ ...p, sourceTable: 'pg_properties' })),
+      ...commercialProperties.map(p => ({ ...p, sourceTable: 'commercial_properties' })),
+      ...landProperties.map(p => ({ ...p, sourceTable: 'land_properties' }))
+    ];
+
+    // Sort by date descending
+    allProperties.sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      }
+      return 0;
+    });
+
+    // Apply pagination
+    const offset = (Number(page) - 1) * Number(limit);
+    const paginatedProperties = allProperties.slice(offset, offset + Number(limit));
+
     res.status(200).json({
-      properties: properties.rows,
-      totalPages: Math.ceil(properties.count / Number(limit)),
+      properties: paginatedProperties,
+      totalPages: Math.ceil(allProperties.length / Number(limit)),
       currentPage: Number(page),
-      total: properties.count
+      total: allProperties.length
     });
   } catch (error) {
     console.error('Error fetching properties:', error);
@@ -48,24 +100,51 @@ export const getAllProperties = async (req: Request, res: Response): Promise<voi
 };
 
 // Get property by ID
-export const getPropertyById = async (req: Request, res: Response): Promise<void> => {
+export const getPropertyById = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const { id, type } = req.params;
     
-    const property = await Property.findByPk(id, {
-      include: [{
-        model: User,
-        attributes: ['id', 'name', 'email']
-      }, {
-        model: Lead,
-        attributes: ['id', 'name', 'email', 'phone', 'userType', 'createdAt']
-      }]
-    });
+    let property: any = null;
+    let sourceTable: string | undefined;
+    
+    // Look for the property in all property tables
+    property = await SaleProperty.findByPk(id);
+    if (property) {
+      sourceTable = 'sale_properties';
+    } else {
+      property = await RentProperty.findByPk(id);
+      if (property) {
+        sourceTable = 'rent_properties';
+      } else {
+        property = await LeaseProperty.findByPk(id);
+        if (property) {
+          sourceTable = 'lease_properties';
+        } else {
+          property = await PgProperty.findByPk(id);
+          if (property) {
+            sourceTable = 'pg_properties';
+          } else {
+            property = await CommercialProperty.findByPk(id);
+            if (property) {
+              sourceTable = 'commercial_properties';
+            } else {
+              property = await LandProperty.findByPk(id);
+              if (property) {
+                sourceTable = 'land_properties';
+              }
+            }
+          }
+        }
+      }
+    }
     
     if (!property) {
       res.status(404).json({ message: 'Property not found' });
       return;
     }
+    
+    // Add source table to the property
+    property.setDataValue('sourceTable', sourceTable);
     
     res.status(200).json(property);
   } catch (error) {
@@ -75,12 +154,43 @@ export const getPropertyById = async (req: Request, res: Response): Promise<void
 };
 
 // Approve property
-export const approveProperty = async (req: Request, res: Response): Promise<void> => {
+export const approveProperty = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const { id, type } = req.params;
     const { fieldVisibility, imageVisibility, isVerified } = req.body;
     
-    const property = await Property.findByPk(id);
+    // Look for the property in all property tables
+    let property: any = await SaleProperty.findByPk(id);
+    let sourceTable: string | undefined;
+    
+    if (property) {
+      sourceTable = 'sale_properties';
+    } else {
+      property = await RentProperty.findByPk(id);
+      if (property) {
+        sourceTable = 'rent_properties';
+      } else {
+        property = await LeaseProperty.findByPk(id);
+        if (property) {
+          sourceTable = 'lease_properties';
+        } else {
+          property = await PgProperty.findByPk(id);
+          if (property) {
+            sourceTable = 'pg_properties';
+          } else {
+            property = await CommercialProperty.findByPk(id);
+            if (property) {
+              sourceTable = 'commercial_properties';
+            } else {
+              property = await LandProperty.findByPk(id);
+              if (property) {
+                sourceTable = 'land_properties';
+              }
+            }
+          }
+        }
+      }
+    }
     
     if (!property) {
       res.status(404).json({ message: 'Property not found' });
@@ -88,13 +198,21 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
     }
     
     property.approvalStatus = 'approved';
+    property.approvedAt = new Date();
+    property.approvedBy = req.user?.id; // Assuming req.user is available after authentication
     
     // Update visibility settings if provided
+    // Note: fieldVisibility and imageVisibility are only available on the main Property model
+    // For individual property type models, these fields may not exist
     if (fieldVisibility) {
-      property.fieldVisibility = fieldVisibility;
+      if ('fieldVisibility' in property) {
+        (property as any).fieldVisibility = fieldVisibility;
+      }
     }
     if (imageVisibility) {
-      property.imageVisibility = imageVisibility;
+      if ('imageVisibility' in property) {
+        (property as any).imageVisibility = imageVisibility;
+      }
     }
     
     // Update verified status if provided
@@ -117,12 +235,43 @@ export const approveProperty = async (req: Request, res: Response): Promise<void
 };
 
 // Reject property
-export const rejectProperty = async (req: Request, res: Response): Promise<void> => {
+export const rejectProperty = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const { id, type } = req.params;
     const { reason, fieldVisibility, imageVisibility } = req.body;
     
-    const property = await Property.findByPk(id);
+    // Look for the property in all property tables
+    let property: any = await SaleProperty.findByPk(id);
+    let sourceTable: string | undefined;
+    
+    if (property) {
+      sourceTable = 'sale_properties';
+    } else {
+      property = await RentProperty.findByPk(id);
+      if (property) {
+        sourceTable = 'rent_properties';
+      } else {
+        property = await LeaseProperty.findByPk(id);
+        if (property) {
+          sourceTable = 'lease_properties';
+        } else {
+          property = await PgProperty.findByPk(id);
+          if (property) {
+            sourceTable = 'pg_properties';
+          } else {
+            property = await CommercialProperty.findByPk(id);
+            if (property) {
+              sourceTable = 'commercial_properties';
+            } else {
+              property = await LandProperty.findByPk(id);
+              if (property) {
+                sourceTable = 'land_properties';
+              }
+            }
+          }
+        }
+      }
+    }
     
     if (!property) {
       res.status(404).json({ message: 'Property not found' });
@@ -130,13 +279,21 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
     }
     
     property.approvalStatus = 'rejected';
+    property.approvedAt = new Date();
+    property.approvedBy = req.user?.id; // Assuming req.user is available after authentication
     
     // Update visibility settings if provided
+    // Note: fieldVisibility and imageVisibility are only available on the main Property model
+    // For individual property type models, these fields may not exist
     if (fieldVisibility) {
-      property.fieldVisibility = fieldVisibility;
+      if ('fieldVisibility' in property) {
+        (property as any).fieldVisibility = fieldVisibility;
+      }
     }
     if (imageVisibility) {
-      property.imageVisibility = imageVisibility;
+      if ('imageVisibility' in property) {
+        (property as any).imageVisibility = imageVisibility;
+      }
     }
     
     await property.save();
@@ -149,12 +306,51 @@ export const rejectProperty = async (req: Request, res: Response): Promise<void>
 };
 
 // Get property statistics
-export const getPropertyStats = async (req: Request, res: Response): Promise<void> => {
+export const getPropertyStats = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const totalProperties = await Property.count();
-    const pendingProperties = await Property.count({ where: { approvalStatus: 'pending' } });
-    const approvedProperties = await Property.count({ where: { approvalStatus: 'approved' } });
-    const rejectedProperties = await Property.count({ where: { approvalStatus: 'rejected' } });
+    // Count properties from all property type tables
+    const salePropertiesCount = await SaleProperty.count();
+    const rentPropertiesCount = await RentProperty.count();
+    const leasePropertiesCount = await LeaseProperty.count();
+    const pgPropertiesCount = await PgProperty.count();
+    const commercialPropertiesCount = await CommercialProperty.count();
+    const landPropertiesCount = await LandProperty.count();
+    
+    const totalProperties = salePropertiesCount + rentPropertiesCount + leasePropertiesCount + 
+                            pgPropertiesCount + commercialPropertiesCount + landPropertiesCount;
+    
+    // Count pending properties
+    const pendingSaleProperties = await SaleProperty.count({ where: { approvalStatus: 'pending' } });
+    const pendingRentProperties = await RentProperty.count({ where: { approvalStatus: 'pending' } });
+    const pendingLeaseProperties = await LeaseProperty.count({ where: { approvalStatus: 'pending' } });
+    const pendingPgProperties = await PgProperty.count({ where: { approvalStatus: 'pending' } });
+    const pendingCommercialProperties = await CommercialProperty.count({ where: { approvalStatus: 'pending' } });
+    const pendingLandProperties = await LandProperty.count({ where: { approvalStatus: 'pending' } });
+    
+    const pendingProperties = pendingSaleProperties + pendingRentProperties + pendingLeaseProperties + 
+                              pendingPgProperties + pendingCommercialProperties + pendingLandProperties;
+    
+    // Count approved properties
+    const approvedSaleProperties = await SaleProperty.count({ where: { approvalStatus: 'approved' } });
+    const approvedRentProperties = await RentProperty.count({ where: { approvalStatus: 'approved' } });
+    const approvedLeaseProperties = await LeaseProperty.count({ where: { approvalStatus: 'approved' } });
+    const approvedPgProperties = await PgProperty.count({ where: { approvalStatus: 'approved' } });
+    const approvedCommercialProperties = await CommercialProperty.count({ where: { approvalStatus: 'approved' } });
+    const approvedLandProperties = await LandProperty.count({ where: { approvalStatus: 'approved' } });
+    
+    const approvedProperties = approvedSaleProperties + approvedRentProperties + approvedLeaseProperties + 
+                                approvedPgProperties + approvedCommercialProperties + approvedLandProperties;
+    
+    // Count rejected properties
+    const rejectedSaleProperties = await SaleProperty.count({ where: { approvalStatus: 'rejected' } });
+    const rejectedRentProperties = await RentProperty.count({ where: { approvalStatus: 'rejected' } });
+    const rejectedLeaseProperties = await LeaseProperty.count({ where: { approvalStatus: 'rejected' } });
+    const rejectedPgProperties = await PgProperty.count({ where: { approvalStatus: 'rejected' } });
+    const rejectedCommercialProperties = await CommercialProperty.count({ where: { approvalStatus: 'rejected' } });
+    const rejectedLandProperties = await LandProperty.count({ where: { approvalStatus: 'rejected' } });
+    
+    const rejectedProperties = rejectedSaleProperties + rejectedRentProperties + rejectedLeaseProperties + 
+                                rejectedPgProperties + rejectedCommercialProperties + rejectedLandProperties;
     
     const stats = {
       total: totalProperties,
@@ -172,7 +368,7 @@ export const getPropertyStats = async (req: Request, res: Response): Promise<voi
 };
 
 // Get all leads
-export const getAllLeads = async (req: Request, res: Response): Promise<void> => {
+export const getAllLeads = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { page = 1, limit = 10, propertyId, dateFrom, dateTo } = req.query;
     
@@ -214,7 +410,7 @@ export const getAllLeads = async (req: Request, res: Response): Promise<void> =>
 };
 
 // Export leads to CSV
-export const exportLeads = async (req: Request, res: Response): Promise<void> => {
+export const exportLeads = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const leads = await Lead.findAll({});
     
@@ -256,7 +452,7 @@ export const exportLeads = async (req: Request, res: Response): Promise<void> =>
 };
 
 // Get lead statistics
-export const getLeadStats = async (req: Request, res: Response): Promise<void> => {
+export const getLeadStats = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const totalLeads = await Lead.count();
     const Sequelize = require('sequelize');
