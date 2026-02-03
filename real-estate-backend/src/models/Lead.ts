@@ -1,18 +1,10 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { User } from './User';
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
 @Table({
   tableName: 'leads',
   timestamps: true,
 })
 export class Lead extends Model<Lead> {
-  @Column({
-    type: DataType.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  })
-  id!: number;
-
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -23,33 +15,60 @@ export class Lead extends Model<Lead> {
     type: DataType.STRING,
     allowNull: false,
   })
-  email!: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
   phone!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
   })
-  userType!: string;
+  address!: string;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  email!: string | null;
+
+  @Column({
+    type: DataType.TEXT,
     allowNull: false,
   })
-  propertyId!: number;
+  description!: string;
 
-  @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
   })
-  userId?: number;
+  propertyId!: number | null;
 
-  @BelongsTo(() => User)
-  user?: User;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  propertyTitle!: string | null;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  propertyPrice!: string | null;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  propertyLocation!: string | null;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  propertyType!: string | null;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: 'new',
+  })
+  status!: string;
 }

@@ -42,13 +42,10 @@ dotenv.config();
 
 const dbUrl = process.env.DATABASE_URL || `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
 
-export const sequelize = new Sequelize(
-  dbUrl,
-  {
-    dialect: 'postgres',
-    logging: false,
-  }
-);
+export const sequelize = new Sequelize(dbUrl, {
+  dialect: 'postgres',
+  logging: false,
+});
 
 // Initialize JavaScript models
 const User = UserModel(sequelize, require('sequelize').DataTypes);
@@ -154,7 +151,7 @@ CmsPage.init({
   }
 }, {
   tableName: "cms_pages",
-  sequelize,
+  sequelize: sequelize,
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at"
@@ -186,7 +183,7 @@ Advertisement.init({
   },
 }, {
   tableName: "advertisements",
-  sequelize,
+  sequelize: sequelize,
   timestamps: true
 });
 
@@ -217,7 +214,7 @@ GallerySection.init({
   },
 }, {
   tableName: 'gallery_sections',
-  sequelize,
+  sequelize: sequelize,
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at"
@@ -260,7 +257,7 @@ Blog.init({
   },
 }, {
   tableName: 'blogs',
-  sequelize,
+  sequelize: sequelize,
   timestamps: true,
   underscored: true
 });
@@ -319,7 +316,7 @@ Dealer.init({
   },
 }, {
   tableName: 'dealers',
-  sequelize,
+  sequelize: sequelize,
   timestamps: true,
   createdAt: 'created_at',
   updatedAt: 'updated_at',

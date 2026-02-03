@@ -20,23 +20,43 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
         isEmail: true
       }
     },
-    phone: {
-      type: DataTypes.STRING,
-      allowNull: true
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     propertyId: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    message: {
-      type: DataTypes.TEXT,
+    propertyTitle: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    propertyPrice: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    propertyLocation: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    propertyType: {
+      type: DataTypes.STRING,
       allowNull: true
     },
     status: {

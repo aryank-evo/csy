@@ -1,10 +1,23 @@
-import { Router } from "express";
-import { submitLead, checkLeadAccess } from "../controllers/LeadController";
+import { Router } from 'express';
+import {
+  createLead,
+  getAllLeads,
+  getLeadById,
+  updateLeadStatus
+} from '../controllers/LeadController';
 
 const router = Router();
 
-// Lead capture routes
-router.post("/", (req, res) => submitLead(req, res));
-router.get("/check-access/:propertyId", (req, res) => checkLeadAccess(req, res));
+// Create a new lead
+router.post('/', createLead);
+
+// Get all leads
+router.get('/', getAllLeads);
+
+// Get lead by ID
+router.get('/:id', getLeadById);
+
+// Update lead status
+router.patch('/:id/status', updateLeadStatus);
 
 export default router;

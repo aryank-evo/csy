@@ -32,10 +32,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 // Remove upload.none() to allow file uploads in propertyRoutes
 app.use("/api/properties", propertyRoutes);
-app.use("/api", protectedRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/lead", leadRoutes);
+// Public routes - no authentication required
 app.use("/api/cms", cmsPageRoutes);
 app.use("/api/advertisements", advertisementRoutes);
 app.use("/api/gallery", galleryRoutes);
@@ -43,6 +41,10 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/abroad", abroadRoutes);
 app.use("/api/dealers", dealerRoutes);
 app.use("/api/contact", contactRoutes);
+// Protected routes - authentication required
+app.use("/api", protectedRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/admin/dashboard", adminDashboardRoutes);
 
 // Run pending migrations before starting the server
 const runMigrations = async () => {

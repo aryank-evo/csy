@@ -219,10 +219,10 @@ export const exportLeads = async (req: Request, res: Response): Promise<void> =>
     const leads = await Lead.findAll({});
     
     // Create CSV content
-    let csvContent = 'Name,Email,Phone,User Type,Property Title,Created At\n';
+    let csvContent = 'Name,Email,Phone,Property Title,Created At\n';
     
     leads.forEach(lead => {
-      csvContent += `"${lead.name}","${lead.email}","${lead.phone}","${lead.userType}","${lead.propertyId}","${lead.createdAt}"\n`;
+      csvContent += `"${lead.name}","${lead.email}","${lead.phone}","${lead.propertyTitle || 'N/A'}","${lead.createdAt}"\n`;
     });
     
     const fileName = `leads_export_${new Date().toISOString().slice(0, 10)}.csv`;

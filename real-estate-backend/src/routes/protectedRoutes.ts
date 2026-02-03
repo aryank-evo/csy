@@ -1,128 +1,68 @@
-import { Router, Response } from "express";
-import { User } from "../models/User"; 
-import { Property } from "../models/Property";
-import { Lead } from "../models/Lead";
-import { authenticateUser, AuthRequest } from "../middleware/authMiddleware"; 
-import { getUserProperties } from "../controllers/PropertyController";
-import { Op } from 'sequelize';
+import { Router } from 'express';
+import { authenticateUser, AuthRequest } from '../middleware/authMiddleware';
+import { Property, Lead } from '../models';
 
 const router = Router();
 
-router.get("/profile", authenticateUser, async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    if (!req.user) {
-      res.status(401).json({ error: "Unauthorized" });
-      return;
-    }
+// Apply authentication middleware to all routes
+router.use(authenticateUser);
 
-    const user = await User.findByPk(req.user.id, {
-      attributes: ["name", "email", "firstName", "lastName", "phoneNumber", "about"]
+// Get user's submitted leads
+router.get('/my-leads', async (req: AuthRequest, res) => {
+  try {
+    const leads = await Lead.findAll({
+      where: {
+        email: req.user.email // Use email to identify user's leads
+      },
+      order: [['createdAt', 'DESC']]
     });
 
-    if (!user) {
-      res.status(404).json({ error: "User not found" });
-      return;
-    }
-
-    res.json(user);
+    res.json({
+      success: true,
+      data: leads
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
+    console.error('Get user leads error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred while fetching your leads',
+    });
   }
 });
 
-
-router.put("/profile", authenticateUser, async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    if (!req.user) {
-      res.status(401).json({ error: "Unauthorized" });
-      return;
-    }
-
-    const { firstName, lastName, phoneNumber, about } = req.body;
-
-    if (!firstName || !lastName || !phoneNumber || !about) {
-      res.status(400).json({ error: "All fields are required" }); 
-      return;
-    }
-
-    await User.update(
-      { firstName, lastName, phoneNumber, about },
-      { where: { id: req.user.id } }
-    );
-
-    res.json({ message: "Profile updated successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-});
-
-// Get property details with lead access check
-router.get("/properties/:id", authenticateUser, async (req: AuthRequest, res: Response): Promise<void> => {
+// Check if user can access property details (based on lead submission)
+router.get('/property/:id/check-access', async (req: AuthRequest, res) => {
   try {
     const { id } = req.params;
-    
-    // Get the property
-    const property = await Property.findByPk(id);
-    
-    if (!property) {
-      res.status(404).json({ message: "Property not found" });
-      return;
-    }
-    
-    // Check if property is approved
-    if (property.approvalStatus !== "approved") {
-      res.status(404).json({ message: "Property not found" }); // Don't reveal pending/rejected properties
-      return;
-    }
     
     // Check if user has submitted lead for this property
     const lead = await Lead.findOne({
       where: {
         propertyId: parseInt(id),
-        userId: req.user.id
+        email: req.user.email // Use email instead of userId
       }
     });
     
     // If user hasn't submitted lead, hide contact information
     if (!lead) {
-      // Return property without owner contact info
-      const { createdAt, updatedAt, ...propertyData } = property.toJSON();
-      // Omit sensitive contact fields if no lead submitted
       res.json({
-        ...propertyData,
-        contactInfoHidden: true,
-        message: "Submit lead form to view contact information"
+        success: true,
+        canAccess: false,
+        message: 'Please submit a lead to view property details'
       });
     } else {
-      // User has submitted lead, return full property details
-      res.json(property);
+      res.json({
+        success: true,
+        canAccess: true,
+        message: 'Access granted'
+      });
     }
   } catch (error) {
-    console.error("Error fetching property:", error);
-    res.status(500).json({ message: "Server error while fetching property" });
-  }
-});
-
-// Create new property route moved to public routes
-// router.post("/properties", authenticateUser, createProperty);
-
-// Get user's properties
-router.get("/my-properties", authenticateUser, getUserProperties);
-
-// Get all properties (filtered by approval status)
-router.get("/properties", async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const properties = await Property.findAll({
-      where: { approvalStatus: "approved" },
-      order: [["createdAt", "DESC"]]
+    console.error('Check access error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred while checking access',
     });
-    
-    res.json(properties);
-  } catch (error) {
-    console.error("Error fetching properties:", error);
-    res.status(500).json({ message: "Server error while fetching properties" });
   }
 });
 
