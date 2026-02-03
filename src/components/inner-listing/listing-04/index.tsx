@@ -1,5 +1,5 @@
 "use client"
-import FooterFour from "@/layouts/footers/FooterFour"
+import FooterOne from "@/layouts/footers/FooterOne"
 import FancyBanner from "@/components/common/FancyBanner"
 import ListingFourArea from "./ListingFourArea"
 import HeaderOne from "@/layouts/headers/HeaderOne"
@@ -10,7 +10,7 @@ const ListingSix = () => {
          <HeaderOne style={true} />
          <ListingFourArea />
          <FancyBanner />
-         <FooterFour />
+         <FooterOne style={true} />
       </>
    )
 }

@@ -23,7 +23,7 @@ const BlogRcPost = () => {
 
    return (
       <div className="recent-news bg-white bg-wrapper mb-30">
-         <h5 className="mb-20">Recent News</h5>
+         <h5 className="mb-20">Recent Blogs</h5>
          {recentBlogs.map((item: Blog) => (
             <div key={item.id} className="news-block d-flex align-items-center pb-25">
                {item.primary_image && (

@@ -179,7 +179,7 @@ const DashboardBody = () => {
 
 
 
-            <div className="row gx-xxl-5 d-flex pt-15 lg-pt-10">
+            {/* <div className="row gx-xxl-5 d-flex pt-15 lg-pt-10">
                <div className="col-xl-7 col-lg-6 d-flex flex-column">
                   <div className="user-activity-chart bg-white border-20 mt-30 h-100">
                      <div className="d-flex align-items-center justify-content-between plr">
@@ -212,7 +212,7 @@ const DashboardBody = () => {
                      <RecentMessage/>
                   </div>
                </div>
-            </div>
+            </div> */}
          </div>
       </div>
    )

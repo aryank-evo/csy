@@ -2,7 +2,7 @@ import DashboardIndex from "@/components/dashboard/index";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-  title: "Dashboard HOZN - Real Estate React Next js",
+  title: "Dashboard",
 };
 
 const DashboardPage = () => {

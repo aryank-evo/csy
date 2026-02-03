@@ -64,55 +64,8 @@ const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
                      <Image src={pathname === '/dashboard/cms' ? dashboardIconActive_2 : dashboardIcon_2} alt="" />
                      <span>CMS Management</span>
                   </Link></li>
-                  <li className="plr"><Link href="/dashboard/message" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/message' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/message' ? dashboardIconActive_3 : dashboardIcon_3} alt="" />
-                     <span>Message</span>
-                  </Link></li>
-                  <li className="bottom-line pt-30 lg-pt-20 mb-40 lg-mb-30"></li>
-                  <li><div className="nav-title">Profile</div></li>
-                  <li className="plr"><Link href="/dashboard/profile" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/profile' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/profile' ? dashboardIconActive_4 : dashboardIcon_4} alt="" />
-                     <span>Profile</span>
-                  </Link></li>
-                  <li className="plr"><Link href="/dashboard/account-settings" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/account-settings' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/account-settings' ? dashboardIconActive_5 : dashboardIcon_5} alt="" />
-                     <span>Account Settings</span>
-                  </Link></li>
-                  <li className="plr"><Link href="/dashboard/membership" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/membership' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/membership' ? dashboardIconActive_6 : dashboardIcon_6} alt="" />
-                     <span>Membership</span>
-                  </Link></li>
-                  <li className="bottom-line pt-30 lg-pt-20 mb-40 lg-mb-30"></li>
-                  <li><div className="nav-title">Listing</div></li>
-                  <li className="plr"><Link href="/dashboard/properties-list" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/properties-list' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/properties-list' ? dashboardIconActive_7 : dashboardIcon_7} alt="" />
-                     <span>My Properties</span>
-                  </Link></li>
-                  <li className="plr"><Link href="#" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/add-property' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/add-property' ? dashboardIconActive_8 : dashboardIcon_8} alt="" />
-                     <span>Add New Property</span>
-                  </Link></li>
-                  <li className="plr"><Link href="/dashboard/favourites" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/favourites' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/favourites' ? dashboardIconActive_9 : dashboardIcon_9} alt="" />
-                     <span>Favourites</span>
-                  </Link></li>
-                  <li className="plr"><Link href="/dashboard/saved-search" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/saved-search' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/saved-search' ? dashboardIconActive_10 : dashboardIcon_10} alt="" />
-                     <span>Saved Search</span>
-                  </Link></li>
-                  <li className="plr"><Link href="/dashboard/review" className={`d-flex w-100 align-items-center ${pathname === '/dashboard/review' ? 'active' : ''}`}>
-                     <Image src={pathname === '/dashboard/review' ? dashboardIconActive_10 : dashboardIcon_10} alt="" />
-                     <span>Reviews</span>
-                  </Link></li>
                </ul>
             </nav>
-            <div className="profile-complete-status bottom-line pb-35 plr">
-               <div className="progress-value fw-500">82%</div>
-               <div className="progress-line position-relative">
-                  <div className="inner-line" style={{ width: "80%" }}></div>
-               </div>
-               <p>Profile Complete</p>
-            </div>
 
             <div className="plr">
                <button onClick={handleLogout} className="d-flex w-100 align-items-center logout-btn border-0 bg-transparent p-0">
