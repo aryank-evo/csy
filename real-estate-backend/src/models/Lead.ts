@@ -71,4 +71,11 @@ export class Lead extends Model<Lead> {
     defaultValue: 'new',
   })
   status!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: 'visitor',
+  })
+  userType!: string;
 }

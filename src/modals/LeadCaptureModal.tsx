@@ -86,24 +86,36 @@ const LeadCaptureModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 1050 }}>
-      <div className="modal-dialog modal-dialog-centered">
+    <div 
+      className="modal fade show d-block" 
+      style={{ 
+        backgroundColor: "#fff", 
+        zIndex: 9999,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        overflow: 'auto'
+      }}
+      onClick={(e) => e.stopPropagation()} // Prevent closing on backdrop click
+    >
+      <div 
+        className="modal-dialog modal-dialog-centered" 
+        style={{ maxWidth: '600px', margin: '50px auto' }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Property Inquiry</h5>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={onClose}
-              disabled={loading}
-            ></button>
+            <h5 className="modal-title">Property Inquiry - Submit to see Details</h5>
+            {/* Close button removed - user must submit form to view property */}
           </div>
           
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="modal-body">
               {propertyDetails && (
                 <div className="alert alert-info mb-4">
-                  <h6 className="mb-2">You're interested in:</h6>
+                  <h6 className="mb-2">You're interested in :</h6>
                   <p className="mb-1"><strong>{propertyDetails.title}</strong></p>
                   {propertyDetails.price && <p className="mb-1">Price: {propertyDetails.price}</p>}
                   {propertyDetails.location && <p className="mb-1">Location: {propertyDetails.location}</p>}
@@ -184,16 +196,8 @@ const LeadCaptureModal = ({
 
             <div className="modal-footer">
               <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={onClose}
-                disabled={loading}
-              >
-                Cancel
-              </button>
-              <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-primary w-100"
                 disabled={loading}
               >
                 {loading ? (
