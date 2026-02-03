@@ -16,6 +16,16 @@ export interface CmsPage {
   aboutDesc2?: string;
   aboutDesc3?: string;
   aboutMission?: string;
+  // Social media links
+  facebookLink?: string;
+  instagramLink?: string;
+  youtubeLink?: string;
+  // Contact page fields
+  contactTitle?: string;
+  contactAddress?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  googleMapEmbedUrl?: string;
   created_at: string;
   updated_at: string;
 }
