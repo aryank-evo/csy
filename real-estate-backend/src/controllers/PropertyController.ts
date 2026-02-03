@@ -390,34 +390,40 @@ export const getAllProperties = async (req: Request, res: Response): Promise<voi
 
 export const getAllPropertiesCombined = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Get ALL properties from all property types (both approved and pending)
+    // Get only APPROVED properties from all property types
     // Use raw queries to avoid column mismatches between different property types
     const saleProperties = await SaleProperty.findAll({
+      where: { approvalStatus: 'approved' },
       order: [['createdAt', 'DESC']],
       raw: true // Use raw to avoid some attribute issues
     });
     
     const rentProperties = await RentProperty.findAll({
+      where: { approvalStatus: 'approved' },
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const leaseProperties = await LeaseProperty.findAll({
+      where: { approvalStatus: 'approved' },
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const pgProperties = await PgProperty.findAll({
+      where: { approvalStatus: 'approved' },
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const commercialProperties = await CommercialProperty.findAll({
+      where: { approvalStatus: 'approved' },
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const landProperties = await LandProperty.findAll({
+      where: { approvalStatus: 'approved' },
       order: [['createdAt', 'DESC']],
       raw: true
     });

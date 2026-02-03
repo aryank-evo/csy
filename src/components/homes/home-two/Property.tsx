@@ -47,8 +47,19 @@ const Property = () => {
 
    // Function to get property detail link based on property type
    const getPropertyLink = (property: any) => {
-      const type = property.type?.toLowerCase() || 'buy'; // default to buy
-      return `/${type}/${property.id}`;
+      // Map property types to URL paths
+      const typeMap: Record<string, string> = {
+        'sale': 'buy',
+        'rent': 'rent',
+        'lease': 'lease',
+        'pg': 'pg',
+        'commercial': 'commercial',
+        'land': 'land'
+      };
+      
+      const propertyType = property.sourceTable?.replace('_properties', '') || property.propertyType?.toLowerCase() || 'sale';
+      const urlType = typeMap[propertyType] || 'buy'; // default to buy
+      return `/${urlType}/${property.id}`;
    };
 
    return (

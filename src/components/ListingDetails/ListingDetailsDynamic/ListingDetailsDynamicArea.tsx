@@ -138,33 +138,14 @@ const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) 
                   <div className="property-score bg-white shadow4 border-20 p-40 mb-50">
                      <CommonProPertyScore />
                   </div> */}
+
                   <div className="property-location mb-50">
                      <CommonLocation property={property} />
                   </div>
 
-                  <div className="review-panel-one bg-white shadow4 border-20 p-40 mb-50">
-                     <div className="position-relative z-1">
-                        <div className="d-sm-flex justify-content-between align-items-center mb-10">
-                           <h4 className="m0 xs-pb-30">Reviews</h4>
-                           <NiceSelect className="nice-select"
-                              options={[
-                                 { value: "01", text: "Newest" },
-                                 { value: "02", text: "Best Seller" },
-                                 { value: "03", text: "Best Match" },
-                              ]}
-                              defaultCurrent={0}
-                              onChange={() => {}}
-                              name=""
-                              placeholder="" />
-                        </div>
-                        <Review style={true} />
-                     </div>
-                  </div>
-                  <div className="review-form bg-white shadow4 border-20 p-40">
-                     <CommonReviewForm />
-                  </div>
+               
                </div>
-               <DynamicSidebar property={property} />
+               {/* <DynamicSidebar property={property} /> */}
             </div>
          </div>
 

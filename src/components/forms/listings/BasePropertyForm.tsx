@@ -163,9 +163,10 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
       // Submit the property
       await createProperty(propertyData);
       
-      // Success message and redirect
+      // Success message
       alert('Property listing submitted successfully! Awaiting admin approval.');
-      router.push('/dashboard/properties-list');
+      // Stay on current page or go back to dashboard
+      router.push('/dashboard');
     } catch (err) {
       console.error('Error submitting property:', err);
       setError('Failed to submit property. Please try again.');
