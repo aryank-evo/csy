@@ -49,13 +49,11 @@ const ListingFourArea = ({ style }: any) => {
                            className="color-dark fw-500">{sortedProperties.length}</span> results</div>
                         <div className="d-flex align-items-center xs-mt-20">
                            <div className="short-filter d-flex align-items-center">
-                              <div className="fs-16 me-2">Short by:</div>
+                              <div className="fs-16 me-2">Sort by:</div>
                               <NiceSelect
                                  className="nice-select"
                                  options={[
-                                    { value: "newest", text: "Newest" },
-                                    { value: "best_seller", text: "Best Seller" },
-                                    { value: "best_match", text: "Best Match" },
+                                     
                                     { value: "price_low", text: "Price Low" },
                                     { value: "price_high", text: "Price High" },
                                  ]}

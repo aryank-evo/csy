@@ -33,12 +33,10 @@ const AgencyArea = () => {
                   className="color-dark fw-500">{agency_data.length}</span> results</div>
                <div className="d-flex align-items-center xs-mt-20">
                   <div className="short-filter d-flex align-items-center">
-                     <div className="fs-16 me-2">Short by:</div>
+                     <div className="fs-16 me-2">Sort by:</div>
                      <NiceSelect
                         className="nice-select rounded-0"
                         options={[
-                           { value: "01", text: "Pupular" },
-                           { value: "02", text: "Best Rating" },
                            { value: "03", text: "Price Low" },
                            { value: "04", text: "Price High" },
                         ]}

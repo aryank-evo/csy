@@ -31,19 +31,38 @@ const Property = () => {
    });
 
    // Process properties to get latest 3 and handle missing images
-   const latestThree = properties ? properties.slice(0, 3).map((property: any) => ({
-      ...property,
-      images: property.images && property.images.length > 0 
-         ? property.images 
-         : [placeholderImage.src],
-      carousel_thumb: property.images && property.images.length > 0 
-         ? property.images.map((img: string, idx: number) => ({ 
+   const latestThree = properties ? properties.slice(0, 3).map((property: any) => {
+      // Filter images based on visibility settings
+      let filteredImages = [];
+      
+      if (property.images && property.images.length > 0) {
+         // If imageVisibility exists, filter images based on it
+         if (property.imageVisibility && typeof property.imageVisibility === 'object') {
+            filteredImages = property.images.filter((_: any, index: number) => {
+               // Show image if visibility is not explicitly set to false
+               return property.imageVisibility[index] !== false;
+            });
+         } else {
+            // If no visibility settings, show all images
+            filteredImages = property.images;
+         }
+      }
+      
+      // If no visible images, use placeholder
+      if (filteredImages.length === 0) {
+         filteredImages = [placeholderImage.src];
+      }
+      
+      return {
+         ...property,
+         images: filteredImages,
+         carousel_thumb: filteredImages.map((img: string, idx: number) => ({ 
               img, 
               active: idx === 0 ? 'active' : '' 
-           }))
-         : [{ img: placeholderImage.src, active: 'active' }],
-      type: property.sourceTable?.replace('_properties', '') || 'buy'
-   })) : [];
+           })),
+         type: property.sourceTable?.replace('_properties', '') || 'buy'
+      };
+   }) : [];
 
    // Function to get property detail link based on property type
    const getPropertyLink = (property: any) => {
@@ -122,13 +141,29 @@ const Property = () => {
                                     )}
                                     <div id={`carousel${property.id || index}`} className="carousel slide">
                                        <div className="carousel-inner">
-                                          {property.carousel_thumb.map((thumb: any, i: number) => (
-                                             <div key={i} className={`carousel-item ${thumb.active}`} data-bs-interval="1000000">
+                                          {property.carousel_thumb && property.carousel_thumb.length > 0 ? (
+                                             property.carousel_thumb.map((thumb: any, i: number) => (
+                                                <div key={i} className={`carousel-item ${thumb.active}`} data-bs-interval="1000000">
+                                                   <Link href={getPropertyLink(property)} className="d-block">
+                                                      <Image 
+                                                         src={thumb.img} 
+                                                         className="w-100" 
+                                                         alt={property.title || property.name || "Property image"} 
+                                                         width={300}
+                                                         height={200}
+                                                         style={{ objectFit: 'cover', aspectRatio: '16 / 9' as any }}
+                                                         unoptimized={true}
+                                                      />
+                                                   </Link>
+                                                </div>
+                                             ))
+                                          ) : (
+                                             <div className="carousel-item active">
                                                 <Link href={getPropertyLink(property)} className="d-block">
                                                    <Image 
-                                                      src={thumb.img} 
+                                                      src={placeholderImage.src} 
                                                       className="w-100" 
-                                                      alt={property.title || property.name || "Property image"} 
+                                                      alt="Property placeholder" 
                                                       width={300}
                                                       height={200}
                                                       style={{ objectFit: 'cover', aspectRatio: '16 / 9' as any }}
@@ -136,7 +171,7 @@ const Property = () => {
                                                    />
                                                 </Link>
                                              </div>
-                                          ))}
+                                          )}
                                        </div>
                                     </div>
                                  </div>

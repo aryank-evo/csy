@@ -42,12 +42,6 @@ const getDashboardCardData = (stats: any): DataType[] => [
       title: "Total Views",
       value: stats.views.toLocaleString(),
    },
-   {
-      id: 4,
-      icon: icon_4,
-      title: "Total Favourites",
-      value: stats.favourites.toString(),
-   },
 ];
 
 const DashboardBody = () => {
@@ -127,7 +121,7 @@ const DashboardBody = () => {
                   <div className="bg-white border-20">
                      <div className="row">
                         {getDashboardCardData(stats).map((item) => (
-                           <div key={item.id} className="col-lg-3 col-6">
+                           <div key={item.id} className="col-lg-4 col-6">
                               <div className={`dash-card-one bg-white border-30 position-relative mb-15 ${item.class_name}`}>
                                  <div className="d-sm-flex align-items-center justify-content-between">
                                     <div className="icon rounded-circle d-flex align-items-center justify-content-center order-sm-1"><Image src={item.icon} alt="" className="lazy-img" /></div>

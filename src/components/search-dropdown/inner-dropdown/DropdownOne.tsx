@@ -15,34 +15,17 @@ const DropdownOne = ({
    selectedAmenities,
    handleAmenityChange,
    handleLocationChange,
-   handleStatusChange, }: any) => {
+   handleStatusChange,
+   locationOptions, }: any) => {
 
    return (
       <form onSubmit={(e) => e.preventDefault()}>
-         <div className="row gx-lg-5">
+         <div className="row gx-lg-5">            
             <div className="col-12">
                <div className="input-box-one mb-35">
-                  <div className="label">I&#39;m looking to...</div>
-                  <NiceSelect className="nice-select fw-normal"
-                     options={[
-                        { value: "kothi", text: "Kothi" },
-                        { value: "flat", text: "Flat" },
-                        { value: "office", text: "Office" },
-                        { value: "godown", text: "Godown" },
-                        { value: "commercial_property", text: "Commercial Property" },
-                     ]}
-                     defaultCurrent={0}
-                     onChange={handleStatusChange}
-                     name=""
-                     placeholder="" />
-               </div>
-            </div>
-            
-            <div className="col-12">
-               <div className="input-box-one mb-35">
-                  <div className="label">Keyword</div>
-                  <input onChange={handleSearchChange} type="text" placeholder="buy, home, loft, apartment"
-                     className="type-input" />
+                  <div className="">I'm looking for ...</div>
+                  <input onChange={handleSearchChange} type="text" placeholder="villa, flat, apartment, office"
+                     className="type-input " />
                </div>
             </div>
 
@@ -50,18 +33,8 @@ const DropdownOne = ({
                <div className="input-box-one mb-50">
                   <div className="label">Location</div>
                   <NiceSelect className="nice-select location fw-normal"
-                     options={[
-                        { value: "1", text: "Model Town" },
-                        { value: "2", text: "Sarabha Nagar" },
-                        { value: "3", text: "Gurdev Nagar" },
-                        { value: "4", text: "BRS Nagar" },
-                        { value: "5", text: "Civil Lines" },
-                        { value: "6", text: "South City" },
-                        { value: "7", text: "Pakhowal Road" },
-                        { value: "8", text: "Ferozepur Road" },
-                        { value: "9", text: "Dugri / Urban Estate Dugri" },
-                        { value: "10", text: "Rajguru Nagar" },
-                        { value: "11", text: "Sector-39 & Sector-39A" },
+                     options={locationOptions && locationOptions.length > 0 ? locationOptions : [
+                        { value: "", text: "All Locations" },
                      ]}
                      defaultCurrent={0}
                      onChange={handleLocationChange}

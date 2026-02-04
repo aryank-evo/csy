@@ -22,7 +22,7 @@ const ReviewBody = () => {
                   className="color-dark fw-500">40</span> results</div>
                <div className="d-flex ms-auto xs-mt-30">
                   <div className="short-filter d-flex align-items-center ms-sm-auto">
-                     <div className="fs-16 me-2">Short by:</div>
+                     <div className="fs-16 me-2">Sort by:</div>
                      <NiceSelect className="nice-select"
                         options={[
                            { value: "1", text: "Newest" },

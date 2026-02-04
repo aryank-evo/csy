@@ -175,6 +175,23 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
    const currentItems = sortedProperties.slice(itemOffset, endOffset);
    const pageCount = Math.ceil(sortedProperties.length / itemsPerPage);
 
+   // Get unique locations from filtered properties for the current page
+   const getUniqueLocations = () => {
+      const locations = filteredProperties
+         .map(item => item.location || item.address)
+         .filter((loc): loc is string => !!loc && loc.trim() !== '');
+      
+      // Remove duplicates and sort alphabetically
+      const uniqueLocations = [...new Set(locations)].sort((a, b) => a.localeCompare(b));
+      
+      return uniqueLocations.map((loc, index) => ({
+         value: loc,
+         text: loc
+      }));
+   };
+
+   const locationOptions = getUniqueLocations();
+
    const handlePageClick = (event: any) => {
       const newOffset = event.selected * itemsPerPage;
       setItemOffset(newOffset);
@@ -256,6 +273,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
       selectedAmenities,
       handleAmenityChange,
       pageCount,
+      locationOptions,
    };
 };
 

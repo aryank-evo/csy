@@ -68,7 +68,7 @@ const ListingSevenArea = ({ style }: any) => {
                   className="color-dark fw-500">{sortedProperties.length}</span> results</div>
                <div className="d-flex align-items-center xs-mt-20">
                   <div className="short-filter d-flex align-items-center">
-                     <div className="fs-16 me-2">Short by:</div>
+                     <div className="fs-16 me-2">Sort by:</div>
                      <NiceSelect
                         className={`nice-select rounded-0 `}
                         options={[
