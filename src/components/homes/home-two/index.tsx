@@ -6,6 +6,7 @@ import BLockFeatureOne from "./BLockFeatureOne"
 import FancyBannerOne from "./FancyBannerOne"
 import BLockFeatureTwo from "./BLockFeatureTwo"
 import FeedbackTwo from "./FeedbackTwo"
+import GoogleReviews from "./GoogleReviews"
 import Blog from "./Blog"
 import FAQ from "./FAQ"
 import FancyBannerTwo from "./FancyBannerTwo"
@@ -22,6 +23,7 @@ const HomeTwo = () => {
       <FancyBannerOne />
       <BLockFeatureTwo />
       <FeedbackTwo />
+      {/* <GoogleReviews /> */}
       {/* <Blog style={false} /> */}
       <FAQ />
       <FancyBannerTwo/>

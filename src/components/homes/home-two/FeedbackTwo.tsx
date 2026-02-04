@@ -23,22 +23,22 @@ const feedback_data: DataType[] = [
    {
       id: 1,
       desc: (<>&quot;Excellent service, made my dream home real. <span>highly recommended</span> real estate agency!&quot;</>),
-      title: "Musa Delimuza",
-      country: "Milan, Italy",
+      title: "Dharminder Singh",
+      country: "",
       thumb: feedbackThumb_1,
    },
    {
       id: 2,
       desc: (<>&quot;Excellent service, made my dream home real. <span>highly recommended</span> real estate agency!&quot;</>),
-      title: "Zubayer Hasan",
-      country: "Milan, Italy",
+      title: "Manpreet Singh",
+      country: "",
       thumb: feedbackThumb_2,
    },
    {
       id: 3,
       desc: (<>&quot;Excellent service, made my dream home real. <span>highly recommended</span> real estate agency!&quot;</>),
-      title: "Rashed Ka",
-      country: "Milan, Italy",
+      title: "Nikhil Kashyap",
+      country: "",
       thumb: feedbackThumb_3,
    },
 ]
@@ -70,7 +70,7 @@ const FeedbackTwo = () => {
                   <div className="col-lg-6 ms-auto">
                      <div className="feedback-bg-wrapper md-mt-60 position-relative z-1">
                         <div className="icon d-flex align-items-center justify-content-center rounded-circle">
-                           <Image src={feedbackIcon} alt="" className="lazy-img" />
+                           {/* <Image src={feedbackIcon} alt="" className="lazy-img" /> */}
                         </div>
                         <Slider {...setting} className="feedback-slider-one">
                            {feedback_data.map((item) => (
@@ -82,7 +82,7 @@ const FeedbackTwo = () => {
                                           <div className="name fs-22 text-white mb-5">{item.title}</div>
                                           <div className="fs-18 text-white opacity-75">{item.country}</div>
                                        </div>
-                                       <Image src={item.thumb} alt="" className="avatar" />
+                                       {/* <Image src={item.thumb} alt="" className="avatar" /> */}
                                     </div>
                                  </div>
                               </div>
