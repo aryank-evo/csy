@@ -269,8 +269,8 @@ const BlogEditor = () => {
               <thead className="bg-light border-bottom">
                 <tr>
                   <th className="ps-4 py-3 fw-normal text-muted small text-uppercase">Blog Title</th>
-                  <th className="py-3 fw-normal text-muted small text-uppercase">Category</th>
-                  <th className="py-3 fw-normal text-muted small text-uppercase">Author</th>
+                  {/* <th className="py-3 fw-normal text-muted small text-uppercase">Category</th> */}
+                  {/* <th className="py-3 fw-normal text-muted small text-uppercase">Author</th> */}
                   <th className="py-3 fw-normal text-muted small text-uppercase">Date</th>
                   <th className="text-end pe-4 py-3 fw-normal text-muted small text-uppercase">Actions</th>
                 </tr>
@@ -291,8 +291,8 @@ const BlogEditor = () => {
                           <span className="fw-normal">{blog.title}</span>
                         </div>
                       </td>
-                      <td className="py-3"><span className="badge bg-light text-dark border px-3 py-2 fw-normal">{blog.category || 'N/A'}</span></td>
-                      <td className="py-3 text-muted">{blog.author_name || 'Admin'}</td>
+                      {/* <td className="py-3"><span className="badge bg-light text-dark border px-3 py-2 fw-normal">{blog.category || 'N/A'}</span></td> */}
+                      {/* <td className="py-3 text-muted">{blog.author_name || 'Admin'}</td> */}
                       <td className="py-3 text-muted small">{new Date(blog.createdAt).toLocaleDateString()}</td>
                       <td className="text-end pe-4 py-3">
                         <button className="btn btn-sm btn-light border me-2" onClick={() => handleEdit(blog)} title="Edit">
