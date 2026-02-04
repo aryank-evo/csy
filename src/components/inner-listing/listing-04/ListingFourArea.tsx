@@ -1,5 +1,5 @@
 "use client"
-import DropdownPg from "@/components/search-dropdown/inner-dropdown/DropdownPg";
+import DropdownOne from "@/components/search-dropdown/inner-dropdown/DropdownOne";
 import UseShortedProperty from "@/hooks/useShortedProperty";
 import NiceSelect from "@/ui/NiceSelect";
 import Link from "next/link";
@@ -24,6 +24,7 @@ const ListingFourArea = ({ style }: any) => {
       handleBedroomChange,
       handleSearchChange,
       handlePriceChange,
+      handleSizeChange,
       maxPrice,
       priceValue,
       resetFilters,
@@ -32,6 +33,8 @@ const ListingFourArea = ({ style }: any) => {
       handleLocationChange,
       handleStatusChange,
       handleTypeChange,
+      locationOptions,
+      sizeRange,
    } = UseShortedProperty({ itemsPerPage, page });
 
    const handleResetFilter = () => {
@@ -129,11 +132,12 @@ const ListingFourArea = ({ style }: any) => {
                <div className="col-lg-4 order-lg-first">
                   <div className="advance-search-panel dot-bg md-mt-80">
                      <div className="main-bg">
-                        <DropdownPg
+                        <DropdownOne
                            handleSearchChange={handleSearchChange}
                            handleBedroomChange={handleBedroomChange}
                            handleBathroomChange={handleBathroomChange}
                            handlePriceChange={handlePriceChange}
+                           handleSizeChange={handleSizeChange}
                            maxPrice={maxPrice}
                            priceValue={priceValue}
                            handleResetFilter={handleResetFilter}
@@ -141,6 +145,8 @@ const ListingFourArea = ({ style }: any) => {
                            handleAmenityChange={handleAmenityChange}
                            handleLocationChange={handleLocationChange}
                            handleStatusChange={handleStatusChange}
+                           locationOptions={locationOptions}
+                           sizeRange={sizeRange}
                         />
                      </div>
                   </div>

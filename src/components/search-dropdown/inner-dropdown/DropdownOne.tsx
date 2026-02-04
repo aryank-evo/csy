@@ -2,7 +2,7 @@ import NiceSelect from "@/ui/NiceSelect"
 import PriceRange from "../../common/PriceRange";
 import Link from "next/link";
 
-const ammenities_data: string[] = ["A/C & Heating", "Garages", "Garden", "Disabled Access", "Swimming Pool", "Parking", "Wifi", "Pet Friendly", "Ceiling Height", "Fireplace", "Play Ground", "Elevator"]
+const ammenities_data: string[] = ["A/C & Heating", "Garages", "Swimming Pool", "Parking", "Lake View", "Garden", "Disabled Access", "Pet Friendly", "Ceiling Height", "Outdoor Shower", "Refrigerator", "Fireplace", "Wifi", "TV Cable", "Barbeque", "Laundry", "Dryer", "Lawn", "Elevator"];
 
 const DropdownOne = ({
    handleBathroomChange,
@@ -16,7 +16,9 @@ const DropdownOne = ({
    handleAmenityChange,
    handleLocationChange,
    handleStatusChange,
-   locationOptions, }: any) => {
+   handleSizeChange,
+   locationOptions,
+   sizeRange, }: any) => {
 
    return (
       <form onSubmit={(e) => e.preventDefault()}>
@@ -123,9 +125,25 @@ const DropdownOne = ({
             <div className="col-12">
                <h6 className="block-title fw-bold mt-45 mb-20">SQFT</h6>
                <div className="d-flex align-items-center sqf-ranger">
-                  <input type="text" placeholder="Min" />
+                  <input 
+                     type="number" 
+                     placeholder="Min" 
+                     value={sizeRange?.min || ''}
+                     onChange={(e) => {
+                        const min = e.target.value ? parseFloat(e.target.value) : null;
+                        handleSizeChange(min, sizeRange?.max || null);
+                     }}
+                  />
                   <div className="divider"></div>
-                  <input type="text" placeholder="Max" />
+                  <input 
+                     type="number" 
+                     placeholder="Max" 
+                     value={sizeRange?.max || ''}
+                     onChange={(e) => {
+                        const max = e.target.value ? parseFloat(e.target.value) : null;
+                        handleSizeChange(sizeRange?.min || null, max);
+                     }}
+                  />
                </div>
             </div>
             <div className="col-12">

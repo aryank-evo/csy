@@ -24,6 +24,7 @@ const ListingSixArea = () => {
       handleBedroomChange,
       handleSearchChange,
       handlePriceChange,
+      handleSizeChange,
       maxPrice,
       priceValue,
       resetFilters,
@@ -33,6 +34,7 @@ const ListingSixArea = () => {
       handleStatusChange,
       handleTypeChange,
       locationOptions,
+      sizeRange,
    } = UseShortedProperty({ itemsPerPage, page });
 
    const handleResetFilter = () => {
@@ -137,6 +139,7 @@ const ListingSixArea = () => {
                            handleBedroomChange={handleBedroomChange}
                            handleBathroomChange={handleBathroomChange}
                            handlePriceChange={handlePriceChange}
+                           handleSizeChange={handleSizeChange}
                            maxPrice={maxPrice}
                            priceValue={priceValue}
                            handleResetFilter={handleResetFilter}
@@ -145,6 +148,7 @@ const ListingSixArea = () => {
                            handleLocationChange={handleLocationChange}
                            handleStatusChange={handleStatusChange}
                            locationOptions={locationOptions}
+                           sizeRange={sizeRange}
                         />
                      </div>
                   </div>

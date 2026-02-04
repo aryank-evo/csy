@@ -65,6 +65,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
    const [selectedBedrooms, setSelectedBedrooms] = useState<string | null>(null);
    const [selectedBathrooms, setSelectedBathrooms] = useState<string | null>(null);
    const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+   const [sizeRange, setSizeRange] = useState<{ min: number | null; max: number | null }>({ min: null, max: null });
 
    // handleSortOptionChange
    const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -93,6 +94,12 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
    // handleBathroomChange
    const handleBathroomChange = (event: ChangeEvent<HTMLSelectElement>) => {
       setSelectedBathrooms(event.target.value);
+      setItemOffset(0);
+   };
+
+   // handleSizeChange
+   const handleSizeChange = (min: number | null, max: number | null) => {
+      setSizeRange({ min, max });
       setItemOffset(0);
    };
 
@@ -131,17 +138,21 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
          });
       }
 
-      // Bedrooms filtering
-      if (selectedBedrooms !== null) {
+      // Bedrooms filtering - numeric comparison
+      if (selectedBedrooms !== null && selectedBedrooms !== "") {
+         const selectedBedCount = parseInt(selectedBedrooms, 10);
          filtered = filtered.filter((item) => {
-            return item.property_info.bed.toLowerCase().includes(selectedBedrooms.toLowerCase());
+            const propertyBedCount = parseInt(item.property_info.bed, 10) || 0;
+            return propertyBedCount >= selectedBedCount;
          });
       }
 
-      // Bathrooms filtering
-      if (selectedBathrooms !== null) {
+      // Bathrooms filtering - numeric comparison
+      if (selectedBathrooms !== null && selectedBathrooms !== "") {
+         const selectedBathCount = parseInt(selectedBathrooms, 10);
          filtered = filtered.filter((item) => {
-            return item.property_info.bath.toLowerCase().includes(selectedBathrooms.toLowerCase());
+            const propertyBathCount = parseInt(item.property_info.bath, 10) || 0;
+            return propertyBathCount >= selectedBathCount;
          });
       }
 
@@ -149,7 +160,66 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
       if (selectedAmenities.length > 0) {
          filtered = filtered.filter((item) => {
             const propertyAmenities = item.amenities || [];
-            return selectedAmenities.every((amenity) => propertyAmenities.includes(amenity));
+            
+            // Convert property amenities to a searchable string
+            // If it's an array, join it; if it's a string, use as is
+            const propertyAmenitiesString = Array.isArray(propertyAmenities) 
+               ? propertyAmenities.join(', ') 
+               : propertyAmenities;
+            
+            // Normalize the property amenities string for comparison
+            const normalizedPropertyAmenities = propertyAmenitiesString 
+               ? propertyAmenitiesString.toLowerCase().trim()
+               : '';
+            
+            // Check if all selected amenities are present in the property
+            return selectedAmenities.every((selectedAmenity) => {
+               // Normalize the selected amenity for comparison
+               const normalizedSelected = selectedAmenity.trim().toLowerCase();
+               
+               // Handle mapping between filter names and database values
+               let searchTerms = [normalizedSelected];
+               
+               // Create variations to match common database formats
+               if (normalizedSelected.includes('wifi')) {
+                  searchTerms.push('wifi', 'wi-fi');
+               } else if (normalizedSelected.includes('ac') || normalizedSelected.includes('heating')) {
+                  searchTerms.push('ac', 'a/c', 'air conditioning', 'heating');
+               } else if (normalizedSelected.includes('parking')) {
+                  searchTerms.push('parking');
+               } else if (normalizedSelected.includes('garden')) {
+                  searchTerms.push('garden', 'lawn');
+               } else if (normalizedSelected.includes('garage')) {
+                  searchTerms.push('garage', 'garages');
+               } else if (normalizedSelected.includes('pool')) {
+                  searchTerms.push('pool', 'swimming pool');
+               } else if (normalizedSelected.includes('disabled')) {
+                  searchTerms.push('disabled', 'accessibility', 'accessible');
+               } else if (normalizedSelected.includes('pet')) {
+                  searchTerms.push('pet', 'pet friendly');
+               } else if (normalizedSelected.includes('fireplace')) {
+                  searchTerms.push('fireplace');
+               } else if (normalizedSelected.includes('refrigerator')) {
+                  searchTerms.push('refrigerator', 'fridge');
+               } else if (normalizedSelected.includes('tv cable')) {
+                  searchTerms.push('tv cable', 'cable tv', 'television', 'tv');
+               }
+               
+               // Check if any of the search terms match in the property amenities
+               return searchTerms.some(term => 
+                  normalizedPropertyAmenities.includes(term)
+               );
+            });
+         });
+      }
+
+      // Size (sqft) filtering
+      if (sizeRange.min !== null || sizeRange.max !== null) {
+         filtered = filtered.filter((item) => {
+            const propertySize = parseFloat(item.property_info.sqft) || 0;
+            const minValid = sizeRange.min === null || propertySize >= sizeRange.min;
+            const maxValid = sizeRange.max === null || propertySize <= sizeRange.max;
+            return minValid && maxValid;
          });
       }
 
@@ -252,6 +322,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
       setSelectedBathrooms(null);
       setSelectedAmenities([]);
       setPriceValue([0, maxPrice]);
+      setSizeRange({ min: null, max: null });
    };
 
    return {
@@ -267,6 +338,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
       handleStatusChange,
       handleBathroomChange,
       handlePriceChange,
+      handleSizeChange,
       maxPrice,
       priceValue,
       resetFilters,
@@ -274,6 +346,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
       handleAmenityChange,
       pageCount,
       locationOptions,
+      sizeRange,
    };
 };
 

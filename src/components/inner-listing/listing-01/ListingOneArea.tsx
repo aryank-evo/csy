@@ -26,6 +26,7 @@ const ListingOneArea = () => {
       handleBedroomChange,
       handleSearchChange,
       handlePriceChange,
+      handleSizeChange,
       maxPrice,
       priceValue,
       resetFilters,
@@ -35,6 +36,7 @@ const ListingOneArea = () => {
       handleStatusChange,
       handleTypeChange,
       locationOptions,
+      sizeRange,
    } = UseShortedProperty({ itemsPerPage, page });
 
    const handleResetFilter = () => {
@@ -161,6 +163,7 @@ const ListingOneArea = () => {
                            handleBedroomChange={handleBedroomChange}
                            handleBathroomChange={handleBathroomChange}
                            handlePriceChange={handlePriceChange}
+                           handleSizeChange={handleSizeChange}
                            maxPrice={maxPrice}
                            priceValue={priceValue}
                            handleResetFilter={handleResetFilter}
@@ -169,6 +172,7 @@ const ListingOneArea = () => {
                            handleLocationChange={handleLocationChange}
                            handleStatusChange={handleStatusChange}
                            locationOptions={locationOptions}
+                           sizeRange={sizeRange}
                         />
                      </div>
                   </div>
