@@ -53,7 +53,7 @@ const AboutUsPage = () => {
                       slug="about-us" 
                       type="aboutTitle1"
                       defaultContent="Secure your family's Dream home." 
-                      as="h2"
+                      as="h3"
                       className="font-garamond"
                     />
                     <DynamicContent 

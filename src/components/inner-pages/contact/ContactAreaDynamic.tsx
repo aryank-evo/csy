@@ -119,7 +119,7 @@ const ContactAreaDynamic = () => {
           
           {/* Google Map - Left Side */}
           <div className="col-xl-5 col-lg-6 d-flex order-lg-first">
-            <div className="contact-map-banner w-100">
+            <div className="contact-map-banner w-100 p-4 p-lg-5">
               {googleMapEmbedUrl ? (
                 <div 
                   className="gmap_canvas h-100 w-100"
