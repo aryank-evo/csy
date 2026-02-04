@@ -24,19 +24,19 @@ const LoginModal = ({ loginModal, setLoginModal }: any) => {
                <div className="container">
                   <div className="user-data-form modal-content">
                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     <div className="form-wrapper m-auto">
-                        <ul className="nav nav-tabs w-100">
+                     <div className="form-wrapper m-auto">                        
+                        {/* <ul className="nav nav-tabs w-100">
                            {tab_title.map((tab, index) => (
                               <li key={index} onClick={() => handleTabClick(index)} className="nav-item">
                                  <button className={`nav-link ${activeTab === index ? "active" : ""}`}>{tab}</button>
                               </li>
                            ))}
-                        </ul>
+                        </ul> */}
                         <div className="tab-content mt-30">
                            <div className={`tab-pane fade ${activeTab === 0 ? 'show active' : ''}`}>
                               <div className="text-center mb-20">
-                                 <h2>Welcome Back!</h2>
-                                 <p className="fs-20 color-dark">Still don&apos;t have an account? <Link href="#">Sign up</Link></p>
+                                 <h3>Admin Login</h3>
+                                 {/* <p className="fs-20 color-dark">Still don&apos;t have an account? <Link href="#">Sign up</Link></p> */}
                               </div>
                               <LoginForm />
                            </div>
@@ -49,12 +49,13 @@ const LoginModal = ({ loginModal, setLoginModal }: any) => {
                               <RegisterForm />
                            </div>
                         </div>
-
-                        <div className="d-flex align-items-center mt-30 mb-10">
+                     {/** Social Login */}
+                      {/**  <div className="d-flex align-items-center mt-30 mb-10">
                            <div className="line"></div>
                            <span className="pe-3 ps-3 fs-6">OR</span>
                            <div className="line"></div>
                         </div>
+                      
                         <div className="row">
                            <div className="col-sm-6">
                               <Link href="#" className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10">
@@ -68,7 +69,7 @@ const LoginModal = ({ loginModal, setLoginModal }: any) => {
                                  <span className="ps-3">Signup with Facebook</span>
                               </Link>
                            </div>
-                        </div>
+                        </div> */}
                      </div>
                   </div>
                </div>

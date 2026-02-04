@@ -5,8 +5,8 @@ import footer_data from "@/data/home-data/FooterData"
 import { useQuery } from "@tanstack/react-query"
 import { fetchCmsPage } from "@/utils/cmsApi"
 
-import footerLogo_1 from "@/assets/images/logo/logo_01.svg"
-import footerLogo_2 from "@/assets/images/logo/logo_03.svg"
+import footerLogo_1 from "@/assets/images/logo/logo.png"
+import footerLogo_2 from "@/assets/images/logo/logo.png"
 import footerShape_1 from "@/assets/images/shape/shape_32.svg"
 import footerShape_2 from "@/assets/images/shape/shape_33.svg"
 
@@ -24,7 +24,7 @@ const FooterOne = ({ style }: any) => {
   })
 
   const footerAddress = contactData?.contactAddress || "11910 Cairo Suite 210, Kafralshakh , Cairo, Egypt"
-  const footerEmail = contactData?.contactEmail || "eeeAljamal1stt@gmail.com"
+  const footerEmail = contactData?.contactEmail || "contact@csy.com"
   const facebookLink = aboutData?.facebookLink || "#"
   const instagramLink = aboutData?.instagramLink || "#"
   const youtubeLink = aboutData?.youtubeLink || "#"

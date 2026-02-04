@@ -76,8 +76,10 @@ const GalleryPage = () => {
     return (
       <div className="pt-60 lg-pt-40 pb-60 lg-pb-40">
         <div className="container">
-          <div className="text-center">
-            <h2 className="text-muted">No gallery content available</h2>
+          <div className="text-center mt-4">
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <h4 className="text-muted">Coming Soon</h4>
           </div>
         </div>
       </div>

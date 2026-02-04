@@ -25,7 +25,7 @@ const ContactAreaDynamic = () => {
       <div className="contact-us border-top mt-130 xl-mt-100 pt-80 lg-pt-60">
         <div className="container">
           <div className="row">
-            <div className="col-xxl-9 col-xl-8 col-lg-10 m-auto">
+            <div className="col-xxl-9 col-xl-8 col-lg-10 m-auto mt-4 mb-4">
               <div className="title-one text-center wow fadeInUp">
                 <div className="spinner-border text-primary" role="status">
                   <span className="visually-hidden">Loading...</span>

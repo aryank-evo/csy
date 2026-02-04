@@ -19,7 +19,7 @@ const footer_data: DataType[] = [
       page: "home_1",
       widget_class: "xs-mt-50",
       widget_title: "Links",
-      footer_link: [{ link: "/", link_title: "Home" }, { link: "/about_us_01", link_title: "About Company" }, { link: "/blog_03", link_title: "Blog" }, { link: "/dashboard/dashboard-index", link_title: "Dashboard" }, { link: "#", link_title: "Login / Sign up", data_bs_toggle: "modal", data_bs_target: "#loginModal" },]
+      footer_link: [{ link: "/", link_title: "Home" }, { link: "/about_us_01", link_title: "About Us" }, { link: "/blog_03", link_title: "Blog" }, { link: "#", link_title: "Login", data_bs_toggle: "modal", data_bs_target: "#loginModal" },]
    },
    {
       id: 2,
@@ -90,7 +90,7 @@ const footer_data: DataType[] = [
       widget_class: "col-lg-3 ms-auto",
       widget_class2: "ps-xl-5",
       widget_title: "Links",
-      footer_link: [{ link: "/", link_title: "Home" }, { link: "/dashboard/membership", link_title: "Membership" }, { link: "/about_us_01", link_title: "About Company" }, { link: "/blog_01", link_title: "Blog" }, { link: "/blog_02", link_title: "Explore Careers" }, { link: "/pricing_02", link_title: "Pricing" }, { link: "/dashboard/dashboard-index", link_title: "Dashboard" }, { link: "#", link_title: "Login / Sign up", data_bs_toggle: "modal", data_bs_target: "#loginModal" },]
+      footer_link: [{ link: "/", link_title: "Home" }, { link: "/dashboard/membership", link_title: "Membership" }, { link: "/about_us_01", link_title: "About Company" }, { link: "/blog_01", link_title: "Blog" }, { link: "/blog_02", link_title: "Explore Careers" }, { link: "/pricing_02", link_title: "Pricing" }, { link: "/dashboard/dashboard-index", link_title: "Dashboard" }, { link: "#", link_title: "Login ", data_bs_toggle: "modal", data_bs_target: "#loginModal" },]
    },
    {
       id: 2,

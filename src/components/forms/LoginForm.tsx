@@ -86,7 +86,7 @@ const LoginForm = () => {
                      <input type="checkbox" id="remember" />
                      <label htmlFor="remember">Keep me logged in</label>
                   </div>
-                  <Link href="#">Forget Password?</Link>
+                  {/* <Link href="#">Forget Password?</Link> */}
                </div>
             </div>
             <div className="col-12">
