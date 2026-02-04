@@ -31,6 +31,9 @@ interface CommercialPropertyAttributes {
   latitude?: number;
   longitude?: number;
   userType?: string;
+  // Field visibility settings
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
   // Commercial-specific fields
   propertySubType?: string;
   commercialArea?: number;
@@ -212,6 +215,17 @@ CommercialProperty.init({
   facing: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  // Field visibility settings
+  fieldVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
+  },
+  imageVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
   },
 }, {
   tableName: 'commercial_properties',

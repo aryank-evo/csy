@@ -31,6 +31,9 @@ interface SalePropertyAttributes {
   latitude?: number;
   longitude?: number;
   userType?: string;
+  // Field visibility settings
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
   // Sale-specific fields
   possessionStatus?: string;
   propertyAge?: number;
@@ -213,6 +216,17 @@ SaleProperty.init({
     type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
     field: 'maintenanceCost'
+  },
+  // Field visibility settings
+  fieldVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
+  },
+  imageVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
   },
 }, {
   tableName: 'sale_properties',

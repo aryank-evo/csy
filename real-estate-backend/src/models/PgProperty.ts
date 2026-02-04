@@ -31,6 +31,9 @@ interface PgPropertyAttributes {
   latitude?: number;
   longitude?: number;
   userType?: string;
+  // Field visibility settings
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
   // PG-specific fields
   foodIncluded?: boolean;
   gender?: string;
@@ -212,6 +215,17 @@ PgProperty.init({
   occupancy: {
     type: DataTypes.INTEGER,
     allowNull: true,
+  },
+  // Field visibility settings
+  fieldVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
+  },
+  imageVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
   },
 }, {
   tableName: 'pg_properties',

@@ -31,6 +31,9 @@ interface LeasePropertyAttributes {
   latitude?: number;
   longitude?: number;
   userType?: string;
+  // Field visibility settings
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
   // Lease-specific fields
   leasePeriod?: string;
   monthlyLeaseAmount?: number;
@@ -212,6 +215,17 @@ LeaseProperty.init({
   leaseTerms: {
     type: DataTypes.TEXT,
     allowNull: true,
+  },
+  // Field visibility settings
+  fieldVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
+  },
+  imageVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
   },
 }, {
   tableName: 'lease_properties',

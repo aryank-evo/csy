@@ -27,6 +27,9 @@ interface LandPropertyAttributes {
   latitude?: number;
   longitude?: number;
   userType?: string;
+  // Field visibility settings
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
   // Land-specific fields
   landArea?: number;
   landType?: string;
@@ -194,6 +197,17 @@ LandProperty.init({
   utilities: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  // Field visibility settings
+  fieldVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
+  },
+  imageVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
   },
 }, {
   tableName: 'land_properties',

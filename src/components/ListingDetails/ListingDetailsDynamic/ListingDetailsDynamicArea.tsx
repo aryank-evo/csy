@@ -12,6 +12,7 @@ import CommonNearbyList from "../listing-details-common/CommonNearbyList";
 import CommonSimilarProperty from "../listing-details-common/CommonSimilarProperty";
 import CommonProPertyScore from "../listing-details-common/CommonProPertyScore";
 import CommonLocation from "../listing-details-common/CommonLocation";
+import CommonContactInfo from "../listing-details-common/CommonContactInfo";
 import CommonReviewForm from "../listing-details-common/CommonReviewForm";
 import Review from "@/components/inner-pages/agency/agency-details/Review";
 import NiceSelect from "@/ui/NiceSelect";
@@ -141,6 +142,10 @@ const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) 
 
                   <div className="property-location mb-50">
                      <CommonLocation property={property} />
+                  </div>
+                  
+                  <div className="property-contact-info mb-50">
+                     <CommonContactInfo property={property} />
                   </div>
 
                

@@ -31,6 +31,9 @@ interface RentPropertyAttributes {
   latitude?: number;
   longitude?: number;
   userType?: string;
+  // Field visibility settings
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
   // Rent-specific fields
   availableFrom?: string;
   securityDeposit?: number;
@@ -212,6 +215,17 @@ RentProperty.init({
   maintenanceCharge: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
+  },
+  // Field visibility settings
+  fieldVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
+  },
+  imageVisibility: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: {},
   },
 }, {
   tableName: 'rent_properties',
