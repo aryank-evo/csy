@@ -10,37 +10,49 @@ module.exports = {
       defaultValue: ''
     });
     
-    await queryInterface.addColumn('leads', 'address', {
-      type: Sequelize.TEXT,
-      allowNull: false,
-      defaultValue: ''
-    });
+    if (!tableInfo.address) {
+      await queryInterface.addColumn('leads', 'address', {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        defaultValue: ''
+      });
+    }
     
-    await queryInterface.addColumn('leads', 'description', {
-      type: Sequelize.TEXT,
-      allowNull: false,
-      defaultValue: ''
-    });
+    if (!tableInfo.description) {
+      await queryInterface.addColumn('leads', 'description', {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        defaultValue: ''
+      });
+    }
     
-    await queryInterface.addColumn('leads', 'propertyTitle', {
-      type: Sequelize.STRING,
-      allowNull: true
-    });
+    if (!tableInfo.propertyTitle) {
+      await queryInterface.addColumn('leads', 'propertyTitle', {
+        type: Sequelize.STRING,
+        allowNull: true
+      });
+    }
     
-    await queryInterface.addColumn('leads', 'propertyPrice', {
-      type: Sequelize.STRING,
-      allowNull: true
-    });
+    if (!tableInfo.propertyPrice) {
+      await queryInterface.addColumn('leads', 'propertyPrice', {
+        type: Sequelize.STRING,
+        allowNull: true
+      });
+    }
     
-    await queryInterface.addColumn('leads', 'propertyLocation', {
-      type: Sequelize.STRING,
-      allowNull: true
-    });
+    if (!tableInfo.propertyLocation) {
+      await queryInterface.addColumn('leads', 'propertyLocation', {
+        type: Sequelize.STRING,
+        allowNull: true
+      });
+    }
     
-    await queryInterface.addColumn('leads', 'propertyType', {
-      type: Sequelize.STRING,
-      allowNull: true
-    });
+    if (!tableInfo.propertyType) {
+      await queryInterface.addColumn('leads', 'propertyType', {
+        type: Sequelize.STRING,
+        allowNull: true
+      });
+    }
     
     // Modify existing columns
     await queryInterface.changeColumn('leads', 'email', {
