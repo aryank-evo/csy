@@ -6,9 +6,9 @@ import PropertyTypeModalTrigger from '@/components/common/PropertyTypeModalTrigg
 import { toast } from "react-toastify";
 
 import dashboardLogo from "@/assets/images/logo/logo.png";
-import dashboardIconActive_1 from "@/assets/images/dashboard/icon/icon_1_active.png";
-import dashboardIcon_1 from "@/assets/images/dashboard/icon/icon_1.png";
-import dashboardIconActive_2 from "@/assets/images/dashboard/icon/icon_2_active.png";
+import dashboardIconActive_1 from "@/assets/images/dashboard/icon/icon_1_active.svg";
+import dashboardIcon_1 from "@/assets/images/dashboard/icon/icon_1.svg";
+import dashboardIconActive_2 from "@/assets/images/dashboard/icon/icon_2_active.svg";
 import dashboardIcon_2 from "@/assets/images/dashboard/icon/icon_2.svg";
 import dashboardIconActive_3 from "@/assets/images/dashboard/icon/icon_3_active.svg";
 import dashboardIcon_3 from "@/assets/images/dashboard/icon/icon_3.svg";
