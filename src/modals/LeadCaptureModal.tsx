@@ -115,7 +115,7 @@ const LeadCaptureModal = ({
             <div className="modal-body">
               {propertyDetails && (
                 <div className="alert alert-info mb-4">
-                  <h6 className="mb-2">You're interested in :</h6>
+                  <h6 className="mb-2">You&#39;re interested in :</h6>
                   <p className="mb-1"><strong>{propertyDetails.title}</strong></p>
                   {propertyDetails.price && <p className="mb-1">Price: {propertyDetails.price}</p>}
                   {propertyDetails.location && <p className="mb-1">Location: {propertyDetails.location}</p>}
@@ -180,7 +180,7 @@ const LeadCaptureModal = ({
               </div>
 
               <div className="mb-3">
-                <label className="form-label">I'm looking for... *</label>
+                <label className="form-label">I&#39;m looking for... *</label>
                 <textarea
                   className={`form-control ${errors.description ? "is-invalid" : ""}`}
                   placeholder="Please describe what you're looking for in a property..."

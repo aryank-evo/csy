@@ -25,7 +25,7 @@ const DropdownOne = ({
          <div className="row gx-lg-5">            
             <div className="col-12">
                <div className="input-box-one mb-35">
-                  <div className="">I'm looking for ...</div>
+                  <div className="">I&#39;m looking for ...</div>
                   <input onChange={handleSearchChange} type="text" placeholder="villa, flat, apartment, office"
                      className="type-input " />
                </div>
