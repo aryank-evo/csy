@@ -262,7 +262,7 @@ const inner_blog_data: DataType[] = [
       desc:"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...",
    },
 
-   // blog_03
+   // blog
    
    {
       id: 1,

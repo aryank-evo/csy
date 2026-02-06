@@ -20,15 +20,15 @@ const Blog = ({ style }: any) => {
                      <div key={item.id} className="col-md-6">
                         <article className="blog-meta-one mt-35 wow fadeInUp" data-wow-delay={item.data_delay_time}>
                            <figure className={`post-img position-relative m0 ${item.class_name} ${style ? "rounded-5" : ""}`}>
-                              <Link href="/blog_details" className={`stretched-link date tran3s ${style ? "rounded-5" : ""}`}>{item.date}</Link>
+                              <Link href="/blog-details" className={`stretched-link date tran3s ${style ? "rounded-5" : ""}`}>{item.date}</Link>
                            </figure>
                            <div className="post-data">
-                              <div className="post-info"><Link href="/blog_details">{item.info_name}</Link> {item.info_time} min</div>
+                              <div className="post-info"><Link href="/blog-details">{item.info_name}</Link> {item.info_time} min</div>
                               <div className="d-flex justify-content-between align-items-sm-center flex-wrap">
-                                 <Link href="/blog_details" className="blog-title">
+                                 <Link href="/blog-details" className="blog-title">
                                     <h4>{item.title}</h4>
                                  </Link>
-                                 <Link href="/blog_details" className={`read-btn d-flex align-items-center justify-content-center tran3s ${style ? "rounded-circle" : ""}`}>
+                                 <Link href="/blog-details" className={`read-btn d-flex align-items-center justify-content-center tran3s ${style ? "rounded-circle" : ""}`}>
                                     <i className="bi bi-arrow-up-right"></i></Link>
                               </div>
                            </div>
@@ -38,7 +38,7 @@ const Blog = ({ style }: any) => {
                </div>
 
                <div className="section-btn text-center md-mt-60">
-                  <Link href="/blog_03" className="btn-eight"><span>Explore All</span> <i className="bi bi-arrow-up-right"></i></Link>
+                  <Link href="/blog" className="btn-eight"><span>Explore All</span> <i className="bi bi-arrow-up-right"></i></Link>
                </div>
             </div>
          </div>

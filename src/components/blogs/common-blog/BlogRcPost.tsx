@@ -33,7 +33,7 @@ const BlogRcPost = () => {
                )}
                <div className="post ps-4">
                   <h4 className="mb-5">
-                     <Link href={`/blog_details?id=${item.id}`} className="title tran3s">{item.title}</Link>
+                     <Link href={`/blog-details?id=${item.id}`} className="title tran3s">{item.title}</Link>
                   </h4>
                   <div className="date">{new Date(item.createdAt).toLocaleDateString()}</div>
                </div>

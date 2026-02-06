@@ -31,13 +31,13 @@ const BlogTwoArea = () => {
                   {currentItems.map((item) => (
                      <article key={item.id} className="blog-meta-three mb-70 lg-mb-40 wow fadeInUp">
                         {item.class_name && <figure className={`post-img position-relative m0 ${item.class_name}`}>
-                           <Link href="/blog_details" className="stretched-link fw-500 date tran3s">{item.date}</Link>
+                           <Link href="/blog-details" className="stretched-link fw-500 date tran3s">{item.date}</Link>
                         </figure>}
                         <div className={`post-data ${item.img_transparent}`}>
-                           <div className="post-info"><Link href="/blog_details">{item.info_name}</Link> {item.info_time} min</div>
-                           <Link href="/blog_details" className="blog-title d-block"><h4>{item.title}</h4></Link>
+                           <div className="post-info"><Link href="/blog-details">{item.info_name}</Link> {item.info_time} min</div>
+                           <Link href="/blog-details" className="blog-title d-block"><h4>{item.title}</h4></Link>
                            <p>{item.desc}</p>
-                           <Link href="/blog_details" className="btn-eight"><span>Read More</span> <i className="bi bi-arrow-up-right"></i></Link>
+                           <Link href="/blog-details" className="btn-eight"><span>Read More</span> <i className="bi bi-arrow-up-right"></i></Link>
                         </div>
                      </article>
                   ))}

@@ -34,7 +34,7 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                            {!style_2 ? (<><li className="d-flex align-items-center login-btn-one">
                               {/* Removed Login button */}
                            </li>
-                              <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
+                              <li className="d-md-inline-block ms-3 ms-xl-4 me-xl-4">
                                  <PropertyTypeModalTrigger buttonClass={style_1 ? "btn-ten" : "btn-two rounded-0"} />
                               </li>
                               {/* <li className="d-none d-xl-block">

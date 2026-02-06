@@ -31,7 +31,7 @@ const HeaderOne = ({ style }: any) => {
                      <div className="right-widget ms-auto ms-lg-0 me-3 me-lg-0 order-lg-3">
                         <ul className="d-flex align-items-center style-none">
                            {/* Removed Login button */}
-                           <li className="d-none d-md-inline-block ms-3">
+                           <li className="d-md-inline-block ms-3">
                               <PropertyTypeModalTrigger />
                            </li>
                            <li className="ms-3 d-lg-none">

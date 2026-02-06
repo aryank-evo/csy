@@ -59,7 +59,7 @@ const BLockFeatureTwo = () => {
                               <li>Expert agent consultation</li>
                            </ul>
                            <div className="d-inline-flex flex-wrap align-items-center mt-15 md-mt-10">
-                              <Link href="/about_us_01" className="btn-two mt-20 me-4"><span>More Details</span></Link>
+                              <Link href="/about-us" className="btn-two mt-20 me-4"><span>More Details</span></Link>
                               <Link href="/contact" className="btn-three mt-20"><span>Request a Callback</span> <i className="fa-light fa-arrow-right-long"></i></Link>
                            </div>
                         </div>

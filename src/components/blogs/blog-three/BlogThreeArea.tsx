@@ -78,18 +78,18 @@ const BlogThreeArea = () => {
                      <div className="isotop-item villa sale">
                         <article className="blog-meta-one mb-70 lg-mb-40">
                            <figure className={`post-img border-25 position-relative m0`} style={{ backgroundImage: `url(${item.primary_image})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '400px' }}>
-                              <Link href={`/blog_details?id=${item.id}`} className="stretched-link date tran3s">{new Date(item.createdAt).toLocaleDateString()}</Link>
+                              <Link href={`/blog-details?id=${item.id}`} className="stretched-link date tran3s">{new Date(item.createdAt).toLocaleDateString()}</Link>
                            </figure>
                            <div className="post-data">
                               <div className="post-info">
-                                 <Link href={`/blog_details?id=${item.id}`}>{item.author_name || 'Admin'}</Link>
+                                 <Link href={`/blog-details?id=${item.id}`}>{item.author_name || 'Admin'}</Link>
                                  <span className="ms-2">{item.category}</span>
                               </div>
                               <div className="d-flex justify-content-between align-items-sm-center flex-wrap">
-                                 <Link href={`/blog_details?id=${item.id}`} className="blog-title">
+                                 <Link href={`/blog-details?id=${item.id}`} className="blog-title">
                                     <h4>{item.title}</h4>
                                  </Link>
-                                 <Link href={`/blog_details?id=${item.id}`} className="read-btn rounded-circle d-flex align-items-center justify-content-center tran3s">
+                                 <Link href={`/blog-details?id=${item.id}`} className="read-btn rounded-circle d-flex align-items-center justify-content-center tran3s">
                                     <i className="bi bi-arrow-up-right"></i>
                                  </Link>
                               </div>

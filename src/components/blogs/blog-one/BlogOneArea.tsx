@@ -33,24 +33,24 @@ const BlogOneArea = () => {
                         <div key={item.id} className="col-md-6">
                            <article className="blog-meta-two tran3s position-relative z-1 mb-70 lg-mb-40 wow fadeInUp">
                               <figure className={`post-img position-relative m0 ${item.class_name}`}>
-                                 <Link href="/blog_details" className="date">{item.date}</Link>
+                                 <Link href="/blog-details" className="date">{item.date}</Link>
                               </figure>
                               <div className="post-data">
-                                 <div className="post-info"><Link href="/blog_details">{item.info_name}</Link> {item.info_time} min</div>
+                                 <div className="post-info"><Link href="/blog-details">{item.info_name}</Link> {item.info_time} min</div>
                                  <div className="d-flex justify-content-between align-items-sm-center flex-wrap">
-                                    <Link href="/blog_details" className="blog-title"><h4>{item.title}</h4></Link>
+                                    <Link href="/blog-details" className="blog-title"><h4>{item.title}</h4></Link>
                                     <Link href="#" className="btn-four"><i className="bi bi-arrow-up-right"></i></Link>
                                  </div>
                               </div>
                               <div className="hover-content tran3s">
-                                 <Link href="/blog_details" className="date">{item.date}</Link>
+                                 <Link href="/blog-details" className="date">{item.date}</Link>
                                  <div className="post-data">
-                                    <div className="post-info"><Link href="/blog_details">{item.info_name}</Link> {item.info_time} min</div>
+                                    <div className="post-info"><Link href="/blog-details">{item.info_name}</Link> {item.info_time} min</div>
                                     <div className="d-flex justify-content-between align-items-sm-center flex-wrap">
-                                       <Link href="/blog_details" className="blog-title"><h4>{item.title}</h4></Link>
+                                       <Link href="/blog-details" className="blog-title"><h4>{item.title}</h4></Link>
                                     </div>
                                  </div>
-                                 <Link href="/blog_details" className="btn-four inverse rounded-circle"><i className="fa-thin fa-arrow-up-right"></i></Link>
+                                 <Link href="/blog-details" className="btn-four inverse rounded-circle"><i className="fa-thin fa-arrow-up-right"></i></Link>
                               </div>
                            </article>
                         </div>

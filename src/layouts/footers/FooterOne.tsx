@@ -42,7 +42,7 @@ const FooterOne = ({ style }: any) => {
                                  <Image src={style ? footerLogo_2 : footerLogo_1} alt="" />
                               </Link>
                            </div>
-                           <p className="mb-60 lg-mb-40 md-mb-20">{footerAddress}</p>
+                           <p className="">{footerAddress}</p>
                            <h6>CONTACT</h6>
                            <Link href={`mailto:${footerEmail}`} className={`email tran3s mb-70 lg-mb-50 ${style ? "font-garamond" : "fs-24 text-decoration-underline"}`}>{footerEmail}</Link>
                            <ul className="style-none d-flex align-items-center social-icon">

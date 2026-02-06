@@ -30,7 +30,7 @@ const HeaderThree = () => {
                            <li className="d-flex align-items-center login-btn-one">
                               {/* Removed Login button */}
                            </li>
-                           <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
+                           <li className="d-md-inline-block ms-3 ms-xl-4 me-xl-4">
                               <PropertyTypeModalTrigger buttonClass="btn-five md rounded-0" />
                            </li>
                            <li className="d-none d-xl-block"><button onClick={() => setOffCanvas(true)} style={{ cursor: "pointer" }} className="sidenavbtn rounded-circle tran3s" type="button"><i className="fa-sharp fa-light fa-bars-filter"></i></button></li>
