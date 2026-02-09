@@ -3,17 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    // Check if columns exist before adding them
-    const tableInfo = await queryInterface.describeTable('leads');
-    
-    // Add new columns only if they don't exist
-    if (!tableInfo.phone) {
-      await queryInterface.addColumn('leads', 'phone', {
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: ''
-      });
-    }
+    // Add new columns
+    await queryInterface.addColumn('leads', 'phone', {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: ''
+    });
     
     if (!tableInfo.address) {
       await queryInterface.addColumn('leads', 'address', {
@@ -66,9 +61,7 @@ module.exports = {
     });
     
     // Remove old message column if it exists
-    if (tableInfo.message) {
-      await queryInterface.removeColumn('leads', 'message');
-    }
+    await queryInterface.removeColumn('leads', 'message');
   },
 
   async down (queryInterface, Sequelize) {
