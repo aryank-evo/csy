@@ -107,7 +107,7 @@ const ContactAreaDynamic = () => {
       )}
 
       {/* Contact Form and Map Section */}
-      <div className="bg-pink mt-150 xl-mt-120 md-mt-80">
+      <div className="bg-pink mt-50 xl-mt-50 md-mt-40">
         <div className="row">
           {/* Contact Form - Right Side */}
           <div className="col-xl-7 col-lg-6 order-lg-last">
@@ -118,7 +118,7 @@ const ContactAreaDynamic = () => {
           </div>
           
           {/* Google Map - Left Side */}
-          <div className="col-xl-5 col-lg-6 d-flex order-lg-first">
+          <div className="col-xl-5 col-lg-6 d-flex order-lg-first mt-20">
             <div className="contact-map-banner w-100 p-4 p-lg-5">
               {googleMapEmbedUrl ? (
                 <div 
