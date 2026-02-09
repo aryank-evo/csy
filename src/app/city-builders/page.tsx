@@ -31,8 +31,8 @@ const CityBuildersPage = () => {
         <BreadcrumbOne title="City Builders" sub_title="Our Construction Partner" style={false} />
         <div className="about-us-section pt-150 lg-pt-100 pb-150 lg-pb-100">
           <div className="container">
-            <div className="row align-items-center">
-               <div className="col-lg-6">
+            <div className="row">
+               <div className="col-lg-5">
                 <div className="img-box position-relative z-1 pe-lg-5 md-mb-50">
                   <DynamicContent 
                     slug="city-builder" 
@@ -44,28 +44,28 @@ const CityBuildersPage = () => {
                     height={600}
                   />
                   <div className="experience-box bg-white p-4 rounded-3 shadow position-absolute bottom-0 start-0 m-4">
-                    <h2 className="fw-bold mb-0">15+</h2>
+                    <h2 className="fw-bold mb-0">29+</h2>
                     <p className="mb-0 text-muted">Years of Excellence</p>
                   </div>
                 </div>
               </div>
               
-              <div className="col-lg-6">
+              <div className="col-lg-7">
                 <div className="ps-lg-4">
                   <div className="title-one mb-40">
                     <DynamicContent 
                       slug="city-builder" 
                       type="title"
-                      defaultContent="Building Dreams with Precision" 
+                      defaultContent="City Builder in Ludhiana" 
                       as="h2"
-                      className="font-garamond"
+                      className="font-garamond h3"
                     />
                     <DynamicContent 
                       slug="city-builder" 
                       type="content"
-                      defaultContent="City Builders is a premier construction firm dedicated to transforming architectural visions into structural realities." 
+                      defaultContent="City Builder & Contractor is a trusted name in construction and real estate services in Ludhiana, serving residential and commercial clients since 1996." 
                       as="div"
-                      className="fs-20 mt-3"
+                      className="fs-18 mt-3"
                     />
                   </div>
                   
@@ -73,14 +73,14 @@ const CityBuildersPage = () => {
                     <DynamicContent 
                       slug="city-builder" 
                       type="directorMsg" 
-                      defaultContent='"Our mission is to build spaces that inspire. We do not just construct buildings; we create environments where families grow and businesses thrive."'
+                      defaultContent='""'
                       as="p"
                       className="fst-italic mb-0"
                     />
                     <DynamicContent 
                       slug="city-builder" 
                       type="directorName" 
-                      defaultContent="— Managing Director, City Builders"
+                      defaultContent="— Maninder Singh"
                       as="h6"
                       className="mt-3 mb-0"
                     />

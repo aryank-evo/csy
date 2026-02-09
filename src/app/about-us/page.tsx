@@ -24,11 +24,11 @@ const AboutUsPage = () => {
     <Wrapper>
       <HeaderOne style={true} />
       <main>
-        <BreadcrumbOne title="About Us" sub_title="Our Construction Partner" style={false} />
-        <div className="about-us-section pt-150 lg-pt-100 pb-150 lg-pb-100">
+        <BreadcrumbOne title="About Us" sub_title="City Square Yards" style={false} />
+        <div className="about-us-section pt-50 lg-pt-50 pb-50 lg-pb-50">
           <div className="container">
-            <div className="row align-items-center">
-              <div className="col-lg-6">
+            <div className="row">
+              <div className="col-lg-5">
                 <div className="img-box position-relative z-1 pe-lg-5 md-mb-50">
                   <DynamicContent 
                     slug="about-us" 
@@ -40,28 +40,28 @@ const AboutUsPage = () => {
                     height={600}
                   />
                   <div className="experience-box bg-white p-4 rounded-3 shadow position-absolute bottom-0 start-0 m-4">
-                    <h2 className="fw-bold mb-0">15+</h2>
+                    <h2 className="fw-bold mb-0">29+</h2>
                     <p className="mb-0 text-muted">Years of Excellence</p>
                   </div>
                 </div>
               </div>
               
-              <div className="col-lg-6">
+              <div className="col-lg-7">
                 <div className="ps-lg-4">
                   <div className="title-one mb-40">
                     <DynamicContent 
                       slug="about-us" 
                       type="aboutTitle1"
-                      defaultContent="Secure your family's Dream home." 
-                      as="h3"
-                      className="font-garamond"
+                      defaultContent="" 
+                      as="h2"
+                      className="font-garamond h3"
                     />
                     <DynamicContent 
                       slug="about-us" 
                       type="aboutDesc1"
-                      defaultContent="Our founders Dustin Moskovitz and Justin Rosenstein met while leading Engineering." 
+                      defaultContent="" 
                       as="div"
-                      className="fs-20 mt-3"
+                      className="fs-18 mt-3"
                     />
                   </div>
                   
@@ -76,7 +76,7 @@ const AboutUsPage = () => {
                     <DynamicContent 
                       slug="about-us" 
                       type="aboutDesc2"
-                      defaultContent="Our founders Dustin Moskovitz & Justin Rosenstein met  leading Engineering teams at Facebook. As operations scaled, they grew frustrated by how difficult coordinate" 
+                      defaultContent="" 
                       as="p"
                       className="fs-20 mt-3"
                     />
@@ -93,7 +93,7 @@ const AboutUsPage = () => {
                     <DynamicContent 
                       slug="about-us" 
                       type="aboutDesc3"
-                      defaultContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod incididunt ut labore et dolore aliqua." 
+                      defaultContent="" 
                       as="p"
                       className="fs-20 mt-3"
                     />
