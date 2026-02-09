@@ -59,7 +59,9 @@ const BlogDetailsArea = () => {
                         </figure>
                      )}
                      <div className="post-data pt-50 md-pt-30">
-                        <div dangerouslySetInnerHTML={{ __html: blog.content }} className="blog-rich-content" />
+                        <div className="content-wrapper">
+                          <div dangerouslySetInnerHTML={{ __html: blog.content }} className="blog-rich-content" />
+                        </div>
                         
                         {blog.secondary_image && (
                            <div className="img-meta mt-40 mb-40">
