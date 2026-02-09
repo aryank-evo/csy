@@ -3,17 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "node build-esbuild.cjs",
+    "build-ts": "tsc --skipLibCheck --noEmitOnError false",
+    "build-esbuild": "node build-esbuild.cjs",
     "dev": "nodemon src/server.ts",
     "start": "node dist/server.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@types/nodemailer": "^7.0.9",
     "bcrypt": "^5.1.1",
@@ -45,6 +43,7 @@
     "@types/node": "^22.13.13",
     "@types/sequelize": "^4.28.20",
     "@types/umzug": "^2.3.9",
+    "esbuild": "^0.20.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

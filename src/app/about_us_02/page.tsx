@@ -1,10 +1,19 @@
+"use client";
 import AboutUsTwo from "@/components/inner-pages/about-us/about-us-two";
 import Wrapper from "@/layouts/Wrapper";
+import { useState, useEffect } from "react";
 
-export const metadata = {
-   title: "About Us Two HOZN - Real Estate React Next js",
-};
-const index = () => {
+const Index = () => {
+   const [mounted, setMounted] = useState(false);
+
+   useEffect(() => {
+      setMounted(true);
+   }, []);
+
+   if (!mounted) {
+      return null; // Prevent SSR issues
+   }
+
    return (
       <Wrapper>
          <AboutUsTwo />
@@ -12,4 +21,4 @@ const index = () => {
    )
 }
 
-export default index
+export default Index

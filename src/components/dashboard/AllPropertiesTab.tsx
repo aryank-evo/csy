@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import AdminPropertyEditModal from "./AdminPropertyEditModal"
+import { getAllProperties } from '@/utils/api';  // Import the admin API function
 
 interface Property {
   id: number
@@ -24,20 +25,33 @@ const AllPropertiesTab = () => {
   useEffect(() => {
     const fetchAllProperties = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/all-combined`)
-        const data = await response.json()
-        
-        if (data.success) {
-          setProperties(data.data)
+        const token = localStorage.getItem('token');
+        if (!token) {
+          // Fallback: try to get all properties with admin parameter
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/all-combined?admin=true`);
+          const data = await response.json();
+          
+          if (data.success) {
+            setProperties(data.data);
+          }
+        } else {
+          // Use the admin endpoint that shows all properties (approved and pending)
+          const response = await getAllProperties(token);
+          if (response.properties) {
+            setProperties(response.properties);
+          } else if (response.data) {
+            // Fallback for different response format
+            setProperties(response.data);
+          }
         }
       } catch (error) {
-        console.error("Error fetching all properties:", error)
+        console.error("Error fetching all properties:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchAllProperties()
+    fetchAllProperties();
   }, [])
 
   const filteredProperties = activeFilter === "all" 

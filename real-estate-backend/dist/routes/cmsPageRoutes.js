@@ -8,10 +8,7 @@ const authMiddleware_1 = require("../middleware/authMiddleware");
 const CmsPageController_1 = require("../controllers/CmsPageController");
 const cloudinary_1 = require("../utils/cloudinary");
 const router = express_1.default.Router();
-// Public routes
 router.get('/', CmsPageController_1.getAllCmsPages);
 router.get('/:slug', CmsPageController_1.getCmsPage);
-// Protected admin routes
-// Handle image uploads for CMS pages
 router.post('/:slug', authMiddleware_1.authenticateAdmin, cloudinary_1.upload.fields([{ name: 'primaryImage', maxCount: 1 }, { name: 'secondaryImage', maxCount: 1 }]), CmsPageController_1.updateCmsPage);
 exports.default = router;

@@ -7,16 +7,14 @@ const express_1 = __importDefault(require("express"));
 const cloudinary_1 = require("../utils/cloudinary");
 const PropertyController_1 = require("../controllers/PropertyController");
 const router = express_1.default.Router();
-// Public routes - no authentication required
-router.post('/', cloudinary_1.upload.array('images'), PropertyController_1.createProperty); // Create property listing with image upload
-router.get('/', PropertyController_1.getAllProperties); // Get all approved properties
-router.get('/all-combined', PropertyController_1.getAllPropertiesCombined); // Get ALL properties from ALL tables
-router.get('/:id', PropertyController_1.getPropertyById); // Get specific approved property
-router.put('/:id', cloudinary_1.upload.array('images'), PropertyController_1.updateProperty); // Update property details with image upload
-router.put('/:id/status', PropertyController_1.updateApprovalStatus); // Update property approval status
-// Admin routes - would require admin authentication in production
-router.get('/pending/all', PropertyController_1.getAllPendingProperties); // Get all pending properties for admin
-router.put('/:id/approve', PropertyController_1.approveProperty); // Approve property
-router.put('/:id/reject', PropertyController_1.rejectProperty); // Reject property
-router.delete('/:id', PropertyController_1.deleteProperty); // Delete property
+router.post('/', cloudinary_1.upload.array('images'), PropertyController_1.createProperty);
+router.get('/', PropertyController_1.getAllProperties);
+router.get('/all-combined', PropertyController_1.getAllPropertiesCombined);
+router.get('/:id', PropertyController_1.getPropertyById);
+router.put('/:id', cloudinary_1.upload.array('images'), PropertyController_1.updateProperty);
+router.put('/:id/status', PropertyController_1.updateApprovalStatus);
+router.get('/pending/all', PropertyController_1.getAllPendingProperties);
+router.put('/:id/approve', PropertyController_1.approveProperty);
+router.put('/:id/reject', PropertyController_1.rejectProperty);
+router.delete('/:id', PropertyController_1.deleteProperty);
 exports.default = router;

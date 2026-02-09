@@ -32,47 +32,33 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminLogin = void 0;
 const database_1 = require("../config/database");
 const jwt = __importStar(require("jsonwebtoken"));
 const bcrypt = __importStar(require("bcryptjs"));
 const getSecretKey = () => process.env.JWT_SECRET || 'fallback_secret_key';
-const adminLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        // Validate input
         if (!email || !password) {
             res.status(400).json({ message: 'Email and password are required' });
             return;
         }
-        // Find user by email
-        const user = yield database_1.User.findOne({ where: { email } });
+        const user = await database_1.User.findOne({ where: { email } });
         if (!user) {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
         }
-        // Check if user is admin
         if (!user.isAdmin) {
             res.status(403).json({ message: 'Access denied. Admin privileges required.' });
             return;
         }
-        // Compare passwords
-        const isMatch = yield bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
         }
-        // Generate JWT token
         const token = jwt.sign({ id: user.id, email: user.email, isAdmin: user.isAdmin }, getSecretKey(), { expiresIn: '24h' });
         res.status(200).json({
             message: 'Admin login successful',
@@ -89,5 +75,5 @@ const adminLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.error('Admin login error:', error);
         res.status(500).json({ message: 'Server error during admin login' });
     }
-});
+};
 exports.adminLogin = adminLogin;

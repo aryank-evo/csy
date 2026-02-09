@@ -30,8 +30,18 @@ const PendingPropertyList: React.FC = () => {
   const fetchPendingProperties = async () => {
     try {
       setLoading(true);
-      const response = await getPendingProperties();
-      setProperties(response.data);
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      
+      if (!token) {
+        // Fallback: use public endpoint for pending properties
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/pending/all`);
+        const data = await response.json();
+        setProperties(data.data || []);
+      } else {
+        // Use the authenticated API function
+        const response = await getPendingProperties();
+        setProperties(response.data);
+      }
     } catch (err) {
       setError('Failed to fetch pending properties');
       console.error('Error fetching pending properties:', err);

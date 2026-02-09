@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProperty = exports.updateApprovalStatus = exports.updateProperty = exports.getUserProperties = exports.rejectProperty = exports.approveProperty = exports.getPropertyById = exports.getAllPendingProperties = exports.getAllPropertiesCombined = exports.getAllProperties = exports.createProperty = void 0;
 const SaleProperty_1 = require("../models/SaleProperty");
@@ -16,27 +7,11 @@ const LeaseProperty_1 = require("../models/LeaseProperty");
 const PgProperty_1 = require("../models/PgProperty");
 const CommercialProperty_1 = require("../models/CommercialProperty");
 const LandProperty_1 = require("../models/LandProperty");
-const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+const createProperty = async (req, res) => {
     try {
-        // Extract property data from request body
-        const { title, description, price, location, address, city, state, zipCode, country, propertyType, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, latitude, longitude, userType, 
-        // Sale-specific fields
-        possessionStatus, propertyAge, maintenanceCharge, 
-        // Rent-specific fields
-        availableFrom, securityDeposit, 
-        // Lease-specific fields
-        leasePeriod, monthlyLeaseAmount, leaseTerms, 
-        // PG-specific fields
-        foodIncluded, gender, occupancy, 
-        // Commercial-specific fields
-        propertySubType, commercialArea, facing, 
-        // Land-specific fields
-        landArea, landType, utilities } = req.body;
-        // Handle uploaded images from Cloudinary
-        const images = ((_a = req.files) === null || _a === void 0 ? void 0 : _a.map((file) => file.path)) || [];
+        const { title, description, price, location, address, city, state, zipCode, country, propertyType, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, latitude, longitude, userType, possessionStatus, propertyAge, maintenanceCharge, availableFrom, securityDeposit, leasePeriod, monthlyLeaseAmount, leaseTerms, foodIncluded, gender, occupancy, propertySubType, commercialArea, facing, landArea, landType, utilities } = req.body;
+        const images = req.files?.map((file) => file.path) || [];
         let newProperty;
-        // Validate property type
         if (!propertyType) {
             res.status(400).json({
                 success: false,
@@ -44,11 +19,10 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
             return;
         }
-        // Create property based on property type
         switch (propertyType.toLowerCase()) {
             case 'sale':
             case 'sell':
-                newProperty = yield SaleProperty_1.SaleProperty.create({
+                newProperty = await SaleProperty_1.SaleProperty.create({
                     title,
                     description,
                     price,
@@ -73,11 +47,12 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     longitude,
                     userType,
                     images,
-                    approvalStatus: 'pending'
+                    approvalStatus: 'pending',
+                    isVerified: false
                 });
                 break;
             case 'rent':
-                newProperty = yield RentProperty_1.RentProperty.create({
+                newProperty = await RentProperty_1.RentProperty.create({
                     title,
                     description,
                     price,
@@ -103,11 +78,12 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     longitude,
                     userType,
                     images,
-                    approvalStatus: 'pending'
+                    approvalStatus: 'pending',
+                    isVerified: false
                 });
                 break;
             case 'lease':
-                newProperty = yield LeaseProperty_1.LeaseProperty.create({
+                newProperty = await LeaseProperty_1.LeaseProperty.create({
                     title,
                     description,
                     price,
@@ -133,12 +109,13 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     longitude,
                     userType,
                     images,
-                    approvalStatus: 'pending'
+                    approvalStatus: 'pending',
+                    isVerified: false
                 });
                 break;
             case 'pg':
             case 'hostel':
-                newProperty = yield PgProperty_1.PgProperty.create({
+                newProperty = await PgProperty_1.PgProperty.create({
                     title,
                     description,
                     price,
@@ -164,11 +141,12 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     longitude,
                     userType,
                     images,
-                    approvalStatus: 'pending'
+                    approvalStatus: 'pending',
+                    isVerified: false
                 });
                 break;
             case 'commercial':
-                newProperty = yield CommercialProperty_1.CommercialProperty.create({
+                newProperty = await CommercialProperty_1.CommercialProperty.create({
                     title,
                     description,
                     price,
@@ -194,11 +172,12 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     longitude,
                     userType,
                     images,
-                    approvalStatus: 'pending'
+                    approvalStatus: 'pending',
+                    isVerified: false
                 });
                 break;
             case 'land':
-                newProperty = yield LandProperty_1.LandProperty.create({
+                newProperty = await LandProperty_1.LandProperty.create({
                     title,
                     description,
                     price,
@@ -221,7 +200,8 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     longitude,
                     userType,
                     images,
-                    approvalStatus: 'pending'
+                    approvalStatus: 'pending',
+                    isVerified: false
                 });
                 break;
             default:
@@ -245,34 +225,33 @@ const createProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             error: error.message
         });
     }
-});
+};
 exports.createProperty = createProperty;
-const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllProperties = async (req, res) => {
     try {
         const { type } = req.query;
-        // If a specific type is requested, only fetch from that table
         if (type) {
             let properties = [];
             const whereClause = { approvalStatus: 'approved' };
             const order = [['createdAt', 'DESC']];
             const typeStr = String(type).toLowerCase();
             if (typeStr === 'sale' || typeStr === 'sell' || typeStr === 'buy') {
-                properties = yield SaleProperty_1.SaleProperty.findAll({ where: whereClause, order });
+                properties = await SaleProperty_1.SaleProperty.findAll({ where: whereClause, order });
             }
             else if (typeStr === 'rent') {
-                properties = yield RentProperty_1.RentProperty.findAll({ where: whereClause, order });
+                properties = await RentProperty_1.RentProperty.findAll({ where: whereClause, order });
             }
             else if (typeStr === 'lease') {
-                properties = yield LeaseProperty_1.LeaseProperty.findAll({ where: whereClause, order });
+                properties = await LeaseProperty_1.LeaseProperty.findAll({ where: whereClause, order });
             }
             else if (typeStr === 'pg') {
-                properties = yield PgProperty_1.PgProperty.findAll({ where: whereClause, order });
+                properties = await PgProperty_1.PgProperty.findAll({ where: whereClause, order });
             }
             else if (typeStr === 'commercial') {
-                properties = yield CommercialProperty_1.CommercialProperty.findAll({ where: whereClause, order });
+                properties = await CommercialProperty_1.CommercialProperty.findAll({ where: whereClause, order });
             }
             else if (typeStr === 'land') {
-                properties = yield LandProperty_1.LandProperty.findAll({ where: whereClause, order });
+                properties = await LandProperty_1.LandProperty.findAll({ where: whereClause, order });
             }
             res.status(200).json({
                 success: true,
@@ -281,44 +260,42 @@ const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, functio
             });
             return;
         }
-        // Get all approved properties from all property types
-        const saleProperties = yield SaleProperty_1.SaleProperty.findAll({
+        const saleProperties = await SaleProperty_1.SaleProperty.findAll({
             where: {
                 approvalStatus: 'approved'
             },
             order: [['createdAt', 'DESC']]
         });
-        const rentProperties = yield RentProperty_1.RentProperty.findAll({
+        const rentProperties = await RentProperty_1.RentProperty.findAll({
             where: {
                 approvalStatus: 'approved'
             },
             order: [['createdAt', 'DESC']]
         });
-        const leaseProperties = yield LeaseProperty_1.LeaseProperty.findAll({
+        const leaseProperties = await LeaseProperty_1.LeaseProperty.findAll({
             where: {
                 approvalStatus: 'approved'
             },
             order: [['createdAt', 'DESC']]
         });
-        const pgProperties = yield PgProperty_1.PgProperty.findAll({
+        const pgProperties = await PgProperty_1.PgProperty.findAll({
             where: {
                 approvalStatus: 'approved'
             },
             order: [['createdAt', 'DESC']]
         });
-        const commercialProperties = yield CommercialProperty_1.CommercialProperty.findAll({
+        const commercialProperties = await CommercialProperty_1.CommercialProperty.findAll({
             where: {
                 approvalStatus: 'approved'
             },
             order: [['createdAt', 'DESC']]
         });
-        const landProperties = yield LandProperty_1.LandProperty.findAll({
+        const landProperties = await LandProperty_1.LandProperty.findAll({
             where: {
                 approvalStatus: 'approved'
             },
             order: [['createdAt', 'DESC']]
         });
-        // Combine all properties
         const allProperties = [
             ...saleProperties,
             ...rentProperties,
@@ -327,7 +304,6 @@ const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, functio
             ...commercialProperties,
             ...landProperties
         ];
-        // Sort by date descending
         allProperties.sort((a, b) => {
             if (a.createdAt && b.createdAt) {
                 return b.createdAt.getTime() - a.createdAt.getTime();
@@ -348,52 +324,68 @@ const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, functio
             error: error.message
         });
     }
-});
+};
 exports.getAllProperties = getAllProperties;
-const getAllPropertiesCombined = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllPropertiesCombined = async (req, res) => {
     try {
-        // Get ALL properties from all property types (both approved and pending)
-        // Use raw queries to avoid column mismatches between different property types
-        const saleProperties = yield SaleProperty_1.SaleProperty.findAll({
-            order: [['createdAt', 'DESC']],
-            raw: true // Use raw to avoid some attribute issues
-        });
-        const rentProperties = yield RentProperty_1.RentProperty.findAll({
-            order: [['createdAt', 'DESC']],
-            raw: true
-        });
-        const leaseProperties = yield LeaseProperty_1.LeaseProperty.findAll({
+        // Check if this is being called from admin dashboard
+        // For admin dashboard, show all properties regardless of approval status
+        const isFromAdmin = req.headers.referer && req.headers.referer.includes('/admin');
+        
+        const whereClause = isFromAdmin ? {} : { approvalStatus: 'approved' };
+        
+        const saleProperties = await SaleProperty_1.SaleProperty.findAll({
+            where: whereClause,
             order: [['createdAt', 'DESC']],
             raw: true
         });
-        const pgProperties = yield PgProperty_1.PgProperty.findAll({
+        
+        const rentProperties = await RentProperty_1.RentProperty.findAll({
+            where: whereClause,
             order: [['createdAt', 'DESC']],
             raw: true
         });
-        const commercialProperties = yield CommercialProperty_1.CommercialProperty.findAll({
+        
+        const leaseProperties = await LeaseProperty_1.LeaseProperty.findAll({
+            where: whereClause,
             order: [['createdAt', 'DESC']],
             raw: true
         });
-        const landProperties = yield LandProperty_1.LandProperty.findAll({
+        
+        const pgProperties = await PgProperty_1.PgProperty.findAll({
+            where: whereClause,
             order: [['createdAt', 'DESC']],
             raw: true
         });
-        // Combine all properties
+        
+        const commercialProperties = await CommercialProperty_1.CommercialProperty.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+        
+        const landProperties = await LandProperty_1.LandProperty.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+        
         const allProperties = [
-            ...saleProperties.map(p => (Object.assign(Object.assign({}, p), { sourceTable: 'sale_properties' }))),
-            ...rentProperties.map(p => (Object.assign(Object.assign({}, p), { sourceTable: 'rent_properties' }))),
-            ...leaseProperties.map(p => (Object.assign(Object.assign({}, p), { sourceTable: 'lease_properties' }))),
-            ...pgProperties.map(p => (Object.assign(Object.assign({}, p), { sourceTable: 'pg_properties' }))),
-            ...commercialProperties.map(p => (Object.assign(Object.assign({}, p), { sourceTable: 'commercial_properties' }))),
-            ...landProperties.map(p => (Object.assign(Object.assign({}, p), { sourceTable: 'land_properties' })))
+            ...saleProperties.map(p => ({ ...p, sourceTable: 'sale_properties' })),
+            ...rentProperties.map(p => ({ ...p, sourceTable: 'rent_properties' })),
+            ...leaseProperties.map(p => ({ ...p, sourceTable: 'lease_properties' })),
+            ...pgProperties.map(p => ({ ...p, sourceTable: 'pg_properties' })),
+            ...commercialProperties.map(p => ({ ...p, sourceTable: 'commercial_properties' })),
+            ...landProperties.map(p => ({ ...p, sourceTable: 'land_properties' }))
         ];
-        // Sort by date descending
+        
         allProperties.sort((a, b) => {
             if (a.createdAt && b.createdAt) {
                 return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
             }
             return 0;
         });
+        
         res.status(200).json({
             success: true,
             count: allProperties.length,
@@ -408,48 +400,46 @@ const getAllPropertiesCombined = (req, res) => __awaiter(void 0, void 0, void 0,
             error: error.message
         });
     }
-});
+};
 exports.getAllPropertiesCombined = getAllPropertiesCombined;
-const getAllPendingProperties = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllPendingProperties = async (req, res) => {
     try {
-        // Get all pending properties from all property types for admin dashboard
-        const saleProperties = yield SaleProperty_1.SaleProperty.findAll({
+        const saleProperties = await SaleProperty_1.SaleProperty.findAll({
             where: {
                 approvalStatus: 'pending'
             },
             order: [['createdAt', 'DESC']]
         });
-        const rentProperties = yield RentProperty_1.RentProperty.findAll({
+        const rentProperties = await RentProperty_1.RentProperty.findAll({
             where: {
                 approvalStatus: 'pending'
             },
             order: [['createdAt', 'DESC']]
         });
-        const leaseProperties = yield LeaseProperty_1.LeaseProperty.findAll({
+        const leaseProperties = await LeaseProperty_1.LeaseProperty.findAll({
             where: {
                 approvalStatus: 'pending'
             },
             order: [['createdAt', 'DESC']]
         });
-        const pgProperties = yield PgProperty_1.PgProperty.findAll({
+        const pgProperties = await PgProperty_1.PgProperty.findAll({
             where: {
                 approvalStatus: 'pending'
             },
             order: [['createdAt', 'DESC']]
         });
-        const commercialProperties = yield CommercialProperty_1.CommercialProperty.findAll({
+        const commercialProperties = await CommercialProperty_1.CommercialProperty.findAll({
             where: {
                 approvalStatus: 'pending'
             },
             order: [['createdAt', 'DESC']]
         });
-        const landProperties = yield LandProperty_1.LandProperty.findAll({
+        const landProperties = await LandProperty_1.LandProperty.findAll({
             where: {
                 approvalStatus: 'pending'
             },
             order: [['createdAt', 'DESC']]
         });
-        // Combine all pending properties
         const allPendingProperties = [
             ...saleProperties,
             ...rentProperties,
@@ -458,7 +448,6 @@ const getAllPendingProperties = (req, res) => __awaiter(void 0, void 0, void 0, 
             ...commercialProperties,
             ...landProperties
         ];
-        // Sort by date descending
         allPendingProperties.sort((a, b) => {
             if (a.createdAt && b.createdAt) {
                 return b.createdAt.getTime() - a.createdAt.getTime();
@@ -479,46 +468,44 @@ const getAllPendingProperties = (req, res) => __awaiter(void 0, void 0, void 0, 
             error: error.message
         });
     }
-});
+};
 exports.getAllPendingProperties = getAllPendingProperties;
-const getPropertyById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getPropertyById = async (req, res) => {
     try {
         const { id } = req.params;
-        const { type } = req.query; // Get type from query param
+        const { type } = req.query;
         const propertyId = parseInt(id);
-        // Search for property in all property tables
         let property = null;
         let foundPropertyType = null;
-        // If type is provided, prioritize searching that table
         if (type) {
             const typeStr = String(type).toLowerCase();
             if (typeStr === 'sale' || typeStr === 'sell' || typeStr === 'buy') {
-                property = yield SaleProperty_1.SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                property = await SaleProperty_1.SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property)
                     foundPropertyType = 'sale';
             }
             else if (typeStr === 'rent') {
-                property = yield RentProperty_1.RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                property = await RentProperty_1.RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property)
                     foundPropertyType = 'rent';
             }
             else if (typeStr === 'lease') {
-                property = yield LeaseProperty_1.LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                property = await LeaseProperty_1.LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property)
                     foundPropertyType = 'lease';
             }
             else if (typeStr === 'pg') {
-                property = yield PgProperty_1.PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                property = await PgProperty_1.PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property)
                     foundPropertyType = 'pg';
             }
             else if (typeStr === 'commercial') {
-                property = yield CommercialProperty_1.CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                property = await CommercialProperty_1.CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property)
                     foundPropertyType = 'commercial';
             }
             else if (typeStr === 'land') {
-                property = yield LandProperty_1.LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                property = await LandProperty_1.LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property)
                     foundPropertyType = 'land';
             }
@@ -531,33 +518,32 @@ const getPropertyById = (req, res) => __awaiter(void 0, void 0, void 0, function
                 return;
             }
         }
-        // Fallback to searching all tables if no type or not found in specified type
-        property = yield SaleProperty_1.SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+        property = await SaleProperty_1.SaleProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
         if (property) {
             foundPropertyType = 'sale';
         }
         else {
-            property = yield RentProperty_1.RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+            property = await RentProperty_1.RentProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
             if (property) {
                 foundPropertyType = 'rent';
             }
             else {
-                property = yield LeaseProperty_1.LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                property = await LeaseProperty_1.LeaseProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                 if (property) {
                     foundPropertyType = 'lease';
                 }
                 else {
-                    property = yield PgProperty_1.PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                    property = await PgProperty_1.PgProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                     if (property) {
                         foundPropertyType = 'pg';
                     }
                     else {
-                        property = yield CommercialProperty_1.CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                        property = await CommercialProperty_1.CommercialProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                         if (property) {
                             foundPropertyType = 'commercial';
                         }
                         else {
-                            property = yield LandProperty_1.LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
+                            property = await LandProperty_1.LandProperty.findOne({ where: { id: propertyId, approvalStatus: 'approved' } });
                             if (property) {
                                 foundPropertyType = 'land';
                             }
@@ -587,19 +573,17 @@ const getPropertyById = (req, res) => __awaiter(void 0, void 0, void 0, function
             error: error.message
         });
     }
-});
+};
 exports.getPropertyById = getPropertyById;
-const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const approveProperty = async (req, res) => {
     try {
         const { id } = req.params;
         const propertyId = parseInt(id);
-        // Try to update in each table
         let updatedRows = 0;
         let tableName = '';
-        // First, check which table the property belongs to
-        let propertyExists = yield SaleProperty_1.SaleProperty.findByPk(propertyId);
+        let propertyExists = await SaleProperty_1.SaleProperty.findByPk(propertyId);
         if (propertyExists) {
-            [updatedRows] = yield SaleProperty_1.SaleProperty.update({
+            [updatedRows] = await SaleProperty_1.SaleProperty.update({
                 approvalStatus: 'approved',
                 approvedAt: new Date()
             }, {
@@ -608,9 +592,9 @@ const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function
             tableName = 'sale';
         }
         else {
-            const rentProperty = yield RentProperty_1.RentProperty.findByPk(propertyId);
+            const rentProperty = await RentProperty_1.RentProperty.findByPk(propertyId);
             if (rentProperty) {
-                [updatedRows] = yield RentProperty_1.RentProperty.update({
+                [updatedRows] = await RentProperty_1.RentProperty.update({
                     approvalStatus: 'approved',
                     approvedAt: new Date()
                 }, {
@@ -619,9 +603,9 @@ const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function
                 tableName = 'rent';
             }
             else {
-                const leaseProperty = yield LeaseProperty_1.LeaseProperty.findByPk(propertyId);
+                const leaseProperty = await LeaseProperty_1.LeaseProperty.findByPk(propertyId);
                 if (leaseProperty) {
-                    [updatedRows] = yield LeaseProperty_1.LeaseProperty.update({
+                    [updatedRows] = await LeaseProperty_1.LeaseProperty.update({
                         approvalStatus: 'approved',
                         approvedAt: new Date()
                     }, {
@@ -630,9 +614,9 @@ const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function
                     tableName = 'lease';
                 }
                 else {
-                    const pgProperty = yield PgProperty_1.PgProperty.findByPk(propertyId);
+                    const pgProperty = await PgProperty_1.PgProperty.findByPk(propertyId);
                     if (pgProperty) {
-                        [updatedRows] = yield PgProperty_1.PgProperty.update({
+                        [updatedRows] = await PgProperty_1.PgProperty.update({
                             approvalStatus: 'approved',
                             approvedAt: new Date()
                         }, {
@@ -641,9 +625,9 @@ const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function
                         tableName = 'pg';
                     }
                     else {
-                        const commercialProperty = yield CommercialProperty_1.CommercialProperty.findByPk(propertyId);
+                        const commercialProperty = await CommercialProperty_1.CommercialProperty.findByPk(propertyId);
                         if (commercialProperty) {
-                            [updatedRows] = yield CommercialProperty_1.CommercialProperty.update({
+                            [updatedRows] = await CommercialProperty_1.CommercialProperty.update({
                                 approvalStatus: 'approved',
                                 approvedAt: new Date()
                             }, {
@@ -652,9 +636,9 @@ const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function
                             tableName = 'commercial';
                         }
                         else {
-                            const landProperty = yield LandProperty_1.LandProperty.findByPk(propertyId);
+                            const landProperty = await LandProperty_1.LandProperty.findByPk(propertyId);
                             if (landProperty) {
-                                [updatedRows] = yield LandProperty_1.LandProperty.update({
+                                [updatedRows] = await LandProperty_1.LandProperty.update({
                                     approvalStatus: 'approved',
                                     approvedAt: new Date()
                                 }, {
@@ -687,19 +671,17 @@ const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function
             error: error.message
         });
     }
-});
+};
 exports.approveProperty = approveProperty;
-const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const rejectProperty = async (req, res) => {
     try {
         const { id } = req.params;
         const propertyId = parseInt(id);
-        // Try to update in each table
         let updatedRows = 0;
         let tableName = '';
-        // First, check which table the property belongs to
-        let propertyExists = yield SaleProperty_1.SaleProperty.findByPk(propertyId);
+        let propertyExists = await SaleProperty_1.SaleProperty.findByPk(propertyId);
         if (propertyExists) {
-            [updatedRows] = yield SaleProperty_1.SaleProperty.update({
+            [updatedRows] = await SaleProperty_1.SaleProperty.update({
                 approvalStatus: 'rejected'
             }, {
                 where: { id: propertyId }
@@ -707,9 +689,9 @@ const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             tableName = 'sale';
         }
         else {
-            const rentProperty = yield RentProperty_1.RentProperty.findByPk(propertyId);
+            const rentProperty = await RentProperty_1.RentProperty.findByPk(propertyId);
             if (rentProperty) {
-                [updatedRows] = yield RentProperty_1.RentProperty.update({
+                [updatedRows] = await RentProperty_1.RentProperty.update({
                     approvalStatus: 'rejected'
                 }, {
                     where: { id: propertyId }
@@ -717,9 +699,9 @@ const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 tableName = 'rent';
             }
             else {
-                const leaseProperty = yield LeaseProperty_1.LeaseProperty.findByPk(propertyId);
+                const leaseProperty = await LeaseProperty_1.LeaseProperty.findByPk(propertyId);
                 if (leaseProperty) {
-                    [updatedRows] = yield LeaseProperty_1.LeaseProperty.update({
+                    [updatedRows] = await LeaseProperty_1.LeaseProperty.update({
                         approvalStatus: 'rejected'
                     }, {
                         where: { id: propertyId }
@@ -727,9 +709,9 @@ const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     tableName = 'lease';
                 }
                 else {
-                    const pgProperty = yield PgProperty_1.PgProperty.findByPk(propertyId);
+                    const pgProperty = await PgProperty_1.PgProperty.findByPk(propertyId);
                     if (pgProperty) {
-                        [updatedRows] = yield PgProperty_1.PgProperty.update({
+                        [updatedRows] = await PgProperty_1.PgProperty.update({
                             approvalStatus: 'rejected'
                         }, {
                             where: { id: propertyId }
@@ -737,9 +719,9 @@ const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                         tableName = 'pg';
                     }
                     else {
-                        const commercialProperty = yield CommercialProperty_1.CommercialProperty.findByPk(propertyId);
+                        const commercialProperty = await CommercialProperty_1.CommercialProperty.findByPk(propertyId);
                         if (commercialProperty) {
-                            [updatedRows] = yield CommercialProperty_1.CommercialProperty.update({
+                            [updatedRows] = await CommercialProperty_1.CommercialProperty.update({
                                 approvalStatus: 'rejected'
                             }, {
                                 where: { id: propertyId }
@@ -747,9 +729,9 @@ const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                             tableName = 'commercial';
                         }
                         else {
-                            const landProperty = yield LandProperty_1.LandProperty.findByPk(propertyId);
+                            const landProperty = await LandProperty_1.LandProperty.findByPk(propertyId);
                             if (landProperty) {
-                                [updatedRows] = yield LandProperty_1.LandProperty.update({
+                                [updatedRows] = await LandProperty_1.LandProperty.update({
                                     approvalStatus: 'rejected'
                                 }, {
                                     where: { id: propertyId }
@@ -781,13 +763,10 @@ const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             error: error.message
         });
     }
-});
+};
 exports.rejectProperty = rejectProperty;
-const getUserProperties = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getUserProperties = async (req, res) => {
     try {
-        // Since property submission is now without authentication,
-        // there's no concept of user-owned properties.
-        // This endpoint might be deprecated in favor of admin-only property management.
         res.status(200).json({
             success: true,
             message: 'User properties not applicable - properties are managed by admin',
@@ -802,25 +781,20 @@ const getUserProperties = (req, res) => __awaiter(void 0, void 0, void 0, functi
             error: error.message
         });
     }
-});
+};
 exports.getUserProperties = getUserProperties;
-const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+const updateProperty = async (req, res) => {
     try {
         const { id } = req.params;
         const propertyId = parseInt(id);
-        const propertyType = req.query.type; // Get property type from query param
-        const { title, description, price, location, address, city, state, zipCode, country, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, fieldVisibility, imageVisibility, existingImages // Optional: if frontend wants to keep some old images
-         } = req.body;
-        // Handle new uploaded images from Cloudinary
-        const newImages = ((_a = req.files) === null || _a === void 0 ? void 0 : _a.map((file) => file.path)) || [];
-        // Combine existing images with new ones
+        const propertyType = req.query.type;
+        const { title, description, price, location, address, city, state, zipCode, country, propertyStatus, bedrooms, bathrooms, area, amenities, contactName, contactEmail, contactPhone, fieldVisibility, imageVisibility, isVerified, existingImages } = req.body;
+        const newImages = req.files?.map((file) => file.path) || [];
         let images = newImages;
         if (existingImages) {
             const parsedExisting = typeof existingImages === 'string' ? JSON.parse(existingImages) : existingImages;
             images = [...parsedExisting, ...newImages];
         }
-        // Define common fields that exist in all property types
         const commonFields = {
             title,
             description,
@@ -840,19 +814,21 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             contactEmail,
             contactPhone,
             fieldVisibility,
-            imageVisibility
+            imageVisibility,
+            isVerified
         };
-        // Only update images if new ones were uploaded or existing ones were provided
         if (images.length > 0) {
             commonFields.images = images;
         }
-        // If property type is specified, update that specific table
+        if (typeof isVerified === 'boolean' && isVerified) {
+            commonFields.verifiedAt = new Date();
+        }
         if (propertyType) {
             switch (propertyType.toLowerCase()) {
                 case 'sale':
-                    const saleProperty = yield SaleProperty_1.SaleProperty.findByPk(propertyId);
+                    const saleProperty = await SaleProperty_1.SaleProperty.findByPk(propertyId);
                     if (saleProperty) {
-                        yield saleProperty.update(commonFields);
+                        await saleProperty.update(commonFields);
                         res.status(200).json({
                             success: true,
                             message: 'Sale property updated successfully',
@@ -862,9 +838,9 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     }
                     break;
                 case 'rent':
-                    const rentProperty = yield RentProperty_1.RentProperty.findByPk(propertyId);
+                    const rentProperty = await RentProperty_1.RentProperty.findByPk(propertyId);
                     if (rentProperty) {
-                        yield rentProperty.update(commonFields);
+                        await rentProperty.update(commonFields);
                         res.status(200).json({
                             success: true,
                             message: 'Rent property updated successfully',
@@ -874,9 +850,9 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     }
                     break;
                 case 'lease':
-                    const leaseProperty = yield LeaseProperty_1.LeaseProperty.findByPk(propertyId);
+                    const leaseProperty = await LeaseProperty_1.LeaseProperty.findByPk(propertyId);
                     if (leaseProperty) {
-                        yield leaseProperty.update(commonFields);
+                        await leaseProperty.update(commonFields);
                         res.status(200).json({
                             success: true,
                             message: 'Lease property updated successfully',
@@ -886,9 +862,9 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     }
                     break;
                 case 'pg':
-                    const pgProperty = yield PgProperty_1.PgProperty.findByPk(propertyId);
+                    const pgProperty = await PgProperty_1.PgProperty.findByPk(propertyId);
                     if (pgProperty) {
-                        yield pgProperty.update(commonFields);
+                        await pgProperty.update(commonFields);
                         res.status(200).json({
                             success: true,
                             message: 'PG property updated successfully',
@@ -898,9 +874,9 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     }
                     break;
                 case 'commercial':
-                    const commercialProperty = yield CommercialProperty_1.CommercialProperty.findByPk(propertyId);
+                    const commercialProperty = await CommercialProperty_1.CommercialProperty.findByPk(propertyId);
                     if (commercialProperty) {
-                        yield commercialProperty.update(commonFields);
+                        await commercialProperty.update(commonFields);
                         res.status(200).json({
                             success: true,
                             message: 'Commercial property updated successfully',
@@ -910,9 +886,9 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     }
                     break;
                 case 'land':
-                    const landProperty = yield LandProperty_1.LandProperty.findByPk(propertyId);
+                    const landProperty = await LandProperty_1.LandProperty.findByPk(propertyId);
                     if (landProperty) {
-                        yield landProperty.update(commonFields);
+                        await landProperty.update(commonFields);
                         res.status(200).json({
                             success: true,
                             message: 'Land property updated successfully',
@@ -923,7 +899,6 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                     break;
             }
         }
-        // If no property type specified, fall back to searching all tables
         const tables = [
             { model: SaleProperty_1.SaleProperty, name: 'sale' },
             { model: RentProperty_1.RentProperty, name: 'rent' },
@@ -934,10 +909,9 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
         ];
         for (const table of tables) {
             try {
-                // Using type assertion to handle different property types
-                const property = yield table.model.findByPk(propertyId);
+                const property = await table.model.findByPk(propertyId);
                 if (property) {
-                    yield property.update(commonFields);
+                    await property.update(commonFields);
                     res.status(200).json({
                         success: true,
                         message: `${table.name.charAt(0).toUpperCase() + table.name.slice(1)} property updated successfully`,
@@ -947,11 +921,9 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 }
             }
             catch (err) {
-                // Continue to the next table if there's an error
                 continue;
             }
         }
-        // If property not found in any table
         res.status(404).json({
             success: false,
             message: 'Property not found in any table'
@@ -965,14 +937,13 @@ const updateProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             error: error.message
         });
     }
-});
+};
 exports.updateProperty = updateProperty;
-// New function to update approval status for any property type
-const updateApprovalStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateApprovalStatus = async (req, res) => {
     try {
         const { id } = req.params;
         const propertyId = parseInt(id);
-        const propertyType = req.query.type; // Get property type from query param
+        const propertyType = req.query.type;
         const { approvalStatus } = req.body;
         if (!approvalStatus || !['pending', 'approved', 'rejected'].includes(approvalStatus)) {
             res.status(400).json({
@@ -981,84 +952,82 @@ const updateApprovalStatus = (req, res) => __awaiter(void 0, void 0, void 0, fun
             });
             return;
         }
-        // If property type is specified, update that specific table
         if (propertyType) {
             switch (propertyType.toLowerCase()) {
                 case 'sale':
-                    const saleProperty = yield SaleProperty_1.SaleProperty.findByPk(propertyId);
+                    const saleProperty = await SaleProperty_1.SaleProperty.findByPk(propertyId);
                     if (saleProperty) {
-                        yield saleProperty.update({ approvalStatus });
+                        await saleProperty.update({ approvalStatus });
                         res.status(200).json({
                             success: true,
                             message: 'Sale property approval status updated successfully',
-                            data: Object.assign(Object.assign({}, saleProperty.toJSON()), { approvalStatus })
+                            data: { ...saleProperty.toJSON(), approvalStatus }
                         });
                         return;
                     }
                     break;
                 case 'rent':
-                    const rentProperty = yield RentProperty_1.RentProperty.findByPk(propertyId);
+                    const rentProperty = await RentProperty_1.RentProperty.findByPk(propertyId);
                     if (rentProperty) {
-                        yield rentProperty.update({ approvalStatus });
+                        await rentProperty.update({ approvalStatus });
                         res.status(200).json({
                             success: true,
                             message: 'Rent property approval status updated successfully',
-                            data: Object.assign(Object.assign({}, rentProperty.toJSON()), { approvalStatus })
+                            data: { ...rentProperty.toJSON(), approvalStatus }
                         });
                         return;
                     }
                     break;
                 case 'lease':
-                    const leaseProperty = yield LeaseProperty_1.LeaseProperty.findByPk(propertyId);
+                    const leaseProperty = await LeaseProperty_1.LeaseProperty.findByPk(propertyId);
                     if (leaseProperty) {
-                        yield leaseProperty.update({ approvalStatus });
+                        await leaseProperty.update({ approvalStatus });
                         res.status(200).json({
                             success: true,
                             message: 'Lease property approval status updated successfully',
-                            data: Object.assign(Object.assign({}, leaseProperty.toJSON()), { approvalStatus })
+                            data: { ...leaseProperty.toJSON(), approvalStatus }
                         });
                         return;
                     }
                     break;
                 case 'pg':
-                    const pgProperty = yield PgProperty_1.PgProperty.findByPk(propertyId);
+                    const pgProperty = await PgProperty_1.PgProperty.findByPk(propertyId);
                     if (pgProperty) {
-                        yield pgProperty.update({ approvalStatus });
+                        await pgProperty.update({ approvalStatus });
                         res.status(200).json({
                             success: true,
                             message: 'PG property approval status updated successfully',
-                            data: Object.assign(Object.assign({}, pgProperty.toJSON()), { approvalStatus })
+                            data: { ...pgProperty.toJSON(), approvalStatus }
                         });
                         return;
                     }
                     break;
                 case 'commercial':
-                    const commercialProperty = yield CommercialProperty_1.CommercialProperty.findByPk(propertyId);
+                    const commercialProperty = await CommercialProperty_1.CommercialProperty.findByPk(propertyId);
                     if (commercialProperty) {
-                        yield commercialProperty.update({ approvalStatus });
+                        await commercialProperty.update({ approvalStatus });
                         res.status(200).json({
                             success: true,
                             message: 'Commercial property approval status updated successfully',
-                            data: Object.assign(Object.assign({}, commercialProperty.toJSON()), { approvalStatus })
+                            data: { ...commercialProperty.toJSON(), approvalStatus }
                         });
                         return;
                     }
                     break;
                 case 'land':
-                    const landProperty = yield LandProperty_1.LandProperty.findByPk(propertyId);
+                    const landProperty = await LandProperty_1.LandProperty.findByPk(propertyId);
                     if (landProperty) {
-                        yield landProperty.update({ approvalStatus });
+                        await landProperty.update({ approvalStatus });
                         res.status(200).json({
                             success: true,
                             message: 'Land property approval status updated successfully',
-                            data: Object.assign(Object.assign({}, landProperty.toJSON()), { approvalStatus })
+                            data: { ...landProperty.toJSON(), approvalStatus }
                         });
                         return;
                     }
                     break;
             }
         }
-        // If no property type specified, fall back to searching all tables
         const tables = [
             { model: SaleProperty_1.SaleProperty, name: 'sale' },
             { model: RentProperty_1.RentProperty, name: 'rent' },
@@ -1069,24 +1038,21 @@ const updateApprovalStatus = (req, res) => __awaiter(void 0, void 0, void 0, fun
         ];
         for (const table of tables) {
             try {
-                // Using type assertion to handle different property types
-                const property = yield table.model.findByPk(propertyId);
+                const property = await table.model.findByPk(propertyId);
                 if (property) {
-                    yield property.update({ approvalStatus });
+                    await property.update({ approvalStatus });
                     res.status(200).json({
                         success: true,
                         message: `${table.name.charAt(0).toUpperCase() + table.name.slice(1)} property approval status updated successfully`,
-                        data: Object.assign(Object.assign({}, property.toJSON()), { approvalStatus })
+                        data: { ...property.toJSON(), approvalStatus }
                     });
                     return;
                 }
             }
             catch (err) {
-                // Continue to the next table if there's an error
                 continue;
             }
         }
-        // If property not found in any table
         res.status(404).json({
             success: false,
             message: 'Property not found in any table'
@@ -1100,59 +1066,57 @@ const updateApprovalStatus = (req, res) => __awaiter(void 0, void 0, void 0, fun
             error: error.message
         });
     }
-});
+};
 exports.updateApprovalStatus = updateApprovalStatus;
-const deleteProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
         const propertyId = parseInt(id);
-        // Try to delete from each table
         let deletedRows = 0;
         let tableName = '';
-        // First, check which table the property belongs to
-        let propertyExists = yield SaleProperty_1.SaleProperty.findByPk(propertyId);
+        let propertyExists = await SaleProperty_1.SaleProperty.findByPk(propertyId);
         if (propertyExists) {
-            deletedRows = yield SaleProperty_1.SaleProperty.destroy({
+            deletedRows = await SaleProperty_1.SaleProperty.destroy({
                 where: { id: propertyId }
             });
             tableName = 'sale';
         }
         else {
-            const rentProperty = yield RentProperty_1.RentProperty.findByPk(propertyId);
+            const rentProperty = await RentProperty_1.RentProperty.findByPk(propertyId);
             if (rentProperty) {
-                deletedRows = yield RentProperty_1.RentProperty.destroy({
+                deletedRows = await RentProperty_1.RentProperty.destroy({
                     where: { id: propertyId }
                 });
                 tableName = 'rent';
             }
             else {
-                const leaseProperty = yield LeaseProperty_1.LeaseProperty.findByPk(propertyId);
+                const leaseProperty = await LeaseProperty_1.LeaseProperty.findByPk(propertyId);
                 if (leaseProperty) {
-                    deletedRows = yield LeaseProperty_1.LeaseProperty.destroy({
+                    deletedRows = await LeaseProperty_1.LeaseProperty.destroy({
                         where: { id: propertyId }
                     });
                     tableName = 'lease';
                 }
                 else {
-                    const pgProperty = yield PgProperty_1.PgProperty.findByPk(propertyId);
+                    const pgProperty = await PgProperty_1.PgProperty.findByPk(propertyId);
                     if (pgProperty) {
-                        deletedRows = yield PgProperty_1.PgProperty.destroy({
+                        deletedRows = await PgProperty_1.PgProperty.destroy({
                             where: { id: propertyId }
                         });
                         tableName = 'pg';
                     }
                     else {
-                        const commercialProperty = yield CommercialProperty_1.CommercialProperty.findByPk(propertyId);
+                        const commercialProperty = await CommercialProperty_1.CommercialProperty.findByPk(propertyId);
                         if (commercialProperty) {
-                            deletedRows = yield CommercialProperty_1.CommercialProperty.destroy({
+                            deletedRows = await CommercialProperty_1.CommercialProperty.destroy({
                                 where: { id: propertyId }
                             });
                             tableName = 'commercial';
                         }
                         else {
-                            const landProperty = yield LandProperty_1.LandProperty.findByPk(propertyId);
+                            const landProperty = await LandProperty_1.LandProperty.findByPk(propertyId);
                             if (landProperty) {
-                                deletedRows = yield LandProperty_1.LandProperty.destroy({
+                                deletedRows = await LandProperty_1.LandProperty.destroy({
                                     where: { id: propertyId }
                                 });
                                 tableName = 'land';
@@ -1182,5 +1146,5 @@ const deleteProperty = (req, res) => __awaiter(void 0, void 0, void 0, function*
             error: error.message
         });
     }
-});
+};
 exports.deleteProperty = deleteProperty;

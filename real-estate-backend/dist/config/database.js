@@ -6,20 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dealer = exports.Blog = exports.GallerySection = exports.Advertisement = exports.CmsPage = exports.CmsContent = exports.Lead = exports.Property = exports.User = exports.sequelize = void 0;
 const sequelize_1 = require("sequelize");
 const dotenv_1 = __importDefault(require("dotenv"));
-// Import JavaScript models using require
-const UserModel = require('../../models/user');
-const PropertyModel = require('../../models/property');
-const LeadModel = require('../../models/lead');
-const CmsContentModel = require('../../models/cmsContent');
 const GallerySection_1 = require("../models/GallerySection");
 Object.defineProperty(exports, "GallerySection", { enumerable: true, get: function () { return GallerySection_1.GallerySection; } });
 const Blog_1 = require("../models/Blog");
 Object.defineProperty(exports, "Blog", { enumerable: true, get: function () { return Blog_1.Blog; } });
-// Define CmsPage model inline
+const Dealer_1 = require("../models/Dealer");
+Object.defineProperty(exports, "Dealer", { enumerable: true, get: function () { return Dealer_1.Dealer; } });
+const UserModel = require('../../models/user');
+const PropertyModel = require('../../models/property');
+const LeadModel = require('../../models/lead');
+const CmsContentModel = require('../../models/cmsContent');
 class CmsPage extends sequelize_1.Model {
 }
 exports.CmsPage = CmsPage;
-// Define Advertisement model inline
 class Advertisement extends sequelize_1.Model {
 }
 exports.Advertisement = Advertisement;
@@ -29,7 +28,6 @@ exports.sequelize = new sequelize_1.Sequelize(dbUrl, {
     dialect: 'postgres',
     logging: false,
 });
-// Initialize JavaScript models
 const User = UserModel(exports.sequelize, require('sequelize').DataTypes);
 exports.User = User;
 const Property = PropertyModel(exports.sequelize, require('sequelize').DataTypes);
@@ -38,7 +36,6 @@ const Lead = LeadModel(exports.sequelize, require('sequelize').DataTypes);
 exports.Lead = Lead;
 const CmsContent = CmsContentModel(exports.sequelize, require('sequelize').DataTypes);
 exports.CmsContent = CmsContent;
-// Initialize CmsPage model
 CmsPage.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -101,6 +98,38 @@ CmsPage.init({
     aboutMission: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true
+    },
+    facebookLink: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    instagramLink: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    youtubeLink: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    contactTitle: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    contactAddress: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: true
+    },
+    contactPhone: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    contactEmail: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    googleMapEmbedUrl: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: true
     }
 }, {
     tableName: "cms_pages",
@@ -109,7 +138,6 @@ CmsPage.init({
     createdAt: "created_at",
     updatedAt: "updated_at"
 });
-// Initialize Advertisement model
 Advertisement.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -138,7 +166,6 @@ Advertisement.init({
     sequelize: exports.sequelize,
     timestamps: true
 });
-// Initialize GallerySection model
 GallerySection_1.GallerySection.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -170,7 +197,6 @@ GallerySection_1.GallerySection.init({
     createdAt: "created_at",
     updatedAt: "updated_at"
 });
-// Initialize Blog model
 Blog_1.Blog.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -211,9 +237,6 @@ Blog_1.Blog.init({
     timestamps: true,
     underscored: true
 });
-// Initialize Dealer model
-const Dealer_1 = require("../models/Dealer");
-Object.defineProperty(exports, "Dealer", { enumerable: true, get: function () { return Dealer_1.Dealer; } });
 Dealer_1.Dealer.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,

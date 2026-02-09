@@ -1,10 +1,19 @@
+"use client";
 import PricingOne from "@/components/inner-pages/pricing/pricing-one";
 import Wrapper from "@/layouts/Wrapper";
+import { useState, useEffect } from "react";
 
-export const metadata = {
-   title: "Pricing One HOZN - Real Estate React Next js ",
-};
-const index = () => {
+const Index = () => {
+   const [mounted, setMounted] = useState(false);
+
+   useEffect(() => {
+      setMounted(true);
+   }, []);
+
+   if (!mounted) {
+      return null; // Prevent SSR issues
+   }
+
    return (
       <Wrapper>
          <PricingOne />
@@ -12,4 +21,4 @@ const index = () => {
    )
 }
 
-export default index
+export default Index

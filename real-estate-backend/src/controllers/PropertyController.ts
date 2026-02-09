@@ -388,47 +388,49 @@ export const getAllProperties = async (req: Request, res: Response): Promise<voi
   }
 };
 
-export const getAllPropertiesCombined = async (req: Request, res: Response): Promise<void> => {
+export const getAllPropertiesCombined = async (req: Request, res: Response) => {
   try {
-    // Get only APPROVED properties from all property types
-    // Use raw queries to avoid column mismatches between different property types
+    // Check if admin parameter is provided to show all properties
+    const { admin } = req.query;
+    
+    const whereClause = admin ? {} : { approvalStatus: 'approved' };
+    
     const saleProperties = await SaleProperty.findAll({
-      where: { approvalStatus: 'approved' },
+      where: whereClause,
       order: [['createdAt', 'DESC']],
-      raw: true // Use raw to avoid some attribute issues
+      raw: true
     });
     
     const rentProperties = await RentProperty.findAll({
-      where: { approvalStatus: 'approved' },
+      where: whereClause,
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const leaseProperties = await LeaseProperty.findAll({
-      where: { approvalStatus: 'approved' },
+      where: whereClause,
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const pgProperties = await PgProperty.findAll({
-      where: { approvalStatus: 'approved' },
+      where: whereClause,
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const commercialProperties = await CommercialProperty.findAll({
-      where: { approvalStatus: 'approved' },
+      where: whereClause,
       order: [['createdAt', 'DESC']],
       raw: true
     });
     
     const landProperties = await LandProperty.findAll({
-      where: { approvalStatus: 'approved' },
+      where: whereClause,
       order: [['createdAt', 'DESC']],
       raw: true
     });
-
-    // Combine all properties
+    
     const allProperties = [
       ...saleProperties.map(p => ({ ...p, sourceTable: 'sale_properties' })),
       ...rentProperties.map(p => ({ ...p, sourceTable: 'rent_properties' })),
@@ -437,15 +439,14 @@ export const getAllPropertiesCombined = async (req: Request, res: Response): Pro
       ...commercialProperties.map(p => ({ ...p, sourceTable: 'commercial_properties' })),
       ...landProperties.map(p => ({ ...p, sourceTable: 'land_properties' }))
     ];
-
-    // Sort by date descending
+    
     allProperties.sort((a, b) => {
       if (a.createdAt && b.createdAt) {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       }
       return 0;
     });
-
+    
     res.status(200).json({
       success: true,
       count: allProperties.length,

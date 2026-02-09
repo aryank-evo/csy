@@ -11,18 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Lead = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const User_1 = require("./User");
 let Lead = class Lead extends sequelize_typescript_1.Model {
 };
 exports.Lead = Lead;
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    }),
-    __metadata("design:type", Number)
-], Lead.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
@@ -36,40 +27,79 @@ __decorate([
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Lead.prototype, "email", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false,
-    }),
-    __metadata("design:type", String)
 ], Lead.prototype, "phone", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
+        type: sequelize_typescript_1.DataType.TEXT,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Lead.prototype, "userType", void 0);
+], Lead.prototype, "address", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER,
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Lead.prototype, "email", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.TEXT,
         allowNull: false,
     }),
-    __metadata("design:type", Number)
-], Lead.prototype, "propertyId", void 0);
+    __metadata("design:type", String)
+], Lead.prototype, "description", void 0);
 __decorate([
-    (0, sequelize_typescript_1.ForeignKey)(() => User_1.User),
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true,
     }),
     __metadata("design:type", Number)
-], Lead.prototype, "userId", void 0);
+], Lead.prototype, "propertyId", void 0);
 __decorate([
-    (0, sequelize_typescript_1.BelongsTo)(() => User_1.User),
-    __metadata("design:type", User_1.User)
-], Lead.prototype, "user", void 0);
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Lead.prototype, "propertyTitle", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Lead.prototype, "propertyPrice", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Lead.prototype, "propertyLocation", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Lead.prototype, "propertyType", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false,
+        defaultValue: 'new',
+    }),
+    __metadata("design:type", String)
+], Lead.prototype, "status", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false,
+        defaultValue: 'visitor',
+    }),
+    __metadata("design:type", String)
+], Lead.prototype, "userType", void 0);
 exports.Lead = Lead = __decorate([
     (0, sequelize_typescript_1.Table)({
         tableName: 'leads',

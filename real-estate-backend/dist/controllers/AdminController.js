@@ -32,29 +32,23 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLeadStats = exports.exportLeads = exports.getAllLeads = exports.getPropertyStats = exports.rejectProperty = exports.approveProperty = exports.getPropertyById = exports.getAllProperties = void 0;
 const Property_1 = require("../models/Property");
+const SaleProperty_1 = require("../models/SaleProperty");
+const RentProperty_1 = require("../models/RentProperty");
+const LeaseProperty_1 = require("../models/LeaseProperty");
+const PgProperty_1 = require("../models/PgProperty");
+const CommercialProperty_1 = require("../models/CommercialProperty");
+const LandProperty_1 = require("../models/LandProperty");
 const Lead_1 = require("../models/Lead");
-const database_1 = require("../config/database");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const sequelize_1 = require("sequelize");
 const Sequelize = require('sequelize');
-// Get all properties with pagination and filtering
-const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllProperties = async (req, res) => {
     try {
         const { page = 1, limit = 10, status, search } = req.query;
-        const offset = (Number(page) - 1) * Number(limit);
         const whereClause = {};
         if (status) {
             whereClause.approvalStatus = status;
@@ -62,115 +56,287 @@ const getAllProperties = (req, res) => __awaiter(void 0, void 0, void 0, functio
         if (search) {
             whereClause.title = { [sequelize_1.Op.iLike]: `%${search}%` };
         }
-        const properties = yield Property_1.Property.findAndCountAll({
+        const saleProperties = await SaleProperty_1.SaleProperty.findAll({
             where: whereClause,
-            limit: Number(limit),
-            offset,
             order: [['createdAt', 'DESC']],
-            include: [{
-                    model: database_1.User,
-                    attributes: ['id', 'name', 'email']
-                }]
+            raw: true
         });
+        const rentProperties = await RentProperty_1.RentProperty.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+        const leaseProperties = await LeaseProperty_1.LeaseProperty.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+        const pgProperties = await PgProperty_1.PgProperty.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+        const commercialProperties = await CommercialProperty_1.CommercialProperty.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+        const landProperties = await LandProperty_1.LandProperty.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+        const allProperties = [
+            ...saleProperties.map(p => ({ ...p, sourceTable: 'sale_properties' })),
+            ...rentProperties.map(p => ({ ...p, sourceTable: 'rent_properties' })),
+            ...leaseProperties.map(p => ({ ...p, sourceTable: 'lease_properties' })),
+            ...pgProperties.map(p => ({ ...p, sourceTable: 'pg_properties' })),
+            ...commercialProperties.map(p => ({ ...p, sourceTable: 'commercial_properties' })),
+            ...landProperties.map(p => ({ ...p, sourceTable: 'land_properties' }))
+        ];
+        allProperties.sort((a, b) => {
+            if (a.createdAt && b.createdAt) {
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            }
+            return 0;
+        });
+        const offset = (Number(page) - 1) * Number(limit);
+        const paginatedProperties = allProperties.slice(offset, offset + Number(limit));
         res.status(200).json({
-            properties: properties.rows,
-            totalPages: Math.ceil(properties.count / Number(limit)),
+            properties: paginatedProperties,
+            totalPages: Math.ceil(allProperties.length / Number(limit)),
             currentPage: Number(page),
-            total: properties.count
+            total: allProperties.length
         });
     }
     catch (error) {
         console.error('Error fetching properties:', error);
         res.status(500).json({ message: 'Server error while fetching properties' });
     }
-});
+};
 exports.getAllProperties = getAllProperties;
-// Get property by ID
-const getPropertyById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getPropertyById = async (req, res) => {
     try {
-        const { id } = req.params;
-        const property = yield Property_1.Property.findByPk(id, {
-            include: [{
-                    model: database_1.User,
-                    attributes: ['id', 'name', 'email']
-                }, {
-                    model: Lead_1.Lead,
-                    attributes: ['id', 'name', 'email', 'phone', 'userType', 'createdAt']
-                }]
-        });
+        const { id, type } = req.params;
+        let property = null;
+        let sourceTable;
+        property = await SaleProperty_1.SaleProperty.findByPk(id);
+        if (property) {
+            sourceTable = 'sale_properties';
+        }
+        else {
+            property = await RentProperty_1.RentProperty.findByPk(id);
+            if (property) {
+                sourceTable = 'rent_properties';
+            }
+            else {
+                property = await LeaseProperty_1.LeaseProperty.findByPk(id);
+                if (property) {
+                    sourceTable = 'lease_properties';
+                }
+                else {
+                    property = await PgProperty_1.PgProperty.findByPk(id);
+                    if (property) {
+                        sourceTable = 'pg_properties';
+                    }
+                    else {
+                        property = await CommercialProperty_1.CommercialProperty.findByPk(id);
+                        if (property) {
+                            sourceTable = 'commercial_properties';
+                        }
+                        else {
+                            property = await LandProperty_1.LandProperty.findByPk(id);
+                            if (property) {
+                                sourceTable = 'land_properties';
+                            }
+                        }
+                    }
+                }
+            }
+        }
         if (!property) {
             res.status(404).json({ message: 'Property not found' });
             return;
         }
+        property.setDataValue('sourceTable', sourceTable);
         res.status(200).json(property);
     }
     catch (error) {
         console.error('Error fetching property:', error);
         res.status(500).json({ message: 'Server error while fetching property' });
     }
-});
+};
 exports.getPropertyById = getPropertyById;
-// Approve property
-const approveProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const approveProperty = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { fieldVisibility, imageVisibility } = req.body;
-        const property = yield Property_1.Property.findByPk(id);
+        const { id, type } = req.params;
+        const { fieldVisibility, imageVisibility, isVerified } = req.body;
+        let property = await SaleProperty_1.SaleProperty.findByPk(id);
+        let sourceTable;
+        if (property) {
+            sourceTable = 'sale_properties';
+        }
+        else {
+            property = await RentProperty_1.RentProperty.findByPk(id);
+            if (property) {
+                sourceTable = 'rent_properties';
+            }
+            else {
+                property = await LeaseProperty_1.LeaseProperty.findByPk(id);
+                if (property) {
+                    sourceTable = 'lease_properties';
+                }
+                else {
+                    property = await PgProperty_1.PgProperty.findByPk(id);
+                    if (property) {
+                        sourceTable = 'pg_properties';
+                    }
+                    else {
+                        property = await CommercialProperty_1.CommercialProperty.findByPk(id);
+                        if (property) {
+                            sourceTable = 'commercial_properties';
+                        }
+                        else {
+                            property = await LandProperty_1.LandProperty.findByPk(id);
+                            if (property) {
+                                sourceTable = 'land_properties';
+                            }
+                        }
+                    }
+                }
+            }
+        }
         if (!property) {
             res.status(404).json({ message: 'Property not found' });
             return;
         }
         property.approvalStatus = 'approved';
-        // Update visibility settings if provided
+        property.approvedAt = new Date();
+        property.approvedBy = req.user?.id;
         if (fieldVisibility) {
-            property.fieldVisibility = fieldVisibility;
+            if ('fieldVisibility' in property) {
+                property.fieldVisibility = fieldVisibility;
+            }
         }
         if (imageVisibility) {
-            property.imageVisibility = imageVisibility;
+            if ('imageVisibility' in property) {
+                property.imageVisibility = imageVisibility;
+            }
         }
-        yield property.save();
+        if (typeof isVerified === 'boolean') {
+            property.isVerified = isVerified;
+            if (isVerified) {
+                property.verifiedAt = new Date();
+            }
+        }
+        await property.save();
         res.status(200).json({ message: 'Property approved successfully', property });
     }
     catch (error) {
         console.error('Error approving property:', error);
         res.status(500).json({ message: 'Server error while approving property' });
     }
-});
+};
 exports.approveProperty = approveProperty;
-// Reject property
-const rejectProperty = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const rejectProperty = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id, type } = req.params;
         const { reason, fieldVisibility, imageVisibility } = req.body;
-        const property = yield Property_1.Property.findByPk(id);
+        let property = await SaleProperty_1.SaleProperty.findByPk(id);
+        let sourceTable;
+        if (property) {
+            sourceTable = 'sale_properties';
+        }
+        else {
+            property = await RentProperty_1.RentProperty.findByPk(id);
+            if (property) {
+                sourceTable = 'rent_properties';
+            }
+            else {
+                property = await LeaseProperty_1.LeaseProperty.findByPk(id);
+                if (property) {
+                    sourceTable = 'lease_properties';
+                }
+                else {
+                    property = await PgProperty_1.PgProperty.findByPk(id);
+                    if (property) {
+                        sourceTable = 'pg_properties';
+                    }
+                    else {
+                        property = await CommercialProperty_1.CommercialProperty.findByPk(id);
+                        if (property) {
+                            sourceTable = 'commercial_properties';
+                        }
+                        else {
+                            property = await LandProperty_1.LandProperty.findByPk(id);
+                            if (property) {
+                                sourceTable = 'land_properties';
+                            }
+                        }
+                    }
+                }
+            }
+        }
         if (!property) {
             res.status(404).json({ message: 'Property not found' });
             return;
         }
         property.approvalStatus = 'rejected';
-        // Update visibility settings if provided
+        property.approvedAt = new Date();
+        property.approvedBy = req.user?.id;
         if (fieldVisibility) {
-            property.fieldVisibility = fieldVisibility;
+            if ('fieldVisibility' in property) {
+                property.fieldVisibility = fieldVisibility;
+            }
         }
         if (imageVisibility) {
-            property.imageVisibility = imageVisibility;
+            if ('imageVisibility' in property) {
+                property.imageVisibility = imageVisibility;
+            }
         }
-        yield property.save();
+        await property.save();
         res.status(200).json({ message: 'Property rejected successfully', property });
     }
     catch (error) {
         console.error('Error rejecting property:', error);
         res.status(500).json({ message: 'Server error while rejecting property' });
     }
-});
+};
 exports.rejectProperty = rejectProperty;
-// Get property statistics
-const getPropertyStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getPropertyStats = async (req, res) => {
     try {
-        const totalProperties = yield Property_1.Property.count();
-        const pendingProperties = yield Property_1.Property.count({ where: { approvalStatus: 'pending' } });
-        const approvedProperties = yield Property_1.Property.count({ where: { approvalStatus: 'approved' } });
-        const rejectedProperties = yield Property_1.Property.count({ where: { approvalStatus: 'rejected' } });
+        const salePropertiesCount = await SaleProperty_1.SaleProperty.count();
+        const rentPropertiesCount = await RentProperty_1.RentProperty.count();
+        const leasePropertiesCount = await LeaseProperty_1.LeaseProperty.count();
+        const pgPropertiesCount = await PgProperty_1.PgProperty.count();
+        const commercialPropertiesCount = await CommercialProperty_1.CommercialProperty.count();
+        const landPropertiesCount = await LandProperty_1.LandProperty.count();
+        const totalProperties = salePropertiesCount + rentPropertiesCount + leasePropertiesCount +
+            pgPropertiesCount + commercialPropertiesCount + landPropertiesCount;
+        const pendingSaleProperties = await SaleProperty_1.SaleProperty.count({ where: { approvalStatus: 'pending' } });
+        const pendingRentProperties = await RentProperty_1.RentProperty.count({ where: { approvalStatus: 'pending' } });
+        const pendingLeaseProperties = await LeaseProperty_1.LeaseProperty.count({ where: { approvalStatus: 'pending' } });
+        const pendingPgProperties = await PgProperty_1.PgProperty.count({ where: { approvalStatus: 'pending' } });
+        const pendingCommercialProperties = await CommercialProperty_1.CommercialProperty.count({ where: { approvalStatus: 'pending' } });
+        const pendingLandProperties = await LandProperty_1.LandProperty.count({ where: { approvalStatus: 'pending' } });
+        const pendingProperties = pendingSaleProperties + pendingRentProperties + pendingLeaseProperties +
+            pendingPgProperties + pendingCommercialProperties + pendingLandProperties;
+        const approvedSaleProperties = await SaleProperty_1.SaleProperty.count({ where: { approvalStatus: 'approved' } });
+        const approvedRentProperties = await RentProperty_1.RentProperty.count({ where: { approvalStatus: 'approved' } });
+        const approvedLeaseProperties = await LeaseProperty_1.LeaseProperty.count({ where: { approvalStatus: 'approved' } });
+        const approvedPgProperties = await PgProperty_1.PgProperty.count({ where: { approvalStatus: 'approved' } });
+        const approvedCommercialProperties = await CommercialProperty_1.CommercialProperty.count({ where: { approvalStatus: 'approved' } });
+        const approvedLandProperties = await LandProperty_1.LandProperty.count({ where: { approvalStatus: 'approved' } });
+        const approvedProperties = approvedSaleProperties + approvedRentProperties + approvedLeaseProperties +
+            approvedPgProperties + approvedCommercialProperties + approvedLandProperties;
+        const rejectedSaleProperties = await SaleProperty_1.SaleProperty.count({ where: { approvalStatus: 'rejected' } });
+        const rejectedRentProperties = await RentProperty_1.RentProperty.count({ where: { approvalStatus: 'rejected' } });
+        const rejectedLeaseProperties = await LeaseProperty_1.LeaseProperty.count({ where: { approvalStatus: 'rejected' } });
+        const rejectedPgProperties = await PgProperty_1.PgProperty.count({ where: { approvalStatus: 'rejected' } });
+        const rejectedCommercialProperties = await CommercialProperty_1.CommercialProperty.count({ where: { approvalStatus: 'rejected' } });
+        const rejectedLandProperties = await LandProperty_1.LandProperty.count({ where: { approvalStatus: 'rejected' } });
+        const rejectedProperties = rejectedSaleProperties + rejectedRentProperties + rejectedLeaseProperties +
+            rejectedPgProperties + rejectedCommercialProperties + rejectedLandProperties;
         const stats = {
             total: totalProperties,
             pending: pendingProperties,
@@ -184,10 +350,9 @@ const getPropertyStats = (req, res) => __awaiter(void 0, void 0, void 0, functio
         console.error('Error fetching property stats:', error);
         res.status(500).json({ message: 'Server error while fetching property stats' });
     }
-});
+};
 exports.getPropertyStats = getPropertyStats;
-// Get all leads
-const getAllLeads = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllLeads = async (req, res) => {
     try {
         const { page = 1, limit = 10, propertyId, dateFrom, dateTo } = req.query;
         const offset = (Number(page) - 1) * Number(limit);
@@ -204,7 +369,7 @@ const getAllLeads = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 whereClause.createdAt[sequelize_1.Op.lte] = new Date(dateTo);
             }
         }
-        const leads = yield Lead_1.Lead.findAndCountAll({
+        const leads = await Lead_1.Lead.findAndCountAll({
             where: whereClause,
             limit: Number(limit),
             offset,
@@ -221,20 +386,17 @@ const getAllLeads = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         console.error('Error fetching leads:', error);
         res.status(500).json({ message: 'Server error while fetching leads' });
     }
-});
+};
 exports.getAllLeads = getAllLeads;
-// Export leads to CSV
-const exportLeads = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const exportLeads = async (req, res) => {
     try {
-        const leads = yield Lead_1.Lead.findAll({});
-        // Create CSV content
-        let csvContent = 'Name,Email,Phone,User Type,Property Title,Created At\n';
+        const leads = await Lead_1.Lead.findAll({});
+        let csvContent = 'Name,Email,Phone,Property Title,Created At\n';
         leads.forEach(lead => {
-            csvContent += `"${lead.name}","${lead.email}","${lead.phone}","${lead.userType}","${lead.propertyId}","${lead.createdAt}"\n`;
+            csvContent += `"${lead.name}","${lead.email}","${lead.phone}","${lead.propertyTitle || 'N/A'}","${lead.createdAt}"\n`;
         });
         const fileName = `leads_export_${new Date().toISOString().slice(0, 10)}.csv`;
         const filePath = path.join(__dirname, '../../exports', fileName);
-        // Ensure exports directory exists
         const dir = path.dirname(filePath);
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -246,12 +408,11 @@ const exportLeads = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 res.status(500).json({ message: 'Error exporting leads' });
             }
             else {
-                // Clean up the file after download
                 setTimeout(() => {
                     if (fs.existsSync(filePath)) {
                         fs.unlinkSync(filePath);
                     }
-                }, 5000); // Delete file after 5 seconds
+                }, 5000);
             }
         });
     }
@@ -259,19 +420,18 @@ const exportLeads = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         console.error('Error exporting leads:', error);
         res.status(500).json({ message: 'Server error while exporting leads' });
     }
-});
+};
 exports.exportLeads = exportLeads;
-// Get lead statistics
-const getLeadStats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getLeadStats = async (req, res) => {
     try {
-        const totalLeads = yield Lead_1.Lead.count();
+        const totalLeads = await Lead_1.Lead.count();
         const Sequelize = require('sequelize');
-        const leadsByUserType = yield Lead_1.Lead.findAll({
+        const leadsByUserType = await Lead_1.Lead.findAll({
             attributes: ['userType', [Sequelize.fn('COUNT', Sequelize.col('userType')), 'count']],
             group: ['userType'],
             raw: true
         });
-        const leadsByProperty = yield Lead_1.Lead.findAll({
+        const leadsByProperty = await Lead_1.Lead.findAll({
             attributes: ['propertyId', [Sequelize.fn('COUNT', Sequelize.col('propertyId')), 'count']],
             group: ['propertyId'],
             include: [{
@@ -292,5 +452,5 @@ const getLeadStats = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         console.error('Error fetching lead stats:', error);
         res.status(500).json({ message: 'Server error while fetching lead stats' });
     }
-});
+};
 exports.getLeadStats = getLeadStats;

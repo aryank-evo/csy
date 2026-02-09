@@ -76,6 +76,18 @@ LeaseProperty.init({
         type: sequelize_1.DataTypes.ENUM('pending', 'approved', 'rejected'),
         defaultValue: 'pending',
     },
+    isVerified: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+    verifiedBy: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: true,
+    },
+    verifiedAt: {
+        type: sequelize_1.DataTypes.DATE,
+        allowNull: true,
+    },
     approvedBy: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
@@ -113,7 +125,6 @@ LeaseProperty.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
-    // Lease-specific fields
     leasePeriod: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
@@ -125,6 +136,16 @@ LeaseProperty.init({
     leaseTerms: {
         type: sequelize_1.DataTypes.TEXT,
         allowNull: true,
+    },
+    fieldVisibility: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {},
+    },
+    imageVisibility: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {},
     },
 }, {
     tableName: 'lease_properties',

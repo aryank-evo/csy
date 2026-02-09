@@ -1,19 +1,10 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAdvertisement = exports.createOrUpdateAdvertisement = exports.getAdvertisementById = exports.getAllAdvertisements = void 0;
 const database_1 = require("../config/database");
-const getAllAdvertisements = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllAdvertisements = async (req, res) => {
     try {
-        const advertisements = yield database_1.Advertisement.findAll({
+        const advertisements = await database_1.Advertisement.findAll({
             order: [['createdAt', 'DESC']]
         });
         res.json({
@@ -28,12 +19,12 @@ const getAllAdvertisements = (req, res) => __awaiter(void 0, void 0, void 0, fun
             error: error.message,
         });
     }
-});
+};
 exports.getAllAdvertisements = getAllAdvertisements;
-const getAdvertisementById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAdvertisementById = async (req, res) => {
     try {
         const { id } = req.params;
-        const advertisement = yield database_1.Advertisement.findByPk(id);
+        const advertisement = await database_1.Advertisement.findByPk(id);
         if (!advertisement) {
             res.status(404).json({
                 success: false,
@@ -53,14 +44,13 @@ const getAdvertisementById = (req, res) => __awaiter(void 0, void 0, void 0, fun
             error: error.message,
         });
     }
-});
+};
 exports.getAdvertisementById = getAdvertisementById;
-const createOrUpdateAdvertisement = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createOrUpdateAdvertisement = async (req, res) => {
     try {
         const { id, iframe1_url, iframe2_url, iframe3_url } = req.body;
         if (id) {
-            // Update existing advertisement
-            const advertisement = yield database_1.Advertisement.findByPk(id);
+            const advertisement = await database_1.Advertisement.findByPk(id);
             if (!advertisement) {
                 res.status(404).json({
                     success: false,
@@ -68,7 +58,7 @@ const createOrUpdateAdvertisement = (req, res) => __awaiter(void 0, void 0, void
                 });
                 return;
             }
-            yield advertisement.update({
+            await advertisement.update({
                 iframe1_url,
                 iframe2_url,
                 iframe3_url,
@@ -80,12 +70,10 @@ const createOrUpdateAdvertisement = (req, res) => __awaiter(void 0, void 0, void
             });
         }
         else {
-            // Create new advertisement (or update if one exists)
-            const existingAds = yield database_1.Advertisement.findAll();
+            const existingAds = await database_1.Advertisement.findAll();
             if (existingAds.length > 0) {
-                // Update the first advertisement record
                 const advertisement = existingAds[0];
-                yield advertisement.update({
+                await advertisement.update({
                     iframe1_url,
                     iframe2_url,
                     iframe3_url,
@@ -97,7 +85,7 @@ const createOrUpdateAdvertisement = (req, res) => __awaiter(void 0, void 0, void
                 });
             }
             else {
-                const advertisement = yield database_1.Advertisement.create({
+                const advertisement = await database_1.Advertisement.create({
                     name: 'Advertisement Section',
                     iframe1_url,
                     iframe2_url,
@@ -118,12 +106,12 @@ const createOrUpdateAdvertisement = (req, res) => __awaiter(void 0, void 0, void
             error: error.message,
         });
     }
-});
+};
 exports.createOrUpdateAdvertisement = createOrUpdateAdvertisement;
-const deleteAdvertisement = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteAdvertisement = async (req, res) => {
     try {
         const { id } = req.params;
-        const advertisement = yield database_1.Advertisement.findByPk(id);
+        const advertisement = await database_1.Advertisement.findByPk(id);
         if (!advertisement) {
             res.status(404).json({
                 success: false,
@@ -131,7 +119,7 @@ const deleteAdvertisement = (req, res) => __awaiter(void 0, void 0, void 0, func
             });
             return;
         }
-        yield advertisement.destroy();
+        await advertisement.destroy();
         res.json({
             success: true,
             message: 'Advertisement deleted successfully',
@@ -144,5 +132,5 @@ const deleteAdvertisement = (req, res) => __awaiter(void 0, void 0, void 0, func
             error: error.message,
         });
     }
-});
+};
 exports.deleteAdvertisement = deleteAdvertisement;

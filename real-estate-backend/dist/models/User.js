@@ -41,24 +41,13 @@ var __importStar = (this && this.__importStar) || (function () {
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
 const bcrypt = __importStar(require("bcryptjs"));
 let User = class User extends sequelize_typescript_1.Model {
-    static hashPassword(instance) {
-        return __awaiter(this, void 0, void 0, function* () {
-            instance.password = yield bcrypt.hash(instance.password, 10);
-        });
+    static async hashPassword(instance) {
+        instance.password = await bcrypt.hash(instance.password, 10);
     }
 };
 exports.User = User;

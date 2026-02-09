@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build": "next build",
+    "hostinger-build": "NEXT_TELEMETRY_DISABLED=1 next build"
+  }
+}

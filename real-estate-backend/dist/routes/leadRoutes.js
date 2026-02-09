@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const LeadController_1 = require("../controllers/LeadController");
 const router = (0, express_1.Router)();
-// Lead capture routes
-router.post("/", (req, res) => (0, LeadController_1.submitLead)(req, res));
-router.get("/check-access/:propertyId", (req, res) => (0, LeadController_1.checkLeadAccess)(req, res));
+router.post('/', LeadController_1.createLead);
+router.get('/', LeadController_1.getAllLeads);
+router.get('/:id', LeadController_1.getLeadById);
+router.patch('/:id/status', LeadController_1.updateLeadStatus);
 exports.default = router;

@@ -75,7 +75,7 @@ export const getPropertyById = async (id: string | number, type?: string) => {
 // Get all properties for admin dashboard
 export const getAllProperties = async (token: string) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/admin/dashboard/properties`, {
+    const response = await axios.get(`${API_BASE_URL}/admin/properties`, {  // Updated to correct endpoint
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -87,16 +87,22 @@ export const getAllProperties = async (token: string) => {
   }
 };
 
-// Get pending properties for admin
-export const getPendingProperties = async () => {
+// Get pending properties for admin dashboard
+export const getPendingProperties = async (token?: string) => {
   try {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    const response = await axios.get(`${API_BASE_URL}/properties/pending/all`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response.data;
+    if (token) {
+      // Use authenticated endpoint for admin
+      const response = await axios.get(`${API_BASE_URL}/admin/properties/pending`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } else {
+      // Use public endpoint for pending properties
+      const response = await axios.get(`${API_BASE_URL}/properties/pending/all`);
+      return response.data;
+    }
   } catch (error) {
     console.error('Error getting pending properties:', error);
     throw error;

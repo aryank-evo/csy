@@ -1,10 +1,19 @@
+"use client";
 import ListingTwelve from "@/components/inner-listing/listing-12";
 import Wrapper from "@/layouts/Wrapper";
+import { useState, useEffect } from "react";
 
-export const metadata = {
-   title: "Listing Twelve HOZN - Real Estate React Next js ",
-};
-const index = () => {
+const Index = () => {
+   const [mounted, setMounted] = useState(false);
+
+   useEffect(() => {
+      setMounted(true);
+   }, []);
+
+   if (!mounted) {
+      return null; // Prevent SSR issues
+   }
+
    return (
       <Wrapper>
          <ListingTwelve />
@@ -12,4 +21,4 @@ const index = () => {
    )
 }
 
-export default index
+export default Index

@@ -1,10 +1,20 @@
 
+"use client";
 import Wrapper from "@/layouts/Wrapper";
 import HomeTwo from "@/components/homes/home-two";
-export const metadata = {
-  title: "HOZN - Real Estate React Next js",
-};
-const index = () => {
+import { useState, useEffect } from "react";
+
+const Index = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Prevent SSR issues
+  }
+
   return (
     <Wrapper>
       <HomeTwo />
@@ -12,4 +22,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Index

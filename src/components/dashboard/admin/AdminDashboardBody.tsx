@@ -35,12 +35,18 @@ const AdminDashboardBody = () => {
       const token = getLocalStorageItem('token');
       
       if (!token) {
-        setError('Not authenticated');
-        return;
+        // Fallback: try to get all properties with admin parameter if not logged in as admin
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/all-combined?admin=true`);
+        const data = await response.json();
+        
+        if (data.success) {
+          setProperties(data.data);
+        }
+      } else {
+        // Use the admin endpoint that shows all properties (approved and pending)
+        const response = await getAllProperties(token);
+        setProperties(response.properties || response.data || []);
       }
-
-      const response = await getAllProperties(token);
-      setProperties(response.data || []);
     } catch (err) {
       console.error('Error fetching properties:', err);
       setError('Failed to fetch properties');

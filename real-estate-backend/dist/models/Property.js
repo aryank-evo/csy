@@ -76,6 +76,18 @@ Property.init({
         type: sequelize_1.DataTypes.STRING,
         defaultValue: 'pending',
     },
+    isVerified: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+    verifiedBy: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: true,
+    },
+    verifiedAt: {
+        type: sequelize_1.DataTypes.DATE,
+        allowNull: true,
+    },
     approvedBy: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
@@ -117,5 +129,5 @@ Property.init({
     },
 }, {
     tableName: 'properties',
-    sequelize: database_1.sequelize, // passing the `sequelize` instance is required
+    sequelize: database_1.sequelize,
 });

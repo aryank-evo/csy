@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AbroadController_1 = require("../controllers/AbroadController");
+const abroadCloudinary_1 = require("../utils/abroadCloudinary");
+const router = (0, express_1.Router)();
+router.get('/countries', AbroadController_1.getAllCountries);
+router.get('/countries/with-listings', AbroadController_1.getCountriesWithListings);
+router.get('/countries/:id', AbroadController_1.getCountryById);
+router.post('/countries', abroadCloudinary_1.abroadUpload.single('thumbnail'), AbroadController_1.createCountry);
+router.put('/countries/:id', abroadCloudinary_1.abroadUpload.single('thumbnail'), AbroadController_1.updateCountry);
+router.delete('/countries/:id', AbroadController_1.deleteCountry);
+router.get('/listings', AbroadController_1.getAllListings);
+router.get('/listings/:id', AbroadController_1.getListingById);
+router.post('/listings', abroadCloudinary_1.abroadUpload.single('image'), AbroadController_1.createListing);
+router.put('/listings/:id', abroadCloudinary_1.abroadUpload.single('image'), AbroadController_1.updateListing);
+router.delete('/listings/:id', AbroadController_1.deleteListing);
+exports.default = router;
