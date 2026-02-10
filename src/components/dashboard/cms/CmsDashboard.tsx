@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import CmsComponentEditor from './CmsComponentEditor';
 import AdvertisementEditor from './AdvertisementEditor';
 import GalleryEditor from './GalleryEditor';
@@ -11,78 +11,74 @@ interface TabItem {
   slug: string;
   displayName: string;
   defaultTitle: string;
-  isAdvertisement?: boolean;
-  isGallery?: boolean;
-  isBlog?: boolean;
-  isDealer?: boolean;
-  isAbroad?: boolean;
+  icon: ReactNode;
 }
 
-const CMS_PAGES: TabItem[] = [
+const TABS: TabItem[] = [
   {
-    slug: 'city-builder',
-    displayName: 'City Builder Page',
-    defaultTitle: 'City Builder'
+    slug: 'advertisements',
+    displayName: 'Advertisement',
+    defaultTitle: 'Advertisements',
+    icon: <i className="bi bi-megaphone me-2"></i>
   },
   {
     slug: 'about-us',
     displayName: 'About Us Page',
-    defaultTitle: 'About Us'
+    defaultTitle: 'About Us',
+    icon: <i className="bi bi-info-circle me-2"></i>
   },
   {
     slug: 'contact',
     displayName: 'Contact Page',
-    defaultTitle: 'Contact Us'
+    defaultTitle: 'Contact Us',
+    icon: <i className="bi bi-envelope me-2"></i>
   },
-  {
-    slug: 'terms-and-conditions',
-    displayName: 'Terms & Conditions',
-    defaultTitle: 'Terms & Conditions'
-  }
-];
-
-const TABS: TabItem[] = [
-  ...CMS_PAGES,
-  {
-    slug: 'advertisements',
-    displayName: 'Advertisement Section',
-    defaultTitle: 'Advertisements',
-    isAdvertisement: true
-  },
+  // {
+  //   slug: 'terms-and-conditions',
+  //   displayName: 'Terms & Conditions',
+  //   defaultTitle: 'Terms & Conditions',
+  //   icon: <i className="bi bi-file-text me-2"></i>
+  // },
   {
     slug: 'gallery',
     displayName: 'Gallery',
     defaultTitle: 'Gallery',
-    isGallery: true
+    icon: <i className="bi bi-images me-2"></i>
   },
   {
     slug: 'blogs',
     displayName: 'Blogs',
     defaultTitle: 'Blogs',
-    isBlog: true
+    icon: <i className="bi bi-journal-text me-2"></i>
+  },
+  {
+    slug: 'city-builder',
+    displayName: 'City Builder Page',
+    defaultTitle: 'City Builder',
+    icon: <i className="bi bi-geo-alt me-2"></i>
   },
   {
     slug: 'dealers',
     displayName: 'Dealers',
     defaultTitle: 'Dealers',
-    isDealer: true
+    icon: <i className="bi bi-people me-2"></i>
   },
   {
     slug: 'abroad',
     displayName: 'Abroad Properties',
     defaultTitle: 'Abroad Properties',
-    isAbroad: true
+    icon: <i className="bi bi-globe me-2"></i>
   }
 ];
 
 const CmsDashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const isAdvertisementTab = TABS[activeTab]?.isAdvertisement;
-  const isGalleryTab = TABS[activeTab]?.isGallery;
-  const isBlogTab = TABS[activeTab]?.isBlog;
-  const isDealerTab = TABS[activeTab]?.isDealer;
-  const isAbroadTab = TABS[activeTab]?.isAbroad;
+  const isAdvertisementTab = TABS[activeTab]?.slug === 'advertisements';
+  const isGalleryTab = TABS[activeTab]?.slug === 'gallery';
+  const isBlogTab = TABS[activeTab]?.slug === 'blogs';
+  const isDealerTab = TABS[activeTab]?.slug === 'dealers';
+  const isAbroadTab = TABS[activeTab]?.slug === 'abroad';
 
   return (
     <div className="cms-dashboard-container">
@@ -98,34 +94,10 @@ const CmsDashboard = () => {
                   onClick={() => setActiveTab(index)}
                   type="button"
                 >
-                  {tab.isAdvertisement ? (
                     <>
-                      <i className="bi bi-megaphone me-2"></i>
-                      {tab.displayName}
+                      <>{tab.icon}</>
+                      <>{tab.displayName}</>
                     </>
-                  ) : tab.isGallery ? (
-                    <>
-                      <i className="bi bi-images me-2"></i>
-                      {tab.displayName}
-                    </>
-                  ) : tab.isBlog ? (
-                    <>
-                      <i className="bi bi-journal-text me-2"></i>
-                      {tab.displayName}
-                    </>
-                  ) : tab.isDealer ? (
-                    <>
-                      <i className="bi bi-people me-2"></i>
-                      {tab.displayName}
-                    </>
-                  ) : tab.isAbroad ? (
-                    <>
-                      <i className="bi bi-globe me-2"></i>
-                      {tab.displayName}
-                    </>
-                  ) : (
-                    tab.displayName
-                  )}
                 </button>
               ))}
             </div>

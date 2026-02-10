@@ -209,7 +209,7 @@ const feature_data: DataType[] = [
       link: "/lease"
    },
 {
-      id: 3,
+      id: 4,  // Changed from 3 to 4 to avoid duplicate key
       page: "home_two_feature_2",
       img: featureImg_4,
       title: "Discover Furnished PGs",
