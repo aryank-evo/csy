@@ -1390,11 +1390,7 @@ export const getPropertiesByLocation = async (req: Request, res: Response): Prom
 
 export const deleteProperty = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
-    const propertyId = parseInt(id);
 
-export const deleteProperty = async (req: Request, res: Response): Promise<void> => {
-  try {
     const { id } = req.params;
     const propertyId = parseInt(id);
 
