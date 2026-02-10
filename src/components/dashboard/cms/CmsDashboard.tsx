@@ -6,6 +6,9 @@ import GalleryEditor from './GalleryEditor';
 import BlogEditor from './BlogEditor';
 import DealerEditor from './DealerEditor';
 import AbroadEditor from './AbroadEditor';
+import AboutUsPageEditor from './AboutUsPageEditor';
+import CityBuilderPageEditor from './CityBuilderPageEditor';
+import ContactPageEditor from './ContactPageEditor';
 
 interface TabItem {
   slug: string;
@@ -79,6 +82,9 @@ const CmsDashboard = () => {
   const isBlogTab = TABS[activeTab]?.slug === 'blogs';
   const isDealerTab = TABS[activeTab]?.slug === 'dealers';
   const isAbroadTab = TABS[activeTab]?.slug === 'abroad';
+  const isAboutUsTab = TABS[activeTab]?.slug === 'about-us';
+  const isContactTab = TABS[activeTab]?.slug === 'contact';
+  const isCityBuilderTab = TABS[activeTab]?.slug === 'city-builder';
 
   return (
     <div className="cms-dashboard-container">
@@ -145,17 +151,36 @@ const CmsDashboard = () => {
               </div>
               <AbroadEditor />
             </>
+          ) : isAboutUsTab ? (
+            <>
+              <div className="cms-content-header mb-3">
+                <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
+                <p className="text-muted small">Manage the About Us page content with custom fields for your company information and team details.</p>
+              </div>
+              <AboutUsPageEditor />
+            </>
+          ) : isContactTab ? (
+            <>
+              <div className="cms-content-header mb-3">
+                <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
+                <p className="text-muted small">Manage contact page settings including address, phone, email, and Google Maps integration.</p>
+              </div>
+              <ContactPageEditor />
+            </>
+          ) : isCityBuilderTab ? (
+            <>
+              <div className="cms-content-header mb-3">
+                <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
+                <p className="text-muted small">Manage city builder page content with director message and company information.</p>
+              </div>
+              <CityBuilderPageEditor />
+            </>
           ) : (
             <>
               <div className="cms-content-header mb-3">
                 <h4 className="fw-500">{TABS[activeTab].displayName}</h4>
                 <p className="text-muted small">Edit the rich text content for this page. Changes will reflect on the live site immediately after saving.</p>
               </div>
-              
-              <CmsComponentEditor 
-                slug={TABS[activeTab].slug} 
-                title={TABS[activeTab].defaultTitle}
-              />
             </>
           )}
         </div>

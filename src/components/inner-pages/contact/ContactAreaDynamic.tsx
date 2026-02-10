@@ -45,7 +45,7 @@ const ContactAreaDynamic = () => {
         <div className="row">
           <div className="col-xxl-9 col-xl-8 col-lg-10 m-auto">
             <div className="title-one text-center wow fadeInUp">
-              <h3>{contactTitle}</h3>
+              <h2 className="h3">{contactTitle}</h2>
             </div>
           </div>
         </div>
