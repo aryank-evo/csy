@@ -33,7 +33,7 @@ const footer_data: DataType[] = [
       widget_class: "xs-mt-30",
       page: "home_1",
       widget_title: "New Listing",
-      footer_link: [{ link: "/buy", link_title: "​Buy Apartments" }, { link: "/buy", link_title: "Buy Condos" }, { link: "/rent", link_title: "Rent Houses" }, { link: "/rent", link_title: "Rent Industrial" }, { link: "/buy", link_title: "Buy Villas" }, { link: "/rent", link_title: "Rent Office" },]
+      footer_link: [{ link: "/buy", link_title: "​Buy Properties" }, { link: "/rent", link_title: "Rent Properties" }, { link: "/lease", link_title: "Lease Properties" }, { link: "/pg", link_title: "PG Properties" },]
    },
 
    // home two
@@ -55,7 +55,7 @@ const footer_data: DataType[] = [
       id: 3,
       page: "home_3",
       widget_title: "New Listing",
-      footer_link: [{ link: "/buy", link_title: "​Buy Apartments" }, { link: "/buy", link_title: "Buy Condos" }, { link: "/rent", link_title: "Rent Houses" }, { link: "/rent", link_title: "Rent Industrial" }, { link: "/buy", link_title: "Buy Villas" }, { link: "/rent", link_title: "Rent Office" },]
+      footer_link: [{ link: "/buy", link_title: "​Buy Properties" }, { link: "/rent", link_title: "Rent Properties" }, { link: "/lease", link_title: "Lease Properties" }, { link: "/pg", link_title: "PG Properties" },]
    },
 
    // home four
@@ -72,7 +72,7 @@ const footer_data: DataType[] = [
       widget_class: "col-xl-2 col-lg-3",
       page: "home_4",
       widget_title: "New Listing",
-      footer_link: [{ link: "/buy", link_title: "​Buy Apartments" }, { link: "/buy", link_title: "Buy Condos" }, { link: "/rent", link_title: "Rent Houses" }, { link: "/rent", link_title: "Rent Industrial" }, { link: "/buy", link_title: "Buy Villas" }, { link: "/rent", link_title: "Rent Office" },]
+      footer_link: [{ link: "/buy", link_title: "​Buy Properties" }, { link: "/rent", link_title: "Rent Properties" }, { link: "/lease", link_title: "Lease Properties" }, { link: "/pg", link_title: "PG Properties" },]
    },
    {
       id: 3,
@@ -104,7 +104,7 @@ const footer_data: DataType[] = [
       widget_class: "col-lg-2",
       page: "home_5",
       widget_title: "New Listing",
-      footer_link: [{ link: "/buy", link_title: "​Buy Apartments" }, { link: "/buy", link_title: "Buy Condos" }, { link: "/rent", link_title: "Rent Houses" }, { link: "/rent", link_title: "Rent Industrial" }, { link: "/buy", link_title: "Buy Villas" }, { link: "/rent", link_title: "Rent Office" },]
+      footer_link: [{ link: "/buy", link_title: "​Buy Properties" }, { link: "/rent", link_title: "Rent Properties" }, { link: "/lease", link_title: "Lease Properties" }, { link: "/pg", link_title: "PG Properties" },]
    },
 ]
 
