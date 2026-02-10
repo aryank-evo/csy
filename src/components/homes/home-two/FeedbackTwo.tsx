@@ -20,28 +20,41 @@ interface DataType {
 }
 
 const feedback_data: DataType[] = [
-   {
-      id: 1,
-      desc: (<>&quot;Excellent service, made my dream home real. <span>highly recommended</span> real estate agency!&quot;</>),
-      title: "Dharminder Singh",
-      country: "",
-      thumb: feedbackThumb_1,
-   },
-   {
-      id: 2,
-      desc: (<>&quot;Excellent service, made my dream home real. <span>highly recommended</span> real estate agency!&quot;</>),
-      title: "Manpreet Singh",
-      country: "",
-      thumb: feedbackThumb_2,
-   },
-   {
-      id: 3,
-      desc: (<>&quot;Excellent service, made my dream home real. <span>highly recommended</span> real estate agency!&quot;</>),
-      title: "Nikhil Kashyap",
-      country: "",
-      thumb: feedbackThumb_3,
-   },
-]
+  {
+    id: 1,
+    desc: (
+      <>
+        &quot;City Square Yards made my property search simple and transparent. The team was professional and supportive throughout the process. <span>Highly recommended!</span>&quot;
+      </>
+    ),
+    title: "Dharminder Singh",
+    country: "Model Town",
+    thumb: feedbackThumb_1,
+  },
+  {
+    id: 2,
+    desc: (
+      <>
+        &quot;I found the perfect rental property through City Square Yards. The listings were genuine and the response was quick. <span>Very reliable platform.</span>&quot;
+      </>
+    ),
+    title: "Manpreet Singh",
+    country: "Pakhowal",
+    thumb: feedbackThumb_2,
+  },
+  {
+    id: 3,
+    desc: (
+      <>
+        &quot;Great experience listing my commercial property. Good visibility and serious enquiries. <span>Trustworthy real estate platform.</span>&quot;
+      </>
+    ),
+    title: "Nikhil Kashyap",
+    country: "South City",
+    thumb: feedbackThumb_3,
+  },
+];
+
 
 const FeedbackTwo = () => {
 

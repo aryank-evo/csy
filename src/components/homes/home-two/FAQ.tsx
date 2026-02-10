@@ -14,7 +14,7 @@ const FAQ = () => {
                      <h2 className="font-garamond">Frequently Asked Question</h2>
                      <p className="fs-20 mt-xs pt-20 md-pt-10">Don’t find the answer? We can help you.</p>
                   </div>
-                  <Link href="/faq" className="btn-five sm text-uppercase rounded-0">ASK QUESTIONs</Link>
+                  <Link href="/contact" className="btn-five sm text-uppercase rounded-0">ASK QUESTIONs</Link>
                </div>
 
                <div className="col-lg-7">
