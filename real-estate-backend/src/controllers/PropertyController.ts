@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import { SaleProperty } from '../models/SaleProperty';
 import { RentProperty } from '../models/RentProperty';
 import { LeaseProperty } from '../models/LeaseProperty';
@@ -1215,6 +1216,182 @@ export const updateApprovalStatus = async (req: Request, res: Response): Promise
     });
   }
 };
+
+export const getPropertiesByLocation = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { locationName } = req.params;
+    const { type, includePending = false } = req.query;
+    
+    if (!locationName) {
+      res.status(400).json({
+        success: false,
+        message: 'Location name is required'
+      });
+      return;
+    }
+
+    // Decode the location name (in case it contains URL-encoded characters)
+    const decodedLocationName = decodeURIComponent(locationName).toLowerCase().trim();
+    
+    // Define approval status filter
+    const approvalStatus = includePending ? ['approved', 'pending'] : ['approved'];
+    
+    // If a specific type is requested, only search in that table
+    if (type) {
+      let properties: any[] = [];
+      const whereClause = { 
+        approvalStatus: approvalStatus,
+        [Op.or]: [
+          { location: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { city: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { state: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { address: { [Op.iLike]: `%${decodedLocationName}%` } }
+        ]
+      };
+      const order: any = [['createdAt', 'DESC']];
+      const typeStr = String(type).toLowerCase();
+
+      if (typeStr === 'sale' || typeStr === 'sell' || typeStr === 'buy') {
+        properties = await SaleProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'rent') {
+        properties = await RentProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'lease') {
+        properties = await LeaseProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'pg') {
+        properties = await PgProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'commercial') {
+        properties = await CommercialProperty.findAll({ where: whereClause, order });
+      } else if (typeStr === 'land') {
+        properties = await LandProperty.findAll({ where: whereClause, order });
+      }
+
+      res.status(200).json({
+        success: true,
+        count: properties.length,
+        location: decodedLocationName,
+        propertyType: typeStr,
+        data: properties
+      });
+      return;
+    }
+
+    // Search across all property tables
+    const saleProperties = await SaleProperty.findAll({
+      where: {
+        approvalStatus: approvalStatus,
+        [Op.or]: [
+          { location: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { city: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { state: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { address: { [Op.iLike]: `%${decodedLocationName}%` } }
+        ]
+      },
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const rentProperties = await RentProperty.findAll({
+      where: {
+        approvalStatus: approvalStatus,
+        [Op.or]: [
+          { location: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { city: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { state: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { address: { [Op.iLike]: `%${decodedLocationName}%` } }
+        ]
+      },
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const leaseProperties = await LeaseProperty.findAll({
+      where: {
+        approvalStatus: approvalStatus,
+        [Op.or]: [
+          { location: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { city: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { state: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { address: { [Op.iLike]: `%${decodedLocationName}%` } }
+        ]
+      },
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const pgProperties = await PgProperty.findAll({
+      where: {
+        approvalStatus: approvalStatus,
+        [Op.or]: [
+          { location: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { city: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { state: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { address: { [Op.iLike]: `%${decodedLocationName}%` } }
+        ]
+      },
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const commercialProperties = await CommercialProperty.findAll({
+      where: {
+        approvalStatus: approvalStatus,
+        [Op.or]: [
+          { location: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { city: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { state: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { address: { [Op.iLike]: `%${decodedLocationName}%` } }
+        ]
+      },
+      order: [['createdAt', 'DESC']]
+    });
+    
+    const landProperties = await LandProperty.findAll({
+      where: {
+        approvalStatus: approvalStatus,
+        [Op.or]: [
+          { location: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { city: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { state: { [Op.iLike]: `%${decodedLocationName}%` } },
+          { address: { [Op.iLike]: `%${decodedLocationName}%` } }
+        ]
+      },
+      order: [['createdAt', 'DESC']]
+    });
+
+    // Combine all properties
+    const allProperties = [
+      ...saleProperties,
+      ...rentProperties,
+      ...leaseProperties,
+      ...pgProperties,
+      ...commercialProperties,
+      ...landProperties
+    ];
+
+    // Sort by date descending
+    allProperties.sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return b.createdAt.getTime() - a.createdAt.getTime();
+      }
+      return 0;
+    });
+
+    res.status(200).json({
+      success: true,
+      count: allProperties.length,
+      location: decodedLocationName,
+      data: allProperties
+    });
+  } catch (error) {
+    console.error('Error searching properties by location:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to search properties by location',
+      error: (error as Error).message
+    });
+  }
+};
+
+export const deleteProperty = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const propertyId = parseInt(id);
 
 export const deleteProperty = async (req: Request, res: Response): Promise<void> => {
   try {

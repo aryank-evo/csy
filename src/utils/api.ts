@@ -72,6 +72,18 @@ export const getPropertyById = async (id: string | number, type?: string) => {
   }
 };
 
+export const getPropertiesByLocation = async (locationName: string, type?: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/properties/location/${encodeURIComponent(locationName)}`, {
+      params: { type }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error getting properties by location ${locationName}:`, error);
+    throw error;
+  }
+};
+
 // Get all properties for admin dashboard
 export const getAllProperties = async (token: string) => {
   try {

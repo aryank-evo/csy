@@ -6,6 +6,7 @@ import {
   getAllPropertiesCombined,
   getAllPendingProperties, 
   getPropertyById, 
+  getPropertiesByLocation,
   updateProperty,
   updateApprovalStatus,
   approveProperty, 
@@ -19,6 +20,7 @@ const router = express.Router();
 router.post('/', upload.array('images'), createProperty); // Create property listing with image upload
 router.get('/', getAllProperties); // Get all approved properties
 router.get('/all-combined', getAllPropertiesCombined); // Get ALL properties from ALL tables
+router.get('/location/:locationName', getPropertiesByLocation); // Search properties by location name
 router.get('/:id', getPropertyById); // Get specific approved property
 router.put('/:id', upload.array('images'), updateProperty); // Update property details with image upload
 router.put('/:id/status', updateApprovalStatus); // Update property approval status
