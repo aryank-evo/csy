@@ -3,7 +3,7 @@ import AdminDashboardIndex from "@/components/dashboard/admin/AdminDashboardInde
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-  title: "Admin Dashboard HOZN - Real Estate Admin Panel",
+  title: "Admin Dashboard csy - Real Estate Admin Panel",
 };
 
 const AdminDashboardPage = () => {

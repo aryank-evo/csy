@@ -17,11 +17,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={isDev}>
       <head>
         <meta name="keywords" content="Real estate, Property sale, Property buy" />
-        <meta name="description" content="HOZN is a beautiful website designed for Real Estate Agency." />
-        <meta property="og:site_name" content="HOZN" />
+        <meta name="description" content="csy is a beautiful website designed for Real Estate Agency." />
+        <meta property="og:site_name" content="csy" />
         <meta property="og:url" content="https://creativegigstf.com" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="HOZN - Real Estate React Next js" />
+        <meta property="og:title" content="csy - Real Estate React Next js" />
         <meta name='og:image' content='images/assets/ogg.png' />
         {/* For IE  */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

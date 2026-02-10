@@ -3,7 +3,7 @@ import CmsDashboard from "@/components/dashboard/cms/CmsDashboard";
 import DashboardHeaderTwo from "@/layouts/headers/dashboard/DashboardHeaderTwo";
 
 export const metadata = {
-   title: "CMS Management - HOZN Real Estate",
+   title: "CMS Management - csy Real Estate",
 };
 
 const CmsPage = () => {

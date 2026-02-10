@@ -1,3 +1,3 @@
 export const metadata = {
-   title: "Listing Twelve HOZN - Real Estate React Next js ",
+   title: "Listing Twelve csy - Real Estate React Next js ",
 };

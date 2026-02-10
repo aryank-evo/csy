@@ -1,9 +1,9 @@
-# Hozn - Real Estate 🏡🚀
+# csy - Real Estate 🏡🚀
 
-![GitHub repo size](https://img.shields.io/github/repo-size/AHMAD-JX/Hozn-RealEstate-Fullstack?style=for-the-badge)
-![GitHub stars](https://img.shields.io/github/stars/AHMAD-JX/Hozn-RealEstate-Fullstack?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/AHMAD-JX/Hozn-RealEstate-Fullstack?style=for-the-badge)
-![GitHub license](https://img.shields.io/github/license/AHMAD-JX/Hozn-RealEstate-Fullstack?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/AHMAD-JX/csy-RealEstate-Fullstack?style=for-the-badge)
+![GitHub stars](https://img.shields.io/github/stars/AHMAD-JX/csy-RealEstate-Fullstack?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/AHMAD-JX/csy-RealEstate-Fullstack?style=for-the-badge)
+![GitHub license](https://img.shields.io/github/license/AHMAD-JX/csy-RealEstate-Fullstack?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
@@ -19,7 +19,7 @@
 
 
 ## 🌟 Overview
-**Hozn - Real Estate** is a **Full-Stack** real estate website built with **React, Next.js, TypeScript**, and a **Node.js (Express) backend**. The platform allows users to browse, list, and manage properties seamlessly.
+**csy - Real Estate** is a **Full-Stack** real estate website built with **React, Next.js, TypeScript**, and a **Node.js (Express) backend**. The platform allows users to browse, list, and manage properties seamlessly.
 
 ## 🎯 Features
 - 🔥 **Modern UI/UX** with smooth animations
@@ -40,13 +40,13 @@
 
 ## 📸 Screenshots
 ### 🏠 Home Page
-![Home](https://github.com/AHMAD-JX/Hozn-RealEstate-Fullstack/blob/eedce2626f82448aa5611f945dbc5778ddcef4eb/public/assets/images/assets/1.png)
+![Home](https://github.com/AHMAD-JX/csy-RealEstate-Fullstack/blob/eedce2626f82448aa5611f945dbc5778ddcef4eb/public/assets/images/assets/1.png)
 
 ### 🏡 Property Listing
-![Properties](https://github.com/AHMAD-JX/Hozn-RealEstate-Fullstack/blob/eedce2626f82448aa5611f945dbc5778ddcef4eb/public/assets/images/assets/2.png)
+![Properties](https://github.com/AHMAD-JX/csy-RealEstate-Fullstack/blob/eedce2626f82448aa5611f945dbc5778ddcef4eb/public/assets/images/assets/2.png)
 
 ### 🛠️ Dashboard
-![Dashboard](https://github.com/AHMAD-JX/Hozn-RealEstate-Fullstack/blob/eedce2626f82448aa5611f945dbc5778ddcef4eb/public/assets/images/assets/3.png)
+![Dashboard](https://github.com/AHMAD-JX/csy-RealEstate-Fullstack/blob/eedce2626f82448aa5611f945dbc5778ddcef4eb/public/assets/images/assets/3.png)
 
 ## 🛠️ Tech Stack
 
@@ -69,8 +69,8 @@
 
 ## 📂 Project Structure
 ```
-Hozn-RealEstate-Fullstack/Hozn-RealEstate
-├── Hozn-RealEstate/  # React + Next.js frontend
+csy-RealEstate-Fullstack/csy-RealEstate
+├── csy-RealEstate/  # React + Next.js frontend
 │   ├── .next/
 │   ├── node_modules/
 │   ├── public/
@@ -130,14 +130,14 @@ CREATE DATABASE real-estate-backend;
 
 ### 3️⃣ Clone the Repository
 ```sh
-git clone https://github.com/AHMAD-JX/Hozn-RealEstate-Fullstack.git
-cd Hozn-RealEstate-Fullstack
+git clone https://github.com/AHMAD-JX/csy-RealEstate-Fullstack.git
+cd csy-RealEstate-Fullstack
 ```
 
 ### 2️⃣ Install dependencies:
 ```sh
 # Install frontend dependencies
-cd Hozn-RealEstate
+cd csy-RealEstate
 npm install
 
 # Install backend dependencies
@@ -165,7 +165,7 @@ cd real-estate-backend
 npm run dev
 
 # Start frontend
-cd ../hozn-frontend
+cd ../csy-frontend
 
 npx ts-node src/server.ts
 or
@@ -247,7 +247,7 @@ Feel free to fork the repository and create a pull request! 😊
 ## 📜 License
 This project is licensed under the **MIT License**.
 
-🚀 **HOZN - Real Estate** | Built with ❤️ by [AHMAD-JX](https://github.com/AHMAD-JX)
+🚀 **csy - Real Estate** | Built with ❤️ by [AHMAD-JX](https://github.com/AHMAD-JX)
 
 
 

@@ -2,7 +2,7 @@ import TestDynamicContent from "@/components/TestDynamicContent";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-   title: "Test Dynamic Content - HOZN",
+   title: "Test Dynamic Content - csy",
 };
 
 const TestPage = () => {

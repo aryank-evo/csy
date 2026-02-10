@@ -54,7 +54,7 @@ const feature_data: DataType[] = [
       icon: featureIcon_1,
       title: "Buy a home",
       btn:"Find Home",
-      desc: "Explore HOZN 2 million+ homes and uncover your ideal living space.",
+      desc: "Explore csy 2 million+ homes and uncover your ideal living space.",
    },
    {
       id: 2,
@@ -62,7 +62,7 @@ const feature_data: DataType[] = [
       icon: featureIcon_2,
       title: "RENT A HOME",
       btn:"Rent Home",
-      desc: "Discover a rental you'll love on HOZN, thanks to 35+ filters and tailored keywords.",
+      desc: "Discover a rental you'll love on csy, thanks to 35+ filters and tailored keywords.",
    },
    {
       id: 3,
@@ -250,7 +250,7 @@ const feature_data: DataType[] = [
       icon: feature5Icon_1,
       title: "Buy a home",
       btn: "Find Home",
-      desc: "Explore HOZN 2 million+ homes and uncover your ideal living space.",
+      desc: "Explore csy 2 million+ homes and uncover your ideal living space.",
    },
    {
       id: 2,
@@ -258,7 +258,7 @@ const feature_data: DataType[] = [
       icon: feature5Icon_2,
       title: "Buy a home",
       btn: "Rent Home",
-      desc: "Discover a rental you'll love on HOZN, thanks to 35+ filters and tailored keywords.",
+      desc: "Discover a rental you'll love on csy, thanks to 35+ filters and tailored keywords.",
       data_delay_time: "0.1s",
    },
    {
@@ -304,7 +304,7 @@ const feature_data: DataType[] = [
       icon: feature6Icon_1,
       title: "Buy a home",
       btn: "Find Home",
-      desc: "Explore HOZN 2 million+ homes and uncover your ideal living space.",
+      desc: "Explore csy 2 million+ homes and uncover your ideal living space.",
    },
    {
       id: 2,
@@ -312,7 +312,7 @@ const feature_data: DataType[] = [
       icon: feature6Icon_2,
       title: "Rent a home",
       btn: "Rent Home",
-      desc: "Discover a rental you'll love on HOZN, thanks to 35+ filters and tailored keywords.",
+      desc: "Discover a rental you'll love on csy, thanks to 35+ filters and tailored keywords.",
       data_delay_time: "0.1s",
    },
    {
