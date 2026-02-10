@@ -45,7 +45,7 @@ const BLockFeatureTwo = ({ style }: any) => {
                      <div className={`bg ${style ? "bg_2" : ""}`}>
                         <div className="card-style-three p0">
                            <div className="bg-wrapper text-center">
-                              <h3>0<Count number={7} />+</h3>
+                              <h3><Count number={29} />+</h3>
                               <p>Years Experience <br />with proud.</p>
                            </div>
                         </div>
