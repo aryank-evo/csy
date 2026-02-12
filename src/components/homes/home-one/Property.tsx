@@ -3,7 +3,7 @@ import Link from "next/link";
 import property_data from "@/data/home-data/PropertyData";
 
 import titleShape from "@/assets/images/shape/title_shape_03.svg";
-import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
+import VerifiedProperty from "@/components/common/VerifiedProperty";
 
 const Property = () => {
    return (
@@ -24,7 +24,7 @@ const Property = () => {
                                  <div className={`tag border-25 ${item.tag_bg}`}>{item.tag}</div>
                                  {item.isVerified && (
                                     <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-                                       <BlueTickVerifiedIcon size={24} />
+                                       <VerifiedProperty />
                                     </div>
                                  )}
                                  <div id={`carousel${item.carousel}`} className="carousel slide">

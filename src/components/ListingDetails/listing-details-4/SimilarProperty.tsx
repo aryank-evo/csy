@@ -4,7 +4,7 @@ import property_data from "@/data/home-data/PropertyData"
 import Image from "next/image"
 import Link from "next/link"
 import Slider from "react-slick";
-import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
+import VerifiedProperty from "@/components/common/VerifiedProperty";
 
 const setting = {
    dots: true,
@@ -37,7 +37,7 @@ const SimilarProperty = () => {
                            <div className="tag bg-white text-dark fw-500">FOR RENT</div>
                            {item.isVerified && (
                               <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-                                 <BlueTickVerifiedIcon size={24} />
+                                 <VerifiedProperty />
                               </div>
                            )}
                            <Image src={item.thumb ? item.thumb : ""} className="w-100" alt="..." />

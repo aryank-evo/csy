@@ -12,7 +12,7 @@ import placeholderImage from "@/assets/images/listing/img_01.jpg";
 import { getAllPropertiesCombined } from "@/utils/api";
 
 // Blue tick icon import
-import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
+import VerifiedProperty from "@/components/common/VerifiedProperty";
 
 // Lead capture imports
 import LeadCaptureModal from '@/modals/LeadCaptureModal';
@@ -112,7 +112,7 @@ const Property = ({ style }: { style?: boolean }) => {
                         <div className="tag fw-500">{property.type?.toUpperCase() || property.sourceTable?.replace('_properties', '').toUpperCase() || 'PROPERTY'}</div>
                         {property.isVerified && (
                           <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-                            <BlueTickVerifiedIcon size={24} />
+                            <VerifiedProperty />
                           </div>
                         )}
                         <div id={`carousel${property.id || index}`} className="carousel slide">

@@ -9,7 +9,7 @@ import Fancybox from "@/components/common/Fancybox"
 import propertyShape_1 from "@/assets/images/shape/shape_37.svg"
 import propertyShape_2 from "@/assets/images/shape/shape_38.svg"
 import propertyShape_3 from "@/assets/images/shape/shape_39.svg"
-import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
+import VerifiedProperty from "@/components/common/VerifiedProperty";
 
 const setting = {
    dots: false,
@@ -75,7 +75,7 @@ const PropertyTwo = ({ style }: any) => {
                                  <div className="tag bg-white text-dark fw-500 border-20">{item.tag}</div>
                                  {item.isVerified && (
                                     <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-                                       <BlueTickVerifiedIcon size={24} />
+                                       <VerifiedProperty />
                                     </div>
                                  )}
                                  <Image src={item.thumb ? item.thumb : ""} className="w-100 border-20" alt="..." />

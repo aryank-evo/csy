@@ -1,6 +1,6 @@
 import feature_listing_data from '@/data/home-data/FeaturedListingData'
 import Link from 'next/link'
-import BlueTickVerifiedIcon from "@/components/common/BlueTickVerifiedIcon";
+import VerifiedProperty from "@/components/common/VerifiedProperty";
 
 const PropertyTwo = () => {
    return (
@@ -19,7 +19,7 @@ const PropertyTwo = () => {
                            <div className="tag fw-500">{item.tag}</div>
                            {item.isVerified && (
                               <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-                                 <BlueTickVerifiedIcon size={24} />
+                                 <VerifiedProperty />
                               </div>
                            )}
                            <div className="property-info tran3s w-100">
