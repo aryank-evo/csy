@@ -24,7 +24,7 @@ const AdSection = () => {
       setLoading(true);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/advertisements`);
       const data = await response.json();
-      
+
       if (data.success && data.data && data.data.length > 0) {
         const ad = data.data[0];
         setAdvertisements({
@@ -42,7 +42,7 @@ const AdSection = () => {
 
   const getYoutubeEmbedUrl = (youtubeUrl: string) => {
     if (!youtubeUrl) return '';
-    
+
     // Extract video ID from various YouTube URL formats
     const videoIdMatch = youtubeUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
     if (videoIdMatch) {
@@ -80,18 +80,26 @@ const AdSection = () => {
     <div className="ads-section ps-xl-4 md-mt-60">
       <h4 className="mb-30 text-white font-garamond fst-italic mt-2">Also have a look ~</h4>
       <div className="row g-4">
-        {ads.map((ad, index) => (
-          <div key={index} className="col-12">
-            <div className="ratio ratio-16x9 rounded overflow-hidden border border-light border-opacity-25 shadow-sm">
-              <iframe
-                src={getYoutubeEmbedUrl(ad.url || '')}
-                title={ad.label}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+        {ads.map((ad, index) => {
+          const embedUrl = getYoutubeEmbedUrl(ad.url || '');
+
+          const autoplayUrl = embedUrl.includes('?')
+            ? `${embedUrl}&autoplay=1&mute=1&playsinline=1`
+            : `${embedUrl}?autoplay=1&mute=1&playsinline=1`;
+
+          return (
+            <div key={index} className="col-12">
+              <div className="ratio ratio-16x9 rounded overflow-hidden border border-light border-opacity-25 shadow-sm">
+                <iframe
+                  src={autoplayUrl}
+                  title={ad.label}
+                  allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
