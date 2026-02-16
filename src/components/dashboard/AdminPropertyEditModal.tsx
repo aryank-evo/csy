@@ -1,339 +1,482 @@
-"use client"
-import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
+"use client";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface Property {
-  id: number
-  title?: string
-  description?: string
-  price?: string
-  location?: string
-  address?: string
-  city?: string
-  state?: string
-  zipCode?: string
-  country?: string
-  propertyType: string
-  propertyStatus?: string
-  approvalStatus: string
-  isVerified?: boolean
-  createdAt?: string
-  contactName?: string
-  contactEmail?: string
-  contactPhone?: string
-  bedrooms?: string
-  bathrooms?: string
-  area?: string
-  amenities?: string
-  images?: string[]
-  fieldVisibility?: Record<string, boolean>
-  imageVisibility?: Record<number, boolean>
-  [key: string]: any
+  id: number;
+  title?: string;
+  description?: string;
+  price?: string;
+  location?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  propertyType: string;
+  propertyStatus?: string;
+  approvalStatus: string;
+  isVerified?: boolean;
+  createdAt?: string;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  bedrooms?: string;
+  bathrooms?: string;
+  area?: string;
+  amenities?: string;
+  images?: string[];
+  fieldVisibility?: Record<string, boolean>;
+  imageVisibility?: Record<number, boolean>;
+  [key: string]: any;
 }
 
 interface AdminPropertyEditModalProps {
-  property: Property
-  isOpen: boolean
-  onClose: () => void
-  onUpdate: (updatedProperty: Property) => void
+  property: Property;
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdate: (updatedProperty: Property) => void;
 }
 
 // Fields to exclude from the dynamic form (non-editable or system fields)
 const EXCLUDED_FIELDS = [
-  'id',
-  'propertyType',
-  'approvalStatus',
-  'createdAt',
-  'updatedAt',
-  'images',
-  'fieldVisibility',
-  'imageVisibility',
-  'userId',
-  'approvedBy',
-  'approvedAt',
-  '__rawAttributes',
-  'dataValues',
-  '_previousDataValues',
-  'unique',
-  'hasPrimaryKeys',
-  'hasPrimaryKeys',
-  '_changed',
-  '_options'
-]
+  "id",
+  "propertyType",
+  "approvalStatus",
+  "createdAt",
+  "updatedAt",
+  "images",
+  "fieldVisibility",
+  "imageVisibility",
+  "userId",
+  "approvedBy",
+  "approvedAt",
+  "__rawAttributes",
+  "dataValues",
+  "_previousDataValues",
+  "unique",
+  "hasPrimaryKeys",
+  "hasPrimaryKeys",
+  "_changed",
+  "_options",
+];
 
 // Fields that should use a select dropdown
 const SELECT_FIELDS = {
   propertyStatus: [
-    { value: '', label: 'Select Status' },
-    { value: 'available', label: 'Available' },
-    { value: 'sold', label: 'Sold' },
-    { value: 'rented', label: 'Rented' },
-    { value: 'under_construction', label: 'Under Construction' },
-    { value: 'ready', label: 'Ready' }
-  ]
-}
+    { value: "", label: "Select Status" },
+    { value: "available", label: "Available" },
+    { value: "sold", label: "Sold" },
+    { value: "rented", label: "Rented" },
+    { value: "under_construction", label: "Under Construction" },
+    { value: "ready", label: "Ready" },
+  ],
+};
 
 // Generate label from camelCase or snake_case key
 const generateLabel = (key: string): string => {
   // Handle snake_case
-  if (key.includes('_')) {
+  if (key.includes("_")) {
     return key
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ')
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
   }
   // Handle camelCase - insert space before uppercase letters and capitalize each word
   return key
-    .replace(/([A-Z])/g, ' $1')
+    .replace(/([A-Z])/g, " $1")
     .trim()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ')
-}
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
 
 // Determine input type based on field name and value
-const getFieldConfig = (key: string, value: any): { type: string; label: string; options?: { value: string; label: string }[] } => {
-  const label = generateLabel(key)
-  
+const getFieldConfig = (
+  key: string,
+  value: any,
+): {
+  type: string;
+  label: string;
+  options?: { value: string; label: string }[];
+} => {
+  const label = generateLabel(key);
+
   // Check if it's a select field
   if (SELECT_FIELDS[key as keyof typeof SELECT_FIELDS]) {
     return {
-      type: 'select',
+      type: "select",
       label,
-      options: SELECT_FIELDS[key as keyof typeof SELECT_FIELDS]
-    }
+      options: SELECT_FIELDS[key as keyof typeof SELECT_FIELDS],
+    };
   }
-  
-  // Determine type based on field name patterns
-  const lowerKey = key.toLowerCase()
-  
-  if (lowerKey.includes('email')) {
-    return { type: 'email', label }
-  }
-  if (lowerKey.includes('phone') || lowerKey.includes('mobile')) {
-    return { type: 'tel', label }
-  }
-  if (lowerKey.includes('price') || lowerKey.includes('amount') || lowerKey.includes('deposit') || lowerKey.includes('rent')) {
-    return { type: 'number', label }
-  }
-  if (lowerKey.includes('description') || lowerKey.includes('terms') || lowerKey.includes('content')) {
-    return { type: 'textarea', label }
-  }
-  if (lowerKey.includes('area') || lowerKey.includes('sqft') || lowerKey.includes('size')) {
-    return { type: 'number', label }
-  }
-  
-  // Check if value looks like it should be a number
-  if (typeof value === 'number' || (typeof value === 'string' && !isNaN(parseFloat(value)) && /^-?\d*\.?\d+$/.test(value))) {
-    return { type: 'number', label }
-  }
-  
-  return { type: 'text', label }
-}
 
-const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPropertyEditModalProps) => {
-  const [formData, setFormData] = useState<Record<string, any>>({})
-  const [fieldVisibility, setFieldVisibility] = useState<Record<string, boolean>>({})
-  const [imageVisibility, setImageVisibility] = useState<Record<number, boolean>>({})
-  const [loading, setLoading] = useState(false)
-  const [activeTab, setActiveTab] = useState<'fields' | 'images'>('fields')
-  const [dynamicFields, setDynamicFields] = useState<Array<{ key: string; type: string; label: string; options?: { value: string; label: string }[] }>>([])
-  const [isVerified, setIsVerified] = useState(false)
+  // Determine type based on field name patterns
+  const lowerKey = key.toLowerCase();
+
+  if (lowerKey.includes("email")) {
+    return { type: "email", label };
+  }
+  if (lowerKey.includes("phone") || lowerKey.includes("mobile")) {
+    return { type: "tel", label };
+  }
+  if (
+    lowerKey.includes("price") ||
+    lowerKey.includes("amount") ||
+    lowerKey.includes("deposit") ||
+    lowerKey.includes("rent")
+  ) {
+    return { type: "number", label };
+  }
+  if (
+    lowerKey.includes("description") ||
+    lowerKey.includes("terms") ||
+    lowerKey.includes("content")
+  ) {
+    return { type: "textarea", label };
+  }
+  if (
+    lowerKey.includes("area") ||
+    lowerKey.includes("sqft") ||
+    lowerKey.includes("size")
+  ) {
+    return { type: "number", label };
+  }
+
+  // Check if value looks like it should be a number
+  if (
+    typeof value === "number" ||
+    (typeof value === "string" &&
+      !isNaN(parseFloat(value)) &&
+      /^-?\d*\.?\d+$/.test(value))
+  ) {
+    return { type: "number", label };
+  }
+
+  return { type: "text", label };
+};
+
+const AdminPropertyEditModal = ({
+  property,
+  isOpen,
+  onClose,
+  onUpdate,
+}: AdminPropertyEditModalProps) => {
+  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [fieldVisibility, setFieldVisibility] = useState<
+    Record<string, boolean>
+  >({});
+  const [imageVisibility, setImageVisibility] = useState<
+    Record<number, boolean>
+  >({});
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<"fields" | "images">("fields");
+  const [dynamicFields, setDynamicFields] = useState<
+    Array<{
+      key: string;
+      type: string;
+      label: string;
+      options?: { value: string; label: string }[];
+    }>
+  >([]);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     if (property) {
       // Dynamically generate field configurations from property data
-      const fields: Array<{ key: string; type: string; label: string; options?: { value: string; label: string }[] }> = []
-      
-      Object.keys(property).forEach(key => {
+      const fields: Array<{
+        key: string;
+        type: string;
+        label: string;
+        options?: { value: string; label: string }[];
+      }> = [];
+
+      Object.keys(property).forEach((key) => {
         // Skip excluded fields
-        if (EXCLUDED_FIELDS.includes(key)) return
-        
+        if (EXCLUDED_FIELDS.includes(key)) return;
+
         // Skip if value is null/undefined or if it's an array/object (except images handled separately)
-        const value = property[key]
-        if (value === null || value === undefined) return
-        if (Array.isArray(value)) return
-        if (typeof value === 'object') return
-        
-        const config = getFieldConfig(key, value)
-        fields.push({ key, ...config })
-      })
-      
-      setDynamicFields(fields)
+        const value = property[key];
+        if (value === null || value === undefined) return;
+        if (Array.isArray(value)) return;
+        if (typeof value === "object") return;
+
+        const config = getFieldConfig(key, value);
+        fields.push({ key, ...config });
+      });
+
+      setDynamicFields(fields);
 
       // Initialize form data with all property fields
-      const data: Record<string, any> = {}
-      fields.forEach(field => {
-        data[field.key] = property[field.key] ?? ''
-      })
-      data.approvalStatus = property.approvalStatus || 'pending'
-      setFormData(data)
+      const data: Record<string, any> = {};
+      fields.forEach((field) => {
+        data[field.key] = property[field.key] ?? "";
+      });
+      data.approvalStatus = property.approvalStatus || "pending";
+      setFormData(data);
 
       // Initialize field visibility (default all to true if not set)
-      const visibility: Record<string, boolean> = {}
-      fields.forEach(field => {
-        visibility[field.key] = property.fieldVisibility?.[field.key] !== false
-      })
-      setFieldVisibility(visibility)
+      const visibility: Record<string, boolean> = {};
+      fields.forEach((field) => {
+        visibility[field.key] = property.fieldVisibility?.[field.key] !== false;
+      });
+      setFieldVisibility(visibility);
 
       // Initialize image visibility
-      const imgVisibility: Record<number, boolean> = {}
-      const images = property.images || []
+      const imgVisibility: Record<number, boolean> = {};
+      const images = property.images || [];
       images.forEach((_, index) => {
-        imgVisibility[index] = property.imageVisibility?.[index] !== false
-      })
-      setImageVisibility(imgVisibility)
+        imgVisibility[index] = property.imageVisibility?.[index] !== false;
+      });
+      setImageVisibility(imgVisibility);
 
       // Initialize isVerified state
-      setIsVerified(property.isVerified || false)
+      setIsVerified(property.isVerified || false);
     }
-  }, [property])
+  }, [property]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const toggleFieldVisibility = (fieldKey: string) => {
-    setFieldVisibility(prev => ({
+    setFieldVisibility((prev) => ({
       ...prev,
-      [fieldKey]: !prev[fieldKey]
-    }))
-  }
+      [fieldKey]: !prev[fieldKey],
+    }));
+  };
 
   const toggleImageVisibility = (index: number) => {
-    setImageVisibility(prev => ({
+    setImageVisibility((prev) => ({
       ...prev,
-      [index]: !prev[index]
-    }))
-  }
+      [index]: !prev[index],
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
       const updateData = {
         ...formData,
         fieldVisibility,
         imageVisibility,
-        isVerified
-      }
-      
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/${property.id}?type=${property.propertyType}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+        isVerified,
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api/properties/${property.id}?type=${property.propertyType}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateData),
         },
-        body: JSON.stringify(updateData)
-      })
+      );
 
       if (response.ok) {
-        const result = await response.json()
-        toast.success("Property updated successfully!")
-        onUpdate({ ...property, ...formData, fieldVisibility, imageVisibility, isVerified })
-        onClose()
+        const result = await response.json();
+        toast.success("Property updated successfully!");
+        onUpdate({
+          ...property,
+          ...formData,
+          fieldVisibility,
+          imageVisibility,
+          isVerified,
+        });
+        onClose();
       } else {
-        toast.error("Failed to update property")
+        toast.error("Failed to update property");
       }
     } catch (error) {
-      console.error("Error updating property:", error)
-      toast.error("Error updating property")
+      console.error("Error updating property:", error);
+      toast.error("Error updating property");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleApproval = async (status: "approved" | "rejected") => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/properties/${property.id}/status?type=${property.propertyType}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api/properties/${property.id}/status?type=${property.propertyType}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            approvalStatus: status,
+            fieldVisibility,
+            imageVisibility,
+            isVerified,
+          }),
         },
-        body: JSON.stringify({ 
-          approvalStatus: status, 
-          fieldVisibility, 
-          imageVisibility,
-          isVerified 
-        })
-      })
+      );
 
       if (response.ok) {
-        const result = await response.json()
-        toast.success(`Property ${status} successfully!`)
-        onUpdate({ ...property, approvalStatus: status, fieldVisibility, imageVisibility, isVerified })
-        onClose()
+        const result = await response.json();
+        toast.success(`Property ${status} successfully!`);
+        onUpdate({
+          ...property,
+          approvalStatus: status,
+          fieldVisibility,
+          imageVisibility,
+          isVerified,
+        });
+        onClose();
       } else {
-        toast.error(`Failed to ${status} property`)
+        toast.error(`Failed to ${status} property`);
       }
     } catch (error) {
-      console.error(`Error ${status === "approved" ? "approving" : "rejecting"} property:`, error)
-      toast.error(`Error ${status === "approved" ? "approving" : "rejecting"} property`)
+      console.error(
+        `Error ${status === "approved" ? "approving" : "rejecting"} property:`,
+        error,
+      );
+      toast.error(
+        `Error ${status === "approved" ? "approving" : "rejecting"} property`,
+      );
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  if (!isOpen) return null
+  const handleWhatsAppShare = () => {
+    let message = `*Property Details*\n`;
+
+    dynamicFields.forEach((field) => {
+      const value = formData[field.key];
+      if (
+        value !== undefined &&
+        value !== null &&
+        value !== "" &&
+        field.key !== "latitude" &&
+        field.key !== "longitude" &&
+        field.key !== "verifiedAt" &&
+        field.key !== "possessionStatus" &&
+        field.key !== "approvedAt" &&
+        field.key !== "userType"
+      ) {
+        message += `- *${field.label}:* ${value}\n`;
+      }
+    });
+
+    // Add Google Maps link if coordinates are available
+    if (property.latitude && property.longitude) {
+      message += `*Location:* https://www.google.com/maps/search/?api=1&query=${property.latitude},${property.longitude}\n\n`;
+    } else {
+      message += `\n`;
+    }
+    // Add first image if available
+    if (property.images && property.images.length > 0) {
+      message += `\n*View Image:* ${property.images[0]}\n`;
+    }
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/?text=${encodedMessage}`, "_blank");
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="modal fade show d-block" tabIndex={-1} style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+    <div
+      className="modal fade show d-block"
+      tabIndex={-1}
+      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+    >
       <div className="modal-dialog modal-xl">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Property Approval & Edit</h5>
-            <button type="button" className="btn-close" onClick={onClose}></button>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={onClose}
+            ></button>
           </div>
-          
+
           <div className="modal-body px-4">
             {/* Header Info */}
             <div className="row mb-3">
               <div className="col-12">
                 <div className="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 className="mb-0">Property ID: {property.id}</h6>
-                    <small className="text-muted">Type: {property.propertyType}</small>
+                  <div className="d-flex align-items-center gap-3">
+                    <div>
+                      <h6 className="mb-0">Property ID: {property.id}</h6>
+                      <small className="text-muted">
+                        Type: {property.propertyType}
+                      </small>
+                    </div>
                   </div>
-                  <div className="d-flex align-items-center gap-2">
-                    {/* Verified Toggle */}
-                    <div className="form-check form-switch">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="verifiedToggle"
-                        checked={isVerified}
-                        onChange={(e) => setIsVerified(e.target.checked)}
-                        style={{ cursor: 'pointer', width: '45px', height: '24px' }}
-                      />
-                      <label 
-                        className="form-check-label" 
-                        htmlFor="verifiedToggle"
-                        style={{ cursor: 'pointer' }}
+                  <div className="d-flex justify-content-between  align-items-center gap-3">
+                    <div className="mx-5">
+                      <button
+                        type="button"
+                        className="btn btn-outline-success btn-sm d-flex align-items-center gap-2"
+                        onClick={handleWhatsAppShare}
+                        title="Share details on WhatsApp"
                       >
-                        <span className="d-flex align-items-center gap-1">
-                          {isVerified && (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#3B82F6">
-                              <circle cx="12" cy="12" r="11" fill="#3B82F6"/>
-                              <path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="white" strokeWidth="2" fill="none"/>
-                            </svg>
-                          )}
-                          <span className={isVerified ? "text-primary fw-medium" : "text-muted"}>
-                            {isVerified ? "Verified" : "Not Verified"}
-                          </span>
+                        <i className="fa-brands fa-whatsapp fs-5"></i>
+                        <span>Share</span>
+                      </button>
+                    </div>
+                    {/* Verified Toggle */}
+                    <div className="d-flex align-items-center gap-2 m-0">
+                      <div className="form-check form-switch m-0 p-0 d-flex align-items-center">
+                        <input
+                          className="form-check-input mt-0"
+                          type="checkbox"
+                          id="verifiedToggle"
+                          checked={isVerified}
+                          onChange={(e) => setIsVerified(e.target.checked)}
+                          style={{
+                            cursor: "pointer",
+                            width: "44px",
+                            height: "22px",
+                          }}
+                        />
+                      </div>
+
+                      <label
+                        htmlFor="verifiedToggle"
+                        className="mb-0 d-flex align-items-center gap-1"
+                        style={{ cursor: "pointer" }}
+                      >
+                        <span
+                          className={
+                            isVerified ? "text-primary fw-medium" : "text-muted"
+                          }
+                        >
+                          {isVerified ? "Verified" : "Not Verified"}
                         </span>
                       </label>
                     </div>
-                    <span className={`badge ${
-                      property.approvalStatus === "approved" ? "bg-success" : 
-                      property.approvalStatus === "pending" ? "bg-warning" : "bg-danger"
-                    }`}>
-                      {property.approvalStatus.toUpperCase()}
-                    </span>
+
+                    {/* Approval Badge */}
+                    <div>
+                      <span
+                        className={`badge px-3 py-2 ${
+                          property.approvalStatus === "approved"
+                            ? "bg-success"
+                            : property.approvalStatus === "pending"
+                              ? "bg-warning text-dark"
+                              : "bg-danger"
+                        }`}
+                      >
+                        {property.approvalStatus.toUpperCase()}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -342,17 +485,17 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
             {/* Tabs */}
             <ul className="nav nav-tabs mb-3">
               <li className="nav-item">
-                <button 
-                  className={`nav-link ${activeTab === 'fields' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('fields')}
+                <button
+                  className={`nav-link ${activeTab === "fields" ? "active" : ""}`}
+                  onClick={() => setActiveTab("fields")}
                 >
                   All Fields
                 </button>
               </li>
               <li className="nav-item">
-                <button 
-                  className={`nav-link ${activeTab === 'images' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('images')}
+                <button
+                  className={`nav-link ${activeTab === "images" ? "active" : ""}`}
+                  onClick={() => setActiveTab("images")}
                 >
                   Images ({property.images?.length || 0})
                 </button>
@@ -360,30 +503,34 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
             </ul>
 
             <form onSubmit={handleSubmit}>
-              {activeTab === 'fields' && (
+              {activeTab === "fields" && (
                 <div className="row g-4">
                   {dynamicFields.map((field) => (
                     <div className="col-md-6" key={field.key}>
                       <div className="d-flex align-items-center gap-2">
                         <div className="flex-grow-1">
-                          <label className="form-label mb-1">{field.label}</label>
-                          {field.type === 'textarea' ? (
+                          <label className="form-label mb-1">
+                            {field.label}
+                          </label>
+                          {field.type === "textarea" ? (
                             <textarea
                               className="form-control"
                               name={field.key}
-                              value={formData[field.key] ?? ''}
+                              value={formData[field.key] ?? ""}
                               onChange={handleChange}
                               rows={3}
                             ></textarea>
-                          ) : field.type === 'select' ? (
+                          ) : field.type === "select" ? (
                             <select
                               className="form-select"
                               name={field.key}
-                              value={formData[field.key] ?? ''}
+                              value={formData[field.key] ?? ""}
                               onChange={handleChange}
                             >
-                              {field.options?.map(opt => (
-                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                              {field.options?.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </option>
                               ))}
                             </select>
                           ) : (
@@ -391,7 +538,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
                               type={field.type}
                               className="form-control"
                               name={field.key}
-                              value={formData[field.key] ?? ''}
+                              value={formData[field.key] ?? ""}
                               onChange={handleChange}
                             />
                           )}
@@ -411,20 +558,22 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
                 </div>
               )}
 
-              {activeTab === 'images' && (
+              {activeTab === "images" && (
                 <div className="row g-4">
                   <div className="col-12">
-                    <p className="text-muted mb-0">Toggle visibility for each image on the detail page</p>
+                    <p className="text-muted mb-0">
+                      Toggle visibility for each image on the detail page
+                    </p>
                   </div>
                   {property.images && property.images.length > 0 ? (
                     property.images.map((image: string, index: number) => (
                       <div className="col-md-3" key={index}>
                         <div className="card h-100">
-                          <img 
-                            src={image} 
+                          <img
+                            src={image}
                             alt={`Property image ${index + 1}`}
                             className="card-img-top"
-                            style={{ height: '150px', objectFit: 'cover' }}
+                            style={{ height: "150px", objectFit: "cover" }}
                           />
                           <div className="card-body p-2">
                             <div className="d-flex align-items-center justify-content-between">
@@ -445,7 +594,9 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
                     ))
                   ) : (
                     <div className="col-12">
-                      <p className="text-muted text-center mb-0">No images uploaded for this property</p>
+                      <p className="text-muted text-center mb-0">
+                        No images uploaded for this property
+                      </p>
                     </div>
                   )}
                 </div>
@@ -461,7 +612,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
                   >
                     {loading ? "Processing..." : "Approve Property"}
                   </button>
-                  
+
                   <button
                     type="button"
                     className="btn btn-danger"
@@ -471,7 +622,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
                     {loading ? "Processing..." : "Reject Property"}
                   </button>
                 </div>
-                
+
                 <div>
                   <button
                     type="submit"
@@ -480,7 +631,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
                   >
                     {loading ? "Saving..." : "Save Changes"}
                   </button>
-                  
+
                   <button
                     type="button"
                     className="btn btn-secondary ms-2"
@@ -496,7 +647,7 @@ const AdminPropertyEditModal = ({ property, isOpen, onClose, onUpdate }: AdminPr
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminPropertyEditModal
+export default AdminPropertyEditModal;
