@@ -39,12 +39,12 @@ const AbroadPage = () => {
     <Wrapper>
       <HeaderOne style={true} />
       <main>
-        <BreadcrumbOne 
-          title="Abroad Properties" 
-          sub_title="Explore properties from around the world" 
-          style={false} 
+        <BreadcrumbOne
+          title="Abroad Properties"
+          sub_title="Explore properties from around the world"
+          style={false}
         />
-        
+
         <div className="abroad-section pt-150 lg-pt-100 pb-150 lg-pb-100">
           <div className="container-fluid px-4 px-lg-5">
             <div className="row justify-content-center">
@@ -55,7 +55,7 @@ const AbroadPage = () => {
                 </div>
               </div>
             </div>
-        
+
             {isLoading ? (
               <div className="text-center py-5">
                 <div className="spinner-border text-primary" role="status">
@@ -64,27 +64,27 @@ const AbroadPage = () => {
               </div>
             ) : countries.length === 0 ? (
               <div className="text-center py-5">
-                <p className="text-muted">No abroad properties available at the moment.</p>
+                <p className="text-muted">Coming Soon......!</p>
               </div>
             ) : (
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
                 {countries.map((country: Country) => (
                   <div key={country.id} className="col d-flex justify-content-center">
-                    <div 
+                    <div
                       className="country-card bg-white rounded-4 shadow-sm overflow-hidden h-100 transition-all hover:shadow-lg w-100"
                       onClick={() => setExpandedCountry(expandedCountry === country.id ? null : country.id)}
                       style={{ maxWidth: '400px', cursor: 'pointer' }}
                     >
                       <div className="country-image position-relative">
                         {country.thumbnail ? (
-                          <img 
-                            src={country.thumbnail} 
+                          <img
+                            src={country.thumbnail}
                             alt={country.name}
                             className="w-100"
                             style={{ height: '200px', objectFit: 'cover' }}
                           />
                         ) : (
-                          <div 
+                          <div
                             className="w-100 d-flex align-items-center justify-content-center bg-light"
                             style={{ height: '200px' }}
                           >
@@ -110,14 +110,14 @@ const AbroadPage = () => {
                             {country.description}
                           </p>
                         )}
-                        
+
                         {/* Listings section - expandable */}
                         <div className={`listings-section mt-3 pt-3 border-top ${expandedCountry === country.id ? '' : 'd-none'}`}>
                           <h6 className="fw-medium mb-3">Available Properties</h6>
                           <div className="listings-grid">
                             {country.listings && country.listings.length > 0 ? (
                               country.listings.map((listing) => (
-                                <a 
+                                <a
                                   key={listing.id}
                                   href={listing.link}
                                   target="_blank"
@@ -126,14 +126,14 @@ const AbroadPage = () => {
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   {listing.image ? (
-                                    <img 
-                                      src={listing.image} 
+                                    <img
+                                      src={listing.image}
                                       alt={listing.title}
                                       className="rounded me-3"
                                       style={{ width: '60px', height: '60px', objectFit: 'cover' }}
                                     />
                                   ) : (
-                                    <div 
+                                    <div
                                       className="rounded me-3 bg-white d-flex align-items-center justify-content-center"
                                       style={{ width: '60px', height: '60px' }}
                                     >
