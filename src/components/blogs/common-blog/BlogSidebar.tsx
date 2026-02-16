@@ -14,7 +14,7 @@ const BlogSidebar = ({style}:any) => {
             </div>
             <Category />
             <BlogRcPost />
-            <Tag />
+            {/* <Tag /> */}
          </div>
       </div>
    )
