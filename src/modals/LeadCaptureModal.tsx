@@ -198,7 +198,7 @@ const LeadCaptureModal = ({
               </div>
 
               <div className="mb-3">
-                <label className="form-label">Phone Number *</label>
+                <label className="form-label">WhatsApp Number *</label>
                 <input
                   type="tel"
                   className={`form-control ${errors.phone ? "is-invalid" : ""}`}
