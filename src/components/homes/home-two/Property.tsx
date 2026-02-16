@@ -105,7 +105,7 @@ const Property = ({ style }: { style?: boolean }) => {
               </div>
             ) : latestThree.length > 0 ? (
               latestThree.map((property: any, index: number) => (
-                <div key={property.id || index} className="col-lg-4 col-md-6 d-flex mt-40 wow fadeInUp" data-wow-delay={`0.${index + 1}s`}>
+                <div key={`${property.sourceTable || property.type || 'prop'}-${property.id || index}`} className="col-lg-4 col-md-6 d-flex mt-40 wow fadeInUp" data-wow-delay={`0.${index + 1}s`}>
                   <div className="listing-card-one style-two h-100 w-100">
                     <div className="img-gallery">
                       <div className="position-relative overflow-hidden">
@@ -213,6 +213,18 @@ const Property = ({ style }: { style?: boolean }) => {
                         >
                           <i className="bi bi-arrow-up-right"></i>
                         </button>
+                       {/* <a
+                          href={`https://wa.me/?text=${encodeURIComponent(
+                            `${window.location.origin}/property-details/${property.id}`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Share on WhatsApp"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <i className="bi bi-whatsapp"></i>
+                        </a> */}
+                        
                       </div>
                     </div>
                   </div>

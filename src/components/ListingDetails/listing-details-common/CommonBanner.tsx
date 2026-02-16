@@ -29,7 +29,10 @@ const CommonBanner = ({ property, style_3 }: any) => {
                <ul className="style-none d-flex align-items-center action-btns">
                   <li className="me-auto fw-500 color-dark"><i className="fa-sharp fa-regular fa-share-nodes me-2"></i>
                      Share</li>
-                  <li><Link href="#"
+                  <li>
+                     <a href={`https://wa.me/?text=Check%20out%20this%20property:%20${window.location.href}`} className="d-flex align-items-center justify-content-center tran3s"><i className="fa-brands fa-whatsapp"></i></a>
+                  </li>
+                  {/* <li><Link href="#"
                      className={`d-flex align-items-center justify-content-center tran3s ${style_3 ? "" : "rounded-circle"}`}><i
                         className="fa-light fa-heart"></i></Link></li>
                   <li><Link href="#"
@@ -37,7 +40,7 @@ const CommonBanner = ({ property, style_3 }: any) => {
                         className="fa-light fa-bookmark"></i></Link></li>
                   <li><Link href="#"
                      className={`d-flex align-items-center justify-content-center tran3s ${style_3 ? "" : "rounded-circle"}`}><i
-                        className="fa-light fa-circle-plus"></i></Link></li>
+                        className="fa-light fa-circle-plus"></i></Link></li> */}
                </ul>
             </div>
          </div>

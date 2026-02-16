@@ -92,11 +92,13 @@ export const createLead = async (
       message: 'Lead created successfully',
       data: lead
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Create lead error:', error);
     res.status(500).json({
       success: false,
       message: 'An error occurred while creating the lead. Please try again.',
+      error: error.message,
+      stack: error.stack
     });
   }
 };
