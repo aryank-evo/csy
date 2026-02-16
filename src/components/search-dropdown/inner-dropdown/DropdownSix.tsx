@@ -121,7 +121,7 @@ const DropdownSix = ({
                   </ul>
                </div>
                <div className="col-12">
-                  <h6 className="block-title fw-bold mt-40 mb-15">Price range</h6>
+                  <h6 className="block-title fw-bold mt-40 mb-15">Budget Range</h6>
                   <div className="price-ranger">
                      <div className="price-input style-two d-flex align-items-center justify-content-end pt-5">
                         <div className="field d-flex align-items-center">

@@ -85,7 +85,7 @@ const DropdownTwo = () => {
                         </div>
                         <div className="col-xl-3 col-md-6">
                            <div className="input-box-one border-left">
-                              <div className="label">Price Range</div>
+                              <div className="label">Budget Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={[
@@ -142,7 +142,7 @@ const DropdownTwo = () => {
                         </div>
                         <div className="col-xl-3 col-md-6">
                            <div className="input-box-one border-left">
-                              <div className="label">Price Range</div>
+                              <div className="label">Budget Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={priceRangesRent}
@@ -195,7 +195,7 @@ const DropdownTwo = () => {
                         </div>
                         <div className="col-xl-3 col-md-6">
                            <div className="input-box-one border-left">
-                              <div className="label">Price Range</div>
+                              <div className="label">Budget Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={priceRangesLease}
@@ -248,7 +248,7 @@ const DropdownTwo = () => {
                         </div>
                         <div className="col-xl-3 col-md-6">
                            <div className="input-box-one border-left">
-                              <div className="label">Price Range</div>
+                              <div className="label">Budget Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={priceRangesPG}

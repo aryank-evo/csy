@@ -35,14 +35,14 @@ const faq_data: DataType[] = [
       id: 1,
       page: "home_2_faq_2",
       question: "How can I find properties for rent or lease?",
-      answer: "On City Square Yards, you can easily search for rental or lease properties using category-specific filters such as Rent, Buy, Lease, or PG, along with location (Ludhiana or nearby areas), price range, property type, and other preferences to find the most suitable options.",
+      answer: "On City Properties, you can easily search for rental or lease properties using category-specific filters such as Rent, Buy, Lease, or PG, along with location (Ludhiana or nearby areas), Budget Range, property type, and other preferences to find the most suitable options.",
       showAnswer: false,
    },
    {
       id: 2,
       page: "home_2_faq_2",
-      question: "Does City Square Yards support PGs and hostels?",
-      answer: "Yes, City Square Yards fully supports Paying Guest (PG) accommodations, including hostels, shared rooms, and single-occupancy rooms, making it easy to find or list PG options in Ludhiana.",
+      question: "Does City Properties support PGs and hostels?",
+      answer: "Yes, City Properties fully supports Paying Guest (PG) accommodations, including hostels, shared rooms, and single-occupancy rooms, making it easy to find or list PG options in Ludhiana.",
       showAnswer: false,
    },
    {
@@ -55,8 +55,8 @@ const faq_data: DataType[] = [
    {
       id: 4,
       page: "home_2_faq_2",
-      question: "Is there any fee to list a property on City Square Yards?",
-      answer: "Basic property listings are free on City Square Yards. We also offer optional premium features to help boost property visibility and reach more potential buyers or tenants.",
+      question: "Is there any fee to list a property on City Properties?",
+      answer: "Basic property listings are free on City Properties. We also offer optional premium features to help boost property visibility and reach more potential buyers or tenants.",
       showAnswer: false,
    },
 

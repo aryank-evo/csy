@@ -53,7 +53,7 @@ const DropdownOne = ({ style }: any) => {
             </div>
             <div className="col-xl-3 col-lg-4">
                <div className="input-box-one border-left border-lg-0">
-                  <div className="label">Price Range</div>
+                  <div className="label">Budget Range</div>
                   <NiceSelect
                      className={`nice-select ${style ? "fw-normal" : ""}`}
                      options={[

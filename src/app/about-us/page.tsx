@@ -24,7 +24,7 @@ const AboutUsPage = () => {
     <Wrapper>
       <HeaderOne style={true} />
       <main>
-        <BreadcrumbOne title="About Us" sub_title="City Square Yards" style={false} />
+        <BreadcrumbOne title="About Us" sub_title="City Properties" style={false} />
         <div className="about-us-section pt-50 lg-pt-50 pb-50 lg-pb-50">
           <div className="container">
             <div className="row">

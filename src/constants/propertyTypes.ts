@@ -272,7 +272,7 @@ export const locationAreas = [
   { value: "budhladhana", text: "Budhladhana" },
 ];
 
-// Price ranges for different transaction types
+// Budget Ranges for different transaction types
 export const priceRangesBuy = [
   { value: "1", text: "₹10,00,000 - ₹25,00,000" },
   { value: "2", text: "₹25,00,000 - ₹50,00,000" },

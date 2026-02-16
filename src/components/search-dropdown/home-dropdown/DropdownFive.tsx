@@ -74,7 +74,7 @@ const DropdownFive = () => {
                         </div>
                         <div className="col-xl-3 col-lg-4">
                            <div className="input-box-one">
-                              <div className="label">Price Range</div>
+                              <div className="label">Budget Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={[
@@ -142,7 +142,7 @@ const DropdownFive = () => {
                         </div>
                         <div className="col-xl-3 col-lg-4">
                            <div className="input-box-one">
-                              <div className="label">Price Range</div>
+                              <div className="label">Budget Range</div>
                               <NiceSelect
                                  className="nice-select fw-normal"
                                  options={[

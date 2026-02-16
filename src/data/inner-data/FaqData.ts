@@ -9,7 +9,7 @@ const inner_faq_data: DataType[] = [
         id: 1,
         question: "How can I list my property for sale?",
         answer:
-          "You can list your property for sale on City Square Yards by creating an account, submitting property details, and uploading photos. Our team reviews and publishes verified listings.",
+          "You can list your property for sale on City Properties by creating an account, submitting property details, and uploading photos. Our team reviews and publishes verified listings.",
       },
 
       {
@@ -45,9 +45,9 @@ const inner_faq_data: DataType[] = [
       },
       {
         id: 6,
-        question: "Does the  City Square Yards support PGs and shared accommodations?",
+        question: "Does the  City Properties support PGs and shared accommodations?",
         answer:
-          "Yes, City Square Yards supports PG accommodations, hostels, shared rooms, and single-occupancy units.",
+          "Yes, City Properties supports PG accommodations, hostels, shared rooms, and single-occupancy units.",
       },
       {
         id: 7,
@@ -72,7 +72,7 @@ const inner_faq_data: DataType[] = [
         id: 9,
         question: "How can I find properties to buy?",
         answer:
-          "You can browse properties using filters such as Buy, location, price range, property type, and amenities to find suitable options.",
+          "You can browse properties using filters such as Buy, location, Budget Range, property type, and amenities to find suitable options.",
       },
       {
         id: 10,
@@ -82,7 +82,7 @@ const inner_faq_data: DataType[] = [
       },
       {
         id: 11,
-        question: "Are properties verified before listing on City Square Yards?",
+        question: "Are properties verified before listing on City Properties?",
         answer:
           "Yes, all property submissions are manually reviewed by our admin team to reduce fake or misleading listings.",
       },
@@ -95,13 +95,13 @@ const inner_faq_data: DataType[] = [
     faq: [
       {
         id: 12,
-        question: "Can I find PG accommodations on the City Square Yards?",
+        question: "Can I find PG accommodations on the City Properties?",
         answer:
           "Yes, you can find and list PGs, hostels, shared rooms, and single-room accommodations across Ludhiana and nearby areas.",
       },
       {
         id: 13,
-        question: "Who can list PG properties on City Square Yards?",
+        question: "Who can list PG properties on City Properties?",
         answer:
           "Property owners, PG operators, and agents can list PG accommodations without creating an account.",
       },
@@ -114,7 +114,7 @@ const inner_faq_data: DataType[] = [
     faq: [
       {
         id: 14,
-        question: "How does City Square Yards prevent fraud?",
+        question: "How does City Properties prevent fraud?",
         answer:
           "All listings go through a manual verification process. Our team reviews details and contacts the submitter before approval.",
       },

@@ -64,7 +64,7 @@ const DropdownSeven = ({
                </div>
                <div className="col-xl-3 col-sm-4">
                   <div className="input-box-one border-left">
-                     <div className="label">Price Range</div>
+                     <div className="label">Budget Range</div>
                      <NiceSelect
                         className="nice-select fw-normal"
                         options={[

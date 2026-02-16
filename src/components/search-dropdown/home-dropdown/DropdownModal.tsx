@@ -117,7 +117,7 @@ const DropdownModal = () => {
                                        </ul>
                                     </div>
                                     <div className="col-md-6">
-                                       <h6 className="block-title fw-bold mt-45 mb-20">Price range</h6>
+                                       <h6 className="block-title fw-bold mt-45 mb-20">Budget Range</h6>
                                        <div className="price-ranger">
                                           <div
                                              className="price-input d-flex align-items-center justify-content-between pt-5">

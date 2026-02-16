@@ -24,7 +24,7 @@ const feedback_data: DataType[] = [
     id: 1,
     desc: (
       <>
-        &quot;City Square Yards made my property search simple and transparent. The team was professional and supportive throughout the process. <span>Highly recommended!</span>&quot;
+        &quot;City Properties made my property search simple and transparent. The team was professional and supportive throughout the process. <span>Highly recommended!</span>&quot;
       </>
     ),
     title: "Dharminder Singh",
@@ -35,7 +35,7 @@ const feedback_data: DataType[] = [
     id: 2,
     desc: (
       <>
-        &quot;I found the perfect rental property through City Square Yards. The listings were genuine and the response was quick. <span>Very reliable platform.</span>&quot;
+        &quot;I found the perfect rental property through City Properties. The listings were genuine and the response was quick. <span>Very reliable platform.</span>&quot;
       </>
     ),
     title: "Manpreet Singh",

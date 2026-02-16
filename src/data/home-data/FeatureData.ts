@@ -224,7 +224,7 @@ const feature_data: DataType[] = [
       id: 1,
       page: "home_two_feature_3",
       icon: feature4Icon_1,
-      title: "Property Insurance",
+      title: "Property Loan",
       desc: "Elit esse cillum dolo fugiat nulla tur nos ullamo.",
    },
    {
@@ -278,7 +278,7 @@ const feature_data: DataType[] = [
       id: 1,
       page: "home_three_feature_2",
       icon: feature3Icon_4,
-      title: "Property Insurance",
+      title: "Property Loan",
       desc: "Elit esse cillum dolo fugiat nulla tur nos ullamo.",
    },
    {
@@ -365,7 +365,7 @@ const feature_data: DataType[] = [
       id: 1,
       page: "home_6_feature_1",
       icon:feature7Icon_1,
-      title: "Property Insurance",
+      title: "Property Loan",
       desc: "Elit esse cillum dol fug nulla tur nos ullamo.",
    }, 
    {

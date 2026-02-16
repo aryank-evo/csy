@@ -122,7 +122,7 @@ const DropdownPg = ({
             </div>
 
             <div className="col-12">
-               <h6 className="block-title fw-bold mt-25 mb-15">Price range</h6>
+               <h6 className="block-title fw-bold mt-25 mb-15">Budget Range</h6>
                <div className="price-ranger">
                   <div
                      className="price-input d-flex align-items-center justify-content-between pt-5">

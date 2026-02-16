@@ -36,7 +36,7 @@ const content_data: ContentType = {
    service_features: [
       {
          icon: seviceDetailsIcon_1,
-         title: "Property Insurance",
+         title: "Property Loan",
          desc: "Elit esse cillum dol fu nulla tur nos ullamo."
       },
       {
