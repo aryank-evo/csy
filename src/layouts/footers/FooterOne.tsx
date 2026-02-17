@@ -59,8 +59,8 @@ const FooterOne = ({ style }: any) => {
                      <div className={`d-flex flex-wrap ${style ? "h-100" : ""}`}>
                         {footer_data.filter((items) => items.page === "home_1").map((item) => (
                            <div key={item.id} className={`footer-nav mt-100 lg-mt-80 ${item.widget_class}`}>
-                              <h5 className={`footer-title ${style ? "text-white" : ''}`}>{item.widget_title}</h5>
-                              <ul className="footer-nav-link style-none">
+                              <h5 className={`footer-title text-center text-md-start ${style ? "text-white" : ''}`}>{item.widget_title}</h5>
+                              <ul className="footer-nav-link style-none text-center text-md-start">
                                  {item.footer_link.map((li: any, i) => (
                                     <li key={i}><Link href={li.link} data-bs-toggle={li.data_bs_toggle} data-bs-target={li.data_bs_target}>{li.link_title}</Link></li>
                                  ))}

@@ -31,8 +31,8 @@ const FooterFour = () => {
                   {footer_data.filter((items) => items.page === "home_5").map((item) => (
                      <div key={item.id} className={`col-sm-4 mb-30 ${item.widget_class}`}>
                         <div className={`footer-nav ${item.widget_class2}`}>
-                           <h5 className="footer-title">{item.widget_title}</h5>
-                           <ul className="footer-nav-link style-none">
+                           <h5 className="footer-title text-center text-md-start">{item.widget_title}</h5>
+                           <ul className="footer-nav-link style-none text-center text-md-start">
                               {item.footer_link.map((li: any, i) => (
                                  <li key={i}><Link href={li.link} data-bs-toggle={li.data_bs_toggle} data-bs-target={li.data_bs_target}>{li.link_title}</Link></li>))}
                            </ul>
