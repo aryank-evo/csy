@@ -12,6 +12,7 @@ import featureIcon_2 from "@/assets/images/icon/icon_05.svg"
 import featureIcon_3 from "@/assets/images/icon/icon_06.svg"
 import LeadCaptureModal from '@/modals/LeadCaptureModal';
 import { useLeadCapture } from '@/hooks/useLeadCapture';
+import ImageWatermark from '@/components/common/ImageWatermark';
 
 const ListingOneArea = () => {
   const itemsPerPage = 8;
@@ -104,7 +105,7 @@ const ListingOneArea = () => {
                                       type: 'sale'
                                     })}
                                     className="d-block border-0 bg-transparent p-0"
-                                    style={{ width: '100%', cursor: 'pointer' }}
+                                    style={{ width: '100%', cursor: 'pointer', position: 'relative' }}
                                   >
                                     <Image 
                                       src={thumb.img} 
@@ -114,6 +115,7 @@ const ListingOneArea = () => {
                                       height={300} 
                                       style={{ objectFit: 'cover' }}
                                     />
+                                    <ImageWatermark />
                                   </button>
                                 </div>
                               ))}

@@ -10,6 +10,7 @@ import icon from "@/assets/images/icon/icon_46.svg"
 import featureIcon_1 from "@/assets/images/icon/icon_04.svg"
 import featureIcon_2 from "@/assets/images/icon/icon_05.svg"
 import featureIcon_3 from "@/assets/images/icon/icon_06.svg"
+import ImageWatermark from "@/components/common/ImageWatermark";
 
 const ListingThreeArea = ({ style }: any) => {
 
@@ -79,7 +80,7 @@ const ListingThreeArea = ({ style }: any) => {
                                           <div className="carousel-inner">
                                              {item.carousel_thumb.map((thumb: any, i: any) => (
                                                 <div key={i} className={`carousel-item ${thumb.active}`} data-bs-interval="1000000">
-                                                   <Link href={`/lease/${item.id}`} className="d-block">
+                                                   <Link href={`/lease/${item.id}`} className="d-block" style={{ position: 'relative' }}>
                                                       <Image 
                                                          src={thumb.img} 
                                                          className="w-100" 
@@ -88,6 +89,7 @@ const ListingThreeArea = ({ style }: any) => {
                                                          height={300} 
                                                          style={{ objectFit: 'cover' }}
                                                       />
+                                                      <ImageWatermark />
                                                    </Link>
                                                 </div>
                                              ))}

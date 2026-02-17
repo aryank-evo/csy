@@ -4,6 +4,7 @@ import Link from "next/link"
 
 import titleShape from "@/assets/images/shape/title_shape_03.svg"
 import VerifiedProperty from "@/components/common/VerifiedProperty";
+import ImageWatermark from "@/components/common/ImageWatermark";
 
 const PropertyOne = ({ style_1, style_2 }: any) => {
    return (
@@ -37,7 +38,10 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                                     <div className="carousel-inner">
                                        {item.carousel_thumb.map((item, i) => (
                                           <div key={i} className={`carousel-item ${item.active}`} data-bs-interval="1000000">
-                                             <Link href="/listing_details_01" className="d-block"><Image src={item.img} className="w-100" alt="..." /></Link>
+                                             <Link href="/listing_details_01" className="d-block" style={{ position: 'relative' }}>
+                                                <Image src={item.img} className="w-100" alt="..." />
+                                                <ImageWatermark />
+                                             </Link>
                                           </div>
                                        ))}
                                     </div>

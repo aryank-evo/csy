@@ -18,6 +18,9 @@ import VerifiedProperty from "@/components/common/VerifiedProperty";
 import LeadCaptureModal from '@/modals/LeadCaptureModal';
 import { useLeadCapture } from '@/hooks/useLeadCapture';
 
+// Watermark import
+import ImageWatermark from '@/components/common/ImageWatermark';
+
 const Property = ({ style }: { style?: boolean }) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['latest-properties'],
@@ -129,7 +132,7 @@ const Property = ({ style }: { style?: boolean }) => {
                                       type: property.type || property.sourceTable?.replace('_properties', '')
                                     })}
                                     className="d-block border-0 bg-transparent p-0"
-                                    style={{ width: '100%', cursor: 'pointer' }}
+                                    style={{ width: '100%', cursor: 'pointer', position: 'relative' }}
                                   >
                                     <Image 
                                       src={thumb.img} 
@@ -140,6 +143,7 @@ const Property = ({ style }: { style?: boolean }) => {
                                       style={{ objectFit: 'cover', aspectRatio: '16 / 9' as any }}
                                       unoptimized={true}
                                     />
+                                    <ImageWatermark />
                                   </button>
                                 </div>
                               ))
@@ -154,7 +158,7 @@ const Property = ({ style }: { style?: boolean }) => {
                                     type: property.type || property.sourceTable?.replace('_properties', '')
                                   })}
                                   className="d-block border-0 bg-transparent p-0"
-                                  style={{ width: '100%', cursor: 'pointer' }}
+                                  style={{ width: '100%', cursor: 'pointer', position: 'relative' }}
                                 >
                                   <Image 
                                     src={placeholderImage.src} 
@@ -165,6 +169,7 @@ const Property = ({ style }: { style?: boolean }) => {
                                     style={{ objectFit: 'cover', aspectRatio: '16 / 9' as any }}
                                     unoptimized={true}
                                   />
+                                  <ImageWatermark />
                                 </button>
                               </div>
                             )}
