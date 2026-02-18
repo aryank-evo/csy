@@ -65,8 +65,8 @@ const DealersPage = () => {
               </div>
             ) : (
               <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center">
-                {dealers.map((dealer: Dealer) => (
-                  <div className="col d-flex">
+                {dealers.map((dealer: Dealer, index: number) => (
+                  <div key={index} className="col d-flex">
                     <div
                       className="card dealer-card border-2 rounded-4 text-center w-100 h-100"
                       onClick={() => setSelectedDealer(dealer)}

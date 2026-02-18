@@ -1,3 +1,16 @@
+
+interface DataType {
+  id: number;
+  id_name: string;
+  title: string;
+  md_pt?: boolean; // ✅ optional
+  faq: {
+    id: number;
+    question: string;
+    answer: string;
+  }[];
+}
+
 const inner_faq_data: DataType[] = [
   {
     id: 1,
@@ -32,6 +45,7 @@ const inner_faq_data: DataType[] = [
       },
     ],
   },
+  
   {
     id: 2,
     id_name: "Renting",
