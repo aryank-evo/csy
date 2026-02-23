@@ -16,7 +16,7 @@ import { Dealer } from '../models/Dealer';
 const UserModel = require('../../models/user');
 const PropertyModel = require('../../models/property');
 const LeadModel = require('../../models/lead');
-const CmsContentModel = require('../../models/cmsContent');
+const CmsContentModel = require('../../models/cmsContent.js');
 
 // Define CmsPage model inline
 class CmsPage extends Model {
