@@ -86,7 +86,7 @@ const feature_data: DataType[] = [
       id: 2,
       page: "home_1_feature_2",
       item_bg: "card-2",
-      title: "BRS Nagar",
+      title: "Sarabha Nagar",
       desc: "190 Properties",
    },
    {
@@ -148,7 +148,7 @@ const feature_data: DataType[] = [
       id: 2,
       page: "home_2_feature_1",
       item_bg: "location-card-2",
-      title: "BRS Nagar",
+      title: "Sarabha Nagar",
       data_delay_time: "0.1s",
    },
    {
