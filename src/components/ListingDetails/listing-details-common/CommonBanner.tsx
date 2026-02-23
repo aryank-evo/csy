@@ -1,7 +1,10 @@
-import Link from "next/link"
-
 const CommonBanner = ({ property, style_3 }: any) => {
    const { title, address, price, propertyType, fieldVisibility } = property || {};
+   const whatsappMessage =
+      typeof window !== "undefined"
+         ? `Check out this property: ${window.location.href}`
+         : "Check out this property";
+   const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
    
    // Helper function to check if a field should be visible
    const isFieldVisible = (fieldKey: string) => {
@@ -30,7 +33,7 @@ const CommonBanner = ({ property, style_3 }: any) => {
                   <li className="me-auto fw-500 color-dark"><i className="fa-sharp fa-regular fa-share-nodes me-2"></i>
                      Share</li>
                   <li>
-                     <a href={`https://wa.me/?text=Check%20out%20this%20property:%20${window.location.href}`} className="d-flex align-items-center justify-content-center tran3s"><i className="fa-brands fa-whatsapp"></i></a>
+                     <a href={whatsappShareUrl} className="d-flex align-items-center justify-content-center tran3s"><i className="fa-brands fa-whatsapp"></i></a>
                   </li>
                   {/* <li><Link href="#"
                      className={`d-flex align-items-center justify-content-center tran3s ${style_3 ? "" : "rounded-circle"}`}><i
