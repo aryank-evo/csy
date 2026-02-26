@@ -39,6 +39,12 @@ const getDashboardCardData = (stats: any): DataType[] => [
    {
       id: 3,
       icon: icon_3,
+      title: "Total Rejected",
+      value: stats.rejected.toString(),
+   },
+   {
+      id: 4,
+      icon: icon_4,
       title: "Total Views",
       value: stats.views.toLocaleString(),
    },
@@ -74,17 +80,23 @@ const DashboardBody = () => {
    }, []);
 
    const { data: propertiesData, isLoading: loading } = useQuery({
-      queryKey: ["properties", "all-combined"],
+      queryKey: ["properties", "all-combined", "admin"],
       queryFn: async () => {
-         const response = await apiInstance.get("/properties/all-combined");
+         const response = await apiInstance.get("/properties/all-combined", {
+            params: { admin: true },
+         });
          return response.data;
       }
    });
 
    const properties = propertiesData?.data || [];
+   const normalizeApprovalStatus = (status: unknown) =>
+      String(status || "").toLowerCase().trim();
+
    const stats = {
       totalProperties: propertiesData?.count || 0,
-      pending: properties.filter((p: any) => p.approvalStatus === "pending").length,
+      pending: properties.filter((p: any) => normalizeApprovalStatus(p.approvalStatus) === "pending").length,
+      rejected: properties.filter((p: any) => normalizeApprovalStatus(p.approvalStatus) === "rejected").length,
       views: (propertiesData?.count || 0) * 50,
       favourites: Math.floor((propertiesData?.count || 0) * 0.1)
    };
@@ -121,7 +133,7 @@ const DashboardBody = () => {
                   <div className="bg-white border-20">
                      <div className="row">
                         {getDashboardCardData(stats).map((item) => (
-                           <div key={item.id} className="col-lg-4 col-6">
+                           <div key={item.id} className="col-lg-3 col-6">
                               <div className={`dash-card-one bg-white border-30 position-relative mb-15 ${item.class_name}`}>
                                  <div className="d-sm-flex align-items-center justify-content-between">
                                     <div className="icon rounded-circle d-flex align-items-center justify-content-center order-sm-1"><Image src={item.icon} alt="" className="lazy-img" /></div>
@@ -148,7 +160,7 @@ const DashboardBody = () => {
                      <div className="property-listings plr">
                         <div className="row">
                            {properties.slice(0, 6).map((property: any) => (
-                              <div key={property.id} className="col-lg-4 col-md-6 mb-25">
+                              <div key={`${property.sourceTable || property.propertyType || "property"}-${property.id}`} className="col-lg-4 col-md-6 mb-25">
                                  <div className="property-card border rounded-3 p-3">
                                     <h6 className="fw-500 mb-2">{property.title || "Untitled Property"}</h6>
                                     <div className="d-flex justify-content-between text-muted small">

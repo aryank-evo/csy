@@ -17,7 +17,7 @@ const Sequelize = require('sequelize');
 // Get all properties with pagination and filtering
 export const getAllProperties = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { page = 1, limit = 10, status, search } = req.query;
+    const { page = 1, limit = '10', status, search } = req.query;
     
     // Get properties from all property types (both approved and pending)
     // Use raw queries to avoid column mismatches between different property types
@@ -83,14 +83,21 @@ export const getAllProperties = async (req: AuthRequest, res: Response): Promise
       return 0;
     });
 
-    // Apply pagination
-    const offset = (Number(page) - 1) * Number(limit);
-    const paginatedProperties = allProperties.slice(offset, offset + Number(limit));
+    const limitValue = String(limit).toLowerCase();
+    const shouldPaginate = limitValue !== 'all';
+
+    // Apply pagination only when limit is not "all"
+    const parsedLimit = shouldPaginate ? Number(limit) || 10 : allProperties.length || 1;
+    const parsedPage = shouldPaginate ? Number(page) || 1 : 1;
+    const offset = shouldPaginate ? (parsedPage - 1) * parsedLimit : 0;
+    const paginatedProperties = shouldPaginate
+      ? allProperties.slice(offset, offset + parsedLimit)
+      : allProperties;
 
     res.status(200).json({
       properties: paginatedProperties,
-      totalPages: Math.ceil(allProperties.length / Number(limit)),
-      currentPage: Number(page),
+      totalPages: shouldPaginate ? Math.ceil(allProperties.length / parsedLimit) : 1,
+      currentPage: parsedPage,
       total: allProperties.length
     });
   } catch (error) {

@@ -18,6 +18,7 @@ interface Property {
   contactPhone: string;
   createdAt: string;
   updatedAt: string;
+  sourceTable?: string;
 }
 
 const AdminDashboardBody = () => {
@@ -133,7 +134,7 @@ const AdminDashboardBody = () => {
                 <tbody>
                   {properties.map((property) => (
                     <tr 
-                      key={property.id} 
+                      key={`${property.sourceTable || property.propertyType || 'property'}-${property.id}`} 
                       className={property.approvalStatus === 'pending' ? 'table-warning' : ''}
                     >
                       <td>{property.id}</td>
