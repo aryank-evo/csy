@@ -86,7 +86,7 @@ const BlogThreeArea = () => {
                                  <span className="ms-2">{item.category}</span>
                               </div>
                               <div className="d-flex justify-content-between align-items-sm-center flex-wrap">
-                                 <Link href={`/blog-details?id=${item.id}`} className="blog-title">
+                                 <Link href={`/blog-details?id=${item.id}`} className="blog-title h4">
                                     <h4>{item.title}</h4>
                                  </Link>
                                  <Link href={`/blog-details?id=${item.id}`} className="read-btn rounded-circle d-flex align-items-center justify-content-center tran3s">
