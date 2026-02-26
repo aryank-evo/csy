@@ -11,6 +11,7 @@ import featureIcon_1 from "@/assets/images/icon/icon_04.svg"
 import featureIcon_2 from "@/assets/images/icon/icon_05.svg"
 import featureIcon_3 from "@/assets/images/icon/icon_06.svg"
 import ImageWatermark from "@/components/common/ImageWatermark";
+import SoldOutRibbon from "@/components/common/SoldOutRibbon";
 
 const ListingThreeArea = ({ style }: any) => {
 
@@ -71,10 +72,11 @@ const ListingThreeArea = ({ style }: any) => {
                      <div className="row gx-xxl-5">
                         {currentItems.map((item: any) => (
                            <div key={item.id} className="col-md-6 d-flex mb-50 wow fadeInUp" data-wow-delay={item.data_delay_time}>
-                              <div className="listing-card-one border-25 h-100 w-100">
+                              <div className="listing-card-one border-25 h-100 w-100 listingThree">
                                  <div className="img-gallery p-15">
                                     <div className="position-relative border-25 overflow-hidden">
                                        <div className={`tag border-25 ${item.tag_bg}`}>{item.tag}</div>
+                                       {item.sold && <SoldOutRibbon />}
                                        <Link href="#" className="fav-btn tran3s"><i className="fa-light fa-heart"></i></Link>
                                        <div id={`carousel${item.id}`} className="carousel slide">
                                           <div className="carousel-inner">

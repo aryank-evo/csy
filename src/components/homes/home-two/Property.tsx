@@ -20,6 +20,7 @@ import { useLeadCapture } from '@/hooks/useLeadCapture';
 
 // Watermark import
 import ImageWatermark from '@/components/common/ImageWatermark';
+import SoldOutRibbon from "@/components/common/SoldOutRibbon";
 
 const Property = ({ style }: { style?: boolean }) => {
   const { data, isLoading, isError, error } = useQuery({
@@ -56,6 +57,7 @@ const Property = ({ style }: { style?: boolean }) => {
 
     return {
       ...property,
+      sold: property.sold === true || property.sold === "true" || property.sold === 1 || property.sold === "1",
       carousel_thumb: carouselThumb
     };
   }) : [];
@@ -113,8 +115,9 @@ const Property = ({ style }: { style?: boolean }) => {
                     <div className="img-gallery">
                       <div className="position-relative overflow-hidden">
                         <div className="tag fw-500">{property.type?.toUpperCase() || property.sourceTable?.replace('_properties', '').toUpperCase() || 'PROPERTY'}</div>
+                        {property.sold && <SoldOutRibbon />}
                         {property.isVerified && (
-                          <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
+                          <div style={{ position: 'absolute', top: '10px', right: property.sold ? '88px' : '10px', zIndex: 10 }}>
                             <VerifiedProperty />
                           </div>
                         )}
@@ -177,7 +180,7 @@ const Property = ({ style }: { style?: boolean }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="property-info p-25">
+                    <div className="property-info p-25 home">
                       <button
                         onClick={() => openLeadModal({
                           id: property.id,

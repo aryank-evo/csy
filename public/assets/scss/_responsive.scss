@@ -756,10 +756,17 @@
    .compose-mail-offcanvas {left: 15px; width: auto;}
  }
  
- @media (max-width: 575px) {
-   .dashboard-body .dashboard-header .search-form {display: none;}
-   .dashboard-body .dash-card-one {text-align: center;}
-   .dashboard-body .dash-card-one .icon {margin: 0 auto 15px;}
-   .dashboard-body .dashboard-header .profile-notification .dropdown-menu {max-width: 300px; padding: 20px 15px 20px 15px;}
-   .dashboard-body .user-avatar-setting .upload-btn,.dashboard-body .user-avatar-setting .delete-btn {font-size: 14px;}
- }
+@media (max-width: 575px) {
+  .dashboard-body .dashboard-header .search-form {display: none;}
+  .dashboard-body .dash-card-one {text-align: center;}
+  .dashboard-body .dash-card-one .icon {margin: 0 auto 15px;}
+  .dashboard-body .dashboard-header .profile-notification .dropdown-menu {max-width: 300px; padding: 20px 15px 20px 15px;}
+  .dashboard-body .user-avatar-setting .upload-btn,.dashboard-body .user-avatar-setting .delete-btn {font-size: 14px;}
+  .sold-out-ribbon {width: 180px; height: 180px;}
+  .sold-out-ribbon::before {border-top-width: 180px; border-left-width: 180px;}
+  .sold-out-ribbon span {top: 55px; right: 8; font-size: 20px;}
+
+  .listingRounded .sold-out-ribbon {width: 150px; height: 150px;}
+  .listingRounded .sold-out-ribbon::before {border-top-width: 100px; border-left-width: 100px;}
+  .listingRounded .sold-out-ribbon span {top: 30px; right: -2; font-size: 15px;}
+}

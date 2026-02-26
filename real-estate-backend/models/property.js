@@ -60,6 +60,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    sold: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
     bedrooms: {
       type: DataTypes.STRING,
       allowNull: true

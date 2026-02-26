@@ -6,6 +6,7 @@ import NiceSelect from "@/ui/NiceSelect"
 import UseShortedProperty from "@/hooks/useShortedProperty"
 import Fancybox from "@/components/common/Fancybox"
 import DropdownOne from "@/components/search-dropdown/inner-dropdown/DropdownOne";
+import SoldOutRibbon from "@/components/common/SoldOutRibbon";
 
 import icon from "@/assets/images/icon/icon_46.svg"
 
@@ -76,6 +77,7 @@ const ListingTwoArea = ({ style }: any) => {
                            <div className="d-flex flex-wrap layout-one">
                               <div className={`img-gallery position-relative z-1 border-20 overflow-hidden`} style={{ backgroundImage: `url(${typeof item.carousel_thumb[0]?.img === 'string' ? item.carousel_thumb[0].img : item.carousel_thumb[0]?.img?.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                                  <div className={style ? "tag bg-white rounded-0 text-dark fw-500" : `border-20 tag ${item.tag_bg}`}>{item.tag}</div>
+                                 {item.sold && <SoldOutRibbon />}
                                  <div className="img-slider-btn">
                                     {item.carousel_thumb.length} <i className="fa-regular fa-image"></i>
                                     <Fancybox

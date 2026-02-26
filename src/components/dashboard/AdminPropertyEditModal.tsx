@@ -16,6 +16,7 @@ interface Property {
   propertyType: string;
   propertyStatus?: string;
   approvalStatus: string;
+  sold?: boolean | string;
   isVerified?: boolean;
   createdAt?: string;
   contactName?: string;
@@ -43,6 +44,7 @@ const EXCLUDED_FIELDS = [
   "id",
   "propertyType",
   "approvalStatus",
+  "sold",
   "createdAt",
   "updatedAt",
   "images",
@@ -180,6 +182,7 @@ const AdminPropertyEditModal = ({
     }>
   >([]);
   const [isVerified, setIsVerified] = useState(false);
+  const [isSold, setIsSold] = useState(false);
 
   useEffect(() => {
     if (property) {
@@ -232,6 +235,7 @@ const AdminPropertyEditModal = ({
 
       // Initialize isVerified state
       setIsVerified(property.isVerified || false);
+      setIsSold(property.sold === true || property.sold === "true");
     }
   }, [property]);
 
@@ -270,6 +274,7 @@ const AdminPropertyEditModal = ({
         ...formData,
         fieldVisibility,
         imageVisibility,
+        sold: isSold,
         isVerified,
       };
 
@@ -292,6 +297,7 @@ const AdminPropertyEditModal = ({
           ...formData,
           fieldVisibility,
           imageVisibility,
+          sold: isSold,
           isVerified,
         });
         onClose();
@@ -320,6 +326,7 @@ const AdminPropertyEditModal = ({
             approvalStatus: status,
             fieldVisibility,
             imageVisibility,
+            sold: isSold,
             isVerified,
           }),
         },
@@ -333,6 +340,7 @@ const AdminPropertyEditModal = ({
           approvalStatus: status,
           fieldVisibility,
           imageVisibility,
+          sold: isSold,
           isVerified,
         });
         onClose();
@@ -408,76 +416,101 @@ const AdminPropertyEditModal = ({
 
           <div className="modal-body px-4">
             {/* Header Info */}
+            {/* Header */}
             <div className="row mb-3">
               <div className="col-12">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="d-flex align-items-center gap-3">
+                <div className="p-3 rounded bg-success-subtle border border-success-subtle">
+                  <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
                     <div>
-                      <h6 className="mb-0">Property ID: {property.id}</h6>
+                      <h6 className="mb-0 fw-semibold">
+                        Property ID: {property.id}
+                      </h6>
                       <small className="text-muted">
                         Type: {property.propertyType}
                       </small>
                     </div>
+
+                    <span
+                      className={`badge px-3 py-2 ${
+                        property.approvalStatus === "approved"
+                          ? "bg-success"
+                          : property.approvalStatus === "pending"
+                            ? "bg-warning text-dark"
+                            : "bg-danger"
+                      }`}
+                    >
+                      {property.approvalStatus.toUpperCase()}
+                    </span>
                   </div>
-                  <div className="d-flex justify-content-between  align-items-center gap-3">
-                    <div className="mx-5">
-                      <button
-                        type="button"
-                        className="btn btn-outline-success btn-sm d-flex align-items-center gap-2"
-                        onClick={handleWhatsAppShare}
-                        title="Share details on WhatsApp"
-                      >
-                        <i className="fa-brands fa-whatsapp fs-5"></i>
-                        <span>Share</span>
-                      </button>
-                    </div>
-                    {/* Verified Toggle */}
-                    <div className="d-flex align-items-center gap-2 m-0">
-                      <div className="form-check form-switch m-0 p-0 d-flex align-items-center">
-                        <input
-                          className="form-check-input mt-0"
-                          type="checkbox"
-                          id="verifiedToggle"
-                          checked={isVerified}
-                          onChange={(e) => setIsVerified(e.target.checked)}
-                          style={{
-                            cursor: "pointer",
-                            width: "44px",
-                            height: "22px",
-                          }}
-                        />
-                      </div>
+                </div>
+              </div>
+            </div>
 
-                      <label
-                        htmlFor="verifiedToggle"
-                        className="mb-0 d-flex align-items-center gap-1"
-                        style={{ cursor: "pointer" }}
-                      >
-                        <span
-                          className={
-                            isVerified ? "text-primary fw-medium" : "text-muted"
-                          }
-                        >
-                          {isVerified ? "Verified" : "Not Verified"}
-                        </span>
-                      </label>
+            {/* Controls Row */}
+            <div className="row mb-3">
+              <div className="col-12">
+                <div className="d-flex flex-wrap align-items-center gap-5">                 
+                  {/* Sold Toggle */}
+                  <div className="d-flex align-items-center gap-2">
+                    <div className="form-check form-switch m-0">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="soldToggle"
+                        checked={isSold}
+                        onChange={(e) => setIsSold(e.target.checked)}
+                      />
                     </div>
 
-                    {/* Approval Badge */}
-                    <div>
+                    <label htmlFor="soldToggle" className="mb-0">
+                      <span className="text-muted me-1">Status:</span>
                       <span
-                        className={`badge px-3 py-2 ${
-                          property.approvalStatus === "approved"
-                            ? "bg-success"
-                            : property.approvalStatus === "pending"
-                              ? "bg-warning text-dark"
-                              : "bg-danger"
-                        }`}
+                        className={
+                          isSold
+                            ? "text-danger fw-semibold"
+                            : "text-success fw-semibold"
+                        }
                       >
-                        {property.approvalStatus.toUpperCase()}
+                        {isSold ? "Sold" : "Available"}
                       </span>
-                    </div>
+                    </label>
                   </div>
+
+                  {/* Verified Toggle */}
+                  <div className="d-flex align-items-center gap-2">
+                    <div className="form-check form-switch m-0">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="verifiedToggle"
+                        checked={isVerified}
+                        onChange={(e) => setIsVerified(e.target.checked)}
+                      />
+                    </div>
+
+                    <label htmlFor="verifiedToggle" className="mb-0">
+                      <span
+                        className={
+                          isVerified
+                            ? "text-primary fw-semibold"
+                            : "text-secondary"
+                        }
+                      >
+                        {isVerified ? "Verified" : "Not Verified"}
+                      </span>
+                    </label>
+                  </div>
+
+                   {/* WhatsApp */}
+                  <button
+                    type="button"
+                    className="btn btn-outline-success btn-sm d-flex align-items-center gap-2"
+                    onClick={handleWhatsAppShare}
+                  >
+                    <i className="fa-brands fa-whatsapp"></i>
+                    Share
+                  </button>
+
                 </div>
               </div>
             </div>

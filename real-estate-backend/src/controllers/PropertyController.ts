@@ -7,6 +7,12 @@ import { PgProperty } from '../models/PgProperty';
 import { CommercialProperty } from '../models/CommercialProperty';
 import { LandProperty } from '../models/LandProperty';
 
+const parseBoolean = (value: unknown, fallback = false): boolean => {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') return value.toLowerCase() === 'true';
+  return fallback;
+};
+
 export const createProperty = async (req: Request, res: Response): Promise<void> => {
   try {
     // Extract property data from request body
@@ -22,6 +28,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
       country,
       propertyType,
       propertyStatus,
+      sold,
       bedrooms,
       bathrooms,
       area,
@@ -59,6 +66,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
 
     // Handle uploaded images from Cloudinary
     const images = (req.files as any[])?.map((file: any) => file.path) || [];
+    const soldStatus = parseBoolean(sold, false);
 
     let newProperty;
 
@@ -87,6 +95,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           country,
           propertyType,
           propertyStatus,
+          sold: soldStatus,
           bedrooms,
           bathrooms,
           area,
@@ -117,6 +126,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           country,
           propertyType,
           propertyStatus,
+          sold: soldStatus,
           bedrooms,
           bathrooms,
           area,
@@ -148,6 +158,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           country,
           propertyType,
           propertyStatus,
+          sold: soldStatus,
           bedrooms,
           bathrooms,
           area,
@@ -180,6 +191,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           country,
           propertyType,
           propertyStatus,
+          sold: soldStatus,
           bedrooms,
           bathrooms,
           area,
@@ -211,6 +223,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           country,
           propertyType,
           propertyStatus,
+          sold: soldStatus,
           bedrooms,
           bathrooms,
           area,
@@ -242,6 +255,7 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
           country,
           propertyType,
           propertyStatus,
+          sold: soldStatus,
           contactName,
           contactEmail,
           contactPhone,
@@ -900,6 +914,7 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       zipCode,
       country,
       propertyStatus,
+      sold,
       bedrooms,
       bathrooms,
       area,
@@ -946,6 +961,10 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
       imageVisibility,
       isVerified
     };
+
+    if (typeof sold === 'boolean' || typeof sold === 'string') {
+      commonFields.sold = parseBoolean(sold);
+    }
 
     // Only update images if new ones were uploaded or existing ones were provided
     if (images.length > 0) {

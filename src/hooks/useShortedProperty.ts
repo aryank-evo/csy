@@ -42,6 +42,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
                      },
                      price: Number(item.price),
                      status: item.propertyStatus || "",
+                     sold: item.sold === true || item.sold === "true" || item.sold === 1 || item.sold === "1",
                      type: "Newest",
                      amenities: typeof item.amenities === 'string' ? item.amenities.split(',') : (item.amenities || [])
                   }));

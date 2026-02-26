@@ -14,6 +14,7 @@ interface CommercialPropertyAttributes {
   country?: string;
   propertyType: string;
   propertyStatus: string;
+  sold: boolean;
   bedrooms?: number;
   bathrooms?: number;
   area?: number;
@@ -58,6 +59,7 @@ export class CommercialProperty extends Model<CommercialPropertyAttributes, Comm
   public country?: string;
   public propertyType!: string;
   public propertyStatus!: string;
+  public sold!: boolean;
   public bedrooms?: number;
   public bathrooms?: number;
   public area?: number;
@@ -133,6 +135,11 @@ CommercialProperty.init({
   propertyStatus: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  sold: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
   },
   bedrooms: {
     type: DataTypes.INTEGER,

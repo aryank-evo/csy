@@ -109,6 +109,72 @@
     }
 }
 // Listing Card
+.sold-out-ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 180px;
+    height: 180px;
+    z-index: 12;
+    overflow: hidden;
+    pointer-events: none;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-top: 180px solid #cf2e2e;
+        border-left: 180px solid transparent;
+    }
+    span {
+        position: absolute;
+        top: 55px;
+        right: 0px;
+        transform: rotate(45deg);
+        color: #fff;
+        font-size: 20px;
+        line-height: 1;
+        letter-spacing: 0.6px;
+        font-weight: 700;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+}
+
+.listingRounded{
+      .sold-out-ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    z-index: 12;
+    overflow: hidden;
+    pointer-events: none;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-top: 140px solid #cf2e2e;
+        border-left: 150px solid transparent;
+    }
+    span {
+        position: absolute;
+        top: 45px;
+        right: -4px;
+        transform: rotate(45deg);
+        color: #fff;
+        font-size: 20px;
+        line-height: 1;
+        letter-spacing: 0.6px;
+        font-weight: 700;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+}
+}
+
 .listing-card-one {
     background: #fff;
     overflow: hidden;
@@ -130,7 +196,7 @@
     }
     &.p-25, .p-25 {
         padding: 15px 25px;
-    }
+    }  
     .img-gallery {
         overflow: hidden;
         .carousel-indicators {

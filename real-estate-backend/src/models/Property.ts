@@ -14,6 +14,7 @@ interface PropertyAttributes {
   country?: string;
   propertyType: string;
   propertyStatus: string;
+  sold: boolean;
   bedrooms?: string;
   bathrooms?: string;
   area?: string;
@@ -50,6 +51,7 @@ export class Property extends Model<PropertyAttributes, PropertyCreationAttribut
   public country?: string;
   public propertyType!: string;
   public propertyStatus!: string;
+  public sold!: boolean;
   public bedrooms?: string;
   public bathrooms?: string;
   public area?: string;
@@ -120,6 +122,11 @@ Property.init({
   propertyStatus: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  sold: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
   },
   bedrooms: {
     type: DataTypes.STRING,

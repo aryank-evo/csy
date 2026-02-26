@@ -18,7 +18,7 @@ const Property = () => {
                <div className="row gx-xxl-5">
                   {property_data.filter((items) => items.page === "home_1").map((item) => (
                      <div key={item.id} className="col-lg-4 col-md-6 d-flex mt-40 wow fadeInUp" data-wow-delay={item.data_delay_time}>
-                        <div className="listing-card-one border-25 h-100 w-100">
+                        <div className="listing-card-one border-25 h-100 w-100 property">
                            <div className="img-gallery p-15">
                               <div className="position-relative border-25 overflow-hidden">
                                  <div className={`tag border-25 ${item.tag_bg}`}>{item.tag}</div>
