@@ -88,6 +88,10 @@ export const getPropertiesByLocation = async (locationName: string, type?: strin
 export const getAllProperties = async (token: string) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/admin/properties`, {  // Updated to correct endpoint
+      params: {
+        page: 1,
+        limit: 'all',
+      },
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -105,6 +109,10 @@ export const getPendingProperties = async (token?: string) => {
     if (token) {
       // Use authenticated endpoint for admin
       const response = await axios.get(`${API_BASE_URL}/admin/properties/pending`, {
+        params: {
+          page: 1,
+          limit: 'all',
+        },
         headers: {
           'Authorization': `Bearer ${token}`
         }

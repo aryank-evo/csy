@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { hasRecentLeadSubmission, markLeadSubmissionNow } from '@/utils/leadCaptureStorage';
 
 interface PropertyDetails {
   id: number | string;
@@ -22,7 +23,35 @@ export const useLeadCapture = (): UseLeadCaptureReturn => {
   const [selectedProperty, setSelectedProperty] = useState<PropertyDetails | null>(null);
   const router = useRouter();
 
+  const buildPropertyDetailPath = (property: PropertyDetails): string => {
+    const propertyType = property.type?.toLowerCase() || 'property';
+
+    switch(propertyType) {
+      case 'sale':
+      case 'buy':
+        return `/buy/${property.id}`;
+      case 'rent':
+        return `/rent/${property.id}`;
+      case 'lease':
+        return `/lease/${property.id}`;
+      case 'pg':
+      case 'hostel':
+        return `/pg/${property.id}`;
+      case 'commercial':
+        return `/commercial/${property.id}`;
+      case 'land':
+        return `/land/${property.id}`;
+      default:
+        return `/property-details/${property.id}`;
+    }
+  };
+
   const openLeadModal = (property: PropertyDetails) => {
+    if (hasRecentLeadSubmission()) {
+      router.push(buildPropertyDetailPath(property));
+      return;
+    }
+
     setSelectedProperty(property);
     setShowLeadModal(true);
   };
@@ -35,38 +64,8 @@ export const useLeadCapture = (): UseLeadCaptureReturn => {
   const handleLeadSuccess = () => {
     // After successful lead submission, redirect to property detail page
     if (selectedProperty) {
-      const propertyType = selectedProperty.type?.toLowerCase() || 'property';
-      let detailPath = '';
-      
-      // Map property types to their respective detail pages
-      switch(propertyType) {
-        case 'sale':
-        case 'buy':
-          detailPath = `/buy/${selectedProperty.id}`;
-          break;
-        case 'rent':
-          detailPath = `/rent/${selectedProperty.id}`;
-          break;
-        case 'lease':
-          detailPath = `/lease/${selectedProperty.id}`;
-          break;
-        case 'pg':
-        case 'hostel':
-          detailPath = `/pg/${selectedProperty.id}`;
-          break;
-        case 'commercial':
-          detailPath = `/commercial/${selectedProperty.id}`;
-          break;
-        case 'land':
-          detailPath = `/land/${selectedProperty.id}`;
-          break;
-        default:
-          // For dynamic properties or unknown types, use a generic detail page
-          detailPath = `/property-details/${selectedProperty.id}`;
-          break;
-      }
-      
-      router.push(detailPath);
+      markLeadSubmissionNow();
+      router.push(buildPropertyDetailPath(selectedProperty));
     }
   };
 

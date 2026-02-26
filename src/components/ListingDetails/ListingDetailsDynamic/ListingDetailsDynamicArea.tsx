@@ -18,6 +18,7 @@ import Review from "@/components/inner-pages/agency/agency-details/Review";
 import NiceSelect from "@/ui/NiceSelect";
 import DynamicSidebar from "./DynamicSidebar";
 import LeadCaptureModal from "@/modals/LeadCaptureModal";
+import { hasRecentLeadSubmission, markLeadSubmissionNow } from "@/utils/leadCaptureStorage";
 
 const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) => {
    const [property, setProperty] = useState<any>(null);
@@ -25,17 +26,18 @@ const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) 
    const [showLeadModal, setShowLeadModal] = useState(false);
    const [hasSubmittedLead, setHasSubmittedLead] = useState(false);
 
-   // Check if user has already submitted lead for this property
+   // Check if user has submitted a lead from this device in the last 30 days
    useEffect(() => {
-      if (id) {
-         const leadSubmittedKey = `lead_submitted_${id}`;
-         const hasSubmitted = sessionStorage.getItem(leadSubmittedKey);
-         if (!hasSubmitted) {
-            setShowLeadModal(true);
-         } else {
-            setHasSubmittedLead(true);
-         }
+      if (!id) return;
+
+      if (hasRecentLeadSubmission()) {
+         setHasSubmittedLead(true);
+         setShowLeadModal(false);
+         return;
       }
+
+      setHasSubmittedLead(false);
+      setShowLeadModal(true);
    }, [id]);
 
    useEffect(() => {
@@ -75,17 +77,6 @@ const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) 
       );
    }
 
-   // Don't show property details until lead form is submitted
-   if (!hasSubmittedLead && !showLeadModal) {
-      return (
-         <div className="container pt-180 pb-150 text-center">
-            <div className="spinner-border text-primary" role="status">
-               <span className="visually-hidden">Loading...</span>
-            </div>
-         </div>
-      );
-   }
-
    // Helper function to check if a field should be visible
    const isFieldVisible = (fieldKey: string) => {
       if (!property.fieldVisibility) return true; // Show all if no visibility settings
@@ -93,9 +84,8 @@ const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) 
    };
 
    const handleLeadSuccess = () => {
-      // Mark lead as submitted for this property in session storage
-      const leadSubmittedKey = `lead_submitted_${id}`;
-      sessionStorage.setItem(leadSubmittedKey, 'true');
+      // Mark lead as submitted for this device for 30 days
+      markLeadSubmissionNow();
       setHasSubmittedLead(true);
       setShowLeadModal(false);
    };
@@ -157,7 +147,7 @@ const ListingDetailsDynamicArea = ({ id, type }: { id: string, type?: string }) 
          {/* Lead Capture Modal */}
          <LeadCaptureModal
             isOpen={showLeadModal}
-            onClose={() => setShowLeadModal(false)}
+            onClose={() => setShowLeadModal(true)}
             onSubmitSuccess={handleLeadSuccess}
             propertyDetails={property ? {
                id: property.id,
