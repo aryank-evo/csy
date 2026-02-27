@@ -5,7 +5,7 @@ import apiInstance from '@/utils/apiInstance';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import ClassicEditor from './ClassicEditor';
-
+import Image from 'next/image';
 interface Blog {
   id: number;
   title: string;
@@ -220,7 +220,7 @@ const BlogEditor = () => {
                     onClick={() => primaryImageInputRef.current?.click()}
                   >
                     {primaryImagePreview ? (
-                      <img src={primaryImagePreview} alt="Primary" className="w-100 h-100 object-fit-cover rounded" />
+                      <Image src={primaryImagePreview} alt="Primary" className="w-100 h-100 object-fit-cover rounded" />
                     ) : (
                       <div className="d-flex flex-column align-items-center justify-content-center h-100">
                         <i className="bi bi-image fs-2 text-muted"></i>
@@ -239,7 +239,7 @@ const BlogEditor = () => {
                     onClick={() => secondaryImageInputRef.current?.click()}
                   >
                     {secondaryImagePreview ? (
-                      <img src={secondaryImagePreview} alt="Secondary" className="w-100 h-100 object-fit-cover rounded" />
+                      <Image src={secondaryImagePreview} alt="Secondary" className="w-100 h-100 object-fit-cover rounded" />
                     ) : (
                       <div className="d-flex flex-column align-items-center justify-content-center h-100">
                         <i className="bi bi-image fs-2 text-muted"></i>
@@ -286,7 +286,7 @@ const BlogEditor = () => {
                       <td className="ps-4 py-3">
                         <div className="d-flex align-items-center">
                           {blog.primary_image && (
-                            <img src={blog.primary_image} alt="" className="rounded me-3" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
+                            <Image src={blog.primary_image} alt="" className="rounded me-3" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
                           )}
                           <span className="fw-normal">{blog.title}</span>
                         </div>

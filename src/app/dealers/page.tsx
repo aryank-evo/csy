@@ -7,6 +7,7 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import FooterOne from '@/layouts/footers/FooterOne';
 import BreadcrumbOne from '@/components/common/breadcrumb/BreadcrumbOne';
 import Wrapper from '@/layouts/Wrapper';
+import Image from 'next/image';
 
 interface Dealer {
   id: number;
@@ -77,7 +78,7 @@ const DealersPage = () => {
                         {/* Centered Avatar */}
                         <div className="d-flex justify-content-center mb-4">
                           {dealer.primary_image ? (
-                            <img
+                            <Image
                               src={dealer.primary_image}
                               alt={dealer.name}
                               className="dealer-avatar"
@@ -195,16 +196,7 @@ const DealersPage = () => {
                 {/* Profile Image */}
                 <div className="mb-4">
                   {selectedDealer.primary_image ? (
-                    <img
-                      src={selectedDealer.primary_image}
-                      alt={selectedDealer.name}
-                      className="rounded-circle shadow m-auto"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        objectFit: "cover"
-                      }}
-                    />
+                    <Image src={selectedDealer.primary_image} alt={selectedDealer.name} className="rounded-circle shadow m-auto" style={{ width: "150px", height: "150px", objectFit: "cover" }} />
                   ) : (
                     <div
                       className="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto shadow"

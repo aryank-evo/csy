@@ -7,6 +7,8 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import FooterOne from '@/layouts/footers/FooterOne';
 import BreadcrumbOne from '@/components/common/breadcrumb/BreadcrumbOne';
 import Wrapper from '@/layouts/Wrapper';
+import Image from 'next/image';
+
 
 interface Listing {
   id: number;
@@ -77,13 +79,7 @@ const AbroadPage = () => {
                     >
                       <div className="country-image position-relative">
                         {country.thumbnail ? (
-                          <img
-                            src={country.thumbnail}
-                            alt={country.name}
-                            className="w-100"
-                            style={{ height: '200px', objectFit: 'cover' }}
-                          />
-                        ) : (
+                          <Image src={country.thumbnail} alt={country.name} className="w-100" style={{ height: '200px', objectFit: 'cover' }} />                        ) : (
                           <div
                             className="w-100 d-flex align-items-center justify-content-center bg-light"
                             style={{ height: '200px' }}
@@ -126,12 +122,7 @@ const AbroadPage = () => {
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   {listing.image ? (
-                                    <img
-                                      src={listing.image}
-                                      alt={listing.title}
-                                      className="rounded me-3"
-                                      style={{ width: '60px', height: '60px', objectFit: 'cover' }}
-                                    />
+                                    <Image src={listing.image} alt={listing.title} className="rounded me-3" style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
                                   ) : (
                                     <div
                                       className="rounded me-3 bg-white d-flex align-items-center justify-content-center"

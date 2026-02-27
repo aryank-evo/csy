@@ -2,6 +2,7 @@
 import { fetchCmsPage } from '@/utils/cmsApi';
 import { useQuery } from '@tanstack/react-query';
 import { ElementType } from 'react';
+import Image from 'next/image';
 
 interface DynamicContentProps {
   slug: string;
@@ -28,7 +29,7 @@ const DynamicContent = ({
   if (loading) {
     // For image types, render img tag even during loading
     if (type === 'primaryImage' || type === 'secondaryImage') {
-      return <img src={defaultContent} alt="" className={className} {...props} />;
+      return <Image src={defaultContent} alt="" className={className} {...props} />;
     }
     // For director message or name types, render as text during loading
     if (type === 'directorMsg' || type === 'directorName') {
@@ -42,7 +43,7 @@ const DynamicContent = ({
   if (!content) {
     // For image types, render img tag with default content
     if (type === 'primaryImage' || type === 'secondaryImage') {
-      return <img src={defaultContent} alt="" className={className} {...props} />;
+      return <Image src={defaultContent} alt="" className={className} {...props} />;
     }
     return <Component className={className}>{defaultContent}</Component>;
   }
@@ -59,7 +60,7 @@ const DynamicContent = ({
 
   // If content is an image URL, render it as an img element
   if (type === 'primaryImage' || type === 'secondaryImage') {
-    return <img src={content} alt="" className={className} {...props} />;
+    return <Image src={content} alt="" className={className} {...props} />;
   }
 
   // For all text-based fields, render as text

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import Image from 'next/image';
 
 interface Property {
   id: number;
@@ -602,7 +603,7 @@ const AdminPropertyEditModal = ({
                     property.images.map((image: string, index: number) => (
                       <div className="col-md-3" key={index}>
                         <div className="card h-100">
-                          <img
+                          <Image
                             src={image}
                             alt={`Property image ${index + 1}`}
                             className="card-img-top"

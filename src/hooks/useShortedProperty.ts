@@ -55,7 +55,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
          }
       };
       fetchDynamicProperties();
-   }, [page]);
+   }, [page, setProperties]);
 
    const filteredProperties = properties.filter((item) => item.page === page);
 

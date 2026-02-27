@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import apiInstance from '@/utils/apiInstance';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-
+import Image from 'next/image';
 interface Country {
   id: number;
   name: string;
@@ -335,7 +335,7 @@ const AbroadEditor = () => {
                         onClick={() => countryThumbnailInputRef.current?.click()}
                       >
                         {countryThumbnailPreview ? (
-                          <img src={countryThumbnailPreview} alt="Thumbnail" className="w-100 h-100 object-fit-cover rounded" />
+                          <Image src={countryThumbnailPreview} alt="Thumbnail" className="w-100 h-100 object-fit-cover rounded" />
                         ) : (
                           <div className="d-flex flex-column align-items-center justify-content-center h-100">
                             <i className="bi bi-image fs-2 text-muted"></i>
@@ -404,7 +404,7 @@ const AbroadEditor = () => {
                           <td className="ps-4 py-3">
                             <div className="d-flex align-items-center">
                               {country.thumbnail ? (
-                                <img src={country.thumbnail} alt="" className="rounded me-3" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
+                                <Image src={country.thumbnail} alt="" className="rounded me-3" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
                               ) : (
                                 <div className="rounded me-3 bg-light d-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px' }}>
                                   <i className="bi bi-globe text-muted"></i>
@@ -515,7 +515,7 @@ const AbroadEditor = () => {
                         onClick={() => listingImageInputRef.current?.click()}
                       >
                         {listingImagePreview ? (
-                          <img src={listingImagePreview} alt="Listing" className="w-100 h-100 object-fit-cover rounded" />
+                          <Image src={listingImagePreview} alt="Listing" className="w-100 h-100 object-fit-cover rounded" />
                         ) : (
                           <div className="d-flex flex-column align-items-center justify-content-center h-100">
                             <i className="bi bi-image fs-2 text-muted"></i>
@@ -587,7 +587,7 @@ const AbroadEditor = () => {
                           >
                             <div className="d-flex align-items-center w-100">
                               {country.thumbnail && (
-                                <img 
+                                <Image 
                                   src={country.thumbnail} 
                                   alt="" 
                                   className="rounded me-3"
@@ -629,7 +629,7 @@ const AbroadEditor = () => {
                                     <tr key={listing.id} className="border-bottom">
                                       <td className="ps-4 py-3">
                                         {listing.image ? (
-                                          <img 
+                                          <Image 
                                             src={listing.image} 
                                             alt="" 
                                             className="rounded"

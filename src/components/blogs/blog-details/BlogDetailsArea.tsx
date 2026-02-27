@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import apiInstance from "@/utils/apiInstance";
 import BlogSidebar from "../common-blog/BlogSidebar";
-
+import Image from 'next/image';
 interface Blog {
    id: number;
    title: string;
@@ -77,7 +77,7 @@ const BlogDetailsArea = () => {
 
                         {blog.secondary_image && (
                            <div className="img-meta mt-20 mb-20">
-                              <img src={blog.secondary_image} alt="image" className="lazy-img w-100 rounded shadow-sm" />
+                              <Image src={blog.secondary_image} alt="image" className="lazy-img w-100 rounded shadow-sm" />
                            </div>
                         )}
                      </div>

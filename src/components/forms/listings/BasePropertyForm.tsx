@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createProperty } from '@/utils/api';
 import LocationMapInput from '../LocationMapInput';
-
+import Image from 'next/image';
 interface FormData {
   title: string;
   description: string;
@@ -490,7 +490,7 @@ const BasePropertyForm: React.FC<BasePropertyFormProps> = ({
             {imagePreviews.map((preview, index) => (
               <div key={index} className="col-auto">
                 <div className="position-relative" style={{ width: '100px', height: '100px' }}>
-                  <img 
+                  <Image 
                     src={preview} 
                     alt={`Preview ${index}`} 
                     className="img-thumbnail w-100 h-100 object-fit-cover"

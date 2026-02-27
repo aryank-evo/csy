@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import ClassicEditor from './ClassicEditor';
 import apiInstance from '@/utils/apiInstance';
-
+import Image from 'next/image';
 // Function to update CMS page with file uploads
 const updateCmsPageWithFiles = async (slug: string, formData: FormData) => {
   const response = await apiInstance.post(`/cms/${slug}`, formData, {
@@ -246,7 +246,7 @@ const CityBuilderPageEditor = () => {
           onClick={triggerPrimaryImageUpload}
         >
           {primaryImagePreview ? (
-            <img 
+            <Image 
               src={primaryImagePreview} 
               alt="Primary Preview" 
               className="img-fluid rounded" 
@@ -294,7 +294,7 @@ const CityBuilderPageEditor = () => {
           onClick={triggerSecondaryImageUpload}
         >
           {secondaryImagePreview ? (
-            <img 
+            <Image 
               src={secondaryImagePreview} 
               alt="Secondary Preview" 
               className="img-fluid rounded" 

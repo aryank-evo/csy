@@ -2,7 +2,7 @@
 import { fetchCmsPage } from '@/utils/cmsApi';
 import { useQuery } from '@tanstack/react-query';
 import { ElementType } from 'react';
-
+import Image from 'next/image';
 interface DynamicContentServerProps {
   slug: string;
   type: string;
@@ -35,7 +35,7 @@ const DynamicContentServer = ({
   if (isLoading) {
     // Show loading state
     if (type === 'primaryImage' || type === 'secondaryImage') {
-      return <img src={defaultContent} alt="" className={className} {...props} />;
+      return <Image src={defaultContent} alt="" className={className} {...props} />;
     }
     return <Component className={className}>{defaultContent}</Component>;
   }
@@ -44,7 +44,7 @@ const DynamicContentServer = ({
   
   if (!content) {
     if (type === 'primaryImage' || type === 'secondaryImage') {
-      return <img src={defaultContent} alt="" className={className} {...props} />;
+      return <Image src={defaultContent} alt="" className={className} {...props} />;
     }
     return <Component className={className}>{defaultContent}</Component>;
   }
@@ -65,7 +65,7 @@ const DynamicContentServer = ({
       // If no image content, render nothing or a placeholder
       return null;
     }
-    return <img src={content} alt="" className={className} {...props} />;
+    return <Image src={content} alt="" className={className} {...props} />;
   }
 
   // For director message or name types, render it as text

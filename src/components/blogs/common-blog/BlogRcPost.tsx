@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query";
 import apiInstance from "@/utils/apiInstance";
-
+import Image from 'next/image';
 interface Blog {
   id: number;
   title: string;
@@ -28,7 +28,7 @@ const BlogRcPost = () => {
             <div key={item.id} className="news-block d-flex align-items-center pb-25">
                {item.primary_image && (
                   <div style={{ width: '80px', height: '80px', flexShrink: 0 }}>
-                     <img src={item.primary_image} alt="" className="w-100 h-100 object-fit-cover rounded" />
+                     <Image src={item.primary_image} alt="" className="w-100 h-100 object-fit-cover rounded" />
                   </div>
                )}
                <div className="post ps-4">

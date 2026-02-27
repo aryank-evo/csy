@@ -1,7 +1,6 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
-
 interface AdvertisementSettings {
   id?: number;
   iframe1_url: string;
@@ -26,39 +25,43 @@ const AdvertisementEditor = () => {
     return null;
   };
 
-  // Load advertisement settings on component mount
-  useEffect(() => {
-    loadAdvertisements();
-  }, []);
+const loadAdvertisements = useCallback(async () => {
+  try {
+    setLoading(true);
+    const token = getToken();
 
-  const loadAdvertisements = async () => {
-    try {
-      setLoading(true);
-      const token = getToken();
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'}/api/advertisements`, {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api/advertisements`,
+      {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      
-      if (data.success && data.data && data.data.length > 0) {
-        // Use the first advertisement record
-        const ad = data.data[0];
-        setAdvertisements({
-          id: ad.id,
-          iframe1_url: ad.iframe1_url || '',
-          iframe2_url: ad.iframe2_url || '',
-          iframe3_url: ad.iframe3_url || ''
-        });
+          Authorization: `Bearer ${token}`,
+        },
       }
-    } catch (error) {
-      console.error('Failed to load advertisements:', error);
-      toast.error('Failed to load advertisements');
-    } finally {
-      setLoading(false);
+    );
+
+    const data = await response.json();
+
+    if (data.success && data.data?.length > 0) {
+      const ad = data.data[0];
+
+      setAdvertisements({
+        id: ad.id,
+        iframe1_url: ad.iframe1_url || "",
+        iframe2_url: ad.iframe2_url || "",
+        iframe3_url: ad.iframe3_url || "",
+      });
     }
-  };
+  } catch (error) {
+    console.error("Failed to load advertisements:", error);
+    toast.error("Failed to load advertisements");
+  } finally {
+    setLoading(false);
+  }
+}, []); // add dependencies here if getToken is unstable
+
+useEffect(() => {
+  loadAdvertisements();
+}, [loadAdvertisements]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
