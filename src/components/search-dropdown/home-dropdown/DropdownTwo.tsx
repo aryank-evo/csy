@@ -1,26 +1,18 @@
 "use client"
 import { useState } from "react";
 import NiceSelect from "@/ui/NiceSelect";
-import { buyPropertyTypes, rentPropertyTypes, leasePropertyTypes, pgTypes, locationAreas, priceRangesBuy, priceRangesRent, priceRangesLease, priceRangesPG } from "@/constants/propertyTypes";
+import { LUDHIANA_LOCATION_OPTIONS } from "@/constants/searchDropdownOptions";
+import { buyPropertyTypes, rentPropertyTypes, leasePropertyTypes, pgTypes, priceRangesRent, priceRangesLease, priceRangesPG } from "@/constants/propertyTypes";
 
 const tab_title: string[] = ["Buy", "Rent", "Lease", "PG"];
 
 const DropdownTwo = () => {
 
    const [activeTab, setActiveTab] = useState(0);
-   const [selectedPropertyType, setSelectedPropertyType] = useState(0);
-
-   const selectHandler = (e: any) => {
-      // Update selected property type when dropdown is changed
-      if (e && e.target && e.target.value !== undefined) {
-         const selectedIndex = parseInt(e.target.value);
-         setSelectedPropertyType(selectedIndex);
-      }
-   };
+   const selectHandler = (e: any) => { };
 
    const handleTabClick = (index: any) => {
       setActiveTab(index);
-      setSelectedPropertyType(index);
    };
 
    const searchHandler = () => {
@@ -58,19 +50,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
-                                 options={[
-                                    { value: "1", text: "Model Town" },
-                                    { value: "2", text: "Sarabha Nagar" },
-                                    { value: "3", text: "Gurdev Nagar" },
-                                    { value: "4", text: "BRS Nagar" },
-                                    { value: "5", text: "Civil Lines" },
-                                    { value: "6", text: "South City" },
-                                    { value: "7", text: "Pakhowal Road" },
-                                    { value: "8", text: "Ferozepur Road" },
-                                    { value: "9", text: "Dugri / Urban Estate Dugri" },
-                                    { value: "10", text: "Rajguru Nagar" },
-                                    { value: "11", text: "Sector-39 & Sector-39A" },
-                                 ]}
+                                 options={LUDHIANA_LOCATION_OPTIONS}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -127,7 +107,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
-                                 options={locationAreas}
+                                 options={LUDHIANA_LOCATION_OPTIONS}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -180,7 +160,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
-                                 options={locationAreas}
+                                 options={LUDHIANA_LOCATION_OPTIONS}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""
@@ -233,7 +213,7 @@ const DropdownTwo = () => {
                            <div className="input-box-one border-left">
                               <div className="label">Location</div>
                               <NiceSelect className="nice-select location fw-normal"
-                                 options={locationAreas}
+                                 options={LUDHIANA_LOCATION_OPTIONS}
                                  defaultCurrent={0}
                                  onChange={selectHandler}
                                  name=""

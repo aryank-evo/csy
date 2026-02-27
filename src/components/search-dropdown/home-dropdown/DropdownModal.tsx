@@ -1,4 +1,5 @@
 import NiceSelect from "@/ui/NiceSelect"
+import { LUDHIANA_LOCATION_OPTIONS } from "@/constants/searchDropdownOptions";
 import Link from "next/link"
 
 const ammenities_data: string[] = ["A/C & Heating", "Garages", "Garden", "Disabled Access", "Swimming Pool", "Parking", "Wifi", "Pet Friendly", "Ceiling Height", "Fireplace", "Play Ground", "Elevator"]
@@ -41,19 +42,7 @@ const DropdownModal = () => {
                                        <div className="input-box-one mb-35">
                                           <div className="label">Location</div>
                                           <NiceSelect className="nice-select location fw-normal"
-                                             options={[
-                                                { value: "1", text: "Model Town" },
-                                                { value: "2", text: "Sarabha Nagar" },
-                                                { value: "3", text: "Gurdev Nagar" },
-                                                { value: "4", text: "BRS Nagar" },
-                                                { value: "5", text: "Civil Lines" },
-                                                { value: "6", text: "South City" },
-                                                { value: "7", text: "Pakhowal Road" },
-                                                { value: "8", text: "Ferozepur Road" },
-                                                { value: "9", text: "Dugri / Urban Estate Dugri" },
-                                                { value: "10", text: "Rajguru Nagar" },
-                                                { value: "11", text: "Sector-39 & Sector-39A" },
-                                             ]}
+                                             options={LUDHIANA_LOCATION_OPTIONS}
                                              defaultCurrent={0}
                                              onChange={selectHandler}
                                              name=""

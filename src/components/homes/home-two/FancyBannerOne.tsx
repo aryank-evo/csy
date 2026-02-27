@@ -3,7 +3,7 @@ import FaqOne from "@/components/common/faq/FaqOne"
 
 import fancyImg_1 from "@/assets/images/shape/shape_19.svg"
 import fancyImg_2 from "@/assets/images/assets/ils_04.png"
-import fancyImg_3 from "@/assets/images/assets/screen_02.jpg"
+import fancyImg_3 from "@/assets/images/assets/screen_06.png"
 
 const FancyBannerOne = () => {
 
